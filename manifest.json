@@ -1,0 +1,3356 @@
+{
+  "version": "1778682109701",
+  "baseUrl": "https://github.com/Poul12/rpglooter-assets/",
+  "files": [
+    {
+      "path": ".hidden",
+      "hash": "d41d8cd98f00b204e9800998ecf8427e",
+      "size": 0
+    },
+    {
+      "path": "backgrounds/Copilot_20260321_210258.png",
+      "hash": "19c8a59d808871b5e09beb88aebf31f3",
+      "size": 1699946
+    },
+    {
+      "path": "backgrounds/Copilot_20260428_101832.png",
+      "hash": "519a234d7031e54961a4157715e74150",
+      "size": 2624879
+    },
+    {
+      "path": "backgrounds/button-texture.png",
+      "hash": "5d014ad42c1274de853e322b7dd1b798",
+      "size": 321828
+    },
+    {
+      "path": "backgrounds/common-texture.png",
+      "hash": "9a2b2219673351e1ecc3f399d4d87105",
+      "size": 1029550
+    },
+    {
+      "path": "backgrounds/compare-background.png",
+      "hash": "bc4c92ae29d22f4d22508f2506d81080",
+      "size": 2824067
+    },
+    {
+      "path": "backgrounds/compare-background2.png",
+      "hash": "e1a03ab3810a0e9329dff158a2f26e47",
+      "size": 2223793
+    },
+    {
+      "path": "backgrounds/epic-texture.png",
+      "hash": "2da5aafeddcd59e874ac9d5d03f11d7f",
+      "size": 986863
+    },
+    {
+      "path": "backgrounds/first-forest-slot-bg.png",
+      "hash": "7f00a9b62b8a60b7b14b19397a8bee1a",
+      "size": 492196
+    },
+    {
+      "path": "backgrounds/forest-slot-bg.png",
+      "hash": "28e2b583e9c29978c9d94a7d7769e777",
+      "size": 543192
+    },
+    {
+      "path": "backgrounds/greenpass-slot-bg.png",
+      "hash": "077dea27a464c2de2095a4d3f2b538c1",
+      "size": 1207942
+    },
+    {
+      "path": "backgrounds/hp-orb-frame.png",
+      "hash": "d51a7a6aa3e922a2a5e8189c8c965197",
+      "size": 116079
+    },
+    {
+      "path": "backgrounds/hp-orb-frame2.png",
+      "hash": "342bd21987603064eacb1e212496fc31",
+      "size": 116416
+    },
+    {
+      "path": "backgrounds/hp-orb-frame3.png",
+      "hash": "9fdf70ed1b73b7802071b18e903c5adc",
+      "size": 121764
+    },
+    {
+      "path": "backgrounds/legendary-texture.png",
+      "hash": "53d19549e7005ab05ef9278cc4e25100",
+      "size": 743962
+    },
+    {
+      "path": "backgrounds/lirwen-slot-bg.png",
+      "hash": "5452732ec4356617ee3684f6c6d47496",
+      "size": 960753
+    },
+    {
+      "path": "backgrounds/lirwen-slot-bg2.png",
+      "hash": "93d30be7adc851270eac98a544eaf17c",
+      "size": 872728
+    },
+    {
+      "path": "backgrounds/map-pergamin-long.png",
+      "hash": "de1a77d0260a09fada7b4067021a5021",
+      "size": 2485715
+    },
+    {
+      "path": "backgrounds/map-pergamin2.png",
+      "hash": "9d0d021f9b535e2b6081e83f9af986d8",
+      "size": 1157893
+    },
+    {
+      "path": "backgrounds/map-pergamin3.png",
+      "hash": "b42e9cce9cb229ef3630c4489f4e581e",
+      "size": 2433388
+    },
+    {
+      "path": "backgrounds/mask-fade-irregular.png",
+      "hash": "94ca2ed298a38796867c3515a49d03b7",
+      "size": 1633916
+    },
+    {
+      "path": "backgrounds/other-texture.png",
+      "hash": "5239d974efe0f6fd6b7a864cb26ab3af",
+      "size": 1585694
+    },
+    {
+      "path": "backgrounds/other-texture2.png",
+      "hash": "b639b28075e12293c62c57fc7a68182d",
+      "size": 2040213
+    },
+    {
+      "path": "backgrounds/other-texture3.png",
+      "hash": "3db17ae0b9011763f6fe28b854f072ae",
+      "size": 2436080
+    },
+    {
+      "path": "backgrounds/poise-texture.png",
+      "hash": "eae839220a448aabc531c97d601dd8c2",
+      "size": 2101420
+    },
+    {
+      "path": "backgrounds/rare-texture.png",
+      "hash": "b099f8bd5046a1d3aa32c27f22389a15",
+      "size": 976651
+    },
+    {
+      "path": "backgrounds/reapers-slot-bg.png",
+      "hash": "a3dbd68b80e7d98295ade1fccf234998",
+      "size": 887122
+    },
+    {
+      "path": "backgrounds/ribbon-title.png",
+      "hash": "93c423455fc8f2da6f6855c8970b9311",
+      "size": 1355135
+    },
+    {
+      "path": "backgrounds/ribbon-title2.png",
+      "hash": "12fb721603dcd3903158c5f8f1fdb902",
+      "size": 181942
+    },
+    {
+      "path": "backgrounds/set-texture.png",
+      "hash": "bb9be82174513a96541000c98082bb3b",
+      "size": 894352
+    },
+    {
+      "path": "backgrounds/special-texture.png",
+      "hash": "7b7dc5d576ce2b81cb7009e20e7b519f",
+      "size": 2319719
+    },
+    {
+      "path": "backgrounds/thalorn-slot-bg.png",
+      "hash": "bdbea3ec4656c1dddf2c4a6b042b9f2e",
+      "size": 1040800
+    },
+    {
+      "path": "backgrounds/thalorn-slot-bg1.png",
+      "hash": "23f3324dcb604033f4a546efaaac7772",
+      "size": 928926
+    },
+    {
+      "path": "backgrounds/tree-skills-bg.png",
+      "hash": "a4d2e767c27dbcbb97d7902ada643f3b",
+      "size": 2477812
+    },
+    {
+      "path": "backgrounds/turtle-texture.png",
+      "hash": "45f435131135bf4b3798d46a7b47db48",
+      "size": 1844048
+    },
+    {
+      "path": "backgrounds/unique-texture.png",
+      "hash": "f68b8662b770807b3a46d752d51ebbb0",
+      "size": 951025
+    },
+    {
+      "path": "backgrounds/warrior.png",
+      "hash": "2cdde71528332bd0cca90f877ee4e8fa",
+      "size": 2248757
+    },
+    {
+      "path": "backgrounds/west-character-bg.png",
+      "hash": "b4cab06785f472d94bc8679d3fab360b",
+      "size": 2612083
+    },
+    {
+      "path": "backgrounds/west-map-mask.png",
+      "hash": "819687ca1f50c40adec680025287e90d",
+      "size": 844785
+    },
+    {
+      "path": "backgrounds/whispering-trees-slot-bg.png",
+      "hash": "1ac8a15a1e5fb7e0aa2a3a9b0b803e8c",
+      "size": 1040300
+    },
+    {
+      "path": "buttons/attack-off.png",
+      "hash": "69a0d0b95afffa0438eb480ba60fb5f4",
+      "size": 94516
+    },
+    {
+      "path": "buttons/attack-on.png",
+      "hash": "555b38582de44f1c55b742fed749782a",
+      "size": 105724
+    },
+    {
+      "path": "buttons/close-btn.png",
+      "hash": "6f39259202eb7867d4eda4d620117cdb",
+      "size": 148676
+    },
+    {
+      "path": "buttons/close-btn2.png",
+      "hash": "ca366dfdd8e33d1df2c6ddc4b8c5e71e",
+      "size": 134166
+    },
+    {
+      "path": "buttons/close-btn3.png",
+      "hash": "2d5f399e8a7d6170ad2127c73161d55e",
+      "size": 67461
+    },
+    {
+      "path": "buttons/firecamp-icon.png",
+      "hash": "f7906ccecc6167d0f8b2e312e0230ae0",
+      "size": 104514
+    },
+    {
+      "path": "buttons/flee-btn.png",
+      "hash": "0dd351921d3162430ee797e5ff857b02",
+      "size": 158538
+    },
+    {
+      "path": "buttons/flee-icon.png",
+      "hash": "ae3cb8826cc7bbc93383c7f3c2269fe8",
+      "size": 198592
+    },
+    {
+      "path": "buttons/mighty-attack-skill.png",
+      "hash": "73772bd739d022c99b2fbec7a9d878d8",
+      "size": 260099
+    },
+    {
+      "path": "buttons/open-chest-icon.png",
+      "hash": "9470200a9b638d04e69b4612cedafdde",
+      "size": 126938
+    },
+    {
+      "path": "buttons/start-battle-icon.png",
+      "hash": "f73a0db08b49846415102e9cf71d71bd",
+      "size": 196557
+    },
+    {
+      "path": "buttons/start-combat-btn.png",
+      "hash": "d8f1c11719b752d2cac0e0fc6fdc83e3",
+      "size": 192279
+    },
+    {
+      "path": "buttons/start-combat-btn2.png",
+      "hash": "12fe06da18174752b0645ec98cb7cadf",
+      "size": 187670
+    },
+    {
+      "path": "buttons/use-shrine-icon.png",
+      "hash": "953c1713b09c0cdf5f6620b68fc072ed",
+      "size": 114003
+    },
+    {
+      "path": "exploring-slots/alpha-shadow-cave-reaperroad.png",
+      "hash": "711aee348fa2c2e2cef9fa568cd9ae30",
+      "size": 382135
+    },
+    {
+      "path": "exploring-slots/alpha-shadow-dear-reaperroad.png",
+      "hash": "194480f2758471817cdb7a4bfa7f9631",
+      "size": 416439
+    },
+    {
+      "path": "exploring-slots/alpha-wolf.png",
+      "hash": "d1855168b8ebdf4e155d01153e6fb701",
+      "size": 790279
+    },
+    {
+      "path": "exploring-slots/alpha-wolf2.png",
+      "hash": "753dc0b9eae061838b1a4460996549d9",
+      "size": 2191356
+    },
+    {
+      "path": "exploring-slots/archer.png",
+      "hash": "4c6ced4f1436c10c181f317301f6890c",
+      "size": 503575
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_211004_edit_5513544245028485.png",
+      "hash": "68d9af23ff02997184328a9527cd7e03",
+      "size": 1377923
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_211014.png",
+      "hash": "dade3d7133ebe974509b165ac0cead94",
+      "size": 2858575
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_211237_edit_5513227514933741.png",
+      "hash": "de20745a3d26c3ce217e5fcf3178a9ac",
+      "size": 1219993
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_211251_edit_5513579980940979.png",
+      "hash": "cd7a7e059794cb9f7311cee4ca693e14",
+      "size": 1264745
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_211459_edit_5514107671715378.png",
+      "hash": "72d0ca5cc7dbd6f9b9a03a4b88640106",
+      "size": 1153876
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_211529.png",
+      "hash": "40f246b0442797a4a71bce3af10d5812",
+      "size": 2851232
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_211541.png",
+      "hash": "3a83a6b306fd3f82befd7de22ae294c9",
+      "size": 2893639
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_214405.png",
+      "hash": "37c1f57af4ac22a76ea735bc6629c4db",
+      "size": 2556002
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_214412.png",
+      "hash": "7f0731067ea155b57a5532ffd4f3e5b9",
+      "size": 2529457
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_215147.png",
+      "hash": "7b5b5b088362bb51eec03941563dd399",
+      "size": 3018397
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_220522.png",
+      "hash": "2746b43d5c3999c270e0a262e6f95b79",
+      "size": 2631971
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_220610_edit_5513514920527968.png",
+      "hash": "ec4c6b59fde04cc8544725f1037baa5d",
+      "size": 1458002
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_220754.png",
+      "hash": "9c41d7425e3cb58e2da1beef83641035",
+      "size": 3042730
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_220854.png",
+      "hash": "2877d6cc930a5efb41d3e2b5a8f744df",
+      "size": 2619520
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_220909_edit_5513415215674859.png",
+      "hash": "572c5488d66d95a16921bc8142db3864",
+      "size": 786255
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_220923_edit_5513393937969133.png",
+      "hash": "6d34f026c27d0926aea4a3b682b0c3e0",
+      "size": 698442
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_221000.png",
+      "hash": "b244887ee622de1f5f613d521ef0b116",
+      "size": 2699559
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_221029_edit_5513354356055597.png",
+      "hash": "8b028f4b2fcbb9427ffec9492ea2bdbc",
+      "size": 1209397
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251109_221044_edit_5513269179286339.png",
+      "hash": "b000b2f51f9d8ed7f94ea6b6d49b065b",
+      "size": 1130792
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251110_003509_edit_5521594977472569.png",
+      "hash": "0eef7f68b8e1af631156e3dfa682e68b",
+      "size": 991795
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251110_090019_edit_5525951275270862.png",
+      "hash": "431ca0236206edc1801ba163b931725e",
+      "size": 1343321
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251208_232826.png",
+      "hash": "707b438b8e3b4b6a2eece01a69e6865e",
+      "size": 2203994
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251209_004331_edit_6674151316934198.png",
+      "hash": "3f9801f11ee14939c8aa50935cac9f73",
+      "size": 1485233
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251209_005942_edit_6674024116860259.png",
+      "hash": "34d82fc7351f70cdf920238a6b40359f",
+      "size": 1753961
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251209_011711_edit_6674088701613374.png",
+      "hash": "aa39872aa061d5b0d7c307ad7def2572",
+      "size": 1377743
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251209_111242_edit_6683429171493720.png",
+      "hash": "30b878168fa29eea9b617f743b0f5d7f",
+      "size": 1781600
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251211_125514_edit_72279369784282.png",
+      "hash": "1e8c1be3361b870deeb470f6586d455e",
+      "size": 1942821
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251211_143448_edit_78214515738064.png",
+      "hash": "e4cdf053c11c24d63e0f0d182bbc3932",
+      "size": 1561992
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251211_235720_edit_107449163141937.png",
+      "hash": "690fb976f31174a5050362ed31dfe394",
+      "size": 971182
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251211_235840.png",
+      "hash": "e1f15054a0d03e85b1d027dd296cff20",
+      "size": 2399956
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251212_001343.png",
+      "hash": "b72b98529b4f434f1b5e8173575458d1",
+      "size": 3155442
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251215_051512_edit_259014266988601.png",
+      "hash": "732fc3ad7ff75639dad23a30f752f305",
+      "size": 776364
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20251215_051755_edit_259100732386505.png",
+      "hash": "1bf6d9d1bc4eae4111abcfd335624370",
+      "size": 1054615
+    },
+    {
+      "path": "exploring-slots/back up/Copilot_20260127_180923.png",
+      "hash": "ef63962305655dc0d50d6e2f58c03511",
+      "size": 1887451
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251110_182345.png",
+      "hash": "1d4752e50b065f4968b61a1631718027",
+      "size": 1261451
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251110_183229.png",
+      "hash": "4bdf1557c8585e55b23c28e79e9c441e",
+      "size": 1160490
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251203_182204_edit_6454724525285910.png",
+      "hash": "26dc822d0dc42f41cbabc5c399b3dfd7",
+      "size": 1632934
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251208_233013.png",
+      "hash": "34bc837b03c00782e6b75af408b2a93f",
+      "size": 1332731
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251209_112338.png",
+      "hash": "f4a4fabfdbac9ae5d3a6ab6645415fc2",
+      "size": 1434577
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251211_114039.png",
+      "hash": "fbef54c6c890a36cc708720a4a335ff8",
+      "size": 1735325
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251211_123341.png",
+      "hash": "518c4921f48e82dee03ce491777a8724",
+      "size": 1920628
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251211_123506.png",
+      "hash": "94e918615aed44df7928640157e5ae0c",
+      "size": 2087277
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251212_001535.png",
+      "hash": "709ecf5dfadb7a49bb69e71b6904127e",
+      "size": 923589
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251212_002401.png",
+      "hash": "b7e535ae7fc362ec9065296949e2cbb4",
+      "size": 1463687
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251212_180208.png",
+      "hash": "dbf64775032b2a6a6635b6f0fffb9397",
+      "size": 954835
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251215_093552.png",
+      "hash": "b8c460b38b2876c9560c62567613b929",
+      "size": 1577107
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20251215_093756.png",
+      "hash": "62940114eae2fbda9b254303083727bf",
+      "size": 1195872
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20260125_104815.png",
+      "hash": "b6121d6a54e798c7f82dffe07bb9fe74",
+      "size": 924983
+    },
+    {
+      "path": "exploring-slots/back up/IMG_20260508_211054.png",
+      "hash": "b456b7effdfc920b30800bce345040c0",
+      "size": 2417507
+    },
+    {
+      "path": "exploring-slots/back up/Untitled6_20251212000854.png",
+      "hash": "7f8128e844a4c6d6776afe32878c752f",
+      "size": 1444045
+    },
+    {
+      "path": "exploring-slots/back up/bandit-cheftain.png",
+      "hash": "6840aa78380db5adcb0c7dd67de74650",
+      "size": 1910487
+    },
+    {
+      "path": "exploring-slots/back up/bandit1_copy_921x1382.png",
+      "hash": "aec802ff6da87ee5b4ed4e18101ce97a",
+      "size": 489536
+    },
+    {
+      "path": "exploring-slots/back up/runestone-guardian.png",
+      "hash": "d68aed8bf375817a225480dc6417961e",
+      "size": 2544614
+    },
+    {
+      "path": "exploring-slots/back up/runestone-guardian2.png",
+      "hash": "c2119f23b957c2d694e5564ad233ddda",
+      "size": 2259169
+    },
+    {
+      "path": "exploring-slots/back up/shrine-life.png",
+      "hash": "142c78263434e988ffb8b746a7641f88",
+      "size": 1609500
+    },
+    {
+      "path": "exploring-slots/back up/thief-cheftain.png",
+      "hash": "b4621ae21753500296d0990390ccbfa6",
+      "size": 1312900
+    },
+    {
+      "path": "exploring-slots/bandit-cheftain.png",
+      "hash": "e711bf5299a890b49a495aa2e72ea896",
+      "size": 789643
+    },
+    {
+      "path": "exploring-slots/bandit-crossbow.png",
+      "hash": "eb803aa64e63793c332d2a09e9bff74f",
+      "size": 582464
+    },
+    {
+      "path": "exploring-slots/bandit.png",
+      "hash": "67ada6bcf372919e49b7a2d6b6527f4e",
+      "size": 695717
+    },
+    {
+      "path": "exploring-slots/black-wolf.png",
+      "hash": "06eb63f69489ceca0ef7b2fcf94dd8f3",
+      "size": 212341
+    },
+    {
+      "path": "exploring-slots/boar.png",
+      "hash": "42d362a7bc1ed18cee12f4352c4e8fbf",
+      "size": 427614
+    },
+    {
+      "path": "exploring-slots/bossman.png",
+      "hash": "a56ec27232cb17a066e75a48cb3c9f25",
+      "size": 759878
+    },
+    {
+      "path": "exploring-slots/bossman1.png",
+      "hash": "78043cd2c301b9d252e31f499227bf61",
+      "size": 529205
+    },
+    {
+      "path": "exploring-slots/brakk-lirwen-npc.png",
+      "hash": "44db1aa4e631cee924ea17349efb44fc",
+      "size": 420546
+    },
+    {
+      "path": "exploring-slots/brenon.png",
+      "hash": "b6d08a2db376c095714368169dae4cc4",
+      "size": 783186
+    },
+    {
+      "path": "exploring-slots/bronn-thalorn-npc.png",
+      "hash": "f34f3e9f2e8607e45f7c5d295930818d",
+      "size": 706800
+    },
+    {
+      "path": "exploring-slots/campfire-off.png",
+      "hash": "f1067fb73a2fa20e11d83fd4dbfa1b14",
+      "size": 43025
+    },
+    {
+      "path": "exploring-slots/campfire.png",
+      "hash": "7edcabe882f31960b569f0529e15a398",
+      "size": 51380
+    },
+    {
+      "path": "exploring-slots/cave-giant-boss.png",
+      "hash": "9b2e68ffb0b82ec2311fddbdd204dddd",
+      "size": 828959
+    },
+    {
+      "path": "exploring-slots/crocodile.png",
+      "hash": "29712e067655235b53f62af01049f844",
+      "size": 401418
+    },
+    {
+      "path": "exploring-slots/cursed-guard.png",
+      "hash": "342e26984349ae12c09f556a4e08fd5a",
+      "size": 819102
+    },
+    {
+      "path": "exploring-slots/dark-guard.png",
+      "hash": "fce56b41d0d096e7ece07b5bf82b1c7a",
+      "size": 376355
+    },
+    {
+      "path": "exploring-slots/dear.png",
+      "hash": "40c39f5103a11b595f2991fd9f41a952",
+      "size": 842347
+    },
+    {
+      "path": "exploring-slots/debt-in-steel-lirwen.png",
+      "hash": "0b7487f29f8f628b1bba08cb8ee931c1",
+      "size": 914849
+    },
+    {
+      "path": "exploring-slots/disturbed-in-forest-whispering-trees.png",
+      "hash": "6d342e3a55b9f7fb9aa2cbccbbabfbcb",
+      "size": 740588
+    },
+    {
+      "path": "exploring-slots/elwen-elmaris-npc.png",
+      "hash": "4869b2637e797accef172f675ddcc0a8",
+      "size": 778654
+    },
+    {
+      "path": "exploring-slots/elwen-elmaris-npc2.png",
+      "hash": "d9d58d38929a268c77fd23a92beaaddf",
+      "size": 732905
+    },
+    {
+      "path": "exploring-slots/erydne-greenpass-npc.png",
+      "hash": "e7050d1d6963831ff08785508a8ab55b",
+      "size": 721866
+    },
+    {
+      "path": "exploring-slots/erynn-thalorn-npc.png",
+      "hash": "837d3f614b9b0a718712b2a4d172b2d6",
+      "size": 769752
+    },
+    {
+      "path": "exploring-slots/fox.png",
+      "hash": "01ce024c068236c6fc41e0168178c982",
+      "size": 281199
+    },
+    {
+      "path": "exploring-slots/garran-thalorn-npc.png",
+      "hash": "2eedb4c0fefff23ee2f727c306fc6c79",
+      "size": 799076
+    },
+    {
+      "path": "exploring-slots/gold-chest.png",
+      "hash": "34b0d3135dfc78b07ad50ff653eb1201",
+      "size": 240657
+    },
+    {
+      "path": "exploring-slots/grey-wolf.png",
+      "hash": "3bdb277c53241859fca1610fa3e5c4a1",
+      "size": 511154
+    },
+    {
+      "path": "exploring-slots/iron-chest.png",
+      "hash": "01869d81743656a913f3a8ed42904654",
+      "size": 297755
+    },
+    {
+      "path": "exploring-slots/kael-lirwen-npc.png",
+      "hash": "8352647b45ef2247cf9e9fb59c7b5825",
+      "size": 418937
+    },
+    {
+      "path": "exploring-slots/kill-wolfs-thalorn.png",
+      "hash": "8b58a79d50ff44a6962db1a0cfaa9d7a",
+      "size": 448057
+    },
+    {
+      "path": "exploring-slots/kryspin-elmaris-npc.png",
+      "hash": "58b4a0d15b0a06282e7b65bdfd373b74",
+      "size": 688811
+    },
+    {
+      "path": "exploring-slots/libraries_key-lirwen.png",
+      "hash": "b9f6d6825aa3387b96186a785e9ff006",
+      "size": 773108
+    },
+    {
+      "path": "exploring-slots/lirra-elmaris-npc.png",
+      "hash": "f447ebb7be3b8c665c6c60743d5f2176",
+      "size": 781933
+    },
+    {
+      "path": "exploring-slots/lost-boxes-elmaris.png",
+      "hash": "e5a3dfd5ced310f87d9cf4e8be034809",
+      "size": 610866
+    },
+    {
+      "path": "exploring-slots/lost-feather-elmaris.png",
+      "hash": "c994ba116da84392204a4e58b53b09c5",
+      "size": 249566
+    },
+    {
+      "path": "exploring-slots/lost-feather-elmaris2.png",
+      "hash": "6963d5f8867710f35fc258f50cf1660a",
+      "size": 330993
+    },
+    {
+      "path": "exploring-slots/lumberjack.png",
+      "hash": "a87add740ecbee20fca7c43c80cbf438",
+      "size": 638367
+    },
+    {
+      "path": "exploring-slots/lumberjack2.png",
+      "hash": "ab361f930f6245778fbcac9b21fbbe19",
+      "size": 632245
+    },
+    {
+      "path": "exploring-slots/lynx.png",
+      "hash": "e789fa255c8e01ab0c65aaf34816eccb",
+      "size": 401599
+    },
+    {
+      "path": "exploring-slots/lyrien-reaperroad-npc.png",
+      "hash": "859800337b60ec379259e686d3243247",
+      "size": 407004
+    },
+    {
+      "path": "exploring-slots/lyrien-reaperroad-npc2.png",
+      "hash": "4feb0ec393e36af0e665d25804aba761",
+      "size": 2043533
+    },
+    {
+      "path": "exploring-slots/mad-dog2.png",
+      "hash": "0226d4048b2971b204889f11c07cb7ef",
+      "size": 423460
+    },
+    {
+      "path": "exploring-slots/mad-dog3.png",
+      "hash": "98198f8b35126ff67d9e4837420ec16c",
+      "size": 396197
+    },
+    {
+      "path": "exploring-slots/maelor-lirwen-npc.png",
+      "hash": "50d236d9c60740d036125508a9524e5f",
+      "size": 429007
+    },
+    {
+      "path": "exploring-slots/malik-whispering-trees-npc.png",
+      "hash": "3e0931b35adea3e59439fb2c88ddabfc",
+      "size": 715950
+    },
+    {
+      "path": "exploring-slots/mutated-deer.png",
+      "hash": "8f0d45270926e5e74dc2f5fcb63a6901",
+      "size": 922718
+    },
+    {
+      "path": "exploring-slots/mutated-fox.png",
+      "hash": "c43b36e5b46221f8dc1c4605298a8a33",
+      "size": 520902
+    },
+    {
+      "path": "exploring-slots/mystical-stone-thalorn.png",
+      "hash": "a616a120b40e98f4bd14e5898a89659b",
+      "size": 759099
+    },
+    {
+      "path": "exploring-slots/mystical-stone-thalorn2.png",
+      "hash": "adefb41d7b003aa3a7ee93ca5b583724",
+      "size": 717607
+    },
+    {
+      "path": "exploring-slots/pirate.png",
+      "hash": "3f6a7e14744da74b5147e248ee75b421",
+      "size": 623525
+    },
+    {
+      "path": "exploring-slots/poacher.png",
+      "hash": "ba518c5af74189c4c8b621cf3537947b",
+      "size": 930347
+    },
+    {
+      "path": "exploring-slots/poisoned-water-thalorn.png",
+      "hash": "2a6e8444fdba24681dbdb0ea0d309f9e",
+      "size": 1289907
+    },
+    {
+      "path": "exploring-slots/poisoned-water-thalorn2.png",
+      "hash": "6ecfdf20cf0ada102ef4f803a17ef564",
+      "size": 145046
+    },
+    {
+      "path": "exploring-slots/queen-spider.png",
+      "hash": "b824f494c962e6a1577fa1c3aae34520",
+      "size": 681719
+    },
+    {
+      "path": "exploring-slots/raider.png",
+      "hash": "c7bc4742528afb8cc88328ea745c35ef",
+      "size": 738979
+    },
+    {
+      "path": "exploring-slots/rann-elmaris-npc.png",
+      "hash": "d5a9fd5979f284b90fc24bdf57b75176",
+      "size": 716252
+    },
+    {
+      "path": "exploring-slots/rellian-greenpass-npc.png",
+      "hash": "768ee6a2d2716efa6a3863c4b5beb35a",
+      "size": 670693
+    },
+    {
+      "path": "exploring-slots/rogue.png",
+      "hash": "86570b726c3fcb1286f8a0613416eb87",
+      "size": 626708
+    },
+    {
+      "path": "exploring-slots/rogue4.jpg",
+      "hash": "728c35929f638109a42a3fb185949319",
+      "size": 595945
+    },
+    {
+      "path": "exploring-slots/rogue5.jpg",
+      "hash": "bb52e65837d929ec3a02b3cc1609ee74",
+      "size": 457184
+    },
+    {
+      "path": "exploring-slots/runestone-guardian.png",
+      "hash": "5362f86d660213185a76cd2f515cb283",
+      "size": 1556997
+    },
+    {
+      "path": "exploring-slots/runestone-guardian2.png",
+      "hash": "b4fbf46c0069423943e596bd8a7b8de0",
+      "size": 489209
+    },
+    {
+      "path": "exploring-slots/runestone-guardian3.png",
+      "hash": "7d82179941d24ca3fc71fc65bf7c8a2f",
+      "size": 497330
+    },
+    {
+      "path": "exploring-slots/runestone-guardian5.png",
+      "hash": "2fa7d95436cee77ea5bd59543436f8bd",
+      "size": 1422528
+    },
+    {
+      "path": "exploring-slots/sailor.png",
+      "hash": "908f1a13932806ec14fcb356287bf948",
+      "size": 586198
+    },
+    {
+      "path": "exploring-slots/savage-boneshield.png",
+      "hash": "c5d4d7f7178e05af1d9c3aaae95ee3bb",
+      "size": 652374
+    },
+    {
+      "path": "exploring-slots/savage.png",
+      "hash": "0609385ca218fa4cf34ef4040507904c",
+      "size": 659204
+    },
+    {
+      "path": "exploring-slots/savages-leader.png",
+      "hash": "fc3e2c71bad947bf1f0903c3fab3ee49",
+      "size": 800720
+    },
+    {
+      "path": "exploring-slots/scattered-map-greenpass.png",
+      "hash": "022e3bde5ed5ef592125d8e33f89a050",
+      "size": 760851
+    },
+    {
+      "path": "exploring-slots/shrine-life.png",
+      "hash": "33ab061c876744d877da5e3e30e2d42d",
+      "size": 102829
+    },
+    {
+      "path": "exploring-slots/shrine-power.png",
+      "hash": "fae6b438ade78a187a1cb83a5911e157",
+      "size": 80743
+    },
+    {
+      "path": "exploring-slots/shrine-power2.png",
+      "hash": "6505d06608cf94e66a856873f9faac83",
+      "size": 2627641
+    },
+    {
+      "path": "exploring-slots/shrine-protect.png",
+      "hash": "ff1383e4962adcb4fb5212e34107cbbd",
+      "size": 92195
+    },
+    {
+      "path": "exploring-slots/silver-chest.png",
+      "hash": "9ff996db521e3ff0fbfc8666f265a447",
+      "size": 344017
+    },
+    {
+      "path": "exploring-slots/spider-web-cave-whispering-trees.png",
+      "hash": "ec8b5f80671454644e4013b345f5ce87",
+      "size": 1001904
+    },
+    {
+      "path": "exploring-slots/spider-web-queenstrace-whispering-trees.png",
+      "hash": "8e6211896862fca3a3095e711ae138d1",
+      "size": 1010099
+    },
+    {
+      "path": "exploring-slots/spider.png",
+      "hash": "b9fd10cb14d8c296629400263d599dda",
+      "size": 302805
+    },
+    {
+      "path": "exploring-slots/spider2.png",
+      "hash": "4dbb2cb913c09fd008d72ce9d13b41fe",
+      "size": 291523
+    },
+    {
+      "path": "exploring-slots/stolen-totem-greenpass.png",
+      "hash": "f7e7fa441e4b691072b24203f13c6c92",
+      "size": 613784
+    },
+    {
+      "path": "exploring-slots/stolen-totem-greenpass2.png",
+      "hash": "ab2bb1961b2a9277649333ef6b725ae6",
+      "size": 602551
+    },
+    {
+      "path": "exploring-slots/tharic-thalorn-npc.png",
+      "hash": "c4cc25aa4896ffa53a3aa21671eef624",
+      "size": 739731
+    },
+    {
+      "path": "exploring-slots/thief-cheftain.png",
+      "hash": "58e26c63294a151c8d3af940831029dd",
+      "size": 687104
+    },
+    {
+      "path": "exploring-slots/thief.png",
+      "hash": "1e2417e4c67cbad193d63c15645ee3db",
+      "size": 462970
+    },
+    {
+      "path": "exploring-slots/velmor-lirwen-npc.png",
+      "hash": "cca6ffd0718d737789ff4e136f03dd71",
+      "size": 508707
+    },
+    {
+      "path": "exploring-slots/warthog.png",
+      "hash": "31556e73a57c5ecc4e7b6fd3e596c968",
+      "size": 356359
+    },
+    {
+      "path": "exploring-slots/whisperer-whispering-trees-npc.png",
+      "hash": "51db8e3d4a8fbab87f6a6ac40572cd0c",
+      "size": 757994
+    },
+    {
+      "path": "exploring-slots/wolf-alpha.png",
+      "hash": "b244887ee622de1f5f613d521ef0b116",
+      "size": 2699559
+    },
+    {
+      "path": "exploring-slots/wood-chest.png",
+      "hash": "597cd86979f5c2a17bd97ac75849c2d5",
+      "size": 314527
+    },
+    {
+      "path": "frames/Copilot_20260427_181302.png",
+      "hash": "05b206edacc97e08f1b29301f980bf59",
+      "size": 749053
+    },
+    {
+      "path": "frames/Copilot_20260427_184332.png",
+      "hash": "3f4d9b0680d06c4010c8f4604d1dd113",
+      "size": 636107
+    },
+    {
+      "path": "frames/explore-boss-frame.png",
+      "hash": "bcbbcc7fd2212d12e8451b59bb55afaf",
+      "size": 80655
+    },
+    {
+      "path": "frames/explore-boss-frame2.png",
+      "hash": "2a1547c4ff4224660a6f80bb6eeccf90",
+      "size": 77389
+    },
+    {
+      "path": "frames/explore-chest-frame.png",
+      "hash": "6deacec86099a5b55a36c08c1152ab0b",
+      "size": 82614
+    },
+    {
+      "path": "frames/explore-elite-frame.png",
+      "hash": "e6e8624deb9916587c7221531a7a038b",
+      "size": 90317
+    },
+    {
+      "path": "frames/explore-frame.png",
+      "hash": "aa9f587ee49ba8615968427a5ab9b14d",
+      "size": 119265
+    },
+    {
+      "path": "frames/explore-miniboss-frame.png",
+      "hash": "d2ded63985267a3a1b05efe4dab6b9b2",
+      "size": 84308
+    },
+    {
+      "path": "frames/explore-miniboss-frame2.png",
+      "hash": "e56c2226ab49cfc4b29b22d14b180f82",
+      "size": 75643
+    },
+    {
+      "path": "frames/explore-normal-frame.png",
+      "hash": "b12e8506995d5eb1952a0c33486981ce",
+      "size": 68670
+    },
+    {
+      "path": "frames/explore-shrine-frame.png",
+      "hash": "62057beba34d0f0ab4fb420f0b1c626c",
+      "size": 81411
+    },
+    {
+      "path": "frames/item-bottom.png",
+      "hash": "a403158a2e7078fc61f89e4af2d72747",
+      "size": 380663
+    },
+    {
+      "path": "frames/item-frame.png",
+      "hash": "54ba07178bb028cdf6c8f49f42c810f3",
+      "size": 2109001
+    },
+    {
+      "path": "frames/item-frame2.png",
+      "hash": "bde7ab9900c0d28a145480b656594077",
+      "size": 2174339
+    },
+    {
+      "path": "frames/item-middle.png",
+      "hash": "843a0a7ca4acb40d44a73e3ad737aab8",
+      "size": 573474
+    },
+    {
+      "path": "frames/item-top.png",
+      "hash": "097cfb1ca3c3b27a6919fb2ce63da465",
+      "size": 432113
+    },
+    {
+      "path": "frames/other-frame.png",
+      "hash": "c6d6f0d2421f954ef65bdadcdcef2d1b",
+      "size": 157554
+    },
+    {
+      "path": "frames/region-frame.png",
+      "hash": "cb7bd5f2c5b4c5ecc03d2a0edc151c5a",
+      "size": 1614548
+    },
+    {
+      "path": "frames/world-map-frame.png",
+      "hash": "4862358ef13bde72471c47c520b8dbdf",
+      "size": 541113
+    },
+    {
+      "path": "icons/Copilot_20251006_095031.png",
+      "hash": "b26004b5b2529a6b2099807626ef48d1",
+      "size": 117647
+    },
+    {
+      "path": "icons/Copilot_20251122_140846.png",
+      "hash": "a771ce6400a1a89ef931faa70cf433c0",
+      "size": 109884
+    },
+    {
+      "path": "icons/Copilot_20260202_234158.png",
+      "hash": "b42b7f7896e646e65043c9e7f87c18f5",
+      "size": 145270
+    },
+    {
+      "path": "icons/Copilot_20260203_052449.png",
+      "hash": "6e6fc719a92a6797a3db8c784c839c02",
+      "size": 192918
+    },
+    {
+      "path": "icons/Copilot_20260203_154800.png",
+      "hash": "89ef54fb75cc115fa0b257b73fde77c5",
+      "size": 173722
+    },
+    {
+      "path": "icons/Copilot_20260311_192900.png",
+      "hash": "3c00c3f5533a03ea6a4c42681f711c96",
+      "size": 92878
+    },
+    {
+      "path": "icons/Copilot_20260322_104341.png",
+      "hash": "f4eb16558915171f8c6404e32efc2e63",
+      "size": 113612
+    },
+    {
+      "path": "icons/Copilot_20260322_105045.png",
+      "hash": "e1b1e85ee93554aace98b5c2be923c87",
+      "size": 95477
+    },
+    {
+      "path": "icons/Copilot_20260323_155457_edit_4493922740575728.png",
+      "hash": "a5b39a80444a305cdca350ebdd5e869a",
+      "size": 220543
+    },
+    {
+      "path": "icons/Copilot_20260323_163405_edit_4493831718874701.png",
+      "hash": "0c2b0fc6d97ef1006a16fd7be420db86",
+      "size": 235231
+    },
+    {
+      "path": "icons/Copilot_20260401_165250.png",
+      "hash": "7c04b6e0833ff08a84f30a2fa3a681a4",
+      "size": 296003
+    },
+    {
+      "path": "icons/Copilot_20260421_174231.png",
+      "hash": "5bd9bc81472454e3c0dcc17ccef321e4",
+      "size": 350367
+    },
+    {
+      "path": "icons/Copilot_20260422_160806.png",
+      "hash": "f9d039b555bcde597d556f39a1df84b5",
+      "size": 423030
+    },
+    {
+      "path": "icons/Copilot_20260508_200345.png",
+      "hash": "392d1014536fbb1a12f5e3d71d94aa92",
+      "size": 1357864
+    },
+    {
+      "path": "icons/armor-break-icon.png",
+      "hash": "ca95bb4d08efdf548cc660eddcd9dc56",
+      "size": 266472
+    },
+    {
+      "path": "icons/armor-break-icon2.png",
+      "hash": "85b6c1fe20c18627ad0e9b0163623b27",
+      "size": 95526
+    },
+    {
+      "path": "icons/armor-stack-skill-icon.png",
+      "hash": "acc55c13d514914d01a2c4e36bcabc82",
+      "size": 198074
+    },
+    {
+      "path": "icons/atkspd-passive-icon.png",
+      "hash": "ef92332a4ecb34b78095670ea0f8ab1d",
+      "size": 341323
+    },
+    {
+      "path": "icons/atkspd-skill-icon.png",
+      "hash": "4c4b56784a925ed07505728041657ea6",
+      "size": 180620
+    },
+    {
+      "path": "icons/atkspd-skill-icon2.png",
+      "hash": "cc90cbe133b2c34456b2d62adddf531d",
+      "size": 213182
+    },
+    {
+      "path": "icons/bleed-icon.png",
+      "hash": "1a1ec33910603fcf914d6c84bb951f1d",
+      "size": 111088
+    },
+    {
+      "path": "icons/bleed-skill-icon.png",
+      "hash": "080335040486a1c57528a670c40708a9",
+      "size": 230513
+    },
+    {
+      "path": "icons/bleed2.png",
+      "hash": "cc160394dd1ce4d0e4779a1443cfecc7",
+      "size": 122993
+    },
+    {
+      "path": "icons/block-recovery-skill-icon.png",
+      "hash": "796ede335c3ef1862690b9aebd6a3df3",
+      "size": 236662
+    },
+    {
+      "path": "icons/blood-echo-icon.png",
+      "hash": "d007a8a2135cc625a1a6eb144d9306ba",
+      "size": 109356
+    },
+    {
+      "path": "icons/blood-echo-icon2.png",
+      "hash": "049ccede9a0eece512c736a2d9564cbe",
+      "size": 111033
+    },
+    {
+      "path": "icons/break-armor-skill-icon.png",
+      "hash": "57a92512815330cd3cf7b8a7388ee046",
+      "size": 320563
+    },
+    {
+      "path": "icons/broken-time-icon.png",
+      "hash": "fa90955c733301dce90737919bff4ea0",
+      "size": 155045
+    },
+    {
+      "path": "icons/charge-skill-icon.png",
+      "hash": "d593b3d54ee7d6a4b9ebab349c1b1666",
+      "size": 126114
+    },
+    {
+      "path": "icons/closed-lock-icon.png",
+      "hash": "b34fb25a2f4fb93abd1dca2871e18846",
+      "size": 73298
+    },
+    {
+      "path": "icons/comparing-icon.png",
+      "hash": "3bb396de60241df88a82b26c2b15020f",
+      "size": 56796
+    },
+    {
+      "path": "icons/compas-icon.png",
+      "hash": "f519da3fa0478cac8a3f1fe8f38f92f0",
+      "size": 161900
+    },
+    {
+      "path": "icons/compas-icon2.png",
+      "hash": "d18982fe6ff5e04781c36f5cd8628e00",
+      "size": 83760
+    },
+    {
+      "path": "icons/corrupted-simulation-icon.png",
+      "hash": "3487bd50b44bb993dcf55dfe92e5322d",
+      "size": 103394
+    },
+    {
+      "path": "icons/crit-damage-skill-icon.png",
+      "hash": "55dbb341f4e38b53ff091deaed56181f",
+      "size": 110411
+    },
+    {
+      "path": "icons/crit-damage-skill-icon2.png",
+      "hash": "defed23e17c9fc2a7e4eadb96131c9d2",
+      "size": 158800
+    },
+    {
+      "path": "icons/crit-passive-icon.png",
+      "hash": "e71afdb1c7138d03b10b69d358dcf775",
+      "size": 748982
+    },
+    {
+      "path": "icons/crit-skill-icon.png",
+      "hash": "97835044081c3173368b95864aefc8be",
+      "size": 190418
+    },
+    {
+      "path": "icons/death-title-icon.png",
+      "hash": "46c96ffec34e0dd142fcf81e572f6159",
+      "size": 236102
+    },
+    {
+      "path": "icons/deep-breaths-skill-icon.png",
+      "hash": "085e962322484e6c34ef9d060ff3e1b1",
+      "size": 164958
+    },
+    {
+      "path": "icons/def-passive-icon.png",
+      "hash": "842ce9e13f31ed19ab6011467223ee49",
+      "size": 132363
+    },
+    {
+      "path": "icons/dmg-passive-icon.png",
+      "hash": "b26d414b9526c64f116b2fca9f57d93a",
+      "size": 147652
+    },
+    {
+      "path": "icons/dmg-reduction-skill-icon.png",
+      "hash": "9db1a0b1fcf0c8e0bf2b84fd77c19d97",
+      "size": 204133
+    },
+    {
+      "path": "icons/dmg-reduction-skill-icon2.png",
+      "hash": "8f7f244077bb234caa245790ce7a71ba",
+      "size": 206173
+    },
+    {
+      "path": "icons/double-attack-skill-icon.png",
+      "hash": "6eb3f495e4c2cbf88a235786fea22bf7",
+      "size": 149463
+    },
+    {
+      "path": "icons/eat-icon.png",
+      "hash": "65bbbe11f8afafd82cfb2d017ada0e3c",
+      "size": 82373
+    },
+    {
+      "path": "icons/energy-regen-skill-icon.png",
+      "hash": "0d18ef29008448fed7800e39f99549a5",
+      "size": 179434
+    },
+    {
+      "path": "icons/enter-region-icon.png",
+      "hash": "653d8c703e3e2c187a73886c32f32c93",
+      "size": 110199
+    },
+    {
+      "path": "icons/equip-potion-icon.png",
+      "hash": "b6c73c0db0043a38921b914fd2c9a9a3",
+      "size": 575960
+    },
+    {
+      "path": "icons/exp-icon.png",
+      "hash": "2079c65ecdc7445b7aba55564dd7f3cf",
+      "size": 114006
+    },
+    {
+      "path": "icons/expedition-damage-blocked-icon.png",
+      "hash": "fe98d659183e047b168a3160d45fe10b",
+      "size": 166933
+    },
+    {
+      "path": "icons/expedition-damage-dealt-icon.png",
+      "hash": "ffc92d22d0f4acd1bada0eb6990160d7",
+      "size": 149864
+    },
+    {
+      "path": "icons/expedition-damage-taken-icon.png",
+      "hash": "01f4d14918eec797c812304c5c0a2a25",
+      "size": 186177
+    },
+    {
+      "path": "icons/expedition-gold-icon.png",
+      "hash": "7b9b420d554042d2bd0b8b9cf1d0dcb0",
+      "size": 157380
+    },
+    {
+      "path": "icons/expedition-impulse-icon.png",
+      "hash": "38a3fed74be7561b33be58bc8590c415",
+      "size": 184802
+    },
+    {
+      "path": "icons/expedition-kills-icon.png",
+      "hash": "64c5dd72962787b3d81c3a229697b17f",
+      "size": 190873
+    },
+    {
+      "path": "icons/expedition-level-icon.png",
+      "hash": "1841c7632d65c08049a2cf7260ec5e23",
+      "size": 158794
+    },
+    {
+      "path": "icons/expedition-perfect-icon.png",
+      "hash": "d386d65b4ed06760c8bff946c4926cfe",
+      "size": 157040
+    },
+    {
+      "path": "icons/expedition-time-icon.png",
+      "hash": "16f5bda4fdee2857703d272992c93932",
+      "size": 171233
+    },
+    {
+      "path": "icons/explore-arrow-left-icon.png",
+      "hash": "85d7e073eb84bebc9f323114f900c935",
+      "size": 50530
+    },
+    {
+      "path": "icons/explore-arrow-right-icon.png",
+      "hash": "f4c657b9a0b9bb5846859f24a237312c",
+      "size": 50625
+    },
+    {
+      "path": "icons/filter-armor-icon.png",
+      "hash": "10a0bc7c90060160a3e2ecb9663daa5d",
+      "size": 298520
+    },
+    {
+      "path": "icons/filter-axe-icon.png",
+      "hash": "6ad2354725a4f1c077b6575964e7d0b5",
+      "size": 172392
+    },
+    {
+      "path": "icons/filter-belt-icon.png",
+      "hash": "3e5f768a08ec7f54986342a6799bd428",
+      "size": 254958
+    },
+    {
+      "path": "icons/filter-boots-icon.png",
+      "hash": "a19a89dbcc8b7165ccd62769ff61f27e",
+      "size": 332078
+    },
+    {
+      "path": "icons/filter-bracers-icon.png",
+      "hash": "7f42558211f6cc8123a2890f5eb2667b",
+      "size": 364123
+    },
+    {
+      "path": "icons/filter-gloves-icon.png",
+      "hash": "2099fb9c413413856d4b7beda4961143",
+      "size": 165662
+    },
+    {
+      "path": "icons/filter-hammer-icon.png",
+      "hash": "426519ee73937af6f23648c11d9d9b1d",
+      "size": 158546
+    },
+    {
+      "path": "icons/filter-helmet-icon.png",
+      "hash": "4ac18b6e96da02344f247efe873aae42",
+      "size": 255572
+    },
+    {
+      "path": "icons/filter-long-sword-icon.png",
+      "hash": "7dc79b32400de2a91c5c85c7ed2a83f5",
+      "size": 63367
+    },
+    {
+      "path": "icons/filter-mace-icon.png",
+      "hash": "6570a719aff153ed3a122ca91a9a2596",
+      "size": 88003
+    },
+    {
+      "path": "icons/filter-pants-icon.png",
+      "hash": "a50ec560fef48aa6554700fc20eff157",
+      "size": 516181
+    },
+    {
+      "path": "icons/filter-shield-icon.png",
+      "hash": "20e3e81f1282ffd79a6b05d35883b739",
+      "size": 387893
+    },
+    {
+      "path": "icons/filter-short-sword-icon.png",
+      "hash": "f30a8c496dd07e5ca17e7b2e5687c597",
+      "size": 132434
+    },
+    {
+      "path": "icons/filter-shoulder-icon.png",
+      "hash": "b875a8e4f422b4b5cfdaf128eba54b29",
+      "size": 323246
+    },
+    {
+      "path": "icons/focus-skill-icon.png",
+      "hash": "8d396bece06f32e14cf678561ae3d177",
+      "size": 358481
+    },
+    {
+      "path": "icons/focus-skill-icon2.png",
+      "hash": "7028a66ec3872099988452649f2fe2f5",
+      "size": 272277
+    },
+    {
+      "path": "icons/fortitude-skill-icon.png",
+      "hash": "65074ef8969225fb27bbb0e7717a8c8c",
+      "size": 146130
+    },
+    {
+      "path": "icons/golden-rift-icon.png",
+      "hash": "35dd0fc4d8894ce3487e11c22a9beb12",
+      "size": 135275
+    },
+    {
+      "path": "icons/hp-passive-icon.png",
+      "hash": "09c90fe3f65d07b61680298a6b18651e",
+      "size": 118484
+    },
+    {
+      "path": "icons/hp-to-dmg-skill-icon.png",
+      "hash": "c7a1a2bab51ac8ff176bd7ded8d5fe04",
+      "size": 181570
+    },
+    {
+      "path": "icons/hunter-dimension-icon.png",
+      "hash": "35e696614b9ec7f721120642d7adb963",
+      "size": 94202
+    },
+    {
+      "path": "icons/inventory-icon.png",
+      "hash": "b63d12a702b581f3b36ab3cd453c28e7",
+      "size": 157094
+    },
+    {
+      "path": "icons/jump-skill-icon.png",
+      "hash": "03d229d281ef187c9da0b3e5591a0a3a",
+      "size": 184521
+    },
+    {
+      "path": "icons/language_flag_en_icon.png",
+      "hash": "eab57fc6894a4d997e6983a270afc79c",
+      "size": 429069
+    },
+    {
+      "path": "icons/language_flag_en_icon2.png",
+      "hash": "1e319d0352ff4f8c150834386d194265",
+      "size": 2168316
+    },
+    {
+      "path": "icons/language_flag_pl_icon.png",
+      "hash": "abacee1033f42a8337851448bdd56f54",
+      "size": 411018
+    },
+    {
+      "path": "icons/language_flag_pl_icon2.png",
+      "hash": "002d0dd35e9456a9303203c31e1ae340",
+      "size": 2096375
+    },
+    {
+      "path": "icons/left-hand-placeholder.png",
+      "hash": "c9eed6f117669f772e5286fb4a51d8f6",
+      "size": 148452
+    },
+    {
+      "path": "icons/levelup-title-icon.png",
+      "hash": "e39c744d0e953ef401c2b5f4bfd1f0fb",
+      "size": 293304
+    },
+    {
+      "path": "icons/levelup-title-icon2.png",
+      "hash": "193fb893666c6889808699f1cd894920",
+      "size": 236194
+    },
+    {
+      "path": "icons/levelup-title-icon3.png",
+      "hash": "bf37af4562fd010a8191c035b577a04c",
+      "size": 190586
+    },
+    {
+      "path": "icons/levelup-title-icon4.png",
+      "hash": "0a656b70ec8220946cdff89429225c1e",
+      "size": 178345
+    },
+    {
+      "path": "icons/longevity-skill-icon.png",
+      "hash": "a400a8e743dba29b788bbcaf41b20eb4",
+      "size": 143941
+    },
+    {
+      "path": "icons/max-def-skill-icon.png",
+      "hash": "9b1af0deabfa8f793f618a9f71d1720e",
+      "size": 166737
+    },
+    {
+      "path": "icons/max-def-skill-icon2.png",
+      "hash": "24c250c781ad4c69ec35eaf5eceda5ef",
+      "size": 247002
+    },
+    {
+      "path": "icons/max-dmg-skill-icon.png",
+      "hash": "70d11b3f0299abbb3127984f9bd53d32",
+      "size": 183264
+    },
+    {
+      "path": "icons/max-hp-skill-icon.png",
+      "hash": "9b5080c61f65c4c149f4b3e8b9dc518f",
+      "size": 123561
+    },
+    {
+      "path": "icons/menu-battle-icon.png",
+      "hash": "32dfe085842d21b37cd27f3e570e349b",
+      "size": 392023
+    },
+    {
+      "path": "icons/menu-battle-icon2.png",
+      "hash": "6ab88c8c95b7a0ccb41c65077fce6170",
+      "size": 138165
+    },
+    {
+      "path": "icons/menu-battle-icon3.png",
+      "hash": "0a18798c310a99044d673e38cc1df62b",
+      "size": 248538
+    },
+    {
+      "path": "icons/menu-battle-icon4.png",
+      "hash": "63bda124eb26b39666a8c660a8be0100",
+      "size": 381772
+    },
+    {
+      "path": "icons/menu-character-icon-update.png",
+      "hash": "ab79db7e3a217558949ae3d9a70c9990",
+      "size": 412706
+    },
+    {
+      "path": "icons/menu-character-icon.png",
+      "hash": "0db4f9eb8f277c883ca1aa3bc272267f",
+      "size": 394453
+    },
+    {
+      "path": "icons/menu-character-icon2.png",
+      "hash": "f7dc7c0eaba60fa5a54b17f3a645fca2",
+      "size": 133660
+    },
+    {
+      "path": "icons/menu-character-icon3.png",
+      "hash": "baa4414f7d5e60ddcf3902a3d2c38107",
+      "size": 426745
+    },
+    {
+      "path": "icons/menu-def-icon.png",
+      "hash": "7d674caaf526da558b5ea7a8688ca8c1",
+      "size": 310617
+    },
+    {
+      "path": "icons/menu-def-icon2.png",
+      "hash": "7d2e2d2a7705845e086a31efb8e669bf",
+      "size": 179686
+    },
+    {
+      "path": "icons/menu-dmg-icon.png",
+      "hash": "98169aa31de0945c9314cb1ff5b0984b",
+      "size": 372874
+    },
+    {
+      "path": "icons/menu-dmg-icon2.png",
+      "hash": "d360829dba83b0def4e9cb0a142a1e3f",
+      "size": 98415
+    },
+    {
+      "path": "icons/menu-energy-icon.png",
+      "hash": "5644471e1bf20762eca73f853dcf0cdb",
+      "size": 430901
+    },
+    {
+      "path": "icons/menu-equipment-icon.png",
+      "hash": "e98796f53d80f6b0de157ad4f2281673",
+      "size": 358060
+    },
+    {
+      "path": "icons/menu-equipment-icon2.png",
+      "hash": "bbd2bb595adcb5ac3cc0dd0a87e3866c",
+      "size": 147721
+    },
+    {
+      "path": "icons/menu-equipment-icon3.png",
+      "hash": "b2ded23b2279bebc1d4dbbcbf276c862",
+      "size": 439301
+    },
+    {
+      "path": "icons/menu-gold-icon.png",
+      "hash": "b4b91e1a4dbe74246ec1bdd2594524af",
+      "size": 214529
+    },
+    {
+      "path": "icons/menu-hp-icon.png",
+      "hash": "113393ddaee27960ad73dba653957495",
+      "size": 357512
+    },
+    {
+      "path": "icons/menu-hp-icon2.png",
+      "hash": "13f4cd4f418635506c9c5ed1b935c1fa",
+      "size": 106654
+    },
+    {
+      "path": "icons/menu-market-icon.png",
+      "hash": "a9f80e825307df0af219b93850cf405d",
+      "size": 478067
+    },
+    {
+      "path": "icons/menu-market-icon2.png",
+      "hash": "430b2b0ed3cb2635a68037ad0398bd4c",
+      "size": 100186
+    },
+    {
+      "path": "icons/menu-settings-icon.png",
+      "hash": "a2d139e51d9e078888452ab3c059cc83",
+      "size": 386192
+    },
+    {
+      "path": "icons/menu-settings-icon2.png",
+      "hash": "e77e00e72fd26847899cf4538bf56565",
+      "size": 119740
+    },
+    {
+      "path": "icons/menu-settings-icon3.png",
+      "hash": "4f86e3324503b19e338c637be25afa6b",
+      "size": 447142
+    },
+    {
+      "path": "icons/menu-shard-icon.png",
+      "hash": "b3606ba83bb0a80c78ef2b6e3fd20e19",
+      "size": 195370
+    },
+    {
+      "path": "icons/menu-skills-icon-update.png",
+      "hash": "caf2c326db367fe450e5e918975af668",
+      "size": 397284
+    },
+    {
+      "path": "icons/menu-skills-icon.png",
+      "hash": "d6a95a7ede110cb7b74e394ac5f93635",
+      "size": 394321
+    },
+    {
+      "path": "icons/menu-skills-icon2.png",
+      "hash": "760ce7adb1c060a669fd62b2a6331cb9",
+      "size": 135725
+    },
+    {
+      "path": "icons/menu-skills-icon3.png",
+      "hash": "db0276edb944611ffbfed80d75b1d795",
+      "size": 498172
+    },
+    {
+      "path": "icons/menu-world-map-icon.png",
+      "hash": "f548f1286142bc532404ba4ea4228250",
+      "size": 429830
+    },
+    {
+      "path": "icons/menu-world-map-icon2.png",
+      "hash": "a38aac0dae2a9976bc1f66e9ce0f0973",
+      "size": 149296
+    },
+    {
+      "path": "icons/menu-world-map-icon3.png",
+      "hash": "e3ed4c3fc7f5cd6a9e3003da90a93972",
+      "size": 508907
+    },
+    {
+      "path": "icons/ok-icon.png",
+      "hash": "6adb407716d5bd82618734b6928e9b63",
+      "size": 62720
+    },
+    {
+      "path": "icons/perfect-block-skill-icon.png",
+      "hash": "eb4783b7ab78a5313a9d79d63287a802",
+      "size": 239036
+    },
+    {
+      "path": "icons/perfect-block-skill-icon2.png",
+      "hash": "58e86a6f81d48939ee4f15881b230474",
+      "size": 414718
+    },
+    {
+      "path": "icons/perfect-chain-skill-icon.png",
+      "hash": "4ce993bc53ad50fc4a0cd1e86bb02674",
+      "size": 302160
+    },
+    {
+      "path": "icons/perfect-window-icon.png",
+      "hash": "43f809fdc3583f886df9df84e2ec2b0b",
+      "size": 355319
+    },
+    {
+      "path": "icons/perfect-window-skill-icon.png",
+      "hash": "e1e957b70e92521dcf325d5071ebc89c",
+      "size": 196682
+    },
+    {
+      "path": "icons/poise-mini-icon.png",
+      "hash": "be7e81a32e6c51d750dcbadeb8eb82e6",
+      "size": 149457
+    },
+    {
+      "path": "icons/powerful-attack-skill-icon.png",
+      "hash": "adbc217f92d2476e01cfebabfdf2b02c",
+      "size": 157442
+    },
+    {
+      "path": "icons/predator-protocol-icon.png",
+      "hash": "6e06def7ad39c8914ae5aa98225dfdcc",
+      "size": 115246
+    },
+    {
+      "path": "icons/quest-book-icon-update.png",
+      "hash": "92a8fe48e58a5533e52e2e403bd98245",
+      "size": 371129
+    },
+    {
+      "path": "icons/quest-book-icon.png",
+      "hash": "599588f717130392a172587ef77e7a27",
+      "size": 354238
+    },
+    {
+      "path": "icons/quest-book-icon2.png",
+      "hash": "3a55cf325e2e7a63e1203cac95f82c27",
+      "size": 802808
+    },
+    {
+      "path": "icons/quest-book-icon3.png",
+      "hash": "caabd591f4bab20f8eb455af7bf472dd",
+      "size": 140693
+    },
+    {
+      "path": "icons/quest-book-icon4.png",
+      "hash": "6692a8864592d367c175e9952d58182b",
+      "size": 58572
+    },
+    {
+      "path": "icons/reward-separator-icon-en.png",
+      "hash": "cb4f918b98a4dc8e895402cb14e86bf4",
+      "size": 97588
+    },
+    {
+      "path": "icons/reward-separator-icon.png",
+      "hash": "e327d38c2c940bb016b4b67fac1a56fa",
+      "size": 107222
+    },
+    {
+      "path": "icons/reward-separator-icon2.png",
+      "hash": "720d0e38abe24bc754d3ff653cf56345",
+      "size": 19155
+    },
+    {
+      "path": "icons/right-hand-placeholder.png",
+      "hash": "ce0eb166cfbe088eb6dc820b473c2624",
+      "size": 148377
+    },
+    {
+      "path": "icons/segment-chest-icon.png",
+      "hash": "e1f299a5405d3652407fb7678a152887",
+      "size": 40741
+    },
+    {
+      "path": "icons/segment-miniboss-icon.png",
+      "hash": "82a8d08495a9e0ed23f150a611f5c9ce",
+      "size": 55376
+    },
+    {
+      "path": "icons/segment-shrine-icon.png",
+      "hash": "7a3689b8d3d0c1f25c663eb107549328",
+      "size": 48352
+    },
+    {
+      "path": "icons/sell-item-icon.png",
+      "hash": "2e48f7cf5e2b0df7fa3daa4b76fd6dd1",
+      "size": 195095
+    },
+    {
+      "path": "icons/shards.png",
+      "hash": "70fdc50dbf11230579af45c72f177e17",
+      "size": 233932
+    },
+    {
+      "path": "icons/show-item-icon.png",
+      "hash": "b62dc5aba2aa157d04c26c0ca8159ae0",
+      "size": 160642
+    },
+    {
+      "path": "icons/show-level-names-icon.png",
+      "hash": "4f1bc83547b14c5e1fa7f78b9a0ddce9",
+      "size": 257230
+    },
+    {
+      "path": "icons/shrines-pack.png",
+      "hash": "61b1b7d1512ee930042c30e402996cb1",
+      "size": 2313096
+    },
+    {
+      "path": "icons/skill-cooldown-icon.png",
+      "hash": "218922edaa49f8bbf97148bd58f51ed9",
+      "size": 50995
+    },
+    {
+      "path": "icons/skill-dmg-icon.png",
+      "hash": "b5b1febd1b814156fb5f57bc112313c5",
+      "size": 139004
+    },
+    {
+      "path": "icons/skill-duration-icon.png",
+      "hash": "da795937354c4e6c9145dae5d3ca7af7",
+      "size": 121910
+    },
+    {
+      "path": "icons/skill-slow-icon.png",
+      "hash": "3b9ebcf88c6338f6ad230dc7fbef7c96",
+      "size": 126209
+    },
+    {
+      "path": "icons/skill-stun-icon.png",
+      "hash": "9a35ef0aa47c92c9a78f420a29a45e64",
+      "size": 125253
+    },
+    {
+      "path": "icons/skill-stun-icon2.png",
+      "hash": "e6f8b5f276b6767aef13c01d7b2d7b61",
+      "size": 110747
+    },
+    {
+      "path": "icons/stamina-bonus-skill-icon.png",
+      "hash": "bd225ec5bd0978da0bf4aed942ae5160",
+      "size": 209594
+    },
+    {
+      "path": "icons/stamina-cost-icon.png",
+      "hash": "b68834a96774957d63a20235747d5f12",
+      "size": 53522
+    },
+    {
+      "path": "icons/stamina-regen-skill-icon.png",
+      "hash": "4af20ed51719498bde441fd991cd5679",
+      "size": 194329
+    },
+    {
+      "path": "icons/steadfastness-skill-icon.png",
+      "hash": "33dd4ff6f4d7c30e686dad1afaac5f43",
+      "size": 180476
+    },
+    {
+      "path": "icons/superhuman-strength-skill-icon.png",
+      "hash": "85277b1b8d7a737e99fa1c6e3700f241",
+      "size": 139464
+    },
+    {
+      "path": "icons/swarm-protocol-icon.png",
+      "hash": "d7d7ef96d606d68f5e5c3a25ae242c15",
+      "size": 119579
+    },
+    {
+      "path": "icons/timed-mini-icon.png",
+      "hash": "d92fe4b508af0f7f1dad4d3e79295b95",
+      "size": 129971
+    },
+    {
+      "path": "icons/trash-icon.png",
+      "hash": "c875c373edb1e0b1fcc72dfea290ce1f",
+      "size": 548012
+    },
+    {
+      "path": "icons/trash-icon2.png",
+      "hash": "546d5d3ce4f9718ea65f537af96bac0f",
+      "size": 40138
+    },
+    {
+      "path": "icons/turtle-mini-icon.png",
+      "hash": "7836c6acf4347723760706c7edf2b01e",
+      "size": 215299
+    },
+    {
+      "path": "icons/void-instability-icon.png",
+      "hash": "a70c8b2dbccd0d5802f601f066f3739e",
+      "size": 107527
+    },
+    {
+      "path": "icons/volume-mute-icon.png",
+      "hash": "8fe5934d4c7b106d27121e6fb7a440ae",
+      "size": 43582
+    },
+    {
+      "path": "icons/volume-on-icon.png",
+      "hash": "48dbc16269d71244403c1c01f0eb59b5",
+      "size": 47723
+    },
+    {
+      "path": "icons/warrior-shout-skill-icon.png",
+      "hash": "40c16b6bbd1806834f13cd7b7bf9b95f",
+      "size": 150279
+    },
+    {
+      "path": "items/Copilot_20250825_212122.png",
+      "hash": "7a8ecc10d41ae208a0318b88b9dd06a9",
+      "size": 68280
+    },
+    {
+      "path": "items/Copilot_20250825_213051.png",
+      "hash": "e07583469d0235b73a71eb715a43840a",
+      "size": 110985
+    },
+    {
+      "path": "items/Copilot_20250904_180735.png",
+      "hash": "c0fd1d406cfdec1a45a97f6b90f10cca",
+      "size": 185356
+    },
+    {
+      "path": "items/Copilot_20250910_195253.png",
+      "hash": "54ffb64c91145a131e88dc67f541cbea",
+      "size": 146923
+    },
+    {
+      "path": "items/Copilot_20250910_210804.png",
+      "hash": "9f8653f5f127148fdf075c0ca94f5e84",
+      "size": 157285
+    },
+    {
+      "path": "items/Copilot_20251028_141015.png",
+      "hash": "1e0e27dc95ed2c511385df3d7e7196c6",
+      "size": 140462
+    },
+    {
+      "path": "items/Copilot_20251028_141038.png",
+      "hash": "2738faef6260d7ee17fb7ecd4f27a84e",
+      "size": 144294
+    },
+    {
+      "path": "items/Copilot_20251028_141155.png",
+      "hash": "9d1fc80b31740be85acf0bb1d8129406",
+      "size": 249153
+    },
+    {
+      "path": "items/Copilot_20251028_141204.png",
+      "hash": "2216bcb1915942be229539bad3ac4854",
+      "size": 212352
+    },
+    {
+      "path": "items/Copilot_20251028_141346.png",
+      "hash": "561bb62d422b0128ee95bc2570d09fbe",
+      "size": 151163
+    },
+    {
+      "path": "items/Copilot_20251028_141426.png",
+      "hash": "38d782f6278a01a2a269059303c34871",
+      "size": 177435
+    },
+    {
+      "path": "items/Copilot_20251028_141520.png",
+      "hash": "3e3998aba34c17e8d95714acae9463cc",
+      "size": 107887
+    },
+    {
+      "path": "items/Copilot_20260205_130915.png",
+      "hash": "b91a6539730706159b3a00f55d201c55",
+      "size": 252194
+    },
+    {
+      "path": "items/Copilot_20260205_140036.png",
+      "hash": "961926cac9835e62f2cce9c8feba159a",
+      "size": 102427
+    },
+    {
+      "path": "items/Copilot_20260205_140245.png",
+      "hash": "ec01e8dd125582401392be471d501786",
+      "size": 109984
+    },
+    {
+      "path": "items/Copilot_20260404_081908.png",
+      "hash": "0213b74d017424c9cd01150ccd4b3187",
+      "size": 2281209
+    },
+    {
+      "path": "items/IMG_20251028_180149.png",
+      "hash": "4b3bb9f14f130e266413e024f40fb37c",
+      "size": 177256
+    },
+    {
+      "path": "items/IMG_20251028_180217.png",
+      "hash": "e2c78caed5c6eae85ac7561e3a46961e",
+      "size": 180683
+    },
+    {
+      "path": "items/axe.png",
+      "hash": "bf1ceea7ac324e44e41fbca4504ee707",
+      "size": 84492
+    },
+    {
+      "path": "items/belt.png",
+      "hash": "4b77656172527cfe2f47c969a1c54823",
+      "size": 78718
+    },
+    {
+      "path": "items/betterbwlt.png",
+      "hash": "0f84b50b292ffb43e608794b443f29b3",
+      "size": 201515
+    },
+    {
+      "path": "items/betterpante.png",
+      "hash": "b50bda17a87e7246c8235eb054284b5c",
+      "size": 153051
+    },
+    {
+      "path": "items/boots.png",
+      "hash": "acfd6f52af9043b9295a049498bcd64d",
+      "size": 132743
+    },
+    {
+      "path": "items/boots2.png",
+      "hash": "c1906d22d021001739cadcc987ed0ce5",
+      "size": 109436
+    },
+    {
+      "path": "items/bracers.png",
+      "hash": "1fec4449c618c7700c575218c53dd8d8",
+      "size": 113170
+    },
+    {
+      "path": "items/bread.png",
+      "hash": "3ae2a3717cfaa4ceeb1c35be33ee712f",
+      "size": 210590
+    },
+    {
+      "path": "items/buckler.png",
+      "hash": "7f15beeacfe5d18599f62170eb3dcceb",
+      "size": 109609
+    },
+    {
+      "path": "items/cap.png",
+      "hash": "123b1e8857ffcca879b370f434ff3ed2",
+      "size": 97424
+    },
+    {
+      "path": "items/chainmail.png",
+      "hash": "1d1b5e627163169422d86ef92d503591",
+      "size": 169926
+    },
+    {
+      "path": "items/chestplate.png",
+      "hash": "f1b6dc42fa5e7536c0e89ee9d5d8db98",
+      "size": 90501
+    },
+    {
+      "path": "items/chwyt-mocy.png",
+      "hash": "6ef0fd85510812cd5c3f860ce806bb3c",
+      "size": 189354
+    },
+    {
+      "path": "items/com9mglovee.png",
+      "hash": "5e33c700358e152f8e7c20ca552943e3",
+      "size": 151743
+    },
+    {
+      "path": "items/commonbqrwfer.png",
+      "hash": "625b4ea7ccad4e4971a43c9b754bba46",
+      "size": 134343
+    },
+    {
+      "path": "items/commonhl.png",
+      "hash": "ac32c50a77d87751fd1b3312d01ffd34",
+      "size": 128651
+    },
+    {
+      "path": "items/cpmmonpante.png",
+      "hash": "2c1e9cf0416a0714b79e629c9ead4bd4",
+      "size": 157239
+    },
+    {
+      "path": "items/double-axe.png",
+      "hash": "c9bc9750d0e3e9d7b98239d2e8891a7b",
+      "size": 809453
+    },
+    {
+      "path": "items/double-axe2.png",
+      "hash": "7ffa5ab22a2c288dde72cedc33548be5",
+      "size": 778547
+    },
+    {
+      "path": "items/elwen-feather.png",
+      "hash": "eff337bfacaa58b3b1272203233a40ea",
+      "size": 162172
+    },
+    {
+      "path": "items/epicbelt.png",
+      "hash": "75efed1671bee8ffad54e0b6410f961d",
+      "size": 113426
+    },
+    {
+      "path": "items/epocgloves.png",
+      "hash": "09b90154e10d6de729b54f9446b7e43e",
+      "size": 212665
+    },
+    {
+      "path": "items/fragment-of-map-e.png",
+      "hash": "e727ee19bd009e239e7626b9035d7b09",
+      "size": 272409
+    },
+    {
+      "path": "items/fragment-of-map-n.png",
+      "hash": "89aa7a219ee394dfbddbd5e88ad2f758",
+      "size": 260610
+    },
+    {
+      "path": "items/fragment-of-map-s.png",
+      "hash": "1b810e64455b5da420357fd69313969f",
+      "size": 263938
+    },
+    {
+      "path": "items/gloves.png",
+      "hash": "8e38882d8b2c33fb210ac564ed0590f8",
+      "size": 96292
+    },
+    {
+      "path": "items/golden-key.png",
+      "hash": "eaccc03103bd80d4135ea9e99a82882a",
+      "size": 191434
+    },
+    {
+      "path": "items/great-sword.png",
+      "hash": "9ec63da04a6ab0e50f3fcc985228c32a",
+      "size": 388101
+    },
+    {
+      "path": "items/great-sword2.png",
+      "hash": "6cbf1cfece3aea0ae5dce41c86063e26",
+      "size": 337146
+    },
+    {
+      "path": "items/hammer.png",
+      "hash": "221df9ed6b4320335bb664956a3e5edd",
+      "size": 45169
+    },
+    {
+      "path": "items/helmet.png",
+      "hash": "fd953ccab86ebb8a0c6475fe6bb64690",
+      "size": 103930
+    },
+    {
+      "path": "items/kalkan.png",
+      "hash": "d3dfc7a549f1639cc6c4d847f48a9b81",
+      "size": 151427
+    },
+    {
+      "path": "items/leather-armor.png",
+      "hash": "7947016a6e0b6ab52a862b9eb69d4447",
+      "size": 126715
+    },
+    {
+      "path": "items/lebeghwl.png",
+      "hash": "05526decf91c0d927f18ce3012cdd5fa",
+      "size": 210430
+    },
+    {
+      "path": "items/legend_axe_blood_whisper.png",
+      "hash": "d8f716fd10f8bf651ba7636d2146f4fb",
+      "size": 102373
+    },
+    {
+      "path": "items/legend_belt_fate_weave.png",
+      "hash": "7ad9cb031279c048da61a4c82e33f302",
+      "size": 136500
+    },
+    {
+      "path": "items/legend_belt_flamebound.png",
+      "hash": "77bedc1bbcc7146384bc56183ad29493",
+      "size": 105776
+    },
+    {
+      "path": "items/legend_belt_protection_ring.png",
+      "hash": "254c2692b8aa30022a1499a3b7ef9350",
+      "size": 120617
+    },
+    {
+      "path": "items/legend_boots_dance_of_wrath.png",
+      "hash": "69da643a1335c6a04605c0a9272f3373",
+      "size": 194707
+    },
+    {
+      "path": "items/legend_boots_wind_steps.png",
+      "hash": "c89a63e74acd4db551883994f26dabdc",
+      "size": 193259
+    },
+    {
+      "path": "items/legend_bracers_war_scars.png",
+      "hash": "4fa27136ae8a41101d7d3b4fe623ea0b",
+      "size": 179257
+    },
+    {
+      "path": "items/legend_chainmail_thorn_steel.png",
+      "hash": "c59f079a374ff7cc0cfe5c8241562143",
+      "size": 168857
+    },
+    {
+      "path": "items/legend_chestplate_last_bastion.png",
+      "hash": "9e3a88bdff5ebbfc3bcfda9769b9c3a1",
+      "size": 287444
+    },
+    {
+      "path": "items/legend_gloves_bone_claw.png",
+      "hash": "474f62f86206d1e79a9b326c250b29e9",
+      "size": 169287
+    },
+    {
+      "path": "items/legend_gloves_mist_hand.png",
+      "hash": "bb0f2d401200e1fa81479fe2076bec16",
+      "size": 163414
+    },
+    {
+      "path": "items/legend_hammer_final_judgement.png",
+      "hash": "f19973f3bff3ba069251daded37bfb5e",
+      "size": 119621
+    },
+    {
+      "path": "items/legend_hammer_titanbane.png",
+      "hash": "98f9817e7e49c03e8162860829634ed0",
+      "size": 109821
+    },
+    {
+      "path": "items/legend_helmet_ancestral_vision.png",
+      "hash": "745e92f6ad544f652fd0e347bf7a486f",
+      "size": 158799
+    },
+    {
+      "path": "items/legend_helmet_void_crown.png",
+      "hash": "4398a55488d07834ec076623278837fe",
+      "size": 134173
+    },
+    {
+      "path": "items/legend_kalkan_giant_rib.png",
+      "hash": "3304ae47e8b4b53cb4d76ac0a54e684f",
+      "size": 314102
+    },
+    {
+      "path": "items/legend_long_sword_tracker.png",
+      "hash": "ecc34f8f8ec9377b3b4f0c49409e477f",
+      "size": 60001
+    },
+    {
+      "path": "items/legend_mace_betrayal_bone.png",
+      "hash": "0e9f4631a4aab5120309d613e87a5002",
+      "size": 89617
+    },
+    {
+      "path": "items/legend_pants_call_leggings.png",
+      "hash": "744503f8da38ef40cf22f38f8df11ca6",
+      "size": 210447
+    },
+    {
+      "path": "items/legend_pants_shadow_step.png",
+      "hash": "990e15ae8639cece7c27fff7360eeb0e",
+      "size": 187505
+    },
+    {
+      "path": "items/legend_short_sword_stormblade.png",
+      "hash": "1cf05e653f5990fbb6e5d37938eee9d7",
+      "size": 70648
+    },
+    {
+      "path": "items/legend_shoulder_arm_of_wrath.png",
+      "hash": "13d743f0a36ae1f1f8b80b785caf202f",
+      "size": 229085
+    },
+    {
+      "path": "items/legend_shoulder_guard.png",
+      "hash": "f9fe41baea416f2b0100c1cc82a67a66",
+      "size": 115207
+    },
+    {
+      "path": "items/legend_shoulder_narok.png",
+      "hash": "b70d418776f04b3702a69fcab7380243",
+      "size": 112345
+    },
+    {
+      "path": "items/legend_triangle_shield_wall_of_undead.png",
+      "hash": "ece96beeb695b8be08617c6f234b77c8",
+      "size": 207893
+    },
+    {
+      "path": "items/legwndpant.png",
+      "hash": "a2583c834414eb50ae8b64cce0b5f1d8",
+      "size": 184682
+    },
+    {
+      "path": "items/long-sword.png",
+      "hash": "0d27fd8aa0612b85c1f6eed9a93f2678",
+      "size": 68522
+    },
+    {
+      "path": "items/mace.png",
+      "hash": "9e3e7ce4bbde7003b047a2563cbd54dd",
+      "size": 80443
+    },
+    {
+      "path": "items/maelor-key.png",
+      "hash": "c2bbadc637237510b4e8d99396bd7ca7",
+      "size": 474020
+    },
+    {
+      "path": "items/medium-empty-potion.png",
+      "hash": "90caaa5d57e7c02438802707e2f35740",
+      "size": 152319
+    },
+    {
+      "path": "items/medium-empty-potion2.png",
+      "hash": "aa2584cdc94dfacc52549e094f0da0b6",
+      "size": 84831
+    },
+    {
+      "path": "items/medium-empty-potion3.png",
+      "hash": "d72ac841a331e9a95ad570c418e23e34",
+      "size": 149959
+    },
+    {
+      "path": "items/medium-heal-potion.png",
+      "hash": "382c277580c23ec70b484b37be82c843",
+      "size": 178622
+    },
+    {
+      "path": "items/medium-heal-potion2.png",
+      "hash": "975a66a1502494ce6814a125f5b40d4e",
+      "size": 88363
+    },
+    {
+      "path": "items/medium-heal-potion3.png",
+      "hash": "2112eab7f4e83d21db4cb9e86cef05dd",
+      "size": 180028
+    },
+    {
+      "path": "items/nogawice-zewu2.png",
+      "hash": "a2361526411a93822a977d7c889a2e22",
+      "size": 227170
+    },
+    {
+      "path": "items/north-map-xmark.png",
+      "hash": "4711292bb5f8a2cd6498183582d4e6c2",
+      "size": 317012
+    },
+    {
+      "path": "items/north-map.png",
+      "hash": "05da9fc8c21bec8f360d00a5f950c3fa",
+      "size": 314273
+    },
+    {
+      "path": "items/old-chronicle.png",
+      "hash": "2e064959a8c5eb92b2f1180be0b1ee3a",
+      "size": 303119
+    },
+    {
+      "path": "items/pants.png",
+      "hash": "408c66d68f5936ac36b54ee0b6491ea6",
+      "size": 124074
+    },
+    {
+      "path": "items/placeholder.png",
+      "hash": "16fae1c9ec7c2f795fcbe9292bc2fb0b",
+      "size": 812519
+    },
+    {
+      "path": "items/plate-armor.png",
+      "hash": "dd87bb0c90ebed59c07e6b0b63d0aadc",
+      "size": 173919
+    },
+    {
+      "path": "items/rivers-totem.png",
+      "hash": "f5a351f49c118d596cab015b374a9a12",
+      "size": 209615
+    },
+    {
+      "path": "items/round-shield.png",
+      "hash": "e7d78b4011cee539f6c1bfe7c9265c77",
+      "size": 134917
+    },
+    {
+      "path": "items/runic-stone.png",
+      "hash": "2045258300f42538fcac04464793f66a",
+      "size": 189940
+    },
+    {
+      "path": "items/runic-stone2.png",
+      "hash": "c504fe627e0fffff51f6f6fc0729cab8",
+      "size": 193457
+    },
+    {
+      "path": "items/short-sword.png",
+      "hash": "9dc361d3a7886848ec42cdc5618f16d9",
+      "size": 55981
+    },
+    {
+      "path": "items/short-sword2.png",
+      "hash": "eb708a6ede8285a996017f3c6a3d3132",
+      "size": 15766
+    },
+    {
+      "path": "items/shoulder.png",
+      "hash": "881dd96423e717162236d5bb4e0f8a10",
+      "size": 88214
+    },
+    {
+      "path": "items/sierp.png",
+      "hash": "2d6d297de478a423804220b1ff19349e",
+      "size": 51681
+    },
+    {
+      "path": "items/silver-key.png",
+      "hash": "f8c1182f4c378ecb3dbdd7d87bb35c8e",
+      "size": 104474
+    },
+    {
+      "path": "items/small-empty-potion.png",
+      "hash": "3f8da35a715e2a7f287df84bb0a5b70a",
+      "size": 79680
+    },
+    {
+      "path": "items/small-heal-potion.png",
+      "hash": "13a755d867678baec051ceffc1cfe51b",
+      "size": 109340
+    },
+    {
+      "path": "items/small-heal-potion2.png",
+      "hash": "ebfe55628ffc05931c6e4af77843c773",
+      "size": 558671
+    },
+    {
+      "path": "items/spear.png",
+      "hash": "68c66405dc33a10d06281922b44b4bd4",
+      "size": 320129
+    },
+    {
+      "path": "items/spear2.png",
+      "hash": "017c3cf6f5e765001dcce8d7386fa8fd",
+      "size": 245870
+    },
+    {
+      "path": "items/stopy-wichru.png",
+      "hash": "f71b8d2be5b9c66ab2b3618c5677278c",
+      "size": 193210
+    },
+    {
+      "path": "items/triangle-shield.png",
+      "hash": "be9117a5b3ca0e7907cfa793ba278883",
+      "size": 146478
+    },
+    {
+      "path": "loadings/elmaris-port-loading.png",
+      "hash": "11abdce320c25b3ae814573b7345d01c",
+      "size": 1040854
+    },
+    {
+      "path": "loadings/elmaris-port-loading2.png",
+      "hash": "b890f5960573b919c031b0bc3f6d81c6",
+      "size": 1027955
+    },
+    {
+      "path": "loadings/elmaris-port-loading3.png",
+      "hash": "4f8e940e93736b5f25d771de882b00bd",
+      "size": 1074807
+    },
+    {
+      "path": "loadings/green-pass-loading.png",
+      "hash": "40b64befc67b1bd7fbdf0ce45217c386",
+      "size": 900963
+    },
+    {
+      "path": "loadings/hero-story-loading.png",
+      "hash": "79493065df11a674e4cdf795ce692300",
+      "size": 3004427
+    },
+    {
+      "path": "loadings/land-story-loading.png",
+      "hash": "28a2201da661ea62e7f780e343817e49",
+      "size": 3503965
+    },
+    {
+      "path": "loadings/lirwen-castle-loading.png",
+      "hash": "e3d2bc94adb9c5effcc978216b205bbb",
+      "size": 1182812
+    },
+    {
+      "path": "loadings/lirwen-castle-loading2.png",
+      "hash": "cec39f621a84d77f68a956ec2a58879a",
+      "size": 1216761
+    },
+    {
+      "path": "loadings/port-story-loading.png",
+      "hash": "4679a3040e783ea81116330c2bd30c2e",
+      "size": 3369839
+    },
+    {
+      "path": "loadings/reapers-road-loading.png",
+      "hash": "0862cf10bb1d7157323de9f1c6ab8e28",
+      "size": 1100863
+    },
+    {
+      "path": "loadings/storm-story-loading.png",
+      "hash": "1ea133a3968f3878ddb6d17f3c8afc36",
+      "size": 3633335
+    },
+    {
+      "path": "loadings/thalorn-village-loading.png",
+      "hash": "3c5d678e4f2f6ea7b95395115c093b57",
+      "size": 1092411
+    },
+    {
+      "path": "loadings/whispering-trees-loading.png",
+      "hash": "e28275977be69ee3aa6621d39dec66e3",
+      "size": 1148206
+    },
+    {
+      "path": "logo/background.png",
+      "hash": "370899dd617177f0bf7f29855d905b75",
+      "size": 475403
+    },
+    {
+      "path": "logo/game-logo.png",
+      "hash": "0eb0344fefa6fc5882941d2517a792c1",
+      "size": 382366
+    },
+    {
+      "path": "logo/game-logo2.png",
+      "hash": "1ff79dbfd866195edfb6e55ed64d28d7",
+      "size": 347836
+    },
+    {
+      "path": "logo/game-logo3.png",
+      "hash": "2996fd0322c85a5c863d14f604153e2f",
+      "size": 330705
+    },
+    {
+      "path": "logo/game-logo4.png",
+      "hash": "78f3629c685b9f4cb5c6e70e24eb1444",
+      "size": 458942
+    },
+    {
+      "path": "logo/game-logo5.png",
+      "hash": "6de90cae08c9183f1262f7512501f8ba",
+      "size": 495848
+    },
+    {
+      "path": "logo/game-logo6.png",
+      "hash": "524039f18de861889f305b764c453b18",
+      "size": 523924
+    },
+    {
+      "path": "logo/mini-logo.png",
+      "hash": "751e75d91ebfb16fc4b6d2c2761068f4",
+      "size": 224360
+    },
+    {
+      "path": "logo/mini-logo2.png",
+      "hash": "bb2e5912b40ef4e65a53febcdbe41c12",
+      "size": 225888
+    },
+    {
+      "path": "logo/reflect.png",
+      "hash": "730ca5f944497b8d8c9f55ee3182975e",
+      "size": 212055
+    },
+    {
+      "path": "logo/title.png",
+      "hash": "68e0dfc6bf03775e1af2dabaf4ee17fa",
+      "size": 305003
+    },
+    {
+      "path": "maps/east-map.png",
+      "hash": "9cc1f8ed8d00f96716153bce75d2601e",
+      "size": 2429008
+    },
+    {
+      "path": "maps/island-map.png",
+      "hash": "04386b29139181e4ad84b962d4f1db2e",
+      "size": 1522967
+    },
+    {
+      "path": "maps/south-map.png",
+      "hash": "09670d860a6529d85caba2a5ba831b5c",
+      "size": 895558
+    },
+    {
+      "path": "maps/south-map2.jpg",
+      "hash": "6fca80b9dfc06bd814d1e7c3302142dc",
+      "size": 317056
+    },
+    {
+      "path": "maps/south-map3.png",
+      "hash": "6e20cdc117966b49aa310569009f5871",
+      "size": 2444208
+    },
+    {
+      "path": "maps/south-map4.png",
+      "hash": "384ea709ec37d82c59313a4a1511db54",
+      "size": 1279277
+    },
+    {
+      "path": "maps/west-map.png",
+      "hash": "f7e576e04044da7c7ab8f379a70a9464",
+      "size": 688249
+    },
+    {
+      "path": "maps/west-map2.png",
+      "hash": "9fa9d36ed0c1273c8798427d14e84852",
+      "size": 2131115
+    },
+    {
+      "path": "maps/west-map3.png",
+      "hash": "831f8f33f27b5cee9e44983dd8bab41c",
+      "size": 2001088
+    },
+    {
+      "path": "maps/world-map.png",
+      "hash": "03d6c9ff3516cc8c2a02bcdb70c399fa",
+      "size": 3146124
+    },
+    {
+      "path": "vfx/Copilot_20260401_200543.png",
+      "hash": "20a3e480fe9d58d4a9cc66b22cc0a45c",
+      "size": 227233
+    },
+    {
+      "path": "vfx/Copilot_20260401_202159.png",
+      "hash": "611bfd7ca7782ff613ec05031987b80e",
+      "size": 51453
+    },
+    {
+      "path": "vfx/bleed.png",
+      "hash": "ee3d05739af7f8fa28da8d837afcc6dc",
+      "size": 224375
+    },
+    {
+      "path": "vfx/charge.png",
+      "hash": "a28676a52c1d304dedeb5dccf2a365a2",
+      "size": 360647
+    },
+    {
+      "path": "vfx/charge2.png",
+      "hash": "4b4cf730deac183cb47e3ffcb0429cc6",
+      "size": 434733
+    },
+    {
+      "path": "vfx/charge3.png",
+      "hash": "28542a00642e9b3e7b1b6f41ff07fe93",
+      "size": 161361
+    },
+    {
+      "path": "vfx/double-attack-left.png",
+      "hash": "187da01d61b22aa86938b820cd75a1bf",
+      "size": 180278
+    },
+    {
+      "path": "vfx/double-attack-left2.png",
+      "hash": "d9a9b921b52f5b49e915f8011ff730c2",
+      "size": 208956
+    },
+    {
+      "path": "vfx/double-attack-left3.png",
+      "hash": "c81e6fc3cbc04e44eb0e4a36f2f4fe8f",
+      "size": 207687
+    },
+    {
+      "path": "vfx/double-attack-right.png",
+      "hash": "c89c7f1c096283b90e690f3aea3000e9",
+      "size": 184516
+    },
+    {
+      "path": "vfx/double-attack-right2.png",
+      "hash": "d85f9e716d8e0587fb319651a3dcb9ec",
+      "size": 209379
+    },
+    {
+      "path": "vfx/double-attack-right3.png",
+      "hash": "2ed3d0b1cf767a5980bce1b66bbb1cd8",
+      "size": 212734
+    },
+    {
+      "path": "vfx/hit.png",
+      "hash": "b2b672cbf23834b932544c04fa454c23",
+      "size": 93602
+    },
+    {
+      "path": "vfx/impact-core.png",
+      "hash": "b6ef99126365b8a686b566869bef2c75",
+      "size": 746963
+    },
+    {
+      "path": "vfx/impact-jump.png",
+      "hash": "86e6094325c5fdad7e40c64d1d9687e5",
+      "size": 647196
+    },
+    {
+      "path": "vfx/jump.png",
+      "hash": "e8f828a99a875a97a4ed4f16bd67138e",
+      "size": 118910
+    },
+    {
+      "path": "vfx/jump2.png",
+      "hash": "127eb4a34f05565c43c6297c2e0e96ad",
+      "size": 260646
+    },
+    {
+      "path": "vfx/shockwave.png",
+      "hash": "68c1cdfd1a026cd85a4d5fdad6405115",
+      "size": 620275
+    },
+    {
+      "path": "vfx/slash.png",
+      "hash": "3ee7d3164c1db8fca8b47ddefcf8065c",
+      "size": 185256
+    },
+    {
+      "path": "air-whoosh-sound.mp3",
+      "hash": "c99697d9b784a6f5083ec7ca2caa072e",
+      "size": 18852
+    },
+    {
+      "path": "axe-hit-sound.mp3",
+      "hash": "666bfd1a0aae41dfc0a1010c333ee78c",
+      "size": 18852
+    },
+    {
+      "path": "blade-cut-sound.mp3",
+      "hash": "4a61f834fa9279ef81099a64a22f6764",
+      "size": 18852
+    },
+    {
+      "path": "blade-cut-sound2.mp3",
+      "hash": "d8fae6d25923287c0766a598fb578ca0",
+      "size": 18852
+    },
+    {
+      "path": "buy-sound.mp3",
+      "hash": "e4c88cbbe9b15f0573aa5fc0139cfded",
+      "size": 13209
+    },
+    {
+      "path": "buy-sound2.mp3",
+      "hash": "c6efc4502ff2a38af3bd5257920cb8da",
+      "size": 13209
+    },
+    {
+      "path": "cancel-sound.mp3",
+      "hash": "adabb92a0ab5f5d8141e63cb74c7b71d",
+      "size": 13209
+    },
+    {
+      "path": "charge-skill-sound.mp3",
+      "hash": "9b84326ffc5694c212dd6d5533fface3",
+      "size": 25748
+    },
+    {
+      "path": "charge-skill-sound2.mp3",
+      "hash": "dd21abd4954f64a715098e6152fe9eaa",
+      "size": 25748
+    },
+    {
+      "path": "charge-skill-sound3.mp3",
+      "hash": "77c8b1f6add052bfc3a68dc18c631b17",
+      "size": 25748
+    },
+    {
+      "path": "close-sound.mp3",
+      "hash": "58b342c92b70a372754ee2184937fd84",
+      "size": 13209
+    },
+    {
+      "path": "close-sound2.mp3",
+      "hash": "d4e36478586113f38cc58044b5cfb8aa",
+      "size": 13209
+    },
+    {
+      "path": "crit-sound.mp3",
+      "hash": "19d409c9370c69246c64b035a677f16d",
+      "size": 18852
+    },
+    {
+      "path": "crit.mp3",
+      "hash": "16f6e2ee1f43a2b850905f471cf5f741",
+      "size": 18852
+    },
+    {
+      "path": "death-sound.mp3",
+      "hash": "91210e4094b8599af9f378e7fbf235a7",
+      "size": 25748
+    },
+    {
+      "path": "dodge-sound.mp3",
+      "hash": "f5d34ac0015e391a018aca952c7be8e7",
+      "size": 18852
+    },
+    {
+      "path": "double-attack-skill-sound.mp3",
+      "hash": "73ea8dab3b2a22f96d343ef5dc474ef2",
+      "size": 25748
+    },
+    {
+      "path": "double-attack-skill-sound2.mp3",
+      "hash": "03ac1823aac5d1deaaced60b9a87a62d",
+      "size": 25748
+    },
+    {
+      "path": "double-attack-skill-sound3.mp3",
+      "hash": "fa068ff5aaf6f77b9a0f7dbaa7cae2d0",
+      "size": 25748
+    },
+    {
+      "path": "double-attack-skill-sound4.mp3",
+      "hash": "6ca3f585fde9634937e5db43fd10faa1",
+      "size": 25748
+    },
+    {
+      "path": "drink-potion.mp3",
+      "hash": "51ea920a73f05c670395b423c049974b",
+      "size": 28256
+    },
+    {
+      "path": "drink-potion2.mp3",
+      "hash": "70422ac45075d66daeea68661b6b3b95",
+      "size": 25748
+    },
+    {
+      "path": "equip-armor.mp3",
+      "hash": "38da5e1afc707498a930106f3c08a82f",
+      "size": 28256
+    },
+    {
+      "path": "equip-armor2.mp3",
+      "hash": "b6cac98200c77ab5686844efdd6e0f4a",
+      "size": 28256
+    },
+    {
+      "path": "equip-sword.mp3",
+      "hash": "d9080b5001640a53a441da7b7ea26136",
+      "size": 28256
+    },
+    {
+      "path": "equip-sword2.mp3",
+      "hash": "9bf07dac24e539bd831b61eff25953fb",
+      "size": 25748
+    },
+    {
+      "path": "equip-sword3.mp3",
+      "hash": "7f4c8b80962361d7514993adf2266eb4",
+      "size": 25748
+    },
+    {
+      "path": "equip-universal.mp3",
+      "hash": "5f25291e3795345eb1e3270fae81529f",
+      "size": 25748
+    },
+    {
+      "path": "equip-universal2.mp3",
+      "hash": "24e4f16174d952a4f162784e9850b7e3",
+      "size": 25748
+    },
+    {
+      "path": "error-sound.mp3",
+      "hash": "21018c873283b830d0c6a43f249725cd",
+      "size": 13209
+    },
+    {
+      "path": "error-sound2.mp3",
+      "hash": "cfca48eb4c852f81c1e6ecef4fb9b030",
+      "size": 25748
+    },
+    {
+      "path": "error-sound3.mp3",
+      "hash": "fc10f2a8da5c607a0523bd6335c979dd",
+      "size": 25748
+    },
+    {
+      "path": "error-sound4.mp3",
+      "hash": "9948704ec1e2c9cb21eb1ca62e5a1877",
+      "size": 13209
+    },
+    {
+      "path": "flesh-hit-sound.mp3",
+      "hash": "7573e6b716871c471eb995e11c0a29c1",
+      "size": 18852
+    },
+    {
+      "path": "flesh-hit-sound2.mp3",
+      "hash": "0ecce20bf24ae1a737b8d9539e831f26",
+      "size": 18852
+    },
+    {
+      "path": "flesh-hit-sound3.mp3",
+      "hash": "0bad9df4ad1eef67a71750002ded55dc",
+      "size": 18852
+    },
+    {
+      "path": "flesh-hit-sound4.mp3",
+      "hash": "318b476338c98173a878a1ad91bb8a94",
+      "size": 18852
+    },
+    {
+      "path": "hit-sound.mp3",
+      "hash": "54680fee1d0d74e3911b9d5d635c660c",
+      "size": 5476
+    },
+    {
+      "path": "hit-sound1.mp3",
+      "hash": "872a78a1fa381cf84250adadbf4f6615",
+      "size": 18852
+    },
+    {
+      "path": "hit-sound2.mp3",
+      "hash": "306b5f07fcc2a9e1b9dd59563c12ee8b",
+      "size": 18852
+    },
+    {
+      "path": "human-died-sound.mp3",
+      "hash": "5f1cec7e024a604007bb0284dd6dffa2",
+      "size": 25121
+    },
+    {
+      "path": "impact-body-sound.mp3",
+      "hash": "598860ed938eb6efc84d59332193c0b4",
+      "size": 18852
+    },
+    {
+      "path": "jump-land-skill-sound.mp3",
+      "hash": "4d995107ae3551a85a03344948330443",
+      "size": 13209
+    },
+    {
+      "path": "jump-land-skill-sound2.mp3",
+      "hash": "a86c3a5afb23c3f90e8beb05f100b7ea",
+      "size": 13209
+    },
+    {
+      "path": "jump-land-skill-sound3.mp3",
+      "hash": "b72eea28b91adf259159cd9e94a3dca5",
+      "size": 25748
+    },
+    {
+      "path": "jump-skill-sound.mp3",
+      "hash": "982516d9387257f5db64fb4466624d35",
+      "size": 25748
+    },
+    {
+      "path": "jump-skill-sound2.mp3",
+      "hash": "d9acb468ec9c82c929418add336bba54",
+      "size": 25748
+    },
+    {
+      "path": "levelup-sound.mp3",
+      "hash": "1540cc960b23822a8dd8cc93c03c84a9",
+      "size": 25748
+    },
+    {
+      "path": "levelup-sound2.mp3",
+      "hash": "73b07e2a27f64cdd1c328c78c9b8c787",
+      "size": 25748
+    },
+    {
+      "path": "low-hp-sound.mp3",
+      "hash": "f79acd40aa66771a21538e8dfa4a6964",
+      "size": 18852
+    },
+    {
+      "path": "low-stamina-sound.mp3",
+      "hash": "4e44915f692df6e99861db35fd4431e8",
+      "size": 30973
+    },
+    {
+      "path": "low-stamina-sound2.mp3",
+      "hash": "3c3d803c02dc7307d0224c1846e8edeb",
+      "size": 48945
+    },
+    {
+      "path": "menu-sound.mp3",
+      "hash": "e702c8215b60ff3544ab8dc0cd5844cf",
+      "size": 13209
+    },
+    {
+      "path": "menu-sound2.mp3",
+      "hash": "7ed8d500b6641decb90b87db6700cfb6",
+      "size": 13209
+    },
+    {
+      "path": "menu-sound3.mp3",
+      "hash": "0ad9bf10ab5495fc58db96aae9614767",
+      "size": 13209
+    },
+    {
+      "path": "menu-sound4.mp3",
+      "hash": "9cab0b181080d5b35f574bcfb97c6d5f",
+      "size": 13209
+    },
+    {
+      "path": "menu-tab-sound.mp3",
+      "hash": "f8e287f551ebf946372e7a1fb81e57b5",
+      "size": 13209
+    },
+    {
+      "path": "menu-tab-sound2.mp3",
+      "hash": "7398bcd31b41ab2f13c21bd8c59e4334",
+      "size": 13209
+    },
+    {
+      "path": "menu-tab-sound3.mp3",
+      "hash": "36996778f99fff114abae30bdbad3f12",
+      "size": 13209
+    },
+    {
+      "path": "menu-tab-sound4.mp3",
+      "hash": "d7bae1f2cd6f1eec8daff9caa4c80a72",
+      "size": 13209
+    },
+    {
+      "path": "metal-click-sound.mp3",
+      "hash": "c6d10136bc904ef0d540e5bb7313bf15",
+      "size": 18852
+    },
+    {
+      "path": "normal-block-sound.mp3",
+      "hash": "2e584162e02ae6919da220cfe7e320bf",
+      "size": 18852
+    },
+    {
+      "path": "normal-block-sound2.mp3",
+      "hash": "c75d2f95d1f1b19f2c88386dd32e3813",
+      "size": 18852
+    },
+    {
+      "path": "notification-sound.mp3",
+      "hash": "d85006678739878042c55e30b9a03b0a",
+      "size": 25748
+    },
+    {
+      "path": "open-chest.mp3",
+      "hash": "12a417731e09ac33fb12f8d9a421305f",
+      "size": 37660
+    },
+    {
+      "path": "open-popup.mp3",
+      "hash": "3299c938e0574870d7b907ba526dd6bc",
+      "size": 13209
+    },
+    {
+      "path": "open-popup2.mp3",
+      "hash": "958e57ef8f661aa25d9979e97a7c5027",
+      "size": 13209
+    },
+    {
+      "path": "parry-sound.mp3",
+      "hash": "8aa2080bd3a533cfb3a101670689cc13",
+      "size": 18852
+    },
+    {
+      "path": "perfect-block-sound.mp3",
+      "hash": "74d8e893340339aa1cd0704dab1837c7",
+      "size": 18852
+    },
+    {
+      "path": "perfect-block-sound2.mp3",
+      "hash": "95df185d3262a73d8cd7ccb1f7e08ecd",
+      "size": 18852
+    },
+    {
+      "path": "perfect-block-sound_n.mp3",
+      "hash": "682e7d6208a63678b921b4384d34fa9c",
+      "size": 18852
+    },
+    {
+      "path": "pickup-gold-sound.mp3",
+      "hash": "0b1951f72e4ecc100e8381e36b39faef",
+      "size": 13209
+    },
+    {
+      "path": "pickup-item-sound.mp3",
+      "hash": "c59ba49b57fd04ed7f35823239768071",
+      "size": 13209
+    },
+    {
+      "path": "pickup-item-sound2.mp3",
+      "hash": "e5e3a1743e4e779b965d56ad891e9f0d",
+      "size": 13209
+    },
+    {
+      "path": "player-exhausted-sound.mp3",
+      "hash": "3672dae43a98c1b69385fd1179102f28",
+      "size": 37242
+    },
+    {
+      "path": "power-strike-skill-sound.mp3",
+      "hash": "814eb89bc78240f77e2ee0b6b15df25e",
+      "size": 25748
+    },
+    {
+      "path": "power-strike-skill-sound2.mp3",
+      "hash": "c92d5f74f38af0da943150786186c550",
+      "size": 25748
+    },
+    {
+      "path": "power-strike-skill-sound3.mp3",
+      "hash": "430dc61402d098ef3d1e5e16aca617c8",
+      "size": 25748
+    },
+    {
+      "path": "power-windup-strike-sound.mp3",
+      "hash": "a209a3cf0f1828f764fbfefd0725d5f5",
+      "size": 25748
+    },
+    {
+      "path": "power-windup-strike-sound2.mp3",
+      "hash": "a4cc636d584003a6aa3891694382b805",
+      "size": 25748
+    },
+    {
+      "path": "shrine.mp3",
+      "hash": "60bb90cfd54f201a40e387d8d755eb85",
+      "size": 25748
+    },
+    {
+      "path": "shrine2.mp3",
+      "hash": "b009e47e830ab4b25cacf51a18c14ac1",
+      "size": 25748
+    },
+    {
+      "path": "shrine3.mp3",
+      "hash": "761e0546a36f4c253152ce6cac6b4cf4",
+      "size": 25748
+    },
+    {
+      "path": "shrine4.mp3",
+      "hash": "a150b2152dc4496589cc101ba6c20b06",
+      "size": 25748
+    },
+    {
+      "path": "shrine5.mp3",
+      "hash": "01186e8071d56a0776d7f4a77bf64ebf",
+      "size": 25748
+    },
+    {
+      "path": "simple.ogg",
+      "hash": "6a9a2240cd15abb6a9359e7561f594e5",
+      "size": 12944
+    },
+    {
+      "path": "skill-unlock-sound.mp3",
+      "hash": "e524b1ad2f7a0e058d8bf0767270a428",
+      "size": 25748
+    },
+    {
+      "path": "skill-unlock-sound2.mp3",
+      "hash": "09a6875852efac590672a3e5af8043d3",
+      "size": 25748
+    },
+    {
+      "path": "slow-effect-sound.mp3",
+      "hash": "c1227d5ecb112cfff3a6441573fedcc5",
+      "size": 25748
+    },
+    {
+      "path": "slow-mo-on-sound.mp3",
+      "hash": "c6caf3668dace981f97a4f0ee7121519",
+      "size": 37033
+    },
+    {
+      "path": "slow-mo-on-sound2.mp3",
+      "hash": "66613e7d559e332476cd14e50658a78b",
+      "size": 37033
+    },
+    {
+      "path": "slow-mo-on-sound3.mp3",
+      "hash": "2871fc8321638d77ba1f86bdaee84d64",
+      "size": 37033
+    },
+    {
+      "path": "slow-mo-on-sound4.mp3",
+      "hash": "9b797c35e3d385a7c6960ab9f73e0a1a",
+      "size": 37033
+    },
+    {
+      "path": "sold.mp3",
+      "hash": "9a04e3733ad41d3b36eac789146b159e",
+      "size": 28256
+    },
+    {
+      "path": "spark-sound.mp3",
+      "hash": "800bf5f7eb0299bdb61a13e730456abd",
+      "size": 18852
+    },
+    {
+      "path": "spark-sound2.mp3",
+      "hash": "47fde528ce7a893ddab23d01d52e4b50",
+      "size": 18852
+    },
+    {
+      "path": "stone-hit-sound.mp3",
+      "hash": "cccc4705abd96bddc13650c16af394fc",
+      "size": 18852
+    },
+    {
+      "path": "stone-impact-sound.mp3",
+      "hash": "6236f49f69a0c2089d3efd5d378e7075",
+      "size": 18852
+    },
+    {
+      "path": "system-sound.mp3",
+      "hash": "2a2bb63c5aa0ce67624ce5837456a356",
+      "size": 18852
+    },
+    {
+      "path": "system-sound2.mp3",
+      "hash": "1f3bf0ceaa1edac73a62decd495a95eb",
+      "size": 13209
+    },
+    {
+      "path": "system-sound3.mp3",
+      "hash": "21e4093abfd24c0df963e5ee74ce336f",
+      "size": 25748
+    },
+    {
+      "path": "timed-block-sound.mp3",
+      "hash": "79eed9e3007adaa51112e1740e45c9d6",
+      "size": 25748
+    },
+    {
+      "path": "timed-block-sound2.mp3",
+      "hash": "e1ac1cdb3e15ae87be1ac7a40954b381",
+      "size": 25748
+    },
+    {
+      "path": "turtle-block-down-sound.mp3",
+      "hash": "3a30b78ac58861ff7fb5bef0a17dcd03",
+      "size": 25748
+    },
+    {
+      "path": "turtle-block-sound.mp3",
+      "hash": "d3b833008a7d0a0dc175064a6567433a",
+      "size": 25748
+    },
+    {
+      "path": "unequip.mp3",
+      "hash": "0f96073f62cf5734e2ebf4028cc4358d",
+      "size": 28256
+    },
+    {
+      "path": "unequip2.mp3",
+      "hash": "973e5ae660f6c231411d7191e655c1a5",
+      "size": 25748
+    },
+    {
+      "path": "warrior-shout-skill-sound.mp3",
+      "hash": "ad92dc06521e0dfa0f60e69b783df95a",
+      "size": 25748
+    },
+    {
+      "path": "warrior-shout-skill-sound2.mp3",
+      "hash": "04f2d2aeb12ec6085d6478e99a1b70af",
+      "size": 25748
+    }
+  ]
+}
