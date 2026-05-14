@@ -61,12 +61,13 @@ function buildManifest() {
 
   // 📦 tylko wybrane foldery
   for (const folder of ROOT_FOLDERS) {
-    files = files.concat(getAllFiles(folder));
+    //files = files.concat(getAllFiles(folder));
+    files = files.concat(getAllFiles(folder, folder.replace("./", "")));
   }
 
   const manifest = {
     version: Date.now().toString(),
-    baseUrl: "https://github.com/Poul12/rpglooter-assets/",
+    baseUrl: "https://Poul12.github.io/rpglooter-assets/",
     files: files
   };
 
