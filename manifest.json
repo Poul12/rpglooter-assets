@@ -1,27 +1,7 @@
 {
-  "version": "1778728107602",
+  "version": "1778972192679",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
-    {
-      "path": "img/.hidden",
-      "hash": "d41d8cd98f00b204e9800998ecf8427e",
-      "size": 0
-    },
-    {
-      "path": "img/backgrounds/Copilot_20260321_210258.png",
-      "hash": "19c8a59d808871b5e09beb88aebf31f3",
-      "size": 1699946
-    },
-    {
-      "path": "img/backgrounds/Copilot_20260428_101832.png",
-      "hash": "519a234d7031e54961a4157715e74150",
-      "size": 2624879
-    },
-    {
-      "path": "img/backgrounds/button-texture.png",
-      "hash": "5d014ad42c1274de853e322b7dd1b798",
-      "size": 321828
-    },
     {
       "path": "img/backgrounds/common-texture.png",
       "hash": "9a2b2219673351e1ecc3f399d4d87105",
@@ -33,19 +13,9 @@
       "size": 2824067
     },
     {
-      "path": "img/backgrounds/compare-background2.png",
-      "hash": "e1a03ab3810a0e9329dff158a2f26e47",
-      "size": 2223793
-    },
-    {
       "path": "img/backgrounds/epic-texture.png",
       "hash": "2da5aafeddcd59e874ac9d5d03f11d7f",
       "size": 986863
-    },
-    {
-      "path": "img/backgrounds/first-forest-slot-bg.png",
-      "hash": "7f00a9b62b8a60b7b14b19397a8bee1a",
-      "size": 492196
     },
     {
       "path": "img/backgrounds/forest-slot-bg.png",
@@ -56,16 +26,6 @@
       "path": "img/backgrounds/greenpass-slot-bg.png",
       "hash": "077dea27a464c2de2095a4d3f2b538c1",
       "size": 1207942
-    },
-    {
-      "path": "img/backgrounds/hp-orb-frame.png",
-      "hash": "d51a7a6aa3e922a2a5e8189c8c965197",
-      "size": 116079
-    },
-    {
-      "path": "img/backgrounds/hp-orb-frame2.png",
-      "hash": "342bd21987603064eacb1e212496fc31",
-      "size": 116416
     },
     {
       "path": "img/backgrounds/hp-orb-frame3.png",
@@ -91,21 +51,6 @@
       "path": "img/backgrounds/map-pergamin-long.png",
       "hash": "de1a77d0260a09fada7b4067021a5021",
       "size": 2485715
-    },
-    {
-      "path": "img/backgrounds/map-pergamin2.png",
-      "hash": "9d0d021f9b535e2b6081e83f9af986d8",
-      "size": 1157893
-    },
-    {
-      "path": "img/backgrounds/map-pergamin3.png",
-      "hash": "b42e9cce9cb229ef3630c4489f4e581e",
-      "size": 2433388
-    },
-    {
-      "path": "img/backgrounds/mask-fade-irregular.png",
-      "hash": "94ca2ed298a38796867c3515a49d03b7",
-      "size": 1633916
     },
     {
       "path": "img/backgrounds/other-texture.png",
@@ -163,11 +108,6 @@
       "size": 1040800
     },
     {
-      "path": "img/backgrounds/thalorn-slot-bg1.png",
-      "hash": "23f3324dcb604033f4a546efaaac7772",
-      "size": 928926
-    },
-    {
       "path": "img/backgrounds/tree-skills-bg.png",
       "hash": "a4d2e767c27dbcbb97d7902ada643f3b",
       "size": 2477812
@@ -203,29 +143,9 @@
       "size": 1040300
     },
     {
-      "path": "img/buttons/attack-off.png",
-      "hash": "69a0d0b95afffa0438eb480ba60fb5f4",
-      "size": 94516
-    },
-    {
-      "path": "img/buttons/attack-on.png",
-      "hash": "555b38582de44f1c55b742fed749782a",
-      "size": 105724
-    },
-    {
       "path": "img/buttons/close-btn.png",
       "hash": "6f39259202eb7867d4eda4d620117cdb",
       "size": 148676
-    },
-    {
-      "path": "img/buttons/close-btn2.png",
-      "hash": "ca366dfdd8e33d1df2c6ddc4b8c5e71e",
-      "size": 134166
-    },
-    {
-      "path": "img/buttons/close-btn3.png",
-      "hash": "2d5f399e8a7d6170ad2127c73161d55e",
-      "size": 67461
     },
     {
       "path": "img/buttons/firecamp-icon.png",
@@ -233,19 +153,9 @@
       "size": 104514
     },
     {
-      "path": "img/buttons/flee-btn.png",
-      "hash": "0dd351921d3162430ee797e5ff857b02",
-      "size": 158538
-    },
-    {
       "path": "img/buttons/flee-icon.png",
       "hash": "ae3cb8826cc7bbc93383c7f3c2269fe8",
       "size": 198592
-    },
-    {
-      "path": "img/buttons/mighty-attack-skill.png",
-      "hash": "73772bd739d022c99b2fbec7a9d878d8",
-      "size": 260099
     },
     {
       "path": "img/buttons/open-chest-icon.png",
@@ -256,16 +166,6 @@
       "path": "img/buttons/start-battle-icon.png",
       "hash": "f73a0db08b49846415102e9cf71d71bd",
       "size": 196557
-    },
-    {
-      "path": "img/buttons/start-combat-btn.png",
-      "hash": "d8f1c11719b752d2cac0e0fc6fdc83e3",
-      "size": 192279
-    },
-    {
-      "path": "img/buttons/start-combat-btn2.png",
-      "hash": "12fe06da18174752b0645ec98cb7cadf",
-      "size": 187670
     },
     {
       "path": "img/buttons/use-shrine-icon.png",
@@ -296,286 +196,6 @@
       "path": "img/exploring-slots/archer.png",
       "hash": "4c6ced4f1436c10c181f317301f6890c",
       "size": 503575
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_211004_edit_5513544245028485.png",
-      "hash": "68d9af23ff02997184328a9527cd7e03",
-      "size": 1377923
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_211014.png",
-      "hash": "dade3d7133ebe974509b165ac0cead94",
-      "size": 2858575
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_211237_edit_5513227514933741.png",
-      "hash": "de20745a3d26c3ce217e5fcf3178a9ac",
-      "size": 1219993
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_211251_edit_5513579980940979.png",
-      "hash": "cd7a7e059794cb9f7311cee4ca693e14",
-      "size": 1264745
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_211459_edit_5514107671715378.png",
-      "hash": "72d0ca5cc7dbd6f9b9a03a4b88640106",
-      "size": 1153876
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_211529.png",
-      "hash": "40f246b0442797a4a71bce3af10d5812",
-      "size": 2851232
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_211541.png",
-      "hash": "3a83a6b306fd3f82befd7de22ae294c9",
-      "size": 2893639
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_214405.png",
-      "hash": "37c1f57af4ac22a76ea735bc6629c4db",
-      "size": 2556002
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_214412.png",
-      "hash": "7f0731067ea155b57a5532ffd4f3e5b9",
-      "size": 2529457
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_215147.png",
-      "hash": "7b5b5b088362bb51eec03941563dd399",
-      "size": 3018397
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_220522.png",
-      "hash": "2746b43d5c3999c270e0a262e6f95b79",
-      "size": 2631971
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_220610_edit_5513514920527968.png",
-      "hash": "ec4c6b59fde04cc8544725f1037baa5d",
-      "size": 1458002
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_220754.png",
-      "hash": "9c41d7425e3cb58e2da1beef83641035",
-      "size": 3042730
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_220854.png",
-      "hash": "2877d6cc930a5efb41d3e2b5a8f744df",
-      "size": 2619520
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_220909_edit_5513415215674859.png",
-      "hash": "572c5488d66d95a16921bc8142db3864",
-      "size": 786255
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_220923_edit_5513393937969133.png",
-      "hash": "6d34f026c27d0926aea4a3b682b0c3e0",
-      "size": 698442
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_221000.png",
-      "hash": "b244887ee622de1f5f613d521ef0b116",
-      "size": 2699559
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_221029_edit_5513354356055597.png",
-      "hash": "8b028f4b2fcbb9427ffec9492ea2bdbc",
-      "size": 1209397
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251109_221044_edit_5513269179286339.png",
-      "hash": "b000b2f51f9d8ed7f94ea6b6d49b065b",
-      "size": 1130792
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251110_003509_edit_5521594977472569.png",
-      "hash": "0eef7f68b8e1af631156e3dfa682e68b",
-      "size": 991795
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251110_090019_edit_5525951275270862.png",
-      "hash": "431ca0236206edc1801ba163b931725e",
-      "size": 1343321
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251208_232826.png",
-      "hash": "707b438b8e3b4b6a2eece01a69e6865e",
-      "size": 2203994
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251209_004331_edit_6674151316934198.png",
-      "hash": "3f9801f11ee14939c8aa50935cac9f73",
-      "size": 1485233
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251209_005942_edit_6674024116860259.png",
-      "hash": "34d82fc7351f70cdf920238a6b40359f",
-      "size": 1753961
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251209_011711_edit_6674088701613374.png",
-      "hash": "aa39872aa061d5b0d7c307ad7def2572",
-      "size": 1377743
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251209_111242_edit_6683429171493720.png",
-      "hash": "30b878168fa29eea9b617f743b0f5d7f",
-      "size": 1781600
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251211_125514_edit_72279369784282.png",
-      "hash": "1e8c1be3361b870deeb470f6586d455e",
-      "size": 1942821
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251211_143448_edit_78214515738064.png",
-      "hash": "e4cdf053c11c24d63e0f0d182bbc3932",
-      "size": 1561992
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251211_235720_edit_107449163141937.png",
-      "hash": "690fb976f31174a5050362ed31dfe394",
-      "size": 971182
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251211_235840.png",
-      "hash": "e1f15054a0d03e85b1d027dd296cff20",
-      "size": 2399956
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251212_001343.png",
-      "hash": "b72b98529b4f434f1b5e8173575458d1",
-      "size": 3155442
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251215_051512_edit_259014266988601.png",
-      "hash": "732fc3ad7ff75639dad23a30f752f305",
-      "size": 776364
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20251215_051755_edit_259100732386505.png",
-      "hash": "1bf6d9d1bc4eae4111abcfd335624370",
-      "size": 1054615
-    },
-    {
-      "path": "img/exploring-slots/back up/Copilot_20260127_180923.png",
-      "hash": "ef63962305655dc0d50d6e2f58c03511",
-      "size": 1887451
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251110_182345.png",
-      "hash": "1d4752e50b065f4968b61a1631718027",
-      "size": 1261451
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251110_183229.png",
-      "hash": "4bdf1557c8585e55b23c28e79e9c441e",
-      "size": 1160490
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251203_182204_edit_6454724525285910.png",
-      "hash": "26dc822d0dc42f41cbabc5c399b3dfd7",
-      "size": 1632934
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251208_233013.png",
-      "hash": "34bc837b03c00782e6b75af408b2a93f",
-      "size": 1332731
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251209_112338.png",
-      "hash": "f4a4fabfdbac9ae5d3a6ab6645415fc2",
-      "size": 1434577
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251211_114039.png",
-      "hash": "fbef54c6c890a36cc708720a4a335ff8",
-      "size": 1735325
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251211_123341.png",
-      "hash": "518c4921f48e82dee03ce491777a8724",
-      "size": 1920628
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251211_123506.png",
-      "hash": "94e918615aed44df7928640157e5ae0c",
-      "size": 2087277
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251212_001535.png",
-      "hash": "709ecf5dfadb7a49bb69e71b6904127e",
-      "size": 923589
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251212_002401.png",
-      "hash": "b7e535ae7fc362ec9065296949e2cbb4",
-      "size": 1463687
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251212_180208.png",
-      "hash": "dbf64775032b2a6a6635b6f0fffb9397",
-      "size": 954835
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251215_093552.png",
-      "hash": "b8c460b38b2876c9560c62567613b929",
-      "size": 1577107
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20251215_093756.png",
-      "hash": "62940114eae2fbda9b254303083727bf",
-      "size": 1195872
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20260125_104815.png",
-      "hash": "b6121d6a54e798c7f82dffe07bb9fe74",
-      "size": 924983
-    },
-    {
-      "path": "img/exploring-slots/back up/IMG_20260508_211054.png",
-      "hash": "b456b7effdfc920b30800bce345040c0",
-      "size": 2417507
-    },
-    {
-      "path": "img/exploring-slots/back up/Untitled6_20251212000854.png",
-      "hash": "7f8128e844a4c6d6776afe32878c752f",
-      "size": 1444045
-    },
-    {
-      "path": "img/exploring-slots/back up/bandit-cheftain.png",
-      "hash": "6840aa78380db5adcb0c7dd67de74650",
-      "size": 1910487
-    },
-    {
-      "path": "img/exploring-slots/back up/bandit1_copy_921x1382.png",
-      "hash": "aec802ff6da87ee5b4ed4e18101ce97a",
-      "size": 489536
-    },
-    {
-      "path": "img/exploring-slots/back up/runestone-guardian.png",
-      "hash": "d68aed8bf375817a225480dc6417961e",
-      "size": 2544614
-    },
-    {
-      "path": "img/exploring-slots/back up/runestone-guardian2.png",
-      "hash": "c2119f23b957c2d694e5564ad233ddda",
-      "size": 2259169
-    },
-    {
-      "path": "img/exploring-slots/back up/shrine-life.png",
-      "hash": "142c78263434e988ffb8b746a7641f88",
-      "size": 1609500
-    },
-    {
-      "path": "img/exploring-slots/back up/thief-cheftain.png",
-      "hash": "b4621ae21753500296d0990390ccbfa6",
-      "size": 1312900
     },
     {
       "path": "img/exploring-slots/bandit-cheftain.png",
@@ -638,11 +258,6 @@
       "size": 51380
     },
     {
-      "path": "img/exploring-slots/cave-giant-boss.png",
-      "hash": "9b2e68ffb0b82ec2311fddbdd204dddd",
-      "size": 828959
-    },
-    {
       "path": "img/exploring-slots/crocodile.png",
       "hash": "29712e067655235b53f62af01049f844",
       "size": 401418
@@ -676,11 +291,6 @@
       "path": "img/exploring-slots/elwen-elmaris-npc.png",
       "hash": "4869b2637e797accef172f675ddcc0a8",
       "size": 778654
-    },
-    {
-      "path": "img/exploring-slots/elwen-elmaris-npc2.png",
-      "hash": "d9d58d38929a268c77fd23a92beaaddf",
-      "size": 732905
     },
     {
       "path": "img/exploring-slots/erydne-greenpass-npc.png",
@@ -868,29 +478,9 @@
       "size": 626708
     },
     {
-      "path": "img/exploring-slots/rogue4.jpg",
-      "hash": "728c35929f638109a42a3fb185949319",
-      "size": 595945
-    },
-    {
-      "path": "img/exploring-slots/rogue5.jpg",
-      "hash": "bb52e65837d929ec3a02b3cc1609ee74",
-      "size": 457184
-    },
-    {
       "path": "img/exploring-slots/runestone-guardian.png",
       "hash": "5362f86d660213185a76cd2f515cb283",
       "size": 1556997
-    },
-    {
-      "path": "img/exploring-slots/runestone-guardian2.png",
-      "hash": "b4fbf46c0069423943e596bd8a7b8de0",
-      "size": 489209
-    },
-    {
-      "path": "img/exploring-slots/runestone-guardian3.png",
-      "hash": "7d82179941d24ca3fc71fc65bf7c8a2f",
-      "size": 497330
     },
     {
       "path": "img/exploring-slots/runestone-guardian5.png",
@@ -1008,24 +598,9 @@
       "size": 757994
     },
     {
-      "path": "img/exploring-slots/wolf-alpha.png",
-      "hash": "b244887ee622de1f5f613d521ef0b116",
-      "size": 2699559
-    },
-    {
       "path": "img/exploring-slots/wood-chest.png",
       "hash": "597cd86979f5c2a17bd97ac75849c2d5",
       "size": 314527
-    },
-    {
-      "path": "img/frames/Copilot_20260427_181302.png",
-      "hash": "05b206edacc97e08f1b29301f980bf59",
-      "size": 749053
-    },
-    {
-      "path": "img/frames/Copilot_20260427_184332.png",
-      "hash": "3f4d9b0680d06c4010c8f4604d1dd113",
-      "size": 636107
     },
     {
       "path": "img/frames/explore-boss-frame.png",
@@ -1073,94 +648,14 @@
       "size": 81411
     },
     {
-      "path": "img/frames/item-bottom.png",
-      "hash": "a403158a2e7078fc61f89e4af2d72747",
-      "size": 380663
-    },
-    {
-      "path": "img/frames/item-frame.png",
-      "hash": "54ba07178bb028cdf6c8f49f42c810f3",
-      "size": 2109001
-    },
-    {
-      "path": "img/frames/item-frame2.png",
-      "hash": "bde7ab9900c0d28a145480b656594077",
-      "size": 2174339
-    },
-    {
-      "path": "img/frames/item-middle.png",
-      "hash": "843a0a7ca4acb40d44a73e3ad737aab8",
-      "size": 573474
-    },
-    {
-      "path": "img/frames/item-top.png",
-      "hash": "097cfb1ca3c3b27a6919fb2ce63da465",
-      "size": 432113
-    },
-    {
       "path": "img/frames/other-frame.png",
       "hash": "c6d6f0d2421f954ef65bdadcdcef2d1b",
       "size": 157554
     },
     {
-      "path": "img/frames/region-frame.png",
-      "hash": "cb7bd5f2c5b4c5ecc03d2a0edc151c5a",
-      "size": 1614548
-    },
-    {
       "path": "img/frames/world-map-frame.png",
       "hash": "4862358ef13bde72471c47c520b8dbdf",
       "size": 541113
-    },
-    {
-      "path": "img/icons/Copilot_20251006_095031.png",
-      "hash": "b26004b5b2529a6b2099807626ef48d1",
-      "size": 117647
-    },
-    {
-      "path": "img/icons/Copilot_20251122_140846.png",
-      "hash": "a771ce6400a1a89ef931faa70cf433c0",
-      "size": 109884
-    },
-    {
-      "path": "img/icons/Copilot_20260202_234158.png",
-      "hash": "b42b7f7896e646e65043c9e7f87c18f5",
-      "size": 145270
-    },
-    {
-      "path": "img/icons/Copilot_20260203_052449.png",
-      "hash": "6e6fc719a92a6797a3db8c784c839c02",
-      "size": 192918
-    },
-    {
-      "path": "img/icons/Copilot_20260203_154800.png",
-      "hash": "89ef54fb75cc115fa0b257b73fde77c5",
-      "size": 173722
-    },
-    {
-      "path": "img/icons/Copilot_20260311_192900.png",
-      "hash": "3c00c3f5533a03ea6a4c42681f711c96",
-      "size": 92878
-    },
-    {
-      "path": "img/icons/Copilot_20260322_104341.png",
-      "hash": "f4eb16558915171f8c6404e32efc2e63",
-      "size": 113612
-    },
-    {
-      "path": "img/icons/Copilot_20260322_105045.png",
-      "hash": "e1b1e85ee93554aace98b5c2be923c87",
-      "size": 95477
-    },
-    {
-      "path": "img/icons/Copilot_20260323_155457_edit_4493922740575728.png",
-      "hash": "a5b39a80444a305cdca350ebdd5e869a",
-      "size": 220543
-    },
-    {
-      "path": "img/icons/Copilot_20260323_163405_edit_4493831718874701.png",
-      "hash": "0c2b0fc6d97ef1006a16fd7be420db86",
-      "size": 235231
     },
     {
       "path": "img/icons/Copilot_20260401_165250.png",
@@ -1171,16 +666,6 @@
       "path": "img/icons/Copilot_20260421_174231.png",
       "hash": "5bd9bc81472454e3c0dcc17ccef321e4",
       "size": 350367
-    },
-    {
-      "path": "img/icons/Copilot_20260422_160806.png",
-      "hash": "f9d039b555bcde597d556f39a1df84b5",
-      "size": 423030
-    },
-    {
-      "path": "img/icons/Copilot_20260508_200345.png",
-      "hash": "392d1014536fbb1a12f5e3d71d94aa92",
-      "size": 1357864
     },
     {
       "path": "img/icons/armor-break-icon.png",
@@ -1533,19 +1018,9 @@
       "size": 184521
     },
     {
-      "path": "img/icons/language_flag_en_icon.png",
-      "hash": "eab57fc6894a4d997e6983a270afc79c",
-      "size": 429069
-    },
-    {
       "path": "img/icons/language_flag_en_icon2.png",
       "hash": "1e319d0352ff4f8c150834386d194265",
       "size": 2168316
-    },
-    {
-      "path": "img/icons/language_flag_pl_icon.png",
-      "hash": "abacee1033f42a8337851448bdd56f54",
-      "size": 411018
     },
     {
       "path": "img/icons/language_flag_pl_icon2.png",
@@ -1561,21 +1036,6 @@
       "path": "img/icons/levelup-title-icon.png",
       "hash": "e39c744d0e953ef401c2b5f4bfd1f0fb",
       "size": 293304
-    },
-    {
-      "path": "img/icons/levelup-title-icon2.png",
-      "hash": "193fb893666c6889808699f1cd894920",
-      "size": 236194
-    },
-    {
-      "path": "img/icons/levelup-title-icon3.png",
-      "hash": "bf37af4562fd010a8191c035b577a04c",
-      "size": 190586
-    },
-    {
-      "path": "img/icons/levelup-title-icon4.png",
-      "hash": "0a656b70ec8220946cdff89429225c1e",
-      "size": 178345
     },
     {
       "path": "img/icons/longevity-skill-icon.png",
@@ -1608,11 +1068,6 @@
       "size": 392023
     },
     {
-      "path": "img/icons/menu-battle-icon2.png",
-      "hash": "6ab88c8c95b7a0ccb41c65077fce6170",
-      "size": 138165
-    },
-    {
       "path": "img/icons/menu-battle-icon3.png",
       "hash": "0a18798c310a99044d673e38cc1df62b",
       "size": 248538
@@ -1633,34 +1088,14 @@
       "size": 394453
     },
     {
-      "path": "img/icons/menu-character-icon2.png",
-      "hash": "f7dc7c0eaba60fa5a54b17f3a645fca2",
-      "size": 133660
-    },
-    {
-      "path": "img/icons/menu-character-icon3.png",
-      "hash": "baa4414f7d5e60ddcf3902a3d2c38107",
-      "size": 426745
-    },
-    {
       "path": "img/icons/menu-def-icon.png",
       "hash": "7d674caaf526da558b5ea7a8688ca8c1",
       "size": 310617
     },
     {
-      "path": "img/icons/menu-def-icon2.png",
-      "hash": "7d2e2d2a7705845e086a31efb8e669bf",
-      "size": 179686
-    },
-    {
       "path": "img/icons/menu-dmg-icon.png",
       "hash": "98169aa31de0945c9314cb1ff5b0984b",
       "size": 372874
-    },
-    {
-      "path": "img/icons/menu-dmg-icon2.png",
-      "hash": "d360829dba83b0def4e9cb0a142a1e3f",
-      "size": 98415
     },
     {
       "path": "img/icons/menu-energy-icon.png",
@@ -1673,29 +1108,9 @@
       "size": 358060
     },
     {
-      "path": "img/icons/menu-equipment-icon2.png",
-      "hash": "bbd2bb595adcb5ac3cc0dd0a87e3866c",
-      "size": 147721
-    },
-    {
-      "path": "img/icons/menu-equipment-icon3.png",
-      "hash": "b2ded23b2279bebc1d4dbbcbf276c862",
-      "size": 439301
-    },
-    {
-      "path": "img/icons/menu-gold-icon.png",
-      "hash": "b4b91e1a4dbe74246ec1bdd2594524af",
-      "size": 214529
-    },
-    {
       "path": "img/icons/menu-hp-icon.png",
       "hash": "113393ddaee27960ad73dba653957495",
       "size": 357512
-    },
-    {
-      "path": "img/icons/menu-hp-icon2.png",
-      "hash": "13f4cd4f418635506c9c5ed1b935c1fa",
-      "size": 106654
     },
     {
       "path": "img/icons/menu-market-icon.png",
@@ -1703,29 +1118,9 @@
       "size": 478067
     },
     {
-      "path": "img/icons/menu-market-icon2.png",
-      "hash": "430b2b0ed3cb2635a68037ad0398bd4c",
-      "size": 100186
-    },
-    {
       "path": "img/icons/menu-settings-icon.png",
       "hash": "a2d139e51d9e078888452ab3c059cc83",
       "size": 386192
-    },
-    {
-      "path": "img/icons/menu-settings-icon2.png",
-      "hash": "e77e00e72fd26847899cf4538bf56565",
-      "size": 119740
-    },
-    {
-      "path": "img/icons/menu-settings-icon3.png",
-      "hash": "4f86e3324503b19e338c637be25afa6b",
-      "size": 447142
-    },
-    {
-      "path": "img/icons/menu-shard-icon.png",
-      "hash": "b3606ba83bb0a80c78ef2b6e3fd20e19",
-      "size": 195370
     },
     {
       "path": "img/icons/menu-skills-icon-update.png",
@@ -1738,29 +1133,9 @@
       "size": 394321
     },
     {
-      "path": "img/icons/menu-skills-icon2.png",
-      "hash": "760ce7adb1c060a669fd62b2a6331cb9",
-      "size": 135725
-    },
-    {
-      "path": "img/icons/menu-skills-icon3.png",
-      "hash": "db0276edb944611ffbfed80d75b1d795",
-      "size": 498172
-    },
-    {
       "path": "img/icons/menu-world-map-icon.png",
       "hash": "f548f1286142bc532404ba4ea4228250",
       "size": 429830
-    },
-    {
-      "path": "img/icons/menu-world-map-icon2.png",
-      "hash": "a38aac0dae2a9976bc1f66e9ce0f0973",
-      "size": 149296
-    },
-    {
-      "path": "img/icons/menu-world-map-icon3.png",
-      "hash": "e3ed4c3fc7f5cd6a9e3003da90a93972",
-      "size": 508907
     },
     {
       "path": "img/icons/ok-icon.png",
@@ -1793,11 +1168,6 @@
       "size": 196682
     },
     {
-      "path": "img/icons/poise-mini-icon.png",
-      "hash": "be7e81a32e6c51d750dcbadeb8eb82e6",
-      "size": 149457
-    },
-    {
       "path": "img/icons/powerful-attack-skill-icon.png",
       "hash": "adbc217f92d2476e01cfebabfdf2b02c",
       "size": 157442
@@ -1816,21 +1186,6 @@
       "path": "img/icons/quest-book-icon.png",
       "hash": "599588f717130392a172587ef77e7a27",
       "size": 354238
-    },
-    {
-      "path": "img/icons/quest-book-icon2.png",
-      "hash": "3a55cf325e2e7a63e1203cac95f82c27",
-      "size": 802808
-    },
-    {
-      "path": "img/icons/quest-book-icon3.png",
-      "hash": "caabd591f4bab20f8eb455af7bf472dd",
-      "size": 140693
-    },
-    {
-      "path": "img/icons/quest-book-icon4.png",
-      "hash": "6692a8864592d367c175e9952d58182b",
-      "size": 58572
     },
     {
       "path": "img/icons/reward-separator-icon-en.png",
@@ -1886,11 +1241,6 @@
       "path": "img/icons/show-level-names-icon.png",
       "hash": "4f1bc83547b14c5e1fa7f78b9a0ddce9",
       "size": 257230
-    },
-    {
-      "path": "img/icons/shrines-pack.png",
-      "hash": "61b1b7d1512ee930042c30e402996cb1",
-      "size": 2313096
     },
     {
       "path": "img/icons/skill-cooldown-icon.png",
@@ -1978,16 +1328,6 @@
       "size": 107527
     },
     {
-      "path": "img/icons/volume-mute-icon.png",
-      "hash": "8fe5934d4c7b106d27121e6fb7a440ae",
-      "size": 43582
-    },
-    {
-      "path": "img/icons/volume-on-icon.png",
-      "hash": "48dbc16269d71244403c1c01f0eb59b5",
-      "size": 47723
-    },
-    {
       "path": "img/icons/warrior-shout-skill-icon.png",
       "hash": "40c16b6bbd1806834f13cd7b7bf9b95f",
       "size": 150279
@@ -2053,24 +1393,9 @@
       "size": 107887
     },
     {
-      "path": "img/items/Copilot_20260205_130915.png",
-      "hash": "b91a6539730706159b3a00f55d201c55",
-      "size": 252194
-    },
-    {
-      "path": "img/items/Copilot_20260205_140036.png",
-      "hash": "961926cac9835e62f2cce9c8feba159a",
-      "size": 102427
-    },
-    {
       "path": "img/items/Copilot_20260205_140245.png",
       "hash": "ec01e8dd125582401392be471d501786",
       "size": 109984
-    },
-    {
-      "path": "img/items/Copilot_20260404_081908.png",
-      "hash": "0213b74d017424c9cd01150ccd4b3187",
-      "size": 2281209
     },
     {
       "path": "img/items/IMG_20251028_180149.png",
@@ -2508,21 +1833,6 @@
       "size": 104474
     },
     {
-      "path": "img/items/small-empty-potion.png",
-      "hash": "3f8da35a715e2a7f287df84bb0a5b70a",
-      "size": 79680
-    },
-    {
-      "path": "img/items/small-heal-potion.png",
-      "hash": "13a755d867678baec051ceffc1cfe51b",
-      "size": 109340
-    },
-    {
-      "path": "img/items/small-heal-potion2.png",
-      "hash": "ebfe55628ffc05931c6e4af77843c773",
-      "size": 558671
-    },
-    {
       "path": "img/items/spear.png",
       "hash": "68c66405dc33a10d06281922b44b4bd4",
       "size": 320129
@@ -2548,24 +1858,9 @@
       "size": 1040854
     },
     {
-      "path": "img/loadings/elmaris-port-loading2.png",
-      "hash": "b890f5960573b919c031b0bc3f6d81c6",
-      "size": 1027955
-    },
-    {
-      "path": "img/loadings/elmaris-port-loading3.png",
-      "hash": "4f8e940e93736b5f25d771de882b00bd",
-      "size": 1074807
-    },
-    {
       "path": "img/loadings/green-pass-loading.png",
       "hash": "40b64befc67b1bd7fbdf0ce45217c386",
       "size": 900963
-    },
-    {
-      "path": "img/loadings/hero-story-loading.png",
-      "hash": "79493065df11a674e4cdf795ce692300",
-      "size": 3004427
     },
     {
       "path": "img/loadings/land-story-loading.png",
@@ -2576,11 +1871,6 @@
       "path": "img/loadings/lirwen-castle-loading.png",
       "hash": "e3d2bc94adb9c5effcc978216b205bbb",
       "size": 1182812
-    },
-    {
-      "path": "img/loadings/lirwen-castle-loading2.png",
-      "hash": "cec39f621a84d77f68a956ec2a58879a",
-      "size": 1216761
     },
     {
       "path": "img/loadings/port-story-loading.png",
@@ -2608,101 +1898,6 @@
       "size": 1148206
     },
     {
-      "path": "img/logo/background.png",
-      "hash": "370899dd617177f0bf7f29855d905b75",
-      "size": 475403
-    },
-    {
-      "path": "img/logo/game-logo.png",
-      "hash": "0eb0344fefa6fc5882941d2517a792c1",
-      "size": 382366
-    },
-    {
-      "path": "img/logo/game-logo2.png",
-      "hash": "1ff79dbfd866195edfb6e55ed64d28d7",
-      "size": 347836
-    },
-    {
-      "path": "img/logo/game-logo3.png",
-      "hash": "2996fd0322c85a5c863d14f604153e2f",
-      "size": 330705
-    },
-    {
-      "path": "img/logo/game-logo4.png",
-      "hash": "78f3629c685b9f4cb5c6e70e24eb1444",
-      "size": 458942
-    },
-    {
-      "path": "img/logo/game-logo5.png",
-      "hash": "6de90cae08c9183f1262f7512501f8ba",
-      "size": 495848
-    },
-    {
-      "path": "img/logo/game-logo6.png",
-      "hash": "524039f18de861889f305b764c453b18",
-      "size": 523924
-    },
-    {
-      "path": "img/logo/mini-logo.png",
-      "hash": "751e75d91ebfb16fc4b6d2c2761068f4",
-      "size": 224360
-    },
-    {
-      "path": "img/logo/mini-logo2.png",
-      "hash": "bb2e5912b40ef4e65a53febcdbe41c12",
-      "size": 225888
-    },
-    {
-      "path": "img/logo/reflect.png",
-      "hash": "730ca5f944497b8d8c9f55ee3182975e",
-      "size": 212055
-    },
-    {
-      "path": "img/logo/title.png",
-      "hash": "68e0dfc6bf03775e1af2dabaf4ee17fa",
-      "size": 305003
-    },
-    {
-      "path": "img/maps/east-map.png",
-      "hash": "9cc1f8ed8d00f96716153bce75d2601e",
-      "size": 2429008
-    },
-    {
-      "path": "img/maps/island-map.png",
-      "hash": "04386b29139181e4ad84b962d4f1db2e",
-      "size": 1522967
-    },
-    {
-      "path": "img/maps/south-map.png",
-      "hash": "09670d860a6529d85caba2a5ba831b5c",
-      "size": 895558
-    },
-    {
-      "path": "img/maps/south-map2.jpg",
-      "hash": "6fca80b9dfc06bd814d1e7c3302142dc",
-      "size": 317056
-    },
-    {
-      "path": "img/maps/south-map3.png",
-      "hash": "6e20cdc117966b49aa310569009f5871",
-      "size": 2444208
-    },
-    {
-      "path": "img/maps/south-map4.png",
-      "hash": "384ea709ec37d82c59313a4a1511db54",
-      "size": 1279277
-    },
-    {
-      "path": "img/maps/west-map.png",
-      "hash": "f7e576e04044da7c7ab8f379a70a9464",
-      "size": 688249
-    },
-    {
-      "path": "img/maps/west-map2.png",
-      "hash": "9fa9d36ed0c1273c8798427d14e84852",
-      "size": 2131115
-    },
-    {
       "path": "img/maps/west-map3.png",
       "hash": "831f8f33f27b5cee9e44983dd8bab41c",
       "size": 2001088
@@ -2711,16 +1906,6 @@
       "path": "img/maps/world-map.png",
       "hash": "03d6c9ff3516cc8c2a02bcdb70c399fa",
       "size": 3146124
-    },
-    {
-      "path": "img/vfx/Copilot_20260401_200543.png",
-      "hash": "20a3e480fe9d58d4a9cc66b22cc0a45c",
-      "size": 227233
-    },
-    {
-      "path": "img/vfx/Copilot_20260401_202159.png",
-      "hash": "611bfd7ca7782ff613ec05031987b80e",
-      "size": 51453
     },
     {
       "path": "img/vfx/bleed.png",
@@ -2733,44 +1918,14 @@
       "size": 360647
     },
     {
-      "path": "img/vfx/charge2.png",
-      "hash": "4b4cf730deac183cb47e3ffcb0429cc6",
-      "size": 434733
-    },
-    {
-      "path": "img/vfx/charge3.png",
-      "hash": "28542a00642e9b3e7b1b6f41ff07fe93",
-      "size": 161361
-    },
-    {
       "path": "img/vfx/double-attack-left.png",
       "hash": "187da01d61b22aa86938b820cd75a1bf",
       "size": 180278
     },
     {
-      "path": "img/vfx/double-attack-left2.png",
-      "hash": "d9a9b921b52f5b49e915f8011ff730c2",
-      "size": 208956
-    },
-    {
-      "path": "img/vfx/double-attack-left3.png",
-      "hash": "c81e6fc3cbc04e44eb0e4a36f2f4fe8f",
-      "size": 207687
-    },
-    {
       "path": "img/vfx/double-attack-right.png",
       "hash": "c89c7f1c096283b90e690f3aea3000e9",
       "size": 184516
-    },
-    {
-      "path": "img/vfx/double-attack-right2.png",
-      "hash": "d85f9e716d8e0587fb319651a3dcb9ec",
-      "size": 209379
-    },
-    {
-      "path": "img/vfx/double-attack-right3.png",
-      "hash": "2ed3d0b1cf767a5980bce1b66bbb1cd8",
-      "size": 212734
     },
     {
       "path": "img/vfx/hit.png",
@@ -2791,11 +1946,6 @@
       "path": "img/vfx/jump.png",
       "hash": "e8f828a99a875a97a4ed4f16bd67138e",
       "size": 118910
-    },
-    {
-      "path": "img/vfx/jump2.png",
-      "hash": "127eb4a34f05565c43c6297c2e0e96ad",
-      "size": 260646
     },
     {
       "path": "img/vfx/shockwave.png",
