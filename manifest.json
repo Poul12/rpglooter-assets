@@ -1,7 +1,12 @@
 {
-  "version": "1778972192679",
+  "version": "1779123316658",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
+    {
+      "path": "img/.hidden",
+      "hash": "d41d8cd98f00b204e9800998ecf8427e",
+      "size": 0
+    },
     {
       "path": "img/backgrounds/common-texture.png",
       "hash": "9a2b2219673351e1ecc3f399d4d87105",
@@ -256,6 +261,11 @@
       "path": "img/exploring-slots/campfire.png",
       "hash": "7edcabe882f31960b569f0529e15a398",
       "size": 51380
+    },
+    {
+      "path": "img/exploring-slots/cave-giant-boss.png",
+      "hash": "9b2e68ffb0b82ec2311fddbdd204dddd",
+      "size": 828959
     },
     {
       "path": "img/exploring-slots/crocodile.png",
@@ -1168,6 +1178,11 @@
       "size": 196682
     },
     {
+      "path": "img/icons/poise-mini-icon.png",
+      "hash": "be7e81a32e6c51d750dcbadeb8eb82e6",
+      "size": 149457
+    },
+    {
       "path": "img/icons/powerful-attack-skill-icon.png",
       "hash": "adbc217f92d2476e01cfebabfdf2b02c",
       "size": 157442
@@ -1831,6 +1846,11 @@
       "path": "img/items/silver-key.png",
       "hash": "f8c1182f4c378ecb3dbdd7d87bb35c8e",
       "size": 104474
+    },
+    {
+      "path": "img/items/small-heal-potion.png",
+      "hash": "13a755d867678baec051ceffc1cfe51b",
+      "size": 109340
     },
     {
       "path": "img/items/spear.png",
