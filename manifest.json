@@ -1,5 +1,5 @@
 {
-  "version": "1779123316658",
+  "version": "1779276157439",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -1221,6 +1221,11 @@
       "path": "img/icons/right-hand-placeholder.png",
       "hash": "ce0eb166cfbe088eb6dc820b473c2624",
       "size": 148377
+    },
+    {
+      "path": "img/icons/segment-boss-icon.png",
+      "hash": "7ce5f02b1470a0c69250e874e08136a5",
+      "size": 191782
     },
     {
       "path": "img/icons/segment-chest-icon.png",
