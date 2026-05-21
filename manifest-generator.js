@@ -3,7 +3,8 @@ const path = require("path");
 const crypto = require("crypto");
 
 // 🎯 TYLKO TE FOLDERY SĄ ASSETAMI GRY
-const ROOT_FOLDERS = ["./img", "./sounds"];
+const ROOT_FOLDERS = ["./img", "./sounds", "./live"];
+
 
 // 🚫 CO IGNORUJEMY GLOBALNIE
 const IGNORE_DIRS = new Set([

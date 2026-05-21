@@ -1,5 +1,5 @@
 {
-  "version": "1779276157439",
+  "version": "1779358664169",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -2526,6 +2526,156 @@
       "path": "sounds/warrior-shout-skill-sound2.mp3",
       "hash": "04f2d2aeb12ec6085d6478e99a1b70af",
       "size": 25748
+    },
+    {
+      "path": "live/js/battle.js",
+      "hash": "d0d513f0a95dc0e5a32d5e563139207f",
+      "size": 47583
+    },
+    {
+      "path": "live/js/character.js",
+      "hash": "e586c0c09b6e8785ed73683e05601f93",
+      "size": 32341
+    },
+    {
+      "path": "live/js/combat-animations.js",
+      "hash": "9e9a081259faf08fe0d09f7e0c40a4ad",
+      "size": 42407
+    },
+    {
+      "path": "live/js/combat-utility.js",
+      "hash": "0b5840c830dd7e7447e3687b332ac610",
+      "size": 50765
+    },
+    {
+      "path": "live/js/combat.js",
+      "hash": "31327c9a1c0d5162896819e3588eba1b",
+      "size": 64644
+    },
+    {
+      "path": "live/js/enemy-database.js",
+      "hash": "da2a512bceca76caa17cb9368f3709f6",
+      "size": 7430
+    },
+    {
+      "path": "live/js/enemy.js",
+      "hash": "b5604a4d31fd404b1a8754d9f7398eb6",
+      "size": 36798
+    },
+    {
+      "path": "live/js/expedition-config.js",
+      "hash": "bd5c88205f213164d46efcddcf73c0ce",
+      "size": 5863
+    },
+    {
+      "path": "live/js/exploring-utility.js",
+      "hash": "490cce870ba41d5ac9927ffdc877ed1f",
+      "size": 23720
+    },
+    {
+      "path": "live/js/inventory.js",
+      "hash": "3804e1a4ff4bae5e81d71ecfd1bd7cc0",
+      "size": 43736
+    },
+    {
+      "path": "live/js/item-utility.js",
+      "hash": "43095fe8188979f955429ee289872955",
+      "size": 16624
+    },
+    {
+      "path": "live/js/item.js",
+      "hash": "cf6fc96eb0640301b688f69b077889dc",
+      "size": 45550
+    },
+    {
+      "path": "live/js/localization-dialogues.js",
+      "hash": "2eaea2c91eecd66ba6e4ab72314196d4",
+      "size": 23370
+    },
+    {
+      "path": "live/js/localization-items.js",
+      "hash": "505201881b0f60b166e3b23e4e9e8fae",
+      "size": 23977
+    },
+    {
+      "path": "live/js/localization-locations.js",
+      "hash": "d6754a59e84a7a09de2172a12a8ce0ee",
+      "size": 5618
+    },
+    {
+      "path": "live/js/localization-quests.js",
+      "hash": "9a54174149f2224aa0af55de9f536142",
+      "size": 63030
+    },
+    {
+      "path": "live/js/localization-skills.js",
+      "hash": "0e1aa0c0ec1f5f42582e6041ef6f0643",
+      "size": 9093
+    },
+    {
+      "path": "live/js/localization-tooltips.js",
+      "hash": "e484c80857483e9486f10a27ca0df223",
+      "size": 23559
+    },
+    {
+      "path": "live/js/location.js",
+      "hash": "6a54b400ad8f927cc677781836582ce2",
+      "size": 48982
+    },
+    {
+      "path": "live/js/map.js",
+      "hash": "78985c61bd389f05e64d2d25cec8396c",
+      "size": 34655
+    },
+    {
+      "path": "live/js/quests-assets.js",
+      "hash": "707121a40612b526e1a98ad9a8182c10",
+      "size": 11640
+    },
+    {
+      "path": "live/js/quests-database.js",
+      "hash": "48b19483f9351104e97fe4b85865646d",
+      "size": 20003
+    },
+    {
+      "path": "live/js/quests.js",
+      "hash": "fc3597f4432e2a6506a30a17dbd9f14c",
+      "size": 37840
+    },
+    {
+      "path": "live/js/shrine-chest-database.js",
+      "hash": "e8429bb3935b39a99834fb61de4638df",
+      "size": 5058
+    },
+    {
+      "path": "live/js/shrine-chest.js",
+      "hash": "45d3d0de9172c4e6dfd0eb8d04172ac0",
+      "size": 30950
+    },
+    {
+      "path": "live/js/skills-combat.js",
+      "hash": "c5725fc330658a1538a39b944b1e923d",
+      "size": 41379
+    },
+    {
+      "path": "live/js/skills-database.js",
+      "hash": "6377bf0c2d844a4c006f707d493d4ef1",
+      "size": 18214
+    },
+    {
+      "path": "live/js/skills.js",
+      "hash": "c2188444817c0f3833cee367e9080631",
+      "size": 43509
+    },
+    {
+      "path": "live/js/store-items.js",
+      "hash": "57e203f7e5c645007795a637f26ded10",
+      "size": 7860
+    },
+    {
+      "path": "live/js/store.js",
+      "hash": "27aa096fcf16d662a786022d2ca8ad42",
+      "size": 38156
     }
   ]
 }
