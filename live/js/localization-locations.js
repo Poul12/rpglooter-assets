@@ -1,6 +1,6 @@
 Object.assign(LANG.en, {
     
-  elmaris_port: "Elmaris Port",
+  elmaris_port: "Elmaris Portcik",
   thalorn_village: "Thalorn Village",
   reapers_road: "Reaper's Road",
   lirwen_fort: "Lirwen Fort",

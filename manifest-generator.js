@@ -45,10 +45,16 @@ function getAllFiles(dir, base = "") {
     } else {
       const buffer = fs.readFileSync(fullPath);
 
+      const type =
+        relativePath.startsWith("live/")
+        ? "code"
+        : "asset";
+      
       results.push({
         path: relativePath,
         hash: getHash(buffer),
-        size: stat.size
+        size: stat.size,
+        type
       });
     }
   }
