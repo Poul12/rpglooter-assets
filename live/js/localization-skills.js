@@ -5,7 +5,7 @@
 
 Object.assign(LANG.en, {
     
-  focus_skill_name: "Focusiczek",
+  focus_skill_name: "Focus",
   focus_skill_desc: "You sharpen your focus, reading the flow of battle. Time slows for {slowmo-duration}, giving you the edge to act with perfect precision.",
 
   power_attack_skill_name: "Power Attack",
