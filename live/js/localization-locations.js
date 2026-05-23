@@ -1,6 +1,6 @@
 Object.assign(LANG.en, {
     
-  elmaris_port: "Elmaris Portcik",
+  elmaris_port: "Elmaris Port",
   thalorn_village: "Thalorn Village",
   reapers_road: "Reaper's Road",
   lirwen_fort: "Lirwen Fort",
@@ -78,13 +78,6 @@ Object.assign(LANG.en, {
   enemy_queen_spider_miniboss: "Spider Queen",
 
   enemy_boss: "Cave Giant",
-    
-  
-  intro_text_scene1: "The voyage was meant to be peaceful. But when night fell, the sky was torn apart by the fury of the storm. The wind forced the ship off course, and the waves swallowed the familiar route.",
-  intro_text_scene2: "At dawn, the storm finally passed. The battered ship drifted into a foreign harbor that did not exist on your maps. They called it Elmaris.",
-  intro_text_scene3: "You quickly learned that you had arrived in Rivenfell. A harsh land of ancient forts, wild forests, and forgotten roads. People here whispered about strange signs in the north.",
-  intro_text_scene4: "You were supposed to leave with the next tide. But when you looked toward the northern mountains, you felt a strange calling. As if fate had brought you here for a reason.",
-  
 
   unknown_location: "Unknown Location",
 
@@ -174,13 +167,6 @@ Object.assign(LANG.pl, {
 
   enemy_boss: "Olbrzym z Jaskini",
   
-  
-  intro_text_scene1: "Rejs miał być spokojny. Lecz gdy zapadła noc, niebo rozdarł gniew żywiołu. Wiatr zmienił kurs statku, a fale pochłonęły znany szlak.",
-  intro_text_scene2: "O świcie burza ustała. Wyniszczony okręt dopłynął do obcego portu, którego nie było na twoich mapach. Nazywano go Elmaris.",
-  intro_text_scene3: "Szybko dowiedziałeś się, że trafiłeś do Rivenfell. Surowej ziemi starych fortów, dzikich lasów i zapomnianych dróg. Ludzie mówili tu szeptem o dziwnych znakach na północy.",
-  intro_text_scene4: "Miałeś odpłynąć wraz z następnym przypływem. Lecz gdy spojrzałeś ku północnym górom, poczułeś dziwne wezwanie. Jakby los sprowadził cię tu nie bez powodu.",
-    
-
   unknown_location: "Nieznana Lokacja",
 
   

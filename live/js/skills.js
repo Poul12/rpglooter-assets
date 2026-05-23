@@ -712,12 +712,8 @@ function formatEffectValue(type, value) {
     case "def-bonus": return `${value.toFixed(0)} ${t("points_skill_effect")}.`;
     case "dmg-bonus": return `${value.toFixed(0)} ${t("points_skill_effect")}.`;
     case "bonus-damage": return `${value.toFixed(0)} %.`;
-    case "energy-bonus": return `${value.toFixed(0)} ${t("points_skill_effect")}.`;
-    case "stamina-regen": return `${value.toFixed(1)}%`;
     case "stamina-bonus": return `${value.toFixed(0)} ${t("points_skill_effect")}.`;
     case "hp-regen-bonus": return `${value.toFixed(1)} ${t("points_skill_effect")}. / ${t("second_skill_effect")}.`;
-    case "max-hp-bonus": return `${value.toFixed(0)}%`;
-    case "max-dmg-bonus": return `${value.toFixed(0)}%`;
     case "max-def-bonus": return `${value.toFixed(0)}%`;
     case "dmg-reduction": return `${value.toFixed(0)}%`;
     case "cooldown": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
@@ -728,7 +724,6 @@ function formatEffectValue(type, value) {
     case "crit-bonus": return `${value.toFixed(1)}%`;
     case "crit-damage-bonus": return `${value.toFixed(0)}%`;
     case "atkspd-bonus": return `${value.toFixed(1)}%`;
-    case "energy-regen": return `${value.toFixed(0)}%`;
     case "damage-buff": return `${value.toFixed(0)}%`;
     case "block-reduction": return `${value.toFixed(0)}%`;
     case "block-cooldown": return `-${value.toFixed(1)} ${t("second_skill_effect")}.`;

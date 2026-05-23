@@ -1,5 +1,5 @@
 {
-  "version": "1779447642705",
+  "version": "1779554190056",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -1002,12 +1002,6 @@
       "path": "img/icons/eat-icon.png",
       "hash": "65bbbe11f8afafd82cfb2d017ada0e3c",
       "size": 82373,
-      "type": "asset"
-    },
-    {
-      "path": "img/icons/energy-regen-skill-icon.png",
-      "hash": "0d18ef29008448fed7800e39f99549a5",
-      "size": 179434,
       "type": "asset"
     },
     {
@@ -3118,8 +3112,8 @@
     },
     {
       "path": "live/js/localization-locations.js",
-      "hash": "f3656d5ebb0c1fa3ced10699a8c5239a",
-      "size": 5621,
+      "hash": "1b6b5056ff72833f20ab2cf404be8b30",
+      "size": 4100,
       "type": "code"
     },
     {
@@ -3130,8 +3124,8 @@
     },
     {
       "path": "live/js/localization-skills.js",
-      "hash": "f97de9767cffeeff1a7d3ad08d2028a3",
-      "size": 9095,
+      "hash": "0e1aa0c0ec1f5f42582e6041ef6f0643",
+      "size": 9093,
       "type": "code"
     },
     {
@@ -3196,8 +3190,8 @@
     },
     {
       "path": "live/js/skills.js",
-      "hash": "c2188444817c0f3833cee367e9080631",
-      "size": 43509,
+      "hash": "001c9ccc6a2789197dda43a6deb34d40",
+      "size": 43199,
       "type": "code"
     },
     {
