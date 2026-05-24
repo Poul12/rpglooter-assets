@@ -1,5 +1,5 @@
 {
-  "version": "1779554190056",
+  "version": "1779620932698",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3124,8 +3124,8 @@
     },
     {
       "path": "live/js/localization-skills.js",
-      "hash": "0e1aa0c0ec1f5f42582e6041ef6f0643",
-      "size": 9093,
+      "hash": "f97de9767cffeeff1a7d3ad08d2028a3",
+      "size": 9095,
       "type": "code"
     },
     {
