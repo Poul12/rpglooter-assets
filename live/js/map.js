@@ -588,20 +588,29 @@ async function enterRegion() {
     pergaminBg.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       await assetManager.getAssetUrl('img/backgrounds/map-pergamin-long.png')
     );*/
+    
+    showWorldMapLoader();
+
+    await nextFrame();
       
     setHotspots();
     // Pokaż popup
-    worldPopup.style.display = 'flex';
-    worldPopup.classList.add('zoom-in');
+   // worldPopup.style.display = 'flex';
+   // worldPopup.classList.add('zoom-in');
+    
+    window.hotspotGroups = [...document.querySelectorAll('.hotspot-group')];
     
     // Ukryj wszystkie hotspoty
-    document.querySelectorAll('.hotspot-group').forEach(group => {
-      group.style.display = 'none';
+    window.hotspotGroups.forEach(group => {
+   // document.querySelectorAll('.hotspot-group').forEach(group => {
+      //group.style.display = 'none';
+      group.classList.add(`hidden`);
     });
-      
-    document.querySelectorAll(`.hotspot-group[data-region="${selectedRegion.id.toLowerCase()}"]`).forEach(group => {
-       group.style.display = 'inline';
     
+    document.querySelectorAll(`.hotspot-group[data-region="${selectedRegion.id.toLowerCase()}"]`).forEach(group => {
+       //group.style.display = 'inline';
+       group.classList.remove(`hidden`);
+        
        const inner = group.querySelector('.light-inner');
        const frame = group.querySelector('.light-frame');
        const levelNumber = parseInt(group.getAttribute('data-level'), 10);
@@ -622,6 +631,14 @@ async function enterRegion() {
           }
        }
     });
+    
+    worldPopup.style.display = 'flex';
+
+    requestAnimationFrame(() => {
+      worldPopup.classList.add('zoom-in');
+    });
+
+    hideWorldMapLoader();
       
     //console.log("currentState inCombat: ", currentState.inCombat);
       
@@ -631,6 +648,30 @@ async function enterRegion() {
     selectedLevel = null;
     
 }
+
+function showWorldMapLoader() {
+  //const loader = document.getElementById("world-map-loader");
+  const loader = document.getElementById("view-loader");
+    
+  loader.classList.remove("hidden");
+
+  requestAnimationFrame(() => {
+    loader.classList.add("visible");
+  });
+}
+
+function hideWorldMapLoader() {
+  //const loader = document.getElementById("world-map-loader");
+  const loader = document.getElementById("view-loader");
+  
+  loader.classList.remove("visible");
+
+  setTimeout(() => {
+    loader.classList.add("hidden");
+  }, 200);
+}
+
+
 
 function enterLevel() {  
   const world = gameState.world;
@@ -670,88 +711,7 @@ function enterLevel() {
   }
 }
 
-/*function resetLoaderState() {
-  const loadingScreen = document.getElementById("loading-screen");
-  const loadingImage = document.getElementById("loading-image");
-  const loadingTitle = document.getElementById("loading-title");
-
-  loadingScreen.classList.remove("active", "fade-out");
-  loadingImage.classList.remove("visible");
-  loadingTitle.classList.remove("visible");
-}
-
-function screenLoader(mode = `story`) {
-    const loadingScreen = document.getElementById("loading-screen");
-    const loadingImage = document.getElementById("loading-image");
-    const loadingTitle = document.getElementById("loading-title");
-    
-    // Pobranie nazwy i obrazu na podstawie numeru poziomu
-    let locationId;
-    let locationName;
-    let imageSrc;
-    
-    if(mode === `story`) {
-       locationId = gameState.world.currentLevel - 1;
-       locationName = locationsByRegion.west[locationId] || "Nieznane miejsce";
-       imageSrc = locationImages[locationId] || "img/locations/default.jpg";
-    }else {
-       locationId = gameState.world.currentLevel - 1;
-       locationName = "Ekspedycja";
-       imageSrc = "img/locations/default.jpg";
-    }
-    
-      console.log(`level in loading screen`, locationId);
-      console.log(`src in loading screen`, imageSrc);
-  
-    // Ustaw dane na ekranie
-    loadingImage.src = `${ASSET_BASE}` + imageSrc;
-    loadingTitle.textContent = locationName;
-
-    // Pokaż ekran z animacją
-    loadingScreen.style.display = "flex";
-      
-    saveGame();
-      
-      // PRELOAD strony walki
-  
-    // ANIMACJA WEJŚCIA + ZNIKANIA
-    setTimeout(() => {
-       loadingScreen.classList.add("active");
-
-       setTimeout(() => {
-         loadingImage.classList.add("visible");
-
-         setTimeout(() => {
-            loadingTitle.classList.add("visible");
-
-            // FADE-OUT
-            setTimeout(() => {
-
-              // najpierw render battle POD loaderem
-              navigate("battle");
-
-              requestAnimationFrame(() => {
-                 requestAnimationFrame(() => {
-                   loadingScreen.classList.add("fade-out");
-                 });
-              });
-
-              setTimeout(() => {
-                 loadingScreen.style.display = "none";
-                 resetLoaderState();
-              }, 1600);
-
-           }, 500);
-             
-         }, 1000);
-
-       }, 1000);
-
-    }, 100);
-
-}*/
-
-async function screenLoader(mode = "story") {
+/*async function screenLoader(mode = "story") {
   const loadingScreen = document.getElementById("loading-screen");
   const loadingImage = document.getElementById("loading-image");
   const loadingTitle = document.getElementById("loading-title");
@@ -770,19 +730,8 @@ async function screenLoader(mode = "story") {
     locationName = "Ekspedycja";
     imageSrc = "img/loadings/elmaris-port-loading.png";
   }
-
-  //loadingImage.src = `${ASSET_BASE}${imageSrc}`;
     
   console.log("imageSrc:", imageSrc);
-    
-  /*const url = await assetManager.getAssetUrl(imageSrc);
-
-  await preloadImage(url);
-    
-  console.log("url", url);
-
-  loadingImage.src = url;*/
-    
     
   const url = await assetManager.getAssetUrl(imageSrc);
 
@@ -825,6 +774,9 @@ async function screenLoader(mode = "story") {
       setTimeout(() => {
         loadingTitle.classList.add("visible");
 
+          
+          
+          
         // 🔥 dłuższy czas ekspozycji loadera
         setTimeout(() => {
 
@@ -857,11 +809,116 @@ async function screenLoader(mode = "story") {
           }, 2200);
 
         }, 1800); // <- loader stoi dłużej
+          
+          
+     
+          
+        setTimeout(async () => {
 
+          // 🔥 render battle POD loading screenem
+          await renderBattleView();
+
+          const battleView = document.getElementById("battle-view");
+
+          if (battleView) {
+            battleView.classList.add("battle-enter");
+          }
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              loadingScreen.classList.add("fade-out");
+            });
+          });
+
+          setTimeout(() => {
+            loadingScreen.style.display = "none";
+            resetLoaderState();
+
+            if (battleView) {
+                battleView.classList.remove("battle-enter");
+            }
+              
+            map.classList.remove("map-disabled");
+
+          }, 2200);
+
+        }, 1800);
+          
+          
       }, 700);
 
     }, 700);
   });
+}*/
+
+async function screenLoader(mode = "story") {
+  const loadingScreen = document.getElementById("loading-screen");
+  const loadingImage = document.getElementById("loading-image");
+  const loadingTitle = document.getElementById("loading-title");
+  const map = document.querySelector(".map-content");
+    
+  let locationId;
+  let locationName;
+  let imageSrc;
+
+  if (mode === "story") {
+    locationId = gameState.world.currentLevel - 1;
+    locationName = locationsByRegion.west[locationId] || "Nieznane miejsce";
+    imageSrc = locationImages[locationId] || "img/loadings/elmaris-port-loading.png";
+  } else {
+    locationId = gameState.world.currentLevel - 1;
+    locationName = "Ekspedycja";
+    imageSrc = "img/loadings/elmaris-port-loading.png";
+  }
+    
+  const url = await assetManager.getAssetUrl(imageSrc);
+    
+  const img = new Image();
+    
+  loadingImage.src = url;
+    
+  loadingTitle.textContent = t(locationName);
+  
+  resetLoaderState();
+
+  loadingScreen.style.display = "flex";
+  saveGame();
+
+  map.classList.add(`map-disabled`);  
+    
+  loadingScreen.classList.add("active");
+    
+  await wait(700);
+    
+  loadingImage.classList.add("visible");
+
+  await wait(700);
+
+  loadingTitle.classList.add("visible");
+
+  await wait(3000);
+
+  const battlePromise = renderFirstBattleView();
+    
+  const battleView = document.getElementById("battle-view");
+  if (battleView) {
+    battleView.classList.add("battle-enter");
+  }
+    
+  // 🔥 TU CZEKASZ NA REALNE GOTOWOŚCI
+  await battlePromise;
+    
+  await nextFrame();  
+  loadingScreen.classList.add("fade-out");
+    
+  await wait(1600);
+  loadingScreen.style.display = "none";
+  resetLoaderState();
+  if (battleView) {
+    battleView.classList.remove("battle-enter");
+  }
+  map.classList.remove("map-disabled");
+  
 }
 
 function resetLoaderState() {

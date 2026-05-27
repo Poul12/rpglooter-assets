@@ -267,10 +267,12 @@ function renderCombat(renderPotion = false) {
     shieldSprite = `img/items/` + weapon.sprite;
     //shieldIcon.classList.add(`shield-disabled`);
   }
+ 
+  console.error(`shieldSprite`, shieldSprite);
+  console.error(`weaponSprite`, weaponSprite);
   
   const shieldUrl = assetManager.getResolvedAsset(shieldSprite);
   const weaponUrl = assetManager.getResolvedAsset(weaponSprite);
-
   
     // 🧱 Layout główny renderowany tylko raz
   if (!dlg.dataset.initialized) {

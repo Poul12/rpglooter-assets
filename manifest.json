@@ -1,5 +1,5 @@
 {
-  "version": "1779620932698",
+  "version": "1779910794802",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3040,8 +3040,8 @@
     },
     {
       "path": "live/js/combat-animations.js",
-      "hash": "9e9a081259faf08fe0d09f7e0c40a4ad",
-      "size": 42407,
+      "hash": "72c024e9f9250b3313426d65814eedbd",
+      "size": 42480,
       "type": "code"
     },
     {
@@ -3052,8 +3052,8 @@
     },
     {
       "path": "live/js/combat.js",
-      "hash": "31327c9a1c0d5162896819e3588eba1b",
-      "size": 64644,
+      "hash": "3baabe6850ea828f193ed2f2be84901e",
+      "size": 64739,
       "type": "code"
     },
     {
@@ -3082,8 +3082,8 @@
     },
     {
       "path": "live/js/inventory.js",
-      "hash": "3804e1a4ff4bae5e81d71ecfd1bd7cc0",
-      "size": 43736,
+      "hash": "21199b34e1bb2e555be13e3990099262",
+      "size": 43798,
       "type": "code"
     },
     {
@@ -3124,8 +3124,8 @@
     },
     {
       "path": "live/js/localization-skills.js",
-      "hash": "f97de9767cffeeff1a7d3ad08d2028a3",
-      "size": 9095,
+      "hash": "0e1aa0c0ec1f5f42582e6041ef6f0643",
+      "size": 9093,
       "type": "code"
     },
     {
@@ -3142,8 +3142,8 @@
     },
     {
       "path": "live/js/map.js",
-      "hash": "78985c61bd389f05e64d2d25cec8396c",
-      "size": 34655,
+      "hash": "fc14ce4b151778fefce23828020a7136",
+      "size": 35709,
       "type": "code"
     },
     {

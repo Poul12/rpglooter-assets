@@ -525,15 +525,16 @@ function startAttackCooldown(durationInSeconds) {
   if (weapon) {
     weaponSprite = "img/items/" + weapon.sprite;
   }
-
-  const weaponUrl = assetManager.getResolvedAsset(weaponSprite);
   
+  const weaponUrl = assetManager.getResolvedAsset(weaponSprite);
+  console.error(`weaponSprite, weaponUrl`, weaponSprite, weaponUrl);
+
   //attackButton.disabled = true;
   attackButton.classList.add("disabled");
   //attackButton.classList.add("cooldown");
   attackIcon.src = `${weaponUrl}`;
 
-  setSpriteImage(attackIcon, weaponSprite);
+  //setSpriteImage(attackIcon, weaponSprite);
   
   /*let overlay = attackButton.querySelector(".cooldown-overlay");
   if (!overlay) {
@@ -587,7 +588,7 @@ function finishAttackCooldown() {
     //attackButton.classList.remove("cooldown");
     attackIcon.src = `${weaponUrl}`;
   //  console.error(`weaponSprite`, weaponSprite);
-    setSpriteImage(attackIcon, weaponSprite);
+    //setSpriteImage(attackIcon, weaponSprite);
   }
 
   if (playerAttackCooldown.overlay) {

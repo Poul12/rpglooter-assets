@@ -534,9 +534,11 @@ function useFood(itemId) {
 
 function usePotion(itemId) {
   const itemIndex = gameState.inventory.findIndex(i => i._id === itemId);
- // console.log("itemIndex w usePotion", itemIndex);
+  console.log("itemIndex w usePotion", itemIndex);
   
   const item = gameState.inventory[itemIndex];
+   console.log("item w usePotion", item.nazwa, item.baseName);
+
   const healPotion = item.statystyki.find(s => s.id === "heal_percent");
    
  // console.log("potion heal: ", item.nazwa);
