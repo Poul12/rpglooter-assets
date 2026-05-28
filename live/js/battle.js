@@ -930,7 +930,8 @@ function renderOptions() {
       frame.src = eliteFrameUrl;
       frame.id = `slot-frame-${i}`;
       frame.style.height = "185px";
-      frame.style.width = "102px"; // dostosować do grafiki
+      frame.style.width = "100px"; // dostosować do grafiki
+      frame.style.transform = "translate(calc(-50% + 1px), -50%)";
       //frame.style.top = "-18px";
       //frame.style.left = "-7.5px";
       frame.style.filter = "brightness(1.5) contrast(0.9)";
@@ -941,6 +942,7 @@ function renderOptions() {
       frame.src = chestFrameUrl;
       frame.style.height = "190px";
       frame.style.width = "103px"; // dostosować do grafiki
+      frame.style.transform = "translate(-50%, calc(-50% - 3px))";
       //frame.style.top = "-24px";
       //frame.style.left = "-8px";
         
@@ -977,6 +979,17 @@ function renderOptions() {
          frame.style.filter = "brightness(1.1) contrast(1.0)";
          /*frame.style.transform = "translateY(-30px)";*/
         //frame.style.transform = "rotate(90deg)";
+      } else if(opt.type === "story_event"){
+         const otherFrameUrl = assetManager.getResolvedAsset(`img/frames/other-frame.png`);
+  
+         //frame.src =`${ASSET_BASE}img/frames/other-frame.png`;
+         frame.src = otherFrameUrl;
+         frame.style.width = "102px";
+         frame.style.height = "192px";
+         frame.style.transform = "translate(-50%, calc(-50% - 1px))";
+         //frame.style.top = "-22px";
+         //frame.style.left = "-7px";
+         //frame.style.transform = "rotate(90deg)";
       } else {
          const otherFrameUrl = assetManager.getResolvedAsset(`img/frames/other-frame.png`);
   
@@ -996,6 +1009,7 @@ function renderOptions() {
       frame.id = `slot-frame-${i}`;
       frame.style.height = "223px";
       frame.style.width = "110px"; // dostosować do grafiki
+      frame.style.transform = "translate(-50%, calc(-50% + 12px))";  
       //frame.style.top = "-25px";
       //frame.style.left = "-11px";
       frame.style.filter = "brightness(1.7) contrast(1.0)";
