@@ -906,7 +906,7 @@ function renderOptions() {
       frame.src = bossFrameUrl;
       frame.style.width = "345px";
       frame.style.height = "565px";
-      frame.style.left = "-2px";
+      //frame.style.left = "-2px";
       //frame.style.top = "0px";
       //frame.style.transform = "rotate(90deg) translateY(-40px)";
       frame.style.transform = "translateY(25px)";
@@ -917,8 +917,8 @@ function renderOptions() {
       frame.src = minibossFrameUrl;
       frame.style.height = "185px";
       frame.style.width = "255px"; // dostosować do grafiki
-      frame.style.top = "-18px";
-      frame.style.left = "-28px";
+      //frame.style.top = "-18px";
+      //frame.style.left = "-28px";
       frame.style.filter = "brightness(1.1) contrast(1.0)";
       //frame.style.transform = "translateY(-30px)";
       //frame.style.transform = "rotate(90deg)";
@@ -931,8 +931,8 @@ function renderOptions() {
       frame.id = `slot-frame-${i}`;
       frame.style.height = "185px";
       frame.style.width = "102px"; // dostosować do grafiki
-      frame.style.top = "-18px";
-      frame.style.left = "-7.5px";
+      //frame.style.top = "-18px";
+      //frame.style.left = "-7.5px";
       frame.style.filter = "brightness(1.5) contrast(0.9)";
     } else if (opt.type === "chest"){ 
       const chestFrameUrl = assetManager.getResolvedAsset(`img/frames/explore-chest-frame.png`);
@@ -941,8 +941,8 @@ function renderOptions() {
       frame.src = chestFrameUrl;
       frame.style.height = "190px";
       frame.style.width = "103px"; // dostosować do grafiki
-      frame.style.top = "-24px";
-      frame.style.left = "-8px";
+      //frame.style.top = "-24px";
+      //frame.style.left = "-8px";
         
     } else if (opt.type === "shrine"){ 
       const shrineFrameUrl = assetManager.getResolvedAsset(`img/frames/explore-shrine-frame.png`);
@@ -951,8 +951,8 @@ function renderOptions() {
       frame.src = shrineFrameUrl;
       frame.style.height = "189px";
       frame.style.width = "106px"; // dostosować do grafiki
-      frame.style.top = "-20px";
-      frame.style.left = "-9px";
+      //frame.style.top = "-20px";
+      //frame.style.left = "-9px";
     } else if (opt.type === "npc" || opt.type === "story_event"){ 
       if(opt.storyEvent?.boss) {
        //  console.log(`story event boss frame`);
@@ -962,7 +962,7 @@ function renderOptions() {
          frame.src = bossFrameUrl;
          frame.style.width = "345px";
          frame.style.height = "565px";
-         frame.style.left = "-2px";
+        // frame.style.left = "-2px";
          frame.style.transform = "translateY(25px)";
       } else if(opt.storyEvent?.miniboss) {
          //console.log(`story event miniboss frame`);
@@ -972,8 +972,8 @@ function renderOptions() {
          frame.src = minibossFrameUrl;
          frame.style.height = "185px";
          frame.style.width = "255px"; // dostosować do grafiki
-         frame.style.top = "-18px";
-         frame.style.left = "-28px";
+         //frame.style.top = "-18px";
+         //frame.style.left = "-28px";
          frame.style.filter = "brightness(1.1) contrast(1.0)";
          /*frame.style.transform = "translateY(-30px)";*/
         //frame.style.transform = "rotate(90deg)";
@@ -984,8 +984,8 @@ function renderOptions() {
          frame.src = otherFrameUrl;
          frame.style.width = "102px";
          frame.style.height = "190px";
-         frame.style.top = "-22px";
-         frame.style.left = "-7px";
+         //frame.style.top = "-22px";
+         //frame.style.left = "-7px";
          //frame.style.transform = "rotate(90deg)";
       }
     } else { 
@@ -996,8 +996,8 @@ function renderOptions() {
       frame.id = `slot-frame-${i}`;
       frame.style.height = "223px";
       frame.style.width = "110px"; // dostosować do grafiki
-      frame.style.top = "-25px";
-      frame.style.left = "-11px";
+      //frame.style.top = "-25px";
+      //frame.style.left = "-11px";
       frame.style.filter = "brightness(1.7) contrast(1.0)";
         
         //console.log("ramka sie dodaje");
