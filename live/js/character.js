@@ -39,6 +39,19 @@ const ATTRIBUTE_CONFIG = {
     const className = type.replace(" ", "-").toLowerCase();
     slot.className = `slot ${className}`;
 
+    if (className === "shield") {
+      const toggle = document.createElement("div");
+      toggle.className = "shield-mode-toggle";
+      toggle.innerHTML = `
+       <label class="shield-toggle">
+         <input type="checkbox" id="block-mode-toggle">
+         <span class="toggle-box"></span>
+         <span class="toggle-text">${t("tactical_block_toggle")}</span>
+       </label>
+     `;
+      slot.appendChild(toggle);
+    }
+    
     const wrapper = document.createElement("div");
     wrapper.className = "item-wrapper";
     

@@ -1,5 +1,5 @@
 {
-  "version": "1779959953223",
+  "version": "1779992733961",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3034,8 +3034,8 @@
     },
     {
       "path": "live/js/character.js",
-      "hash": "e586c0c09b6e8785ed73683e05601f93",
-      "size": 32341,
+      "hash": "d3fff0071f093c7c3f40b801219dab6c",
+      "size": 32775,
       "type": "code"
     },
     {
