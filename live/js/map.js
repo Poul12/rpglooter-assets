@@ -887,7 +887,14 @@ async function screenLoader(mode = "story") {
 
   map.classList.add(`map-disabled`);  
     
-  loadingScreen.classList.add("active");
+  requestAnimationFrame(() => {
+    loadingScreen.classList.add("active");
+  });    
+    
+  await nextFrame();
+  await nextFrame();
+    
+  await wait(1200);
     
   const battlePromise = renderFirstBattleView();
     
@@ -901,7 +908,7 @@ async function screenLoader(mode = "story") {
 
   loadingTitle.classList.add("visible");
 
-  await wait(3000);
+  //await wait(3000);
 
   //const battlePromise = renderFirstBattleView();
     
