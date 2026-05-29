@@ -1,5 +1,5 @@
 {
-  "version": "1780027578739",
+  "version": "1780028902212",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3040,8 +3040,8 @@
     },
     {
       "path": "live/js/combat-animations.js",
-      "hash": "72c024e9f9250b3313426d65814eedbd",
-      "size": 42480,
+      "hash": "2dce7d35e7ea578a9a251a4f147d216d",
+      "size": 42482,
       "type": "code"
     },
     {
@@ -3052,8 +3052,8 @@
     },
     {
       "path": "live/js/combat.js",
-      "hash": "3baabe6850ea828f193ed2f2be84901e",
-      "size": 64739,
+      "hash": "e0ac953c9aba45e2742a954f3208ff26",
+      "size": 64743,
       "type": "code"
     },
     {

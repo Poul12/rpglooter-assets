@@ -527,7 +527,7 @@ function startAttackCooldown(durationInSeconds) {
   }
   
   const weaponUrl = assetManager.getResolvedAsset(weaponSprite);
-  console.error(`weaponSprite, weaponUrl`, weaponSprite, weaponUrl);
+  //console.error(`weaponSprite, weaponUrl`, weaponSprite, weaponUrl);
 
   //attackButton.disabled = true;
   attackButton.classList.add("disabled");

@@ -268,8 +268,8 @@ function renderCombat(renderPotion = false) {
     //shieldIcon.classList.add(`shield-disabled`);
   }
  
-  console.error(`shieldSprite`, shieldSprite);
-  console.error(`weaponSprite`, weaponSprite);
+  //console.error(`shieldSprite`, shieldSprite);
+  //console.error(`weaponSprite`, weaponSprite);
   
   const shieldUrl = assetManager.getResolvedAsset(shieldSprite);
   const weaponUrl = assetManager.getResolvedAsset(weaponSprite);
