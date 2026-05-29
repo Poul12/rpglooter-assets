@@ -1,5 +1,5 @@
 {
-  "version": "1779992733961",
+  "version": "1780027578739",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3142,8 +3142,8 @@
     },
     {
       "path": "live/js/map.js",
-      "hash": "fc14ce4b151778fefce23828020a7136",
-      "size": 35709,
+      "hash": "c048496aecc004121b1386f3f1970580",
+      "size": 35906,
       "type": "code"
     },
     {

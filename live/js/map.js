@@ -592,7 +592,8 @@ async function enterRegion() {
     showWorldMapLoader();
 
     await nextFrame();
-      
+    await nextFrame();
+
     setHotspots();
     // Pokaż popup
    // worldPopup.style.display = 'flex';
@@ -651,7 +652,7 @@ async function enterRegion() {
 
 function showWorldMapLoader() {
   //const loader = document.getElementById("world-map-loader");
-  const loader = document.getElementById("view-loader");
+  const loader = document.getElementById("view-preloader");
     
   loader.classList.remove("hidden");
 
@@ -662,7 +663,7 @@ function showWorldMapLoader() {
 
 function hideWorldMapLoader() {
   //const loader = document.getElementById("world-map-loader");
-  const loader = document.getElementById("view-loader");
+  const loader = document.getElementById("view-preloader");
   
   loader.classList.remove("visible");
 
@@ -888,6 +889,10 @@ async function screenLoader(mode = "story") {
     
   loadingScreen.classList.add("active");
     
+  const battlePromise = renderFirstBattleView();
+    
+  const minLoaderTime = wait(3200);
+    
   await wait(700);
     
   loadingImage.classList.add("visible");
@@ -898,17 +903,23 @@ async function screenLoader(mode = "story") {
 
   await wait(3000);
 
-  const battlePromise = renderFirstBattleView();
+  //const battlePromise = renderFirstBattleView();
+    
+  // 🔥 TU CZEKASZ NA REALNE GOTOWOŚCI
+  //await battlePromise;
+    
+  await Promise.all([
+    battlePromise,
+    minLoaderTime
+  ]);
+    
+  await nextFrame();  
     
   const battleView = document.getElementById("battle-view");
   if (battleView) {
     battleView.classList.add("battle-enter");
   }
     
-  // 🔥 TU CZEKASZ NA REALNE GOTOWOŚCI
-  await battlePromise;
-    
-  await nextFrame();  
   loadingScreen.classList.add("fade-out");
     
   await wait(1600);
