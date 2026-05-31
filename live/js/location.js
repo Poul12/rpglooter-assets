@@ -276,10 +276,14 @@ function initializeProgressBar(steps) {
   if(!container) return;
   
   container.innerHTML = "";
+  const story = getStoryConfig(gameState.world.currentLocation);
 
   steps.forEach((step, index) => {
     const segment = document.createElement("div");
     segment.classList.add("progress-segment");
+
+    const isMiniBoss = story.storyInjections[index]?.inject.miniboss;
+    //console.error(`isMiniBoss, index`, isMiniBoss, index);
 
       // Dobieramy ikonę w zależności od typu zawartości
     if (step.contents.includes("boss")) {
@@ -288,13 +292,14 @@ function initializeProgressBar(steps) {
       segment.appendChild(marker);
       //icon.src = `${ASSET_BASE}img/icons/segment-boss-icon.png`;
       segment.classList.add("boss-segment");
-    } else if (step.contents.includes("mini_boss")) {
+    } else if (step.contents.includes("story_event") && isMiniBoss) {
       const minibossSrc = assetManager.getResolvedAsset('img/icons/segment-miniboss-icon.png');
       const marker = createSegmentMarker(minibossSrc, markerColors.mini_boss);
       marker.style.transform = "scale(1.25)";
       marker.style.transformOrigin = "center bottom"; // aby „wyrastał” w górę, jak pinezka
       segment.appendChild(marker);
       //icon.src = `${ASSET_BASE}img/icons/segment-miniboss-icon.png`;
+     // console.error(`mini boss segment`);
       segment.classList.add("miniboss-segment");
     } else if (step.contents.includes("chest")) {
       const isUsed = step.used?.chest;
@@ -1115,11 +1120,15 @@ function rollOptions() {
       
       nextBtn.onclick = (e) => { 
         e.stopPropagation(); 
-        showCustomConfirm(
-          `${t("next_location")}`,
-          () => { goToNextLevel(); },
-          () => { }
-        );
+        if(!world.bossDefeatedState.isBossDefeated) {
+          showCustomConfirm(
+            `${t("next_location")}`,
+            () => { goToNextLevel(); },
+            () => { }
+          );
+        } else {
+          showEndStoryPopup();
+        }
       };
     } else {
       //console.log("enemies not defeated");
@@ -1134,8 +1143,12 @@ function rollOptions() {
       //console.log("przedostatni krok i miniboss");
  
     if(!world.bossDefeatedState.isBossDefeated) {
+      //console.log("przedostatni krok i world.bossDefeatedState.isBossDefeated");
+ 
       nextBtn.onclick = (e) => { 
-        e.stopPropagation(); 
+       // console.log("klikam nextBtn.onclick");
+        
+        //e.stopPropagation(); 
         showCustomConfirm(
           `${t("next_step_miniboss")}`,
           () => { rollOptions(); },

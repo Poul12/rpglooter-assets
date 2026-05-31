@@ -21,6 +21,7 @@ function createManualItem({
   twoHanded = false,
   // staty – podaj te, które mają sens dla typu
   itemTypeKey,
+  style,
   dmg,              // number
   speed,            // number
   armor,            // number
@@ -62,6 +63,7 @@ function createManualItem({
     klasa: klasa,
     twoHanded: !!twoHanded,
     baseBonus: implicit,
+    style: WEAPON_STYLES[style],
     statystyki: [],
     wartosc: (typeof wartosc === "number" ? wartosc : (defaultValueByRarity[klasa] ?? 6)),
     level: level,
@@ -100,6 +102,7 @@ function createManualItemWithBonuses({
   sprite,
   nazwa,
   twoHanded = false,
+  style,
   itemTypeKey,
   dmg,
   speed,
@@ -144,6 +147,7 @@ function createManualItemWithBonuses({
     typ: typ,
     klasa: klasa,
     twoHanded: !!twoHanded,
+    style: WEAPON_STYLES[style],
     baseBonus: implicit,
     statystyki: [],
     wartosc: (typeof wartosc === "number" ? wartosc : (defaultValueByRarity[klasa] ?? 6)),
@@ -207,6 +211,7 @@ function makeShortSwordUnique(){
      level: 2,
      sprite: 'short-sword.png',
      twoHanded: false,
+     style: `sword`,
      dmg: 5,
      speed: 0.85,
      itemTypeKey: `weapon`,
@@ -270,6 +275,7 @@ function makeShortSwordCommon() {
     level: 1,
     sprite: 'short-sword.png',
     twoHanded: false,
+    style: `sword`,
     dmg: 3,
     speed: 0.7,
     itemTypeKey: `weapon`,

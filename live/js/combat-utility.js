@@ -1344,6 +1344,53 @@ function getRandomLevelUpFlavor() {
   return levelUpFlavors[Math.floor(Math.random() * levelUpFlavors.length)];
 }
 
+function showEndStoryPopup() {
+  const popup = document.getElementById("endstory-popup");
+  const popupCard = popup.querySelector(".popup-content");
+  
+  setPopupBackground2(popupCard, "set");
+  
+  //console.error(`enter levelup`);
+  
+  gameState.world.isStoryEnded = true;
+  
+  setTimeout(() => {
+    popup.classList.remove("hidden");
+    popup.classList.remove("visible");
+    
+    playSound(`level-up`, 1.6, 0.8, 0.3);
+    
+    // 🔑 wymuszenie reflow
+    void popup.offsetHeight;
+
+    popup.classList.add("visible");
+  }, 100);
+  
+  const endStoryBtn = document.getElementById("endstory-confirm");
+    
+  endStoryBtn.classList.add("locked");
+  endStoryBtn.disabled = true;
+
+  setTimeout(() => {
+    endStoryBtn.classList.remove("locked");
+    endStoryBtn.disabled = false;
+  }, 3000);
+  
+  endStoryBtn.onclick = null;
+  endStoryBtn.onclick = () => {
+    popup.classList.remove("visible");
+    
+    setTimeout(() => {
+      popup.classList.add("hidden");
+    }, 600); 
+  };
+   
+  setGlobalButtonTexture(endStoryBtn);
+  //console.error(`end levelup`);
+
+}
+
+
 function applyPoiseDamage(enemy, player, value) {
   if (enemy.poiseBroken) return;
   

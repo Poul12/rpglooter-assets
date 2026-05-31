@@ -521,6 +521,7 @@ function makeRewardShortSwordCommon() {
     level: 3,
     sprite: 'short-sword.png',
     twoHanded: false,
+    style: `sword`,
     dmg: 7,
     speed: 0.7,
     itemTypeKey: `weapon`,

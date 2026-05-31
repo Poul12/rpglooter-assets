@@ -1,5 +1,5 @@
 {
-  "version": "1780052368334",
+  "version": "1780241641796",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -813,6 +813,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/IMG_20260531_083700.png",
+      "hash": "f968e910f794a7b91e8c8cd928417f43",
+      "size": 254688,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/armor-break-icon.png",
       "hash": "ca95bb4d08efdf548cc660eddcd9dc56",
       "size": 266472,
@@ -1002,6 +1008,12 @@
       "path": "img/icons/eat-icon.png",
       "hash": "65bbbe11f8afafd82cfb2d017ada0e3c",
       "size": 82373,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/endstory-title-icon.png",
+      "hash": "89b69012c0160c119a1779efe4181de7",
+      "size": 1507665,
       "type": "asset"
     },
     {
@@ -3046,14 +3058,14 @@
     },
     {
       "path": "live/js/combat-utility.js",
-      "hash": "0b5840c830dd7e7447e3687b332ac610",
-      "size": 50765,
+      "hash": "5e0120ef294c1a374a0ff62b9640c9b5",
+      "size": 51826,
       "type": "code"
     },
     {
       "path": "live/js/combat.js",
-      "hash": "e0ac953c9aba45e2742a954f3208ff26",
-      "size": 64743,
+      "hash": "3f528c24a425598b142b2e58b042c8c8",
+      "size": 64851,
       "type": "code"
     },
     {
@@ -3082,8 +3094,8 @@
     },
     {
       "path": "live/js/inventory.js",
-      "hash": "21199b34e1bb2e555be13e3990099262",
-      "size": 43798,
+      "hash": "38bc81cb4585c5da65385912b35fb31e",
+      "size": 45040,
       "type": "code"
     },
     {
@@ -3136,8 +3148,8 @@
     },
     {
       "path": "live/js/location.js",
-      "hash": "6a54b400ad8f927cc677781836582ce2",
-      "size": 48982,
+      "hash": "f3bd29a92c0dd26561c91bd2186da3b3",
+      "size": 49506,
       "type": "code"
     },
     {
@@ -3148,8 +3160,8 @@
     },
     {
       "path": "live/js/quests-assets.js",
-      "hash": "707121a40612b526e1a98ad9a8182c10",
-      "size": 11640,
+      "hash": "e8167bed12d4fe3e3e3be031f236fe3f",
+      "size": 11660,
       "type": "code"
     },
     {
@@ -3184,8 +3196,8 @@
     },
     {
       "path": "live/js/skills-database.js",
-      "hash": "6377bf0c2d844a4c006f707d493d4ef1",
-      "size": 18214,
+      "hash": "5f766e1197b45543c6f72ba8ea324099",
+      "size": 18217,
       "type": "code"
     },
     {
@@ -3196,8 +3208,8 @@
     },
     {
       "path": "live/js/store-items.js",
-      "hash": "57e203f7e5c645007795a637f26ded10",
-      "size": 7860,
+      "hash": "9b2d67b41cb6ee05e25619d0c6165e3f",
+      "size": 7985,
       "type": "code"
     },
     {

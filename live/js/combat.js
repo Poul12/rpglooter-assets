@@ -760,8 +760,8 @@ function setupFleeButton() {
     fleeIcon.src = `${fleeIconUrl}`;
     fleeBtn.appendChild(fleeIcon);
   }
-
-  // przypisz zachowanie po kliknięciu
+  
+    // przypisz zachowanie po kliknięciu
   fleeBtn.onclick = (e) => {
     playSound(`open`, 0.4);
 
@@ -1815,15 +1815,19 @@ function winCombat() {
   if(enemy.type === `mini_boss`) {
     const nextBtn = document.getElementById("next-btn");
     nextBtn.classList.remove(`hidden`);
+    //nextBtn.classList.add(`hidden`);
     world.bossDefeatedState.isBossDefeated = true;
+    
+    //showEndStoryPopup();
     
     nextBtn.onclick = (e) => { 
         e.stopPropagation(); 
-        showCustomConfirm(
+        showEndStoryPopup();
+        /*showCustomConfirm(
           `${t("next_location")}`,
           () => { goToNextLevel(); },
           () => { }
-        );
+        );*/
       };
     
   }

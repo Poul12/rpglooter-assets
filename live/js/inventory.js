@@ -532,11 +532,12 @@ function useFood(itemId) {
   renderStats();
 }
 
-function usePotion(itemId) {
-  const itemIndex = gameState.inventory.findIndex(i => i._id === itemId);
-  console.log("itemIndex w usePotion", itemIndex);
+/*function usePotion(index) {
+  //const itemIndex = gameState.inventory.findIndex(i => i._id === itemId);
+  const item = gameState.resources.potions[index];
+  //console.log("itemIndex w usePotion", itemIndex);
   
-  const item = gameState.inventory[itemIndex];
+  //const item = gameState.inventory[itemIndex];
    console.log("item w usePotion", item.nazwa, item.baseName);
 
   const healPotion = item.statystyki.find(s => s.id === "heal_percent");
@@ -556,8 +557,8 @@ function usePotion(itemId) {
   //localStorage.setItem("inventory", JSON.stringify(inventory));
    
    saveGame();
-  renderInventory();
-}
+ // renderInventory();
+}*/
 
 
 function closeInvItemPopup() {
@@ -801,8 +802,9 @@ function compareItem(itemId, key = null) {
   popup.classList.add("show");
    
   //playSound("open", 0.4);
-
+  gameState.resources.isComparing = true;
   diffStats(item);
+   
 }
 
 
@@ -855,6 +857,14 @@ function compareItem(itemId, key = null) {
 function closeComparePopup() {
    document.getElementById("compare-popup").classList.add("hidden");
    clearAllDiffs();
+   gameState.resources.isComparing = false;
+   const hpEl = document.getElementById(`hp-stat-id`);
+   const goldEl = document.getElementById(`gold-stat-id`);
+   const energyEl = document.getElementById(`energy-stat-id`);
+  
+   hpEl.classList.add(`hidden`);
+   energyEl.classList.remove(`hidden`);
+   goldEl.classList.remove(`hidden`);
 }
 
 function equipItem(itemId, key = null) {
@@ -1242,17 +1252,30 @@ function sellMessage(msg) {
 }
 
 
- function diffStats(nowy) {
+ function diffStats(newItem) {
    const equipment = { ...gameState.char.equipment }; // kopia aktualnego eq
 
-   equipment[nowy.typ] = nowy; // podstawiamy porównywany przedmiot w odpowiedni slot
+   equipment[newItem.typ] = newItem; // podstawiamy porównywany przedmiot w odpowiedni slot
    
-   const { hp, maxHp, dmg, def } = calculateTotalStats(equipment);
+   const { hp, maxHp, dmg, def } = calculateTotalStats(equipment, true);
  
-  // console.log("[diffStats]", { hp, maxHp, dmg, def });
+   console.log("[diffStats]", { hp, maxHp, dmg, def });
    
-   diffPreview("hp", maxHp);
-  // console.log("after diffPreview hp-label", maxHp);
+    if(gameState.resources.isComparing) {
+       const hpEl = document.getElementById(`hp-stat-id`);
+       const goldEl = document.getElementById(`gold-stat-id`);
+       const energyEl = document.getElementById(`energy-stat-id`);
+  
+       hpEl.classList.remove(`hidden`);
+       goldEl.classList.add(`hidden`);
+       energyEl.classList.add(`hidden`);
+ 
+       diffPreview("hp", maxHp)
+    } else {
+       diffPreview("hp-label", maxHp);
+    }
+ 
+    // console.log("after diffPreview hp-label", maxHp);
    diffPreview("dmg", dmg);
    diffPreview("def", def);
  }
@@ -1275,11 +1298,23 @@ function diffPreview(id, newVal) {
 
   //current = parseFloat(el.textContent);
   current = parseFloat(el.dataset.value ?? 0);
+   
+  if(id === `hp-label`) {
+    const hpText = document.getElementById("hp-label")?.innerText || "100/100";
+    const currentHp = parseFloat(hpText.split("/")[0]);
+    const maxHp = parseFloat(hpText.split("/")[1]);
+    current = maxHp;
+  }
+   
   if (isNaN(current) || isNaN(newVal)) {
     console.warn(`[diffPreview] id=${id}, błędne dane`, { current, newVal });
     return;
   }
+   
+   console.log("newVal, current", newVal, current);
+   
 
+   
   const diff = newVal - current;
   //console.warn(`[diffPreview] id=${id}, current=${current}, newVal=${newVal}, diff=${diff}`);
 
@@ -1297,7 +1332,7 @@ function diffPreview(id, newVal) {
 
 function clearAllDiffs() {
    // Statyczna lista ID-ów, które używasz
-  ["hp", "dmg", "def", `gold`].forEach(id => {
+  ["hp-label", "dmg", "def", `gold`].forEach(id => {
     // Główne diffy
     const diffEl = document.getElementById(`${id}-diff`);
     if (diffEl) {
@@ -1318,6 +1353,9 @@ function clearAllDiffs() {
       delete window.diffTimers[id];
     }
   });
+   
+  gameState.resources.isComparing = false;
+ 
 }
 
 /*function sellItem(itemId) {

@@ -321,7 +321,7 @@ const SKILLS_DATABASE = {
       effects: [
          {
            type: "dmg-bonus",
-           baseValue: 8,
+           baseValue: 8000,
            scalingPerLevel: 5,
            target: "character"
          }
