@@ -307,18 +307,18 @@ function renderShop(isPotion = false) {
         }
         
         const quantityDiv = document.createElement("div");
-        if(item.id === 'heal_potion') {
+        if(item.baseName === 'heal_potion') {
           quantityDiv.className = "slot-quantity";
-          quantityDiv.innerHTML = `${resources.healPotionQuantity || 99} <span class="icon">szt</span> `;
+          quantityDiv.innerHTML = `${resources.healPotionQuantity || 0} <span class="icon">${t("pcs_label")}</span> `;
           let inv = gameState.inventory;
           const slotIndex = inv.findIndex(it => it._id === item._id);
           item.stackIndex = slotIndex;
           //compareBtn.classList.add(`hidden`);
         }
         
-        if(item.id === 'bread') {
+        if(item.baseName === 'bread') {
           quantityDiv.className = "slot-quantity";
-          quantityDiv.innerHTML = `${resources.foodQuantity || 10} <span class="icon">szt</span> `;
+          quantityDiv.innerHTML = `${resources.foodQuantity || 0} <span class="icon">${t("pcs_label")}</span> `;
           //const slotIndex = inventory.findIndex(it => it === item);
           //item.stackIndex = slotIndex;
           //compareBtn.classList.add(`hidden`);
@@ -519,7 +519,7 @@ function renderInventoryForSelling() {
       sellBtn.appendChild(sellIcon);
       sellBtn.onclick = (e) => {
         e.stopPropagation();
-        sellItem(item._id); // Twoja istniejąca funkcja sellItem
+        sellItem(item._id, slot); // Twoja istniejąca funkcja sellItem
         // po sprzedaży odśwież widok
        // renderShop();
       };
@@ -541,7 +541,7 @@ function renderInventoryForSelling() {
       const quantityDiv = document.createElement("div");
       if(item.typ === 'heal_potion') {
           quantityDiv.className = "slot-quantity";
-          quantityDiv.innerHTML = `${item.quantity} <span class="icon">szt</span> `;
+          quantityDiv.innerHTML = `${item.quantity} <span class="icon">${t("pcs_label")}</span> `;
           const slotIndex = gameState.inventory.findIndex(it => it._id === item._id);
           item.stackIndex = slotIndex;
       }
@@ -656,7 +656,7 @@ function showItemPopupForSale(itemId) {
     </div>
     <div class="item-separator"></div>
     <div class="item-footer-normal">
-      <span>${t(item.baseName)} (Poz. ${item.level})</span>
+      <span>${t(item.baseName)} (${t("item_lvl_text")} ${item.level})</span>
       <span class="item-value-normal">💰 ${(item.wartosc).toFixed(0) || 0}</span>
     </div>
     <div class="center-buttons">
@@ -678,14 +678,14 @@ function showItemPopupForSale(itemId) {
   popup.classList.remove("hidden");
 }
 
-function sellItem(itemId) {
+function sellItem(itemId, slot) {
   const itemIndex = gameState.inventory.findIndex(i => i._id === itemId);
  // console.log("itemIndex", itemIndex);
   if (itemIndex === -1) return;
 
   const item = gameState.inventory[itemIndex];
   
-  const slot = document.querySelector(`.slot.not-empty img[alt="${gameState.inventory[itemIndex].nazwa}"]`)?.closest(".slot");
+  //const slot = document.querySelector(`.slot.not-empty img[alt="${gameState.inventory[itemIndex].nazwa}"]`)?.closest(".slot");
   if (!slot) {
     console.warn("Nie znaleziono slotu do animacji sprzedaży");
     doSell(itemIndex);
@@ -752,7 +752,7 @@ function doSell(itemIndex) {
 
   saveGame();
   
-  showInfoAlert(`${t("sold_info")} +${item.wartosc}💰`, 1500, true);
+  showInfoAlert(`${t("sold_info")} +${Math.round(item.wartosc)}💰`, 1500, true);
 
   closeShopItemPopup();
   showDiff();
@@ -818,12 +818,22 @@ function buyItem(category, index) {
     
     if(!addItemToInventory(item)) return;
     
-    resources.healPotionQuantity--;
+    if(resources.healPotionQuantity > 0) {
+      resources.healPotionQuantity--;
+    } else {
+      return showInfoAlert(`${t("potions_out_of_stock_info")}`);
+    }
+    
   } else if (isFood) {
  
     if(!addItemToInventory(item)) return;
     
-    resources.foodQuantity--;
+    if(resources.foodQuantity > 0) {
+      resources.foodQuantity--;
+    } else {
+      return showInfoAlert(`${t("bread_out_of_stock_info")}`);
+    }
+  
     // === 2) Jeśli to normalny item ===
   } else {
     if (gameState.inventory.length >= 20) {
@@ -1102,7 +1112,7 @@ function showItemPopup(category, item, index) {
     </div>
     <div class="item-separator"></div>
     <div class="item-footer-normal">
-      <span>${t(item.baseName)} (Poz. ${item.level})</span>
+      <span>${t(item.baseName)} (${t("item_lvl_text")} ${item.level})</span>
       <span class="item-value-normal">💰 ${(item.wartosc).toFixed(0) || 0}</span>
     </div>
     <div class="center-buttons">

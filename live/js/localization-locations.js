@@ -7,6 +7,24 @@ Object.assign(LANG.en, {
   green_pass: "Green Pass",
   whispering_trees: "Whispering Trees",
 
+  elmaris_port_lore1: "The trading heart of Rivenfell's western coast.",
+  elmaris_port_lore2: "The largest port in Rivenfell, where every ship carries its own story.",
+
+  thalorn_village_lore1: "A peaceful settlement among vast plains and ancient forests.",
+  thalorn_village_lore2: "A small farming community surrounded by untamed wilderness.",
+
+  reapers_road_lore1: "An old trade route winding through dark woodlands.",
+  reapers_road_lore2: "Travelers vanish with increasing frequency along this forgotten road.",
+
+  lirwen_fort_lore1: "An abandoned fort guarding the crossings of the River Lir.",
+  lirwen_fort_lore2: "The ruins of an ancient stronghold overlook a mist-covered headland.",
+
+  green_pass_lore1: "A narrow path following the flow of the river.",
+  green_pass_lore2: "A wild trail separating civilization from the unknown wilderness.",
+  
+  whispering_trees_lore1: "A dense forest where nature long ago lost its balance.",
+  whispering_trees_lore2: "Dark woods hiding the source of mysterious anomalies.",
+  
   life_shrine: "Shrine of Life",
   might_shrine: "Shrine of Might",
   protect_shrine: "Shrine of Protect",
@@ -96,6 +114,24 @@ Object.assign(LANG.pl, {
   green_pass: "Zielony Przesmyk",
   whispering_trees: "Szeptane Drzewa",
 
+  elmaris_port_lore1: "Handlowe serce zachodnich wybrzeży Rivenfell.",
+  elmaris_port_lore2: "Największy port Rivenfell, gdzie każdy statek skrywa własną historię.",
+  
+  thalorn_village_lore1: "Spokojna osada pośród rozległych nizin i starych lasów.",
+  thalorn_village_lore2: "Niewielka wspólnota rolników otoczona dziką naturą.",
+  
+  reapers_road_lore1: "Stara droga kupiecka prowadząca przez mroczne ostępy.",
+  reapers_road_lore2: "Wędrowcy coraz częściej znikają na tym zapomnianym trakcie.",
+
+  lirwen_fort_lore1: "Opuszczony fort strzegący przepraw przez rzekę Lir.",
+  lirwen_fort_lore2: "Ruiny dawnej twierdzy spoglądają na mglisty przylądek.",
+
+  green_pass_lore1: "Wąska ścieżka wijąca się wzdłuż nurtu rzeki.",
+  green_pass_lore2: "Dziki szlak oddzielający cywilizację od nieznanych ostępów.",
+
+  whispering_trees_lore1: "Gęsty las, w którym natura dawno utraciła równowagę.",
+  whispering_trees_lore2: "Mroczne knieje skrywające źródło tajemniczych anomalii.",
+  
   life_shrine: "Kapliczka Życia",
   might_shrine: "Kapliczka Mocy",
   protect_shrine: "Kapliczka Ochrony",

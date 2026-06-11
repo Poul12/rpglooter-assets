@@ -556,22 +556,22 @@ function updateSkillUpgradeDescription(skillId, style) {
   const skillDescEl = document.getElementById("skill-desc");
 
   const styleNames = {
-    turtle: "Wytrzymałość",
-    timed: "Precyzja",
-    poise: "Brutalność"
+    turtle: t("resilience_style"),
+    timed: t("precision_style"),
+    poise: t("brutality_style")
   };
 
   const styleDescriptions = {
-    turtle: "Wzmacnia defensywne aspekty umiejętności. Większa przeżywalność i redukcja obrażeń.",
-    timed: "Wzmacnia efekty związane z perfekcyjnym momentem. Większe nagrody za precyzję.",
-    poise: "Wzmacnia siłę uderzenia i agresję. Większe obrażenia i presja na przeciwnika."
+    turtle: t("style_turtle_desc"),
+    timed: t("style_timed_desc"),
+    poise: t("style_poise_desc")
   };
-
+  
   skillDescEl.innerHTML = `
     <div class="upgrade-desc">
       <div class="upgrade-title">${styleNames[style]}</div>
       <div class="upgrade-text">${styleDescriptions[style]}</div>
-      <div class="upgrade-note">System ulepszeń w fazie rozwoju.</div>
+      <div class="upgrade-note">${t("styles_in_development")}</div>
     </div>
   `;
 }

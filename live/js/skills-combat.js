@@ -125,12 +125,12 @@ function handleSkillClick(button) {
     const player = getPlayerStats();
     
     useSkill(skillId, player, enemy);
-  } else {
+  } /*else {
     // poza walką – ale jeśli skill może działać samodzielnie, odpal go
    // console.log("using skill outside combat");
     const player = getPlayerStats();
     useSkill(skillId, player, null);
-  } 
+  } */
   
  // console.log("start skill cooldown");
 }

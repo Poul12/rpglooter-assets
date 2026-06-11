@@ -1688,7 +1688,8 @@ box-shadow:
 }
 
 #inventory-view .slot.locked::after {
-  content: "SYTOŚĆ";
+  /*content: "SYTOŚĆ";*/
+  content: attr(data-locked-text);
   position: absolute;
   bottom: 4px;
   right: 4px;

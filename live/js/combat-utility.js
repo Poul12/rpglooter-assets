@@ -539,6 +539,11 @@ function consumeGuardStacksOnAttack(damage) {
   if(guardStacks == 2) bonus = 1.75;
   if(guardStacks == 3) bonus = 2.3;
   
+  if(guardStacks == 3) {
+    showOutcome("miss", `${t("gurd_momentum_outcome")}`);
+    triggerCriticalShake();
+  }  
+  
   guardStacks = 0;
   
  // console.error(`consumeGuardStacksOnAttack block bonus`, bonus);
@@ -840,12 +845,15 @@ function canPerformAction(actionType) {
   return actionLock.allowedActions.includes(actionType);
 }
 
-function lockScroll() {
+function lockCombatScroll() {
   document.body.classList.add("no-scroll");
+  //document.body.style.touchAction = "none";
+  //console.error(`enter locked scroll,`);
 }
 
-function unlockScroll() {
+function unlockCombatScroll() {
   document.body.classList.remove("no-scroll");
+  //document.body.style.touchAction = "auto";
 }
 
 function updateActionLockUI() {
@@ -1479,7 +1487,12 @@ function triggerInterrupt(enemy, penaltyMs = 800) {
 
 function doubleaxeOnHit(enemy, player) {
   if (!enemy.bleedStacks) enemy.bleedStacks = 0;
-
+  
+  if (enemy.bleedReady || enemy.hitAfterResolve) {
+    enemy.hitAfterResolve = false;
+    return;
+  }
+  
   gameState.combat.activeRingMode = "bleed";
   
   enemy.bleedStacks++;
@@ -1602,15 +1615,20 @@ function handleBleedAttack(enemy, player) {
   playerAttackCooldown.playerCooldownEnd = now + cooldownDuration * 1000;
   
   gameState.combat.bleedTimingActive = false;
-  
+  enemy.hitAfterResolve = true;
   //enemy.bleedReady = false;
 }
 
 function greatswordOnHit(enemy, player) {
   // jeśli READY → NIE dodawaj stacków
-  if (enemy.armorBreakReady) {
+  //console.error(`enter enemy.armorBreakReady`, enemy.exposeStacks, enemy.armorBreakReady);
+  
+  if (enemy.armorBreakReady || enemy.hitAfterResolve) {
+    enemy.hitAfterResolve = false;
     return;
   }
+  
+  //console.error(`enemy.armorBreakReady`, enemy.exposeStacks, enemy.armorBreakReady);
   
   gameState.combat.activeRingMode = `armor`;
   
@@ -1661,7 +1679,7 @@ function resolveArmorBreak(enemy) {
     triggerBleedVFX();
     triggerCriticalShake();
     resetArmorBreak(enemy);
-    showOutcome("perfect", `${t("armor_break_outcome")} -${(penetration * 100).toFixed(0)}%`);
+    showOutcome("perfect", `${t("armor_break_outcome")} <br> -${(penetration * 100).toFixed(0)}%`);
   } else if (result === "normal") {
     const penetration = 0.32 + (str * 0.001);
     const duration = 3.3 + (str * 0.01);
@@ -1684,7 +1702,7 @@ function resolveArmorBreak(enemy) {
   stopArmorBreakTimingUI(enemy); 
   
   gameState.combat.armorBreakTimingActive = false;
-  
+  enemy.hitAfterResolve = true;
   enemy.armorBreakReady = false;
   updateArmorRing(enemy);
 }

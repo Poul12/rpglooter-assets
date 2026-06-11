@@ -76,6 +76,40 @@ function formatTime(time){
   return `${mm}:${ss}`;
 }
 
+ 
+const locationLore = {
+  "elmaris_port": [
+    "elmaris_port_lore1",
+    "elmaris_port_lore2"
+  ],
+
+  "thalorn_village": [
+    "thalorn_village_lore1",
+    "thalorn_village_lore2"
+  ],
+
+  "reapers_road": [
+    "reapers_road_lore1",
+    "reapers_road_lore2"
+  ],
+
+  "lirwen_fort": [
+    "lirwen_fort_lore1",
+    "lirwen_fort_lore2"
+  ],
+
+  "green_pass": [
+    "green_pass_lore1",
+    "green_pass_lore2"
+  ],
+
+  "whispering_trees": [
+    "whispering_trees_lore1",
+    "whispering_trees_lore2"
+  ]
+};
+
+
 function openAnomalySelection(){
   const pool = Object.keys(EXPEDITION_MUTATOR_INFO);
   const choices = shuffle(pool).slice(0,3);

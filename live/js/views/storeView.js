@@ -187,8 +187,10 @@ function initShopTabs() {
         .forEach(c => c.classList.remove("active"));
 
       tab.classList.add("active");
-      document.getElementById(tab.dataset.tab).classList.add("active");
-
+      //document.getElementById(tab.dataset.tab).classList.add("active");
+      const dataTab = document.getElementById(tab.dataset.tab);
+      if(dataTab) dataTab.classList.add("active");
+      
       playSound(`menu-tab`, 1, 1, 0.45);
         
       saveGame();

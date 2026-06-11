@@ -167,7 +167,7 @@ function showStatsPopup() {
     </div>
     <div class="item-separator"></div>
     <div class="item-footer">
-      <span>${t(item.baseName)} (Poz. ${item.level})</span>
+      <span>${t(item.baseName)} (${t("item_lvl_text")} ${item.level})</span>
       <span class="item-value">💰 ${item.wartosc || 0}</span>
     </div>
    <div class="center-buttons">

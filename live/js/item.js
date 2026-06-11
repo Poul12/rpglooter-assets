@@ -1274,7 +1274,7 @@ function addItemToInventory(item) {
             saveGame();
             return true;
           } else {
-            showInfoAlert("❌ Nie ma miejsca na nową miksturę");
+            showInfoAlert(`${t("no_space_for_potion_info")}`);
             return false;
           }
         }
@@ -1294,13 +1294,13 @@ function addItemToInventory(item) {
     // 2. NORMALNE ITEMY
     // ---------------------------
     if (inventory.length >= 20) {
-        showInfoAlert("❌ Ekwipunek jest pełny (20 przedmiotów)");
+        showInfoAlert(`${t("full_inventory_info")}`);
         return false;
     }
 
     const freeIndex = getFirstFreeInventoryIndex();
     if (freeIndex === -1) {
-        showInfoAlert("❌ Brak miejsca w ekwipunku");
+        showInfoAlert(`${t("no_inventory_space_info")}`);
         return false;
     }
 

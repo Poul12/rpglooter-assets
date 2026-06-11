@@ -457,7 +457,7 @@ async function getMapTemplate() {
 
 async function renderMapView(options = {}) {
   const firstLoad = options.firstLoad;
-
+  
   if (!firstLoad) {
     showViewLoader();
   }
@@ -484,7 +484,7 @@ async function renderMapView(options = {}) {
     }
 
     initMapView();
-
+        
     await waitForImages(app);
 
     await nextFrame();
@@ -498,7 +498,14 @@ async function renderMapView(options = {}) {
     if (!firstLoad) {
       hideViewLoader();
     }
+    
+    /*console.log(`4. `, document.elementFromPoint(
+      window.innerWidth / 2,
+      window.innerHeight / 2
+    ));*/
+    
   }
+  
 }
 
 

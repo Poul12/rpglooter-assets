@@ -72,6 +72,13 @@ Object.assign(LANG.en, {
   block_recovery_skill_name: "Recovery Control",
   block_recovery_skill_desc: "Increases damage reduction from standard blocks by {block-reduction}. You regain control faster after a failed attempt.",
   
+  style_turtle_desc: "Enhances the defensive aspects of abilities. Increases survivability and damage reduction.",
+  style_timed_desc: "Enhances effects tied to perfect timing. Grants greater rewards for precision.",
+  style_poise_desc: "Enhances striking power and aggression. Increases damage and pressure applied to enemies.",
+  
+  styles_in_development: "Upgrade system in development.",
+  
+  
   
 });
 
@@ -146,7 +153,11 @@ Object.assign(LANG.pl, {
   block_recovery_skill_name: "Kontrola Błędu",
   block_recovery_skill_desc: "Zwiększa redukcję obrażeń przy zwykłym bloku o {block-reduction}. Szybciej odzyskujesz kontrolę po nieudanej próbie.",
   
+  style_turtle_desc: "Wzmacnia defensywne aspekty umiejętności. Zwiększa przeżywalność i redukcję obrażeń.",
+  style_timed_desc: "Wzmacnia efekty związane z perfekcyjnym wyczuciem czasu. Oferuje większe nagrody za precyzję.",
+  style_poise_desc: "Wzmacnia siłę uderzeń i agresywny styl walki. Zwiększa obrażenia oraz presję wywieraną na przeciwnika.",
   
+  styles_in_development: "System ulepszeń w fazie rozwoju.",
   
 });
   

@@ -363,7 +363,114 @@ function updateStaminaOrb() {
   wasExhausted = isExhausted;
 }
 
+let perfectBlockTimingActive = false;
+let perfectBlockAnimationFrame = null;
+
 function showTimedBlockUI(player) {
+  const bar = document.getElementById("timing-mode");
+  const miss = bar.querySelector(".miss-window");
+  const normal = bar.querySelector(".normal-window");
+  const perfect = bar.querySelector(".perfect-window");
+  const indicator = bar.querySelector(".time-indicator");
+  const sweep = bar.querySelector(".glass-sweep");
+
+  indicator.style.transform = `translateX(0px) skewX(-10deg)`;
+  sweep.style.transform = `translateX(0px)`;
+
+  bar.classList.remove("hidden");
+
+  const { perfect: p, normal: n } = getBlockWindows(player);
+
+  setTimingBarMode("timed");
+
+  miss.style.left = "0%";
+  miss.style.width = "100%";
+
+  const normalWidth = msToPercent(n) * 2;
+  normal.style.left = `${50 - normalWidth / 2}%`;
+  normal.style.width = `${normalWidth}%`;
+
+  const perfectWidth = msToPercent(p) * 2;
+  perfect.style.left = `${50 - perfectWidth / 2}%`;
+  perfect.style.width = `${perfectWidth}%`;
+
+  let startTime = getGameTime();
+  let barWidth;
+
+  perfectBlockTimingActive = true;
+
+  function animate() {
+
+    if (!perfectBlockTimingActive) return;
+
+    if (gameState.globalTime.isPaused) {
+      perfectBlockAnimationFrame = requestAnimationFrame(animate);
+      return;
+    }
+
+    const elapsed = getGameTime() - startTime;
+
+    const cycle = elapsed / TIMED_DURATION;
+
+    //const progress = Math.abs(Math.sin(cycle * Math.PI));
+    //const progress = (elapsed % TIMED_DURATION) / TIMED_DURATION;
+    const cycleLength = TIMED_DURATION + 120;
+    const cycleTime = elapsed % cycleLength;
+    let progress;
+    
+    if (cycleTime >= TIMED_DURATION) {
+      progress = 0;
+      gameState.combat.playerBlock.startTime = getGameTime();
+    } else {
+      progress = cycleTime / TIMED_DURATION;
+    }
+    
+    
+    const moveX = progress * barWidth;
+
+    indicator.style.transform =
+      `translateX(${moveX}px) skewX(-10deg)`;
+
+    sweep.style.transform =
+      `translateX(${moveX}px)`;
+
+    perfectBlockAnimationFrame =
+      requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(() => {
+    barWidth = bar.offsetWidth || 1;
+    requestAnimationFrame(animate);
+  });
+}
+
+function stopTimedBlockUI() {
+
+  perfectBlockTimingActive = false;
+
+  if (perfectBlockAnimationFrame) {
+    cancelAnimationFrame(perfectBlockAnimationFrame);
+    perfectBlockAnimationFrame = null;
+  }
+
+  const bar = document.getElementById("timing-mode");
+
+  bar.classList.add("hidden");
+}
+
+function resumeTimedBlockUI() {
+  if (!perfectBlockTimingActive) return;
+  
+  const bar = document.getElementById("timing-mode");
+
+  if (bar.classList.contains("hidden")) return;
+
+  const player = getPlayerStats();
+  showTimedBlockUI(player);
+}
+
+
+/*function showTimedBlockUI(player) {
   const perfectBar = document.querySelector(".perfect-block-bar");
   const bar = document.getElementById("timing-mode");
   const miss = bar.querySelector(".miss-window");
@@ -419,7 +526,7 @@ function showTimedBlockUI(player) {
     barWidth = bar.offsetWidth;
     requestAnimationFrame(animate);
   });
-}
+}*/
 
 /*function pauseTimedBlock() {
   if (!playerBlock.active || playerBlock.activePaused) return;

@@ -208,6 +208,9 @@ function renderInventory() {
           foodBtn.disabled = true;
           slot.classList.add("locked");
 
+          //slot.dataset.lockedText = t("satiety_label");
+          slot.setAttribute("data-locked-text", t("satiety_label"));
+           
           const timeLeft = foodState.expiresAt - Date.now();
 
           const timer = document.createElement("div");
@@ -303,7 +306,7 @@ function renderInventory() {
          // console.log("item potion", item.quantity);
      
           quantityDiv.className = "slot-quantity";
-          quantityDiv.innerHTML = `${item.quantity} <span class="icon">szt</span> `;
+          quantityDiv.innerHTML = `${item.quantity} <span class="icon">${t("pcs_label")}</span> `;
           //const slotIndex = gameState.inventory.findIndex(it => it === item);
           const slotIndex = gameState.inventory.findIndex(it => it._id === item._id);
           item.stackIndex = slotIndex;
@@ -428,7 +431,7 @@ function showInvItemPopup(itemId) {
     </div>
     <div class="item-separator"></div>
     <div class="item-footer-normal">
-      <span>${t(item.baseName)} (Poz. ${item.level})</span>
+      <span>${t(item.baseName)} (${t("item_lvl_text")} ${item.level})</span>
       <span class="item-value-normal">💰 ${item.wartosc || 0}</span>
     </div>
     <div class="center-buttons">
@@ -630,7 +633,7 @@ function showComparePopup(itemId, key = null) {
     </div>
     <div class="item-separator"></div>
     <div class="item-footer">
-      <span>${t(item.baseName)} (Poz. ${item.level})</span>
+      <span>${t(item.baseName)} (${t("item_lvl_text")} ${item.level})</span>
       <span class="item-value">💰 ${(item.wartosc).toFixed(0) || 0}</span>
     </div>
    <!-- <div class="center-buttons">
@@ -777,7 +780,7 @@ function compareItem(itemId, key = null) {
     </div>
     <div class="item-separator"></div>
     <div class="item-footer">
-      <span>${t(equipped.baseName)} (Poz. ${equipped.level})</span>
+      <span>${t(equipped.baseName)} (${t("item_lvl_text")} ${equipped.level})</span>
       <span class="item-value">💰 ${equipped.wartosc || 0}</span>
     </div>
      `;
@@ -838,7 +841,7 @@ function compareItem(itemId, key = null) {
       <span class="item-class">(${getGenderedClassLabel(equipped.klasa, equipped.baseName || equipped.typ)})</span><br>
       <div class="item-stats">${statsHTML}</div>
       <div class="item-footer">
-        <span>${equipped.typ} (Poz. ${equipped.level})</span>
+        <span>${equipped.typ} (${t("item_lvl_text")} ${equipped.level})</span>
         <span class="item-value">💰 ${equipped.wartosc || 0}</span>
       </div>
     `;
@@ -1052,7 +1055,7 @@ function equipComparedItem(itemId, key = null) {
            </div>
            <div class="item-separator"></div>
            <div class="item-footer">
-             <span>${t(item.baseName)} (Poz. ${item.level})</span>
+             <span>${t(item.baseName)} (${t("item_lvl_text")} ${item.level})</span>
              <span class="item-value">💰 ${(item.wartosc).toFixed(0) || 0}</span>
            </div>
          `;

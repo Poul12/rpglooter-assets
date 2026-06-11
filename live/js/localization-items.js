@@ -741,6 +741,8 @@ Object.assign(LANG.en, {
   required_level: "Required Level",
   two_handed: "Two Handed",
   
+  item_lvl_text: "Lvl.",
+  
   item_implicit_title: "IMPLICIT",
   bonuses_title: "AFFIXES",
   weapon_style_title: "COMBAT STYLE", 
@@ -919,6 +921,8 @@ Object.assign(LANG.pl, {
 
   required_level: "Wymagany Poziom",
   two_handed: "Broń Dwuręczna",
+  
+  item_lvl_text: "Poz.",
   
   item_implicit_title: "CECHA PRZEDMIOTU",
   bonuses_title: "BONUSY",

@@ -19,9 +19,9 @@ const locationsByRegion = {
     "elmaris_port",
     "thalorn_village",
     "reapers_road",
-    "lirwen_fort",
+   /* "lirwen_fort",
     "green_pass",
-    "whispering_trees",
+    "whispering_trees",*/
   ]
 };
 

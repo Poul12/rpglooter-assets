@@ -135,7 +135,7 @@ function startCombat(i) {
   const perfectBar = document.querySelector(".perfect-block-bar");
   const bar = document.getElementById("poise-mode");
 
-  //lockScroll();
+  lockCombatScroll();
   
   const eq = gameState.char?.equipment || {};
   const weapon = eq[`weapon`];
@@ -265,6 +265,7 @@ function renderCombat(renderPotion = false) {
   
   if(weapon?.twoHanded) {
     shieldSprite = `img/items/` + weapon.sprite;
+    gameState.combat.playerBlock.mode = null;
     //shieldIcon.classList.add(`shield-disabled`);
   }
  
@@ -279,7 +280,7 @@ function renderCombat(renderPotion = false) {
     dlg.innerHTML = `
       <div id="combat-enemy-section"></div>
 
-      <div id="test-holder">
+      <div id="test-holder" class="hidden">
         <button class="menu-item" onclick="toggleBypass()" id="bypass-btn" title="Test">T
           <!-- <img data-src="img/icons/menu-market-icon.png" alt="Zamknij" class="menu-icon" />-->
         </button>
@@ -514,6 +515,7 @@ function renderCombat(renderPotion = false) {
 
 function handleAttack() {
   if (!canPerformAction(`attack`)) return;
+  
   console.time("attack");
   //console.error(`sprawdzam handleAttack`);
   const player = getPlayerStats();
@@ -522,20 +524,16 @@ function handleAttack() {
 
   let isDefShield = false;
   
-  /*if (enemy.armorBreakReady) {
-    showArmorBreakTimingUI(enemy, player);
-    enemy.armorBreakReady = false;
-    return;
-  }*/
-  
   if (gameState.combat.armorBreakTimingActive) {
+    //console.error(`armor break attack`);
+
+    /*attack(isDefShield);
+    spawnEffect("basic", enemy.dom.slot);
+    playHit(`enemy`);*/
+
     resolveArmorBreak(enemy);
     
-    attack(isDefShield);
-    spawnEffect("basic", enemy.dom.slot);
-    playHit(`enemy`);
-
-    return;
+    //return;
   }
   
   if (enemy.armorBreakReady) {
@@ -547,11 +545,11 @@ function handleAttack() {
   if (gameState.combat.bleedTimingActive) {
     handleBleedAttack(enemy, player);
     
-    attack(isDefShield);
+   /* attack(isDefShield);
     spawnEffect("basic", enemy.dom.slot);
-    playHit(`enemy`);
+    playHit(`enemy`);*/
 
-    return;
+    //return;
   }
   
   if (enemy.bleedReady) {
@@ -561,7 +559,8 @@ function handleAttack() {
     return;
   }
 
-  
+  //console.error(`sprawdzam handleAttack`);
+
   if (now < playerAttackCooldown.playerCooldownEnd) {
     //console.log("Atak zablokowany – cooldown trwa");
     return;
@@ -585,6 +584,8 @@ function handleAttack() {
     cooldownDuration = calculateCooldown(atkSpeed * 0.7);
   }
   
+  //console.error(`common break attack`);
+
   attack(isDefShield);
   spawnEffect("basic", enemy.dom.slot);
   playHit(`enemy`);
@@ -618,7 +619,7 @@ function handleShieldAction() {
   if (!canPerformAction(`block`)) return;
   const blockButton = document.getElementById("attack-left");
   //const blockButton = document.getElementById("attack-left").querySelector(".attack-button");
-  combat.flags.isBlocked = false;
+  //combat.flags.isBlocked = false;
   
  // console.error(`enter shield`);
   
@@ -640,7 +641,8 @@ function handleShieldAction() {
    // console.error(`na cooldownie`);
   } else if (combat.playerBlock.mode === "timed") {
     if(!spendStamina(STAMINA_COST.TIMED_BLOCK)) return;
-    activateTimedBlock();
+    //activateTimedBlock();
+    executeTimedBlock();
     //blockButton.classList.add(`timed`);
   }
 }
@@ -656,9 +658,11 @@ function endTimedBlock(result, cooldown) {
   playerBlock.lastResult = result;
   playerBlock.cooldownUntil = getGameTime() + cooldown;
   
-  if(shieldBtn) shieldBtn.classList.remove("timed");
+  stopTimedBlockUI();
+  
+  //if(shieldBtn) shieldBtn.classList.remove("timed");
 
-//  console.log(`🛡️ Timed Block zakończony: ${result}`);
+  //console.log(`🛡️ Timed Block zakończony: ${result}`);
 }
 
 function updateBlockState() {
@@ -779,6 +783,7 @@ function setupFleeButton() {
       resumeEnemyAttack(enemy, gameState.world.selectedSlotIndex);
       resumeAllSkillsCooldown(); 
       resumeCombat();
+      resumeTimedBlockUI();
       resumeBleedUI();
       resumeSpearUI();
       gameState.resources.staminaState.disabled = false;
@@ -1094,13 +1099,57 @@ function deactivateDefensiveStance() {
   //console.error("Postawa Obronna WYŁĄCZONA");
 }
 
-const TIMED_DURATION = 550;
-const PERFECT_START = 200;//200
-const PERFECT_END = 320;//320
+const TIMED_DURATION = 600;
+const PERFECT_START = 230;//200
+const PERFECT_END = 350;//320
 const PERFECT_CENTER = TIMED_DURATION / 2; 
+
+function executeTimedBlock() {
+  //console.error(`enter execute timed block`, perfectBlockTimingActive);
+
+  if(!perfectBlockTimingActive) return;
+
+  const blockButton = document.getElementById("attack-left");
+  
+  const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
+  //const result = executeEnemyIntent(enemy);
+  
+  let playerBlock = gameState.combat.playerBlock;
+  
+  const now = getGameTime();
+  
+  //if (playerBlock.cooldownUntil > now) return;
+  
+ // console.error(`executed timed block`);
+  const player = gameState.char;
+
+  //const blockButton = document.getElementById("attack-left");
+
+  playerBlock.mode = "timed";
+  playerBlock.active = true;
+  playerBlock.activePaused = false;
+
+  /*playerBlock.startTime = now;
+  playerBlock.endTime = now + TIMED_DURATION;
+  playerBlock.lastResult = null;
+  playerBlock.activeRemaining = TIMED_DURATION;*/
+  
+  performIntentAttack(enemy, gameState.world.selectedSlotIndex, {multiplier: enemy.attackState.result.dmgMultiplier});
+
+  //blockButton.classList.add(`timed`);
+
+  if(!gameState.combat.flags.isCritical) {
+    lockActions({ duration: 230, reason: "block", allow: [] });
+  }
+
+}
 
 function activateTimedBlock() {
   //if (!canPerformAction()) return;
+  //console.error(`enter activate timed block`);
+  
+  const player = gameState.char;
+
   let playerBlock = gameState.combat.playerBlock;
   
   const now = getGameTime();
@@ -1108,34 +1157,34 @@ function activateTimedBlock() {
   if (playerBlock.cooldownUntil > now) return;
   
   //console.error(`timed block activated`);
-  const player = gameState.char;
-  const blockButton = document.getElementById("attack-left");
+  
+  //const blockButton = document.getElementById("attack-left");
 
-  playerBlock.mode = "timed";
+ /* playerBlock.mode = "timed";
   playerBlock.active = true;
-  playerBlock.activePaused = false;
+  playerBlock.activePaused = false;*/
 
   playerBlock.startTime = now;
   playerBlock.endTime = now + TIMED_DURATION;
   playerBlock.lastResult = null;
   playerBlock.activeRemaining = TIMED_DURATION;
   
-  playSound(`timed-block`, 0.4);
+  //playSound(`timed-block`, 0.4);
   
   //triggerSlowMo(0.35, 300);
   //slowMoAlert();
   //slowMoDecision();
   //slowMoImpact();
   
-  blockButton.classList.add(`timed`);
+  //blockButton.classList.add(`timed`);
   
   //const { start, end } = getPerfectWindowRange(player);
   //showTimedBlockUI(0, TIMED_DURATION, start, end);
   showTimedBlockUI(player);
   
-  if(!gameState.combat.flags.isCritical) {
+  /*if(!gameState.combat.flags.isCritical) {
     lockActions({ duration: 230, reason: "block", allow: [] });
-  }
+  }*/
   
  // console.error("Blok Taktyczny AKTYWNY");
 }
@@ -1157,7 +1206,7 @@ function resolveTimedBlock(damage, player, enemy) {
   const { perfect, normal, miss } = getBlockWindows(player);
   
   const perfectCooldown = getTimedBlockCooldown(player.blockPower);
- // console.error(`player.hp, player`, player.hp, player);
+ // console.error(`offset, perfect, normal`, offset, perfect, normal);
 
   if (offset <= perfect) {
     const refund = getPerfectBlockRefund(STAMINA_COST.TIMED_BLOCK, offset, player.blockPower) 
@@ -1574,7 +1623,7 @@ function showOutcome(type, text, duration = 1700) {
 
   //onBlockOutcome(type);
   el.className = `combat-msg outcome ${type}`;
-  el.querySelector(".main").textContent = text;
+  el.querySelector(".main").innerHTML = text;
 
   el.classList.add("show");
 
@@ -1647,6 +1696,7 @@ function turnOffShieldMode() {
 
   // stan logiczny
   playerBlock.active = false;
+  playerBlock.mode = null;
   playerBlock.cooldownUntil = 0;
 
   // UI
@@ -1654,6 +1704,8 @@ function turnOffShieldMode() {
   blockButton.classList.remove("cooldown");
   blockButton.classList.remove("disabled");
 
+  gameState.combat.flags.isBlocked = false;
+  
   const overlay = blockButton.querySelector(".block-cooldown-overlay");
   if (overlay) {
     overlay.style.transform = `scaleY(0)`;
@@ -1882,7 +1934,7 @@ function winCombat() {
     hideGoBackButton();
   }
   
-  unlockScroll();
+  unlockCombatScroll();
   
   if ((gameState.world.mode ===`sandbox` || gameState.world.mode ===`adventure`) && world.currentStepIndex !== 0) {
     //navigate(`battle`);
@@ -1982,7 +2034,7 @@ function loseCombat() {
   
   //setDebuffPercentHp();
   
-  unlockScroll();
+  unlockCombatScroll();
   
   saveGame();
   
@@ -2148,7 +2200,7 @@ async function onFleeSuccess(player, enemy, slotIndex, msg = false){
   showNavigateButtons();
   renderLoots(world.selectedSlotIndex);
   renderOptions();
-  unlockScroll();
+  unlockCombatScroll();
   
   if ((gameState.world.mode ===`sandbox` || gameState.world.mode ===`adventure`) && world.currentStepIndex !== 0) {
     //navigate(`battle`);
@@ -2268,7 +2320,7 @@ function flee(i) {
   stopEnemyAttack(i);
  // hideEnemyDialog();
   //hideEnemySlotSmooth();
-  unlockScroll();
+  unlockCombatScroll();
   focusOnSlots();
   unlockActions();
   showNavigateButtons();

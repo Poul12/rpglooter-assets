@@ -74,7 +74,7 @@ function startEnemyAttackTimeline(enemy, slotIndex) {
     remaining: baseCooldown,
     baseCooldown,
     windupDuration: 600,
-    slotIndex
+    slotIndex,
   };
 
   enemy.intent = null;
@@ -178,6 +178,18 @@ function updateEnemyAttack(delta) {
           
       updateCooldownBar(enemy, 100, state.slotIndex);
 
+      state.result = executeEnemyIntent(enemy);
+      const player = gameState.char;
+
+      if(gameState.combat.playerBlock.mode === "timed" && !perfectBlockTimingActive) {
+        if (intentDealsAttack(enemy.intent) && state.result.type === "action") {
+           //console.error(`enemy action attack`);
+           setTimeout(() => {
+             activateTimedBlock();
+           }, 200);
+        }
+      }             
+          
       emitEnemyAttackWindup({
         enemy,
         slotIndex: state.slotIndex,
@@ -192,21 +204,26 @@ function updateEnemyAttack(delta) {
   else if (state.phase === "windup") {
         
     //console.error(`state.remaining windup`, state.remaining);  
-        
-    if (state.remaining <= 0) {
+                 
+    if (state.remaining <= 0 ) {
           
       //let dmgMultiplier = 1;
           
-      const result = executeEnemyIntent(enemy);
+      //const result = executeEnemyIntent(enemy);
           
       /*if (enemy.intent) {
         dmgMultiplier = executeEnemyIntent(enemy);
       }*/
           
-      if (intentDealsAttack(enemy.intent) && result.type === "action") {
-        //console.error(`dmgMultiplier`, result.dmgMultiplier);   
-        performIntentAttack(enemy, state.slotIndex, {multiplier: result.dmgMultiplier});
+      if (intentDealsAttack(enemy.intent) && state.result.type === "action" && !gameState.combat.flags.isBlocked) {
+        //console.error(`dmgMultiplier`, state.result.dmgMultiplier);
+        
+        performIntentAttack(enemy, state.slotIndex, {multiplier: state.result.dmgMultiplier});
+        
+        stopTimedBlockUI();
       } 
+          
+      gameState.combat.flags.isBlocked = false;
           
       //performEnemyAttack(enemy, state.slotIndex, { multiplier: dmgMultiplier });
           
@@ -215,9 +232,9 @@ function updateEnemyAttack(delta) {
       state.phase = "cooldown";
       state.remaining = state.baseCooldown;
           
-      if(result.type === "utility"){
+      if(state.result.type === "utility"){
         state.phase = "action";
-        state.remaining = result.duration;
+        state.remaining = state.result.duration;
       }
           
       //console.error(`state.phase windup, result.type`, state.phase, result.type);    
@@ -614,11 +631,11 @@ function rollEnemyIntent(enemy) {
   // ---------------------------------
   switch (enemy.intent) {
     case "attack":
-      enemy.windupDuration = 600;
+      enemy.windupDuration = 800;
       break;
 
     case "heavy":
-      enemy.windupDuration = 1000;
+      enemy.windupDuration = 1500;
       break;
 
     case "guard":
@@ -713,19 +730,19 @@ function tryInterruptEnemy(enemy, source) {
   switch(source) {
         
       case "perfect-block":
-        duration = 1500;  
+        duration = 1600;  
         break;        
         
       case "perfect-armor":
-        duration = 1200;  
+        duration = 2400;  
         break;        
 
       case "perfect-spear":
-        duration = 800;  
+        duration = 2300;  
         break;        
 
       case "poise-break":
-        duration = 1400;  
+        duration = 2500;  
         break;  
         
       case "stun":
@@ -1198,6 +1215,7 @@ function scaleEnemyStats(template, level, forcedType, isStoryEnemy) {
     exposeStacks: 0,
     armorBreakReady: false,
     lastArmorBreakHit: null,
+    hitAfterResolve: false,
     bleedStacks: 0,
     lastBleedHit: null,
     bleedReady: false,
@@ -1243,7 +1261,8 @@ function scaleEnemyStats(template, level, forcedType, isStoryEnemy) {
     finisherTimeout: null,
     attackState: {
       phase: "cooldown", // "cooldown" | "windup"
-      remaining: 0       // ms pozostałe w aktualnej fazie
+      remaining: 0,       // ms pozostałe w aktualnej fazie
+      result: null
     },
     status: {
       stunned: false,

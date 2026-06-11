@@ -3,7 +3,7 @@
   overscroll-behavior: contain;
 }
 
-#battle-view body.no-scroll {
+body.no-scroll {
   overflow: hidden;
   touch-action: none; /* 🔥 kluczowe na mobile */
 }

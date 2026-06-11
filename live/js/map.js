@@ -856,6 +856,9 @@ async function screenLoader(mode = "story") {
   const loadingScreen = document.getElementById("loading-screen");
   const loadingImage = document.getElementById("loading-image");
   const loadingTitle = document.getElementById("loading-title");
+  const loadingDivider = document.getElementById("loading-divider");
+  const loadingLore = document.getElementById("loading-lore");
+
   const map = document.querySelector(".map-content");
     
   let locationId;
@@ -879,7 +882,10 @@ async function screenLoader(mode = "story") {
   loadingImage.src = url;
     
   loadingTitle.textContent = t(locationName);
-  
+    
+  const loreList = locationLore[locationName] || [];
+  const loreId = loreList[Math.floor(Math.random() * loreList.length)];
+  loadingLore.textContent = t(loreId);
   resetLoaderState();
 
   loadingScreen.style.display = "flex";
@@ -894,11 +900,11 @@ async function screenLoader(mode = "story") {
   await nextFrame();
   await nextFrame();
     
-  await wait(1200);
+  await wait(1300);
     
   const battlePromise = renderFirstBattleView();
     
-  const minLoaderTime = wait(3200);
+  const minLoaderTime = wait(5200);
     
   await wait(700);
     
@@ -907,7 +913,12 @@ async function screenLoader(mode = "story") {
   await wait(700);
 
   loadingTitle.classList.add("visible");
+  loadingDivider.classList.add("visible");
 
+  await wait(700);
+
+  loadingLore.classList.add("visible");
+    
   //await wait(3000);
 
   //const battlePromise = renderFirstBattleView();
@@ -927,9 +938,13 @@ async function screenLoader(mode = "story") {
     battleView.classList.add("battle-enter");
   }
     
-  loadingScreen.classList.add("fade-out");
+  //loadingScreen.classList.add("fade-out");
     
-  await wait(1600);
+  requestAnimationFrame(() => {
+    loadingScreen.classList.add("fade-out");
+  });    
+    
+  await wait(3200);
   loadingScreen.style.display = "none";
   resetLoaderState();
   if (battleView) {
@@ -943,10 +958,14 @@ function resetLoaderState() {
   const loadingScreen = document.getElementById("loading-screen");
   const loadingImage = document.getElementById("loading-image");
   const loadingTitle = document.getElementById("loading-title");
-
+  const loadingDivider = document.getElementById("loading-divider");
+  const loadingLore = document.getElementById("loading-lore");
+    
   loadingScreen.classList.remove("active", "fade-out");
   loadingImage.classList.remove("visible");
   loadingTitle.classList.remove("visible");
+  loadingDivider.classList.remove("visible");
+  loadingLore.classList.remove("visible");
 }
 
 function closePopUp() {
