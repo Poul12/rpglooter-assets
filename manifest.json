@@ -1,11 +1,17 @@
 {
-  "version": "1781159819432",
+  "version": "1784107022516",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
       "path": "img/.hidden",
       "hash": "d41d8cd98f00b204e9800998ecf8427e",
       "size": 0,
+      "type": "asset"
+    },
+    {
+      "path": "img/backgrounds/coal-texture.png",
+      "hash": "643e89130c0118dd856d9852b94d0d3f",
+      "size": 2057954,
       "type": "asset"
     },
     {
@@ -18,6 +24,18 @@
       "path": "img/backgrounds/compare-background.png",
       "hash": "bc4c92ae29d22f4d22508f2506d81080",
       "size": 2824067,
+      "type": "asset"
+    },
+    {
+      "path": "img/backgrounds/dark-brown-texture.png",
+      "hash": "2b0874456afb12e8073488a459015e8e",
+      "size": 1702052,
+      "type": "asset"
+    },
+    {
+      "path": "img/backgrounds/dark-violet-texture.png",
+      "hash": "4dfa452629d4bf358c6492b29b5fa49d",
+      "size": 1463344,
       "type": "asset"
     },
     {
@@ -66,6 +84,12 @@
       "path": "img/backgrounds/map-pergamin-long.png",
       "hash": "de1a77d0260a09fada7b4067021a5021",
       "size": 2485715,
+      "type": "asset"
+    },
+    {
+      "path": "img/backgrounds/metallic-texture.png",
+      "hash": "78e2ac73aaacce7a96d836dd8418954b",
+      "size": 2544971,
       "type": "asset"
     },
     {
