@@ -1,11 +1,257 @@
 {
-  "version": "1784107022516",
+  "version": "1785053037841",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
       "path": "img/.hidden",
       "hash": "d41d8cd98f00b204e9800998ecf8427e",
       "size": 0,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/axe.png",
+      "hash": "08080c46492a5aacce315f9e0a984821",
+      "size": 41218,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/body-for-1h.png",
+      "hash": "17f405e661f84cfc7354e5c6c93ec4e0",
+      "size": 309802,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/body-for-2h.png",
+      "hash": "2ef4ebcaae8a5f6fc8647f9a0beae404",
+      "size": 307354,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/boots.png",
+      "hash": "74132f2010d6d7c9b16a791578bb69bc",
+      "size": 52153,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/bracers.png",
+      "hash": "0cea693069275d1cae771367a14040b3",
+      "size": 23320,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/buckler.png",
+      "hash": "4845ac7a3a613030f7adfaeee5b8e669",
+      "size": 72373,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/cask.png",
+      "hash": "425626e0fa863d37ebcbc530bdc05ad7",
+      "size": 20797,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/chainmail.png",
+      "hash": "e256fc2effa067ba899e639df5a4f322",
+      "size": 135242,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/chestplate.png",
+      "hash": "7e47b63d391f68c87eb21d64643bdca5",
+      "size": 65536,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/combat-boots.png",
+      "hash": "1c5dcb4dee522557070080b281598e23",
+      "size": 48410,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/combat-pants.png",
+      "hash": "afbf392090e8ac6dcba7e252ff28b251",
+      "size": 142320,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/double-axe.png",
+      "hash": "01d8e898177f555a40e10f642527ca1b",
+      "size": 87721,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/gloves.png",
+      "hash": "4cf86e7da48640a4b87193f83e53ebe3",
+      "size": 28163,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/gloves2.png",
+      "hash": "68715dad121e2f4c75d3be0a0ec2cf25",
+      "size": 30560,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/great-sword.png",
+      "hash": "7d121e8f0b31f76f73e7a4434ee4dba4",
+      "size": 49407,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hammer.png",
+      "hash": "cd6a994c12cc2754f3b26c6d4e20dbc6",
+      "size": 41237,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hands-for-1h-chainmail.png",
+      "hash": "96ee3b7d2a807502b431551f2843cba1",
+      "size": 55927,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hands-for-1h-chestplate.png",
+      "hash": "7c047977cbbf5ff3534808bab885a4e6",
+      "size": 80865,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hands-for-1h-leather-armor.png",
+      "hash": "4357b0f36277724df6d2dde2e9d53aaa",
+      "size": 67657,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hands-for-1h-plate-armor.png",
+      "hash": "a9538892eeddb6548aea6ec5119efc6d",
+      "size": 23357,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hands-for-2h-chainmail.png",
+      "hash": "162eaa10ad9dec86d95044ed225c1d87",
+      "size": 54578,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hands-for-2h-chestplate.png",
+      "hash": "d53594e9f4b86af6f8ac7794f7204dd3",
+      "size": 78641,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hands-for-2h-leather-armor.png",
+      "hash": "646fa0efeb5244db38508d232ee72680",
+      "size": 68260,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hands-for-2h-plate-armor.png",
+      "hash": "956e83a375258b7c97fb435c8291a495",
+      "size": 23570,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/head.png",
+      "hash": "ce729e34563a01ba3cdbf8c4f48b9297",
+      "size": 42110,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/helmet.png",
+      "hash": "9d6c134e8d94b13b63d72efd82b06109",
+      "size": 31865,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/hood.png",
+      "hash": "a7285446e3aa05af80e0d27b2510c4ef",
+      "size": 33730,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/kalkan.png",
+      "hash": "69963797be823c08d8f0a1b4174d6971",
+      "size": 85121,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/leather-armor.png",
+      "hash": "f9cf1896eca3c80c4fb5c918a38a3922",
+      "size": 87034,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/leather-bracer.png",
+      "hash": "14dc285dd42fb0f52238c832bc0792c2",
+      "size": 18459,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/leather-gloves.png",
+      "hash": "c5778ba9962cd2bde22a71f4c28e54d3",
+      "size": 26403,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/long-sword.png",
+      "hash": "1e5901b2bd33e1e36f5c7a40e5419100",
+      "size": 36986,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/mace.png",
+      "hash": "96fb0e9fc7e138aa9544dc8a449181d5",
+      "size": 28431,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/pants.png",
+      "hash": "d8df758827ad1ba4e776a144cf0696d2",
+      "size": 117411,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/plate-armor.png",
+      "hash": "59652b834d27674ce400b9692480a6e1",
+      "size": 102265,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/round-shield.png",
+      "hash": "d11b2e8b2970ca9fb94e4242efc39a30",
+      "size": 63856,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/short-sword.png",
+      "hash": "e141c993c12c3243d0044d3325e056df",
+      "size": 28572,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/shoulder.png",
+      "hash": "a2035406ead14e9f2dcc95e0c9b60be2",
+      "size": 26519,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/spear.png",
+      "hash": "2781129cf0f7387073292401032d96b0",
+      "size": 60384,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/steel-cask.png",
+      "hash": "e7bbe4f96e58348a978d9b3fe258d5ee",
+      "size": 27483,
+      "type": "asset"
+    },
+    {
+      "path": "img/avatar/triangle-shield.png",
+      "hash": "c41260a2b05c4b0b1f5ce5372fb78bd9",
+      "size": 71030,
       "type": "asset"
     },
     {
@@ -264,6 +510,12 @@
       "path": "img/exploring-slots/archer.png",
       "hash": "4c6ced4f1436c10c181f317301f6890c",
       "size": 503575,
+      "type": "asset"
+    },
+    {
+      "path": "img/exploring-slots/avatar-body2.png",
+      "hash": "4c5ff7766098a660e1dc4cfc43cff295",
+      "size": 658585,
       "type": "asset"
     },
     {
@@ -738,6 +990,12 @@
       "path": "img/exploring-slots/velmor-lirwen-npc.png",
       "hash": "cca6ffd0718d737789ff4e136f03dd71",
       "size": 508707,
+      "type": "asset"
+    },
+    {
+      "path": "img/exploring-slots/vs-symbol-combat.png",
+      "hash": "1463cc4df34c43b1eee9d7c2214117ba",
+      "size": 1878945,
       "type": "asset"
     },
     {
@@ -1797,9 +2055,9 @@
       "type": "asset"
     },
     {
-      "path": "img/items/cap.png",
-      "hash": "123b1e8857ffcca879b370f434ff3ed2",
-      "size": 97424,
+      "path": "img/items/cask.png",
+      "hash": "3c2b96e4e1900031f63f2e4b16e7af82",
+      "size": 128244,
       "type": "asset"
     },
     {
@@ -1821,21 +2079,15 @@
       "type": "asset"
     },
     {
-      "path": "img/items/com9mglovee.png",
-      "hash": "5e33c700358e152f8e7c20ca552943e3",
-      "size": 151743,
+      "path": "img/items/combat-boots.png",
+      "hash": "7c2ba2d8bc17be332a02b04be98510a9",
+      "size": 110434,
       "type": "asset"
     },
     {
-      "path": "img/items/commonbqrwfer.png",
-      "hash": "625b4ea7ccad4e4971a43c9b754bba46",
-      "size": 134343,
-      "type": "asset"
-    },
-    {
-      "path": "img/items/commonhl.png",
-      "hash": "ac32c50a77d87751fd1b3312d01ffd34",
-      "size": 128651,
+      "path": "img/items/combat-pants.png",
+      "hash": "61fdc25cb16fd9b5157117f6aa61a4e4",
+      "size": 131294,
       "type": "asset"
     },
     {
@@ -1929,6 +2181,12 @@
       "type": "asset"
     },
     {
+      "path": "img/items/hood.png",
+      "hash": "123b1e8857ffcca879b370f434ff3ed2",
+      "size": 97424,
+      "type": "asset"
+    },
+    {
       "path": "img/items/kalkan.png",
       "hash": "d3dfc7a549f1639cc6c4d847f48a9b81",
       "size": 151427,
@@ -1938,6 +2196,18 @@
       "path": "img/items/leather-armor.png",
       "hash": "7947016a6e0b6ab52a862b9eb69d4447",
       "size": 126715,
+      "type": "asset"
+    },
+    {
+      "path": "img/items/leather-bracer.png",
+      "hash": "625b4ea7ccad4e4971a43c9b754bba46",
+      "size": 134343,
+      "type": "asset"
+    },
+    {
+      "path": "img/items/leather-gloves.png",
+      "hash": "5e33c700358e152f8e7c20ca552943e3",
+      "size": 151743,
       "type": "asset"
     },
     {
@@ -2268,6 +2538,12 @@
       "path": "img/items/spear2.png",
       "hash": "017c3cf6f5e765001dcce8d7386fa8fd",
       "size": 245870,
+      "type": "asset"
+    },
+    {
+      "path": "img/items/steel-cask.png",
+      "hash": "8b0d940c70bedba398c2c23ff6787295",
+      "size": 87268,
       "type": "asset"
     },
     {
