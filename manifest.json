@@ -1,5 +1,5 @@
 {
-  "version": "1785053037841",
+  "version": "1785881979127",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -1119,6 +1119,18 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/atkspd-bonus-icon.png",
+      "hash": "1d48f2371e1725a1a425e89a3b77fb47",
+      "size": 395101,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/atkspd-bonus-icon2.png",
+      "hash": "eb18b4726e1d1619e867b80d71264795",
+      "size": 357482,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/atkspd-passive-icon.png",
       "hash": "ef92332a4ecb34b78095670ea0f8ab1d",
       "size": 341323,
@@ -1134,6 +1146,12 @@
       "path": "img/icons/atkspd-skill-icon2.png",
       "hash": "cc90cbe133b2c34456b2d62adddf531d",
       "size": 213182,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/bastion-bonus-icon.png",
+      "hash": "e859bcb7edf81df894a8f938c20ec1e3",
+      "size": 2527847,
       "type": "asset"
     },
     {
@@ -1191,6 +1209,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/charge-windup-icon.png",
+      "hash": "b983c0e203e18aef8499ea269ae7399b",
+      "size": 388299,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/closed-lock-icon.png",
       "hash": "b34fb25a2f4fb93abd1dca2871e18846",
       "size": 73298,
@@ -1218,6 +1242,24 @@
       "path": "img/icons/corrupted-simulation-icon.png",
       "hash": "3487bd50b44bb993dcf55dfe92e5322d",
       "size": 103394,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/counter-strike-icon.png",
+      "hash": "a8781301c47bb6c3c48eebd37c3528c1",
+      "size": 2250793,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/crit-bonus-icon.png",
+      "hash": "373a609efb737951f31c6cbd252f41a6",
+      "size": 359937,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/crit-bonus-icon2.png",
+      "hash": "1a9c326d7c2e75c217b3a7f27ffd5dc1",
+      "size": 412042,
       "type": "asset"
     },
     {
@@ -1257,9 +1299,21 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/def-bonus-icon.png",
+      "hash": "a67f1e4b75ccd70840134e84aa31fa47",
+      "size": 444830,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/def-passive-icon.png",
       "hash": "842ce9e13f31ed19ab6011467223ee49",
       "size": 132363,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/dmg-bonus-icon.png",
+      "hash": "083edabaeed2f0e842ed15591b4364d4",
+      "size": 439237,
       "type": "asset"
     },
     {
@@ -1308,6 +1362,24 @@
       "path": "img/icons/equip-potion-icon.png",
       "hash": "b6c73c0db0043a38921b914fd2c9a9a3",
       "size": 575960,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/exhausted-bonus-icon.png",
+      "hash": "ecf933d858a117215b8c10c155039504",
+      "size": 254698,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/exhausted-bonus-icon2.png",
+      "hash": "d3578fa224a4801e5e797c67dc1feff7",
+      "size": 333786,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/exhausted-bonus-icon3.png",
+      "hash": "8d8fcd221867a5f020383f4eb09a1f1f",
+      "size": 394363,
       "type": "asset"
     },
     {
@@ -1491,6 +1563,18 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/guard-windup-icon.png",
+      "hash": "994dfdc9c982f0510f38e2a1b10d6502",
+      "size": 377578,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/heavy-windup-icon.png",
+      "hash": "21b06db577af20b68344d30efc7db426",
+      "size": 355447,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/hp-passive-icon.png",
       "hash": "09c90fe3f65d07b61680298a6b18651e",
       "size": 118484,
@@ -1515,6 +1599,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/iron-will-icon.png",
+      "hash": "71268425501b80a259da40f80b5380fc",
+      "size": 3092917,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/jump-skill-icon.png",
       "hash": "03d229d281ef187c9da0b3e5591a0a3a",
       "size": 184521,
@@ -1522,14 +1612,20 @@
     },
     {
       "path": "img/icons/language_flag_en_icon2.png",
-      "hash": "1e319d0352ff4f8c150834386d194265",
-      "size": 2168316,
+      "hash": "f1627440617d81760218ce33e6de747e",
+      "size": 89736,
       "type": "asset"
     },
     {
       "path": "img/icons/language_flag_pl_icon2.png",
-      "hash": "002d0dd35e9456a9303203c31e1ae340",
-      "size": 2096375,
+      "hash": "57650d7db182628c7e479ef369cb0d0e",
+      "size": 93211,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/last-bastion-icon.png",
+      "hash": "a59e84508c01c4f4033df61a669505fe",
+      "size": 3194750,
       "type": "asset"
     },
     {
@@ -1665,6 +1761,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/normal-windup-icon.png",
+      "hash": "cbf5163a97a34728f71d5f92b12dfe29",
+      "size": 272586,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/ok-icon.png",
       "hash": "6adb407716d5bd82618734b6928e9b63",
       "size": 62720,
@@ -1716,6 +1818,12 @@
       "path": "img/icons/predator-protocol-icon.png",
       "hash": "6e06def7ad39c8914ae5aa98225dfdcc",
       "size": 115246,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/provocation-icon.png",
+      "hash": "d2f1b345a7bb5e498151875c51417630",
+      "size": 2421458,
       "type": "asset"
     },
     {
@@ -1791,6 +1899,24 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/shield-bash-icon.png",
+      "hash": "8c59c37d65b0141e4141101095ea639a",
+      "size": 2552566,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/shield-bash-icon2.png",
+      "hash": "82ba5edb564ffb22a3f1aee2a305e3ee",
+      "size": 3250443,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/shield-wall-icon.png",
+      "hash": "772348aca020b3dc40ce8f5f2e90bd24",
+      "size": 2478865,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/show-item-icon.png",
       "hash": "b62dc5aba2aa157d04c26c0ca8159ae0",
       "size": 160642,
@@ -1836,6 +1962,12 @@
       "path": "img/icons/skill-stun-icon2.png",
       "hash": "e6f8b5f276b6767aef13c01d7b2d7b61",
       "size": 110747,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/spear-control-icon.png",
+      "hash": "bde228528c959a69e11be12786a5cb6d",
+      "size": 299627,
       "type": "asset"
     },
     {
@@ -1902,6 +2034,18 @@
       "path": "img/icons/void-instability-icon.png",
       "hash": "a70c8b2dbccd0d5802f601f066f3739e",
       "size": 107527,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/vulnerable-bonus-icon.png",
+      "hash": "77e3bb65fd501eded6797287ae18feaf",
+      "size": 362122,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/vulnerable-bonus-icon2.png",
+      "hash": "9934805cf7f82942ccbdb23a3d522da4",
+      "size": 272338,
       "type": "asset"
     },
     {
