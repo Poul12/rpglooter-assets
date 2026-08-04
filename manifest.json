@@ -1,5 +1,5 @@
 {
-  "version": "1785883220056",
+  "version": "1785885394944",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3484,26 +3484,26 @@
     },
     {
       "path": "live/css/battle.css",
-      "hash": "e7de79d3c6e98c86ae30e93da999365d",
-      "size": 50997,
+      "hash": "a5ccedabbe73bed04478a260b1f8afdc",
+      "size": 59896,
       "type": "code"
     },
     {
       "path": "live/css/character.css",
-      "hash": "e5c6c14d0747f18a06103d085422b80a",
-      "size": 40931,
+      "hash": "55dc26afd01d5b37b4a6e043a77cb7cd",
+      "size": 45514,
       "type": "code"
     },
     {
       "path": "live/css/explore.css",
-      "hash": "c59b7cadbe82ad104c00b4019b9fe827",
-      "size": 53643,
+      "hash": "6ac585b00af7d13f4dfa3ded23facbec",
+      "size": 58102,
       "type": "code"
     },
     {
       "path": "live/css/inventory.css",
-      "hash": "e061ad72626560d61c5bba7563a6bfe4",
-      "size": 43026,
+      "hash": "90288dbe7f38791d3fbb5f07f4df2b48",
+      "size": 44024,
       "type": "code"
     },
     {
@@ -3520,7 +3520,7 @@
     },
     {
       "path": "live/css/store.css",
-      "hash": "42532148172b69db701eb851ffe92756",
+      "hash": "391b2cba345daf9a917146f25ef15016",
       "size": 33949,
       "type": "code"
     },

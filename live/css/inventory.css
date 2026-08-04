@@ -543,6 +543,24 @@
    bottom: 150%; 
 }
 
+.stat-debuff {
+  position: absolute;
+  left: 55px;
+  top: 35%;   
+ /* margin-top: 2px;*/
+
+  /*bottom: -13px;*/
+  white-space: nowrap;
+  font-size: 11px;
+  height: 12px;             
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: bottom;
+  z-index: 1000;
+}
+
+
 @keyframes statFade {
   0% { opacity: 0; transform: translateY(-4px); }
   50% { opacity: 1; transform: translateY(0); }
@@ -571,6 +589,50 @@
   font-style: italic;
   opacity: 1;
   animation: none !important;
+}
+
+.stat-combat-buff {
+  color: #ffd700;
+  font-weight: 700;
+  font-style: normal;
+  text-shadow:
+    0 0 3px rgba(255,215,0,.8),
+    0 0 6px rgba(255,215,0,.5);
+}
+
+.stat-combat-debuff {
+  color: #ff5a5a;
+  font-weight: 700;
+  font-style: normal;
+  text-shadow:
+    0 0 3px rgba(255, 70, 70, 0.9),
+    0 0 7px rgba(180, 20, 20, 0.7);
+}
+
+/*.stat-combat-buff {
+  color: #f8d866;
+  font-weight: 700;
+  font-style: normal;
+  text-shadow:
+    0 0 2px #f8d866,
+    0 0 5px rgba(248,216,102,.5);
+  letter-spacing: 0.3px;
+}*/
+
+@keyframes combatPulse {
+  0% {
+    opacity: .85;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .85;
+  }
+}
+
+.stat-combat-buff {
+  animation: combatPulse 2s ease-in-out infinite;
 }
 
 #inventory-view *, *::before, *::after { 
@@ -1174,7 +1236,7 @@ box-shadow:
   background-repeat: no-repeat;
   background-position: center;
   padding: 12px;
-  width: 250px;
+  width: 260px;
   max-width: 300px;
 
   /* 🔥 Wypukłość + cień zewnętrzny */
@@ -1391,7 +1453,7 @@ box-shadow:
 
   height: auto; 
   min-height: 290px;
-  max-height: 500px;
+  max-height: 550px;
   transition: transform 0.4s ease;
   display: flex;
   flex-direction: column;

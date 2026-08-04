@@ -263,13 +263,93 @@ body.no-scroll {
   to { filter: brightness(0.8); }
 }
 
+
+.enemy-windup-bar{
+    position:absolute;
+    top:-10px;
+    left:50%;
+    transform:translateX(-50%);
+    width:72px;
+    height:5px;
+  
+    border-radius:999px;
+    overflow:hidden;
+
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.08),
+        inset 0 -2px 3px rgba(0,0,0,.45);
+
+    opacity:0;
+    transition:opacity .15s ease;
+    pointer-events:none;
+}
+
+.enemy-windup-bar.show{
+    opacity:1;
+}
+
+.enemy-windup-bar .windup-fill{
+    width:100%;
+    height:100%;
+
+    transform-origin:left center;
+    transform:scaleX(0);
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        to right,
+        #4ecbff,
+        #1f8fff
+    );
+
+    box-shadow:
+        0 0 8px rgba(60,170,255,.7);
+}
+
+/* Heavy Attack */
+
+.enemy-windup-bar.heavy .windup-fill{
+    background:linear-gradient(
+        to right,
+        #ff7a45,
+        #ff3030
+    );
+
+    box-shadow:
+        0 0 10px rgba(255,70,70,.8);
+}
+
+/* Guard */
+
+.enemy-windup-bar.guard .windup-fill{
+    background:linear-gradient(
+        to right,
+        #6d8cff,
+        #4568ff
+    );
+}
+
+/* Charge */
+
+.enemy-windup-bar.charge .windup-fill{
+    background:linear-gradient(
+        to right,
+        #ffca45,
+        #ff9f00
+    );
+}
+
 #battle-view .explore-slot:hover {
   background-color: #3e3e3e;
   /*transform: scale(1.02);*/
 }
 
 #battle-view .explore-slot.disabled {
-  opacity: 0.4;
+  /*opacity: 0.4;*/
   pointer-events: none;
 }
 
@@ -320,7 +400,7 @@ body.no-scroll {
 
 .enemy-status-container {
   position: absolute;
-  top: -20px;
+  top: -32px;
   left: 50%;
   transform: translateX(-50%);
 
@@ -379,6 +459,154 @@ body.no-scroll {
     drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
     drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
 }
+
+.enemy-status.vulnerable {
+  display: flex;
+  align-items: center;
+}
+
+.enemy-status.vulnerable img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));
+}
+
+
+.enemy-status.windup,
+ enemy-status.windup-brute {
+  display: flex;
+  align-items: center;
+ }
+
+.enemy-status.windup img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+}
+
+.enemy-status.windup-brute img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));
+}
+
+.enemy-status.slow {
+  display: flex;
+  align-items: center;
+ }
+
+.enemy-status.slow img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+}
+
+.enemy-status.stun {
+  display: flex;
+  align-items: center;
+ }
+
+.enemy-status.stun img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));
+}
+
+.enemy-status.control {
+  display: flex;
+  align-items: center;
+ }
+
+.enemy-status.control img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+}
+
+
+.player-status-container {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
+  pointer-events: none;
+}
+
+.player-status {
+  animation: statusPop 0.2s ease-out;
+}
+
+.player-status.crit {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.crit img {
+  width: 19px;
+  height: 19px;
+  filter:
+  drop-shadow(0 0 4px rgba(255, 180, 40, 0.95))
+  drop-shadow(0 0 10px rgba(255, 110, 0, 0.7));
+}
+
+.player-status.bastion {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.bastion img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 4px rgba(255, 215, 80, 0.95))
+    drop-shadow(0 0 8px rgba(255, 180, 40, 0.7));
+}
+
+.player-status.atkspd {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.atkspd img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+}
+
+.player-status.exhausted {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.exhausted img {
+  width: 21px;
+  height: 21px;
+  filter:
+    drop-shadow(0 0 4px rgba(190, 140, 70, 0.85))
+    drop-shadow(0 0 8px rgba(110, 70, 30, 0.65));
+}
+
 
 .hit-effect {
   position: absolute;
@@ -1114,9 +1342,10 @@ box-shadow:
 
 
 #battle-view .faded {
-  opacity: 0.5;
+  opacity: 0;
   pointer-events: none;
   filter: grayscale(60%);
+  filter: blur(3px);
 }
 
 .item-image {
@@ -1969,7 +2198,9 @@ box-shadow:
   left:4vw;
   top:12%;
   transform:translateY(-50%);
+  opacity: 1;
 }
+
 
 .enemy-stat-group {
   display: flex;
@@ -1977,7 +2208,27 @@ box-shadow:
   /*font-size: 16px;*/
   gap: 0;
   margin: 2px 0;
+  opacity: 1;
   text-align: center;
+  transition:
+    transform 0.75s ease,
+    opacity 0.75s ease,
+    flex-direction 0.75s ease;
+}
+
+.enemy-stat-group.combat-layout {
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+
+  left: calc(50% + 105px);
+  bottom: 15px;
+
+  transform: translateY(-50%);
+
+  opacity: 1;
+  gap: 8px;
 }
 
 .enemy-stat-icon {
@@ -2435,6 +2686,18 @@ box-shadow:
   /*justify-content: center;*/
   /*margin-top: 15px;*/
   margin: 10px auto 20px auto;
+  min-height: 41px;
+}
+
+.enemy-info {
+  transition: transform 0.65s ease,
+              opacity 0.65s ease;
+}
+
+
+.enemy-info.enemy-name-combat {
+  /*top: 50px;*/
+  transform: translate(0, 40px);
 }
 
 .attack-button-section {
