@@ -44,7 +44,7 @@ function resetPassiveBonuses(char) {
 }
 
 
-function loadPlayerSkills() {
+/*function loadPlayerSkills() {
   let skills = gameState.combat.skills;
   
   if (skills.playerSkills) {
@@ -84,11 +84,107 @@ function syncPlayerSkillsToSkills() {
       skills.playerSkills[skillId].unlocked = skills.playerSkills[skillId].unlocked;
     }
   }
-}
+}*/
 
-function applyAllPassiveSkills() {
+function loadPlayerSkills() {
   const skills = gameState.combat.skills;
 
+  if (!skills.playerSkills) {
+    skills.playerSkills = {};
+  }
+
+  // ===== PASYWNE =====
+
+  if (!skills.playerSkills.passive) {
+    skills.playerSkills.passive = {};
+  }
+
+  for (const skillId in SKILLS_DATABASE) {
+    const base = SKILLS_DATABASE[skillId];
+
+    if (base.type !== "passive") continue;
+
+    if (!skills.playerSkills.passive[skillId]) {
+      skills.playerSkills.passive[skillId] = {
+        level: base.level || 0,
+        unlocked: base.unlocked || false
+      };
+    }
+  }
+
+  // ===== AKTYWNE =====
+
+  if (!skills.playerSkills.active) {
+    skills.playerSkills.active = {};
+  }
+
+  for (const treeId in WEAPON_SKILL_TREES) {
+    if (!skills.playerSkills.active[treeId]) {
+      skills.playerSkills.active[treeId] = {};
+    }
+
+    const tree = WEAPON_SKILL_TREES[treeId];
+
+    for (const skillId of tree.skills) {
+      if (!skills.playerSkills.active[treeId][skillId]) {
+        const base = SKILLS_DATABASE[skillId];
+
+        skills.playerSkills.active[treeId][skillId] = {
+          level: base.level || 0,
+          unlocked: base.unlocked || false
+        };
+      }
+    }
+  }
+
+  saveGame();
+
+}
+
+
+function getCurrentWeaponStyle() {
+  const eq = gameState.char?.equipment || {};
+  const weapon = eq[`weapon`];
+
+  
+  switch(weapon?.baseName) {
+    case `double_axe`:
+      return `doubleAxe`;
+    
+    case `great_sword`:
+      return `greatsword`;
+   
+    case `hammer`:
+      return `hammer`;
+   
+    case `spear`:
+      return `spear`;
+   
+    default:
+      break;
+  }
+  
+  if(gameState.char.blockMode === `defensive`) {
+    return `shieldBlock`;
+  } else if(gameState.char.blockMode === `timed`) {
+    return `shieldPerfect`;
+  }
+  
+}
+
+function syncPlayerSkillsToSkills() {
+  const style = getCurrentWeaponStyle();
+
+  return {
+    passive: gameState.combat.skills.playerSkills.passive,
+    active: gameState.combat.skills.playerSkills.active[style]
+  };
+
+}
+
+/*function applyAllPassiveSkills() {
+  const skills = gameState.combat.skills;
+    
   resetPassiveBonuses(gameState.char);
     
   for (const skillId in skills.playerSkills) {
@@ -104,6 +200,27 @@ function applyAllPassiveSkills() {
   }
 
   // Odśwież pasek statystyk
+  renderStats();
+}*/
+
+function applyAllPassiveSkills() {
+  const passiveSkills = gameState.combat.skills.playerSkills.passive;
+
+  resetPassiveBonuses(gameState.char);
+  
+  for (const skillId in passiveSkills) {
+    const playerSkill = passiveSkills[skillId];
+    const skill = SKILLS_DATABASE[skillId];
+
+    if (!playerSkill?.unlocked || !skill?.effects) {
+      continue;
+    }
+    
+    playerSkill.id = skillId;
+    applyPassiveSkill(skillId, playerSkill);
+
+  }
+  
   renderStats();
 }
 
@@ -156,7 +273,7 @@ function renderStyleUI(skills) {
     getDominantStyle(styles);
 }
 
-  function renderTree() {
+ /* function renderTree() {
     let assignedSkills = gameState.combat.skills.assignedSkills;
     const skills = gameState.combat.skills;
 
@@ -207,24 +324,7 @@ function renderStyleUI(skills) {
       } else {
          node.classList.remove("combat");
       }
-      
-    /*  if (skill.icon && skill.icon.endsWith(".png")) {
-        node.innerHTML = `
-          <img src="${ASSET_BASE}${skill.icon}" 
-          alt="${skill.name}" 
-          class="skill-icon-img" />
-           `;
-      } else {
-         node.textContent = skill.icon || "⚔️";
-      }
-      
-        for (let i = 1; i <= 6; i++) {
-         if (id === assignedSkills[i]){
-           node.classList.add("used");
-           //node.classList.add("set-slot");
-         }
-      }*/
-      
+
     }
     
     drawLines();
@@ -238,11 +338,166 @@ function renderStyleUI(skills) {
     
     updateSkillsMenuIcon();
     
+  }*/
+
+
+function renderTree() {
+  const assignedSkills = gameState.combat.skills.assignedSkills;
+  const weaponStyle = getCurrentWeaponStyle();
+  const passiveSkills = gameState.combat.skills.playerSkills.passive;
+  const activeSkills = gameState.combat.skills.playerSkills.active[weaponStyle];
+
+  // Najpierw ukryj wszystkie aktywne skille
+  for (const id in SKILLS_DATABASE) {
+    const base = SKILLS_DATABASE[id];
+    const skill = passiveSkills[id];
+
+    if (base.type !== "passive") continue;
+    //console.log(`passive id`, id);
+    const node = document.getElementById(id);
+    //console.log(`node`, node);
+
+    if (!node) continue;
+
+    //node.style.display = "none";
+    
+    node.style.display = "";
+
+    node.className = "skill-node";
+
+    node.classList.add(`style-${base.style}`);
+
+    node.dataset.level = `${skill.level}/${base.maxLevel}`;
+  
+    node.dataset.skillId = id;
+
+    if (skill.unlocked && skill.level > 0) {
+      node.classList.remove("locked");
+      node.classList.add("unlocked");
+    } else {
+      node.classList.remove("unlocked");
+      node.classList.add("locked");
+    }
+
+    // Usuń poprzednią ikonę
+    node.querySelectorAll("img").forEach(img => img.remove());
+
+    // Dodaj ikonę
+    if (base.icon && base.icon.endsWith(".png")) {
+      const skillSrc = assetManager.getResolvedAsset(base.icon);
+      const img = document.createElement("img");
+
+      img.src = skillSrc;
+      img.alt = base.name;
+      img.className = "skill-icon-img";
+
+      node.appendChild(img);
+    } else {
+      node.textContent = base.icon || "⚔️";
+    }
+
+    //console.log(`passive base`, base.name);
+
   }
+
+  // Render aktualnego drzewka
+  const tree = WEAPON_SKILL_TREES[weaponStyle];
+  
+  if(!tree) {
+    console.warn("Brak drzewa dla:", weaponStyle);
+    return;
+  }
+
+  const skillIds = tree.skills;
+  
+  //for (const id of tree.skills) {
+  for(let i = 0; i < 6; i++){
+    const node = document.getElementById(`skill-node-${i+1}`);
+    //const node = document.getElementById(id);
+    const skillId = skillIds[i];
+    const base = SKILLS_DATABASE[skillId];
+    const skill = activeSkills[skillId];
+
+    if (!node || !base || !skill) continue;
+
+    node.style.display = "";
+
+    node.className = "skill-node";
+
+    //node.classList.add(`style-${base.style}`);
+
+    node.dataset.level = `${skill.level}/${base.maxLevel}`;
+
+    node.dataset.skillId = skillId;
+    
+    if (skill.unlocked && skill.level > 0) {
+      node.classList.remove("locked");
+      node.classList.add("unlocked");
+    } else {
+      node.classList.remove("unlocked");
+      node.classList.add("locked");
+    }
+
+    // Usuń poprzednią ikonę
+    node.querySelectorAll("img").forEach(img => img.remove());
+
+    // Dodaj ikonę
+    if (base.icon && base.icon.endsWith(".png")) {
+      const skillSrc = assetManager.getResolvedAsset(base.icon);
+      const img = document.createElement("img");
+
+      img.src = skillSrc;
+      img.alt = base.name;
+      img.className = "skill-icon-img";
+
+      node.appendChild(img);
+    } else {
+      node.textContent = base.icon || "⚔️";
+    }
+
+    if (Object.values(assignedSkills).includes(skillId)) {
+      node.classList.add("combat");
+    } else {
+      node.classList.remove("combat");
+    }
+
+  }
+
+  drawLines();
+  
+  renderStyleUI(activeSkills);
+
+  document.getElementById("char-level").textContent = gameState.char.level;
+
+  document.getElementById("skill-points").textContent = gameState.char.skillPoints;
+
+  updateSkillsMenuIcon();
+
+}
+
+
+function getPlayerSkillData(skillId) {
+  const playerSkills = gameState.combat.skills.playerSkills;
+
+  // passive
+  if (playerSkills.passive?.[skillId]) {
+    return playerSkills.passive[skillId];
+  }
+  
+  // active - aktualna broń
+  const style = getCurrentWeaponStyle();
+
+  if (playerSkills.active?.[style]?.[skillId]) {
+    return playerSkills.active[style][skillId];
+  }
+  
+  return null;
+}
 
 function getSkillRequiredLevel(skillId) {
   const skill = SKILLS_DATABASE[skillId];
-  const playerSkill = gameState.combat.skills.playerSkills[skillId];
+  //const playerSkill = gameState.combat.skills.playerSkills[skillId];
+  const playerSkill = getPlayerSkillData(skillId);
 
   if (!skill || !playerSkill) return 999;
 
@@ -260,10 +515,11 @@ function getSkillRequiredLevel(skillId) {
 
 function canUnlockSkill(skillId) {
   const skill = SKILLS_DATABASE[skillId];
-  const playerSkill = gameState.combat.skills.playerSkills[skillId];
+  //const playerSkill = gameState.combat.skills.playerSkills[skillId];
+  const playerSkill = getPlayerSkillData(skillId);
 
   if (!skill || !playerSkill) return false;
-
+  
   let requiredLevel = skill.requiredLevel;
   
   if(skillId === `focus`) {
@@ -275,7 +531,9 @@ function canUnlockSkill(skillId) {
   
   // Sprawdź, czy parent jest odblokowany (jeśli istnieje)
   if (skill.parent) {
-    const parentPlayerSkill = gameState.combat.skills.playerSkills[skill.parent];
+    //const parentPlayerSkill = gameState.combat.skills.playerSkills[skill.parent];
+    const parentPlayerSkill = getPlayerSkillData(skill.parent);
+
     if (!parentPlayerSkill || !parentPlayerSkill.unlocked || parentPlayerSkill.level < 1) return false;
   }
     
@@ -306,8 +564,9 @@ function canUnlockSkill(skillId) {
 
 function unlockSkill(skillId) {
   const skill = SKILLS_DATABASE[skillId];
-  const playerSkill = gameState.combat.skills.playerSkills[skillId];
-  
+  //const playerSkill = gameState.combat.skills.playerSkills[skillId];
+  const playerSkill = getPlayerSkillData(skillId);
+
   /*if (!canUnlockSkill(skillId)) {
     showInfoAlert(`${t("low_level_skill_info")}`);
     return;
@@ -318,7 +577,7 @@ function unlockSkill(skillId) {
   if (!playerSkill.unlocked && gameState.char.level >= skill.requiredLevel) {
     playerSkill.unlocked = true;
     
-    syncPlayerSkillsToSkills();
+    //syncPlayerSkillsToSkills();
     //renderStats();
     saveGame();
     applyAllPassiveSkills();
@@ -342,8 +601,9 @@ function showSkillPopup(id) {
   const mainIcon = document.getElementById("main-skill-icon");
   const miniIcons = document.querySelectorAll(".mini-skill");
   const skill = SKILLS_DATABASE[id];
-  const playerSkill = gameState.combat.skills.playerSkills[id];
-  
+  //const playerSkill = gameState.combat.skills.playerSkills[id];
+  const playerSkill = getPlayerSkillData(id);
+
   if (!skill || !playerSkill) return;
   
   renderMiniSkillIcons();
@@ -439,7 +699,7 @@ function showSkillPopup(id) {
   if (skill.icon && skill.icon.endsWith(".png")) {
     if(skill.icon === "img/icons/crit-skill-icon.png" || skill.icon === `img/icons/deep-breaths-skill-icon.png` || skill.icon === "img/icons/max-dmg-skill-icon.png") {
       mainIcon.innerHTML = `<img src="${skillIconSrc}" alt="${skill.name}" class="skill-icon-img2" />`;
-    } else if(skill.icon === "img/icons/max-hp-skill-icon.png" || skill.icon === "img/icons/energy-regen-skill-icon.png") {
+    } else if(skill.icon === "img/icons/max-hp-skill-icon.png" || skill.icon === "img/icons/energy-regen-skill-icon.png" || skill.icon === "img/icons/last-bastion-icon.png") {
       mainIcon.innerHTML = `<img src="${skillIconSrc}" alt="${skill.name}" class="skill-icon-img2" />`;
     } else {
       mainIcon.innerHTML = `<img src="${skillIconSrc}" alt="${skill.name}" class="skill-icon-img" />`;
@@ -578,7 +838,8 @@ function updateSkillUpgradeDescription(skillId, style) {
 
 function showSkillInfo(id) {
   const skill = SKILLS_DATABASE[id];
-  const playerSkill = gameState.combat.skills.playerSkills[id];
+  //const playerSkill = gameState.combat.skills.playerSkills[id];
+  const playerSkill = getPlayerSkillData(id);
 
   if (!skill) return;
 
@@ -631,8 +892,9 @@ function showSkillInfo(id) {
 function updateSkillEffects(id) {
   //const skill = SKILLS_DATABASE[id];
   const base = SKILLS_DATABASE[id];
-  const skill = gameState.combat.skills.playerSkills[id];
-  
+  //const skill = gameState.combat.skills.playerSkills[id];
+  const skill = getPlayerSkillData(id);
+
   if (!skill) return;
 
   const skillEffectEl = document.getElementById("skill-effect");
@@ -662,7 +924,8 @@ function updateSkillEffects(id) {
 
 function updateSkillDescription(id) {
   const skill = SKILLS_DATABASE[id];
-  const playerSkill = gameState.combat.skills.playerSkills[id];
+  //const playerSkill = gameState.combat.skills.playerSkills[id];
+  const playerSkill = getPlayerSkillData(id);
 
   if (!skill) return;
 
@@ -699,16 +962,20 @@ function formatEffectValue(type, value) {
   switch (type) {
     case "damage": return `${value.toFixed(0)}%`;
     case "stun": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
+    case "def-buff": return `${value.toFixed(1)}%`;
     case "slow": return `${value.toFixed(1)}%`;
     case "slowmo": return `${value.toFixed(1)}%`;
     case "slow-duration": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
     case "slowmo-duration": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
     case "bleed-duration": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
+    case "def-buff-duration": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
     case "shout-duration": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
     case "bonus-vs-status": return `${value.toFixed(0)}%`;
+    case "counter-strike": return `${value.toFixed(0)}%`;
     case "bleed": return `${value.toFixed(1)} % / ${t("second_skill_effect")}.`;
     case "armor-break": return `${value.toFixed(0)}%`;
     case "life-bonus": return `${value.toFixed(0)} ${t("points_skill_effect")}.`;
+    case "stamina-recover": return `${value.toFixed(0)} ${t("points_skill_effect")}.`;
     case "def-bonus": return `${value.toFixed(0)} ${t("points_skill_effect")}.`;
     case "dmg-bonus": return `${value.toFixed(0)} ${t("points_skill_effect")}.`;
     case "bonus-damage": return `${value.toFixed(0)} %.`;
@@ -716,6 +983,7 @@ function formatEffectValue(type, value) {
     case "hp-regen-bonus": return `${value.toFixed(1)} ${t("points_skill_effect")}. / ${t("second_skill_effect")}.`;
     case "max-def-bonus": return `${value.toFixed(0)}%`;
     case "dmg-reduction": return `${value.toFixed(0)}%`;
+    case "buff-next-attack": return `${value.toFixed(0)}%`;
     case "cooldown": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
     case "stack-def": return `${value.toFixed(0)}%`;
     case "stack-duration": return `${value.toFixed(1)} ${t("second_skill_effect")}.`;
@@ -745,7 +1013,9 @@ function formatEffect(skillId, type, value, diff = 0) {
     "bonus-damage": { icon: "img/icons/dmg-passive-icon.png", unit: "%" },
     "bonus-vs-status": { icon: "img/icons/dmg-passive-icon.png", unit: "%" },
     "defense-buff": { icon: "img/icons/def-passive-icon.png", unit: "%" },
+    "def-buff": { icon: "img/icons/def-passive-icon.png", unit: "%" },
     "slow-duration": { icon: "img/icons/skill-duration-icon.png", unit: ` ${t("second_skill_effect")}.` },
+    "def-buff-duration": { icon: "img/icons/skill-duration-icon.png", unit: ` ${t("second_skill_effect")}.` },
     "slowmo-duration": { icon: "img/icons/skill-duration-icon.png", unit: ` ${t("second_skill_effect")}.` },
     "bleed-duration": { icon: "img/icons/skill-duration-icon.png", unit: ` ${t("second_skill_effect")}.` },
     "bleed": { icon: "img/icons/bleed-skill-icon.png", unit:` % / ${t("second_skill_effect")}.` },
@@ -762,6 +1032,7 @@ function formatEffect(skillId, type, value, diff = 0) {
     "dmg-reduction": { icon: "img/icons/def-passive-icon.png", unit: "%" },
     "perfect-dmg": { icon: "img/icons/dmg-passive-icon.png", unit: "%" },
     "perfect-window": { icon: "img/icons/perfect-window-icon.png", unit: "%" },
+    "counter-attack": { icon: "img/icons/perfect-block-skill-icon.png", unit: "%" },
     "chain-dmg": { icon: "img/icons/dmg-passive-icon.png", unit: "%" },
     "cooldown": { icon: "img/icons/skill-duration-icon.png", unit: ` ${t("second_skill_effect")}.` },
     "block-cooldown": { icon: "img/icons/skill-duration-icon.png", unit: ` ${t("second_skill_effect")}.` },
@@ -770,6 +1041,7 @@ function formatEffect(skillId, type, value, diff = 0) {
     "armor-break": { icon: "img/icons/break-armor-skill-icon.png", unit: "%" },
     "stack-duration": { icon: "img/icons/skill-duration-icon.png", unit: ` ${t("second_skill_effect")}.` },
     "crit-damage-bonus": { icon: "img/icons/dmg-passive-icon.png", unit: "%" },
+    "buff-next-attack": { icon: "img/icons/dmg-passive-icon.png", unit: "%" },
     "threshold": { icon: "img/icons/hp-passive-icon.png", unit: "%" },
     "max-bonus": { icon: "img/icons/dmg-passive-icon.png", unit: "%" },
     "atkspd-bonus": { icon: "img/icons/atkspd-passive-icon.png", unit: "%" },
@@ -821,7 +1093,7 @@ function initializeLazyImages() {
 
  function closeSkillPopup() {
     document.getElementById("skill-info-popup").classList.remove("show");
-    renderTree();
+    //renderTree();
  }
 
 function renderAssignPreview() {
@@ -1020,8 +1292,9 @@ function levelUpSkill() {
   if (!selectedSkillId) return;
 
   const skill = SKILLS_DATABASE[selectedSkillId];
-  const playerSkill = gameState.combat.skills.playerSkills[selectedSkillId];
-  
+  //const playerSkill = gameState.combat.skills.playerSkills[selectedSkillId];
+  const playerSkill = getPlayerSkillData(selectedSkillId);
+
   if (gameState.char.level >= skill.requiredLevel) {
     unlockSkill(selectedSkillId);
   }
@@ -1050,7 +1323,7 @@ function levelUpSkill() {
   
   // Zapisz zmiany
   saveGame();
-  syncPlayerSkillsToSkills();
+  //syncPlayerSkillsToSkills();
 
   // Odśwież UI
   //renderTree();
@@ -1244,8 +1517,10 @@ function resetPlayerSkills() {
 
   for (const skillId in playerSkills) {
     const skill = SKILLS_DATABASE[skillId];
-    const playerSkill = gameState.combat.skills.playerSkills[skillId];
-  //  console.log("skill's parent: ", skillId);
+    //const playerSkill = gameState.combat.skills.playerSkills[skillId];
+    const playerSkill = getPlayerSkillData(skillId);
+
+    //  console.log("skill's parent: ", skillId);
     playerSkill.level = 0;
    // playerSkill.unlocked = !skill.parent; // Startowe skille bez parenta zostają odblokowane
   }
@@ -1259,7 +1534,7 @@ function resetPlayerSkills() {
   }*/
 
   saveGame();  
-  syncPlayerSkillsToSkills();
+  //syncPlayerSkillsToSkills();
 
   renderTree();
 
@@ -1321,7 +1596,23 @@ function assignSkillToSlot(slotIndex, skillId) {
   slot.innerHTML =`<div class="skill-icon base">${skill.icon}</div>`;
 }
 
-function drawLines() {
+function getSkillNode(skillId) {
+
+  const passiveNode = document.getElementById(skillId);
+  if (passiveNode) return passiveNode;
+
+  const activeNodes = document.querySelectorAll(".skill-node[data-skill-id]");
+
+  for (const node of activeNodes) {
+    if (node.dataset.skillId === skillId) {
+      return node;
+    }
+  }
+
+  return null;
+}
+
+function drawLines(activeSkills = false) {
   const container = document.getElementById("skill-tree-container");
   if(!container) return;
   
@@ -1331,13 +1622,17 @@ function drawLines() {
   const containerRect = container.getBoundingClientRect();
 
   for (const [parentId, skill] of Object.entries(SKILLS_DATABASE)) {
-    const parentNode = document.getElementById(parentId);
+    //let parentNode = document.getElementById(parentId);
+    const parentNode = getSkillNode(parentId);
+    
     if (!parentNode || !skill.children) continue;
 
     const parentRect = parentNode.getBoundingClientRect();
 
     skill.children.forEach(childId => {
-      const childNode = document.getElementById(childId);
+      //let childNode = document.getElementById(childId);
+      const childNode = getSkillNode(childId);
+           
       if (!childNode) return;
 
       const childRect = childNode.getBoundingClientRect();

@@ -622,6 +622,7 @@ function showItemPopupForSale(itemId) {
   const baseHTML = renderBaseStats(item, charLevel)
   const implicitHTML = renderImplicitStats(item);
   const statsHTML = renderItemStats(item);
+  const combatAffixes = renderCombatAffixes(item);
   const exclusiveStats = renderExclusiveAffixes(item);
   const styleHTML = renderWeaponStyle(item);
   const classLabel = translateClass(item.klasa); // np. "Epicki", "Unikalny" itd.
@@ -650,6 +651,9 @@ function showItemPopupForSale(itemId) {
     </div>
     <div class="item-stats-normal">
       ${statsHTML}
+    </div>
+    <div class="item-stats-normal">
+      ${combatAffixes}
     </div>
     <div class="item-stats-normal">
       ${exclusiveStats}
@@ -1077,6 +1081,7 @@ function showItemPopup(category, item, index) {
   const baseHTML = renderBaseStats(item, charLevel)
   const implicitHTML = renderImplicitStats(item);
   const statsHTML = renderItemStats(item);
+  const combatAffixes = renderCombatAffixes(item);
   const exclusiveStats = renderExclusiveAffixes(item);
   const styleHTML = renderWeaponStyle(item);
   const classLabel = translateClass(item.klasa); // np. "Epicki", "Unikalny" itd.
@@ -1108,6 +1113,9 @@ function showItemPopup(category, item, index) {
       ${statsHTML}
     </div>
     <div class="item-stats-normal">
+      ${combatAffixes}
+    </div>
+    <div class="item-stats-normal">
       ${exclusiveStats}
     </div>
     <div class="item-separator"></div>
@@ -1135,7 +1143,9 @@ function showItemPopup(category, item, index) {
 }
 
 function closeShopItemPopup() {
-  // console.log("zamykam popup");
+   //console.log("zamykam popup");
+  
+   updateLowHpUIBuff();
   
    document.getElementById("item-popup").classList.add("hidden");
    clearAllDiffs();

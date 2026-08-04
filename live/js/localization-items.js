@@ -6,49 +6,49 @@
 const AFFIX_TRANSLATIONS = {
 
   armor_percent: {
-    pl: "% Pancerz",
+    pl: "% Pancerza",
     en: "% Armor"
   },
 
   damage_percent: {
-    pl: "% Obrażenia",
+    pl: "% Obrażeń",
     en: "% Damage"
   },
 
   armor: {
-    pl: "Pancerz",
-    en: "Armor"
+    pl: " Pancerza",
+    en: " Armor"
   },
 
   damage: {
-    pl: "Obrażenia",
-    en: "Damage"
+    pl: " Obrażeń",
+    en: " Damage"
   },
 
   
   flat_life: {
-    pl: "Życie",
-    en: "Life"
+    pl: " Życia",
+    en: " Life"
   },
 
   elemental_damage: {
-    pl: "Obrażenia od {element}",
-    en: "{element} Damage"
+    pl: " Obrażeń od {element}",
+    en: " {element} Damage"
   },
 
   strength: {
-    pl: "Siła",
-    en: "Strength"
+    pl: " Siła",
+    en: " Strength"
   },
 
   dexterity: {
-    pl: "Zręczność",
-    en: "Dexterity"
+    pl: " Zręczność",
+    en: " Dexterity"
   },
 
   vitality: {
-    pl: "Witalność",
-    en: "Vitality"
+    pl: " Witalność",
+    en: " Vitality"
   },
 
   stamina_percent: {
@@ -57,38 +57,38 @@ const AFFIX_TRANSLATIONS = {
   },
 
   energy_flat: {
-    pl: "Energia",
-    en: "Energy"
+    pl: " Energia",
+    en: " Energy"
   },
 
   attack_speed_percent: {
-    pl: "% Szybkość Ataku",
+    pl: "% Szybkości Ataku",
     en: "% Attack Speed"
   },
 
   attack_speed: {
-    pl: "Szybkość Ataku",
-    en: "Attack Speed"
+    pl: " Szybkości Ataku",
+    en: " Attack Speed"
   },
   
   life_on_hit: {
-    pl: "Życie za Trafienie",
-    en: "Life on Hit"
+    pl: " Życia za Trafienie",
+    en: " Life on Hit"
   },
 
   life_percent: {
-    pl: "% Życie",
+    pl: "% Życia",
     en: "% Life"
   },
   
   life_regen_flat: {
-    pl: "Regeneracja życia / sek.",
-    en: "Life Regeneration / sec"
+    pl: " Regeneracja życia / sek.",
+    en: " Life Regeneration / sec"
   },
 
   stamina_regen_flat: {
-    pl: "Regeneracja staminy",
-    en: "Stamina Regeneration"
+    pl: " Regeneracja staminy",
+    en: " Stamina Regeneration"
   },
 
   stamina_regen_percent: {
@@ -102,7 +102,7 @@ const AFFIX_TRANSLATIONS = {
   },
 
   crit_chance: {
-    pl: "% Szansa na krytyk",
+    pl: "% Szansa na Atak Kryt.",
     en: "% Critical Chance"
   },
 
@@ -117,8 +117,8 @@ const AFFIX_TRANSLATIONS = {
   },
 
   block: {
-    pl: "Blok",
-    en: "Block"
+    pl: " Blok",
+    en: " Block"
   },
   
   phys_damage_reduction: {
@@ -151,21 +151,6 @@ const AFFIX_TRANSLATIONS = {
     en: "% Slow Reduction"
   },
   
-  perfect_block_window: {
-    pl: "% Okno perfekcyjnego bloku",
-    en: "% Perfect Block Window"
-  },
-
-  energy_on_perfect_block: {
-    pl: "% Energii za idealny blok",
-    en: "% Energy for perfect block"
-  },
-
-  energy_on_crit: {
-    pl: "% Energii za krytyczny atak",
-    en: "% Energy for critic attack"
-  },
-  
   magic_find: {
     pl: "% Znajdowanie magicznych przedmiotów",
     en: "% Magic Find"
@@ -177,38 +162,38 @@ const AFFIX_TRANSLATIONS = {
   },
 
   elemental_resist: {
-    pl: "Odporność na {element}",
-    en: "{element} Resistance"
+    pl: " Odporność na {element}",
+    en: " {element} Resistance"
   },
 
   all_resist: {
-    pl: "Odporność na wszystkie żywioły",
-    en: "All Elemental Resistances"
+    pl: " Odporność na wszystkie żywioły",
+    en: " All Elemental Resistances"
   },
 
   res_fire: {
-    pl: "Odporność na Ogień",
-    en: "Fire Resistance"
+    pl: " Odporność na Ogień",
+    en: " Fire Resistance"
   },
 
   res_cold: {
-    pl: "Odporność na Zimno",
-    en: "Cold Resistance"
+    pl: " Odporność na Zimno",
+    en: " Cold Resistance"
   },
 
   res_poison: {
-    pl: "Odporność na Truciznę",
-    en: "Poison Resistance"
+    pl: " Odporność na Truciznę",
+    en: " Poison Resistance"
   },
 
   res_arcane: {
-    pl: "Odporność na Magię",
-    en: "Arcane Resistance"
+    pl: " Odporność na Magię",
+    en: " Arcane Resistance"
   },
   
   stamina_flat: {
-    pl: "Stamina",
-    en: "Stamina"
+    pl: " Stamina",
+    en: " Stamina"
   },
   
   heal_percent: {
@@ -217,8 +202,825 @@ const AFFIX_TRANSLATIONS = {
   },
   
   energy_meal_cooldown: {
-    pl: "Sytość",
-    en: "Satiety"
+    pl: " Sytość",
+    en: " Satiety"
+  },
+  
+  // COMBAT AFFIXES
+  
+  perfect_block_window: {
+    pl: "{value}% do okna Idealnego Bloku",
+    en: "{value}% to Perfect Block Window"
+  },
+
+  energy_on_perfect_block: {
+    pl: "{value} Energii za idealny blok",
+    en: "{value} Energy for perfect block"
+  },
+
+  energy_on_crit: {
+    pl: "{value} Energii za krytyczny atak",
+    en: "{value} Energy for critic attack"
+  },
+  
+  dmg_below_hp: {
+    pl: "+{value}% Obrażeń poniżej 35% Życia",
+    en: "+{value}% Damage below 35% HP"
+  },
+
+  perfect_block_restore_hp: {
+    pl: "Idealny Blok przywraca {value}% Życia",
+    en: "Perfect Block restores {value}% HP"
+  },
+  
+  perfect_block_gain_def: {
+    pl: "+{value}% Pancerza po Idealnym Bloku (5 sek)",
+    en: "+{value}% Armor after Perfect Block (5 sec)"
+  },
+
+  defensive_stance_gain_def: {
+    pl: "+{value}% Pancerza podczas Postawy Obronnej",
+    en: "+{value}% Armor while Defensive Stance"
+  },
+
+  stamina_fatique_penalty: {
+    pl: "-{value}% Zmniejszenie Kar Zmęczenia (Stamina)",
+    en: "-{value}% Reduced Fatigue Penalties (Stamina)"
+  },
+
+  stamina_on_kill: {
+    pl: "+{value} Stamina za Zabicie",
+    en: "+{value} Stamina on Kill"
+  },
+
+  stamina_on_crit: {
+    pl: "+{value} Stamina za Trafienie Krytyczne",
+    en: "+{value} Stamina on Critical Hit"
+  },  
+
+  dodge_grant_crit: {
+    pl: "{value}% szansy na Atak Kryt. po Uniku (4 sek)",
+    en: "{value}% chance for Crit. after Dodge (4 sec)"
+  },
+
+  dodge_grant_energy: {
+    pl: "+{value} Energii po Uniku",
+    en: "+{value} Energy after Dodge"
+  },
+
+  crit_grant_dodge: {
+    pl: "+{value}% szansy na Unik po Ataku Kryt. (4 sek)",
+    en: "+{value}% chance for Dodge after Crit. (4 sec)"
+  },
+
+  perfect_block_grant_stamina: {
+    pl: "+{value} Stamina za Idealny Blok",
+    en: "+{value} Stamina on Perfect Block"
+  },
+  
+  dmg_reduction_blocking: {
+    pl: "+{value}% Redukcja Obrażeń podczas Postawy Obronnej",
+    en: "+{value}% Damage Reduction while Defensive Stance"
+  },
+  
+  hp_regen_blocking: {
+    pl: "+{value}% Regeneracji Życia podczas Postawy Obronnej",
+    en: "+{value}% HP Regeneration while Defensive Stance"
+  },
+
+  crit_per_guard_stack: {
+    pl: "+{value}% Szansy na Atak Kryt. za każdy ładunek Obronny",
+    en: "+{value}% Critical Chance per Guard Stack"
+  },
+ 
+  def_per_guard_stack: {
+    pl: "+{value}% Pancerza za każdy ładunek Obronny",
+    en: "+{value}% Armor per Guard Stack"
+  }, 
+
+  dmg_after_break: {
+    pl: "+{value}% Obrażeń do następnego ataku po Przełamaniu Równowagi",
+    en: "+{value}% Damage to the next hit after Poise Break"
+  },
+
+  atkspd_after_break: {
+    pl: "+{value}% Szybkości Ataku po Przełamaniu Równowagi (4 sek.)",
+    en: "+{value}% Attack Speed after Poise Break (4 sec.)"
+  },
+ 
+  bleed_duration: {
+    pl: "+{value}s. Czasu Trwania Krwawienia",
+    en: "+{value}s. Bleed Duration"
+  },
+
+  energy_bleed_kill: {
+    pl: "+{value} Energii po zabiciu Krwawiącego Wroga",
+    en: "+{value} Energy on Bleeding Enemy Kill"
+  },
+
+  pushback: {
+    pl: "+{value}% Odepchnięcia",
+    en: "+{value}% Pushback Power"
+  },
+
+  energy_per_stack_control: {
+    pl: "+{value} Energii za każde utrzymanie Kontroli",
+    en: "+{value} Energy per Control Stack"
+  },
+
+  stamina_per_stack_control: {
+    pl: "+{value} Staminy za każde utrzymanie Kontroli",
+    en: "+{value} Stamina per Control Stack"
+  },
+  
+  loh_doubled_below_hp: {
+    pl: "Podwaja Życie za Trafienie poniżej {value}% Życia",
+    en: "Double Life on Hit below {value}% HP"
+  },
+
+  crit_missing_hp: {
+    pl: "+{value}% Szansy na Atak Kryt. za każde 10% brakującego Życia",
+    en: "+{value}% Critical Chance per 10% Missing HP"
+  },
+
+  dmg_exhausted: {
+    pl: "+{value}% Obrażeń podczas Wyczerpania",
+    en: "+{value}% Damage while Exhausted"
+  },
+
+  def_exhausted: {
+    pl: "+{value}% Pancerza podczas Wyczerpania",
+    en: "+{value}% Armor while Exhausted"
+  },
+
+  crit_exhausted: {
+    pl: "+{value}% Szansy na Atak Kryt. podczas Wyczerpania",
+    en: "+{value}% Critical Chance while Exhausted"
+  },
+
+  atkspd_after_dodge: {
+    pl: "+{value}% Szybkości Ataku po Uniku (4 sek.)",
+    en: "+{value}% Attack Speed after Dodge (4 sec.)"
+  },
+  
+  perfect_block_missing_hp: {
+    pl: "Idealny Blok przywraca {value}% brakującego Życia",
+    en: "Perfect Block restores {value}% missing HP"
+  },
+
+  perfect_block_atkspd: {
+    pl: "Idealny Blok daje +{value}% do Szybkości Ataku",
+    en: "Perfect Block grants +{value}% Attack Speed"
+  },
+
+  dmg_per_guard_stack: {
+    pl: "+{value}% Obrażeń za każdy ładunek Obronny",
+    en: "+{value}% Damage per Guard Stack"
+  },
+
+  def_per_sec_while_blocking: {
+    pl: "+{value}% Pancerza na sek. podczas Postawy Obronnej",
+    en: "+{value}% Armor per sec. while Defensive Stance"
+  },
+
+  crit_while_energy_fatique: {
+    pl: "+{value}% Szansy na Atak Kryt. podczas Zmęczenia Energią",
+    en: "+{value}% Critical Chance while Energy Fatigued"
+  },
+  
+  consume_guard_restore_hp: {
+    pl: "Zużycie ładunków obronnych przywraca {value}% Życia",
+    en: "Consuming Guard Stacks restores {value}% HP"
+  },
+  
+  crit_while_bleed: {
+    pl: "+{value}% Szansy na Atak Kryt. przeciw Krwawiącym Wrogom",
+    en: "+{value}% Critical Chance against Bleeding Enemies"
+  },
+  
+  dmg_reduced_while_control: {
+    pl: "-{value}% Otrzymywanych Obrażeń podczas Kontroli Wroga",
+    en: "-{value}% Damage Taken while in Enemy Control"
+  },
+
+  dmg_per_control_stack: {
+    pl: "+{value}% Obrażeń za każdy ładunek Kontroli Wroga",
+    en: "+{value}% Damage per Enemy Control Stack"
+  },
+
+  slow_enemy_per_control_stack: {
+    pl: "-{value}% Szybkości Ataku Wroga za każdy ładunek Kontroli Wroga",
+    en: "-{value}% Enemy Attack Speed per Enemy Control Stack"
+  },
+
+  crit_per_control_stack: {
+    pl: "+{value}% Szansy na Atak Kryt. za każdy ładunek Kontroli Wroga",
+    en: "+{value}% Critical Chance per Enemy Control Stack"
+  },
+  
+  gain_dmg_equal_active_def_bonus: {
+    pl: "+{value}% Obrażeń równowartości aktywnego bonusu do Pancerza",
+    en: "+{value}% Damage equivalent active Armor bonus"
+  },
+  
+  perfect_block_armor_break: {
+    pl: "Idealny Blok nakłada Przebicie Pancerza {value}% (4 sek)",
+    en: "Perfect Block applies Armor Break {value}% (4 sec)"
+  },
+  
+  perfect_block_bleed: {
+    pl: "Idealny Blok nakłada Krwawienie {value}% (3 sek)",
+    en: "Perfect Block applies Bleed {value}% (3 sec)"
+  },
+   
+  dmg_while_energy_fatigue: {
+    pl: "+{value}% Obrażeń podczas Zmęczenia energią",
+    en: "+{value}% Damage while Energy Fatigued"
+  },
+  
+  perfect_block_remove_energy_fatigue_stack: {
+    pl: "Idealny Blok usuwa 1 poziom Zmęczenia energią",
+    en: "Perfect Block removes 1 Energy Fatigue stack"
+  },
+  
+  stun_after_break: {
+    pl: "+{value}s. czasu Ogłuszenia po Przełamaniu Równowagi",
+    en: "+{value}s. Stun duration after Poise Break"
+  },
+  
+  armor_break_after_3control_stack: {
+    pl: "{value}% Przebicia Pancerza po 3 ładunkach Kontroli Wroga (4 sek)",
+    en: "{value}% Armor Break after 3 Enemy Control stacks (4 sec)"
+  },
+  
+  hp_regen_of_bleed_dmg_while_blocking: {
+    pl: "+{value}% Regeneracji Życia z obrażeń Krwawienia podczas Postawy Obronnej",
+    en: "+{value}% HP Regen from Bleed damage while Defensive Stance"
+  },
+  
+  hp_regen_of_bleed_dmg: {
+    pl: "Obrażenia z Krwawienia leczą Cię o {value}%",
+    en: "Bleed Damage heals you for {value}%"
+  },
+  
+  loh_while_blocking: {
+    pl: "+{value}% Życia za Trafienie podczas Postawy Obronnej",
+    en: "+{value}% Life on Hit while Defensive Stance"
+  },
+   
+  bleed_duration_while_blocking: {
+    pl: "+{value}s. dłuższe Krwawienie podczas Postawy Obronnej",
+    en: "+{value}s. Bleed duration while Defensive Stance"
+  },
+  
+  energy_after_break: {
+    pl: "+{value} Energii za Przełamanie Równowagi",
+    en: "+{value} Energy after Break Poise"
+  },
+  
+  crit_after_break: {
+    pl: "+{value}% szansy na Atak Kryt. po Przełamaniu Równowagi (4 sek.)",
+    en: "+{value}% chance to Crit. after Break Poise (4 sec.)"
+  },
+
+  stamina_after_break: {
+    pl: "+{value} staminy po Przełamaniu Równowagi",
+    en: "+{value} stamina after Break Poise"
+  },
+  
+  dmg_taken_after_break: {
+    pl: "-{value}% otrzymywanych obrażeń po Przełamaniu Równowagi (3 sek.)",
+    en: "-{value}% damage taken after Break Poise (3 sec.)"
+  },
+
+  bleed_damage: {
+    pl: "+{value}% więcej obrażeń od Krwawienia",
+    en: "+{value}% more damage from Bleed"
+  },
+
+  dmg_vs_bleeding: {
+    pl: "+{value}% obrażeń przeciw Krwawiącym wrogom",
+    en: "+{value}% damage vs Bleeded enemies"
+  },
+  
+  bleed_stack_faster: {
+    pl: "+{value}% szansy na dodatkowy ładunek Krwawienia",
+    en: "+{value}% chance for another Bleed stack"
+  },
+
+  armor_break_duration: {
+    pl: "+{value}s. czasu trwania Przełamania Pancerza",
+    en: "+{value}s. Armor Break duration"
+  },
+
+  armor_break_effect: {
+    pl: "+{value}% zwiększa moc Przełamania Pancerza",
+    en: "+{value}% increase power of Armor Break"
+  },
+
+  energy_on_armor_break: {
+    pl: "+{value} energii po Przełamaniu Pancerza",
+    en: "+{value} energy after Armor Break"
+  },
+
+  dmg_vs_armor_break: {
+    pl: "+{value}% obrażeń przeciwko wrogom z Przełamanym Pancerzem",
+    en: "+{value}% damage vs enemies with Armor Break"
+  },
+  
+  crit_vs_armor_break: {
+    pl: "+{value}% szansy na Atak Kryt. wrogom z Przełamanym Pancerzem",
+    en: "+{value}% chance for Crit. vs enemies with Armor Break"
+  },
+
+  stamina_vs_armor_break: {
+    pl: "+{value} staminy za wroga z Przełamanym Pancerzem",
+    en: "+{value} stamina from enemy with Armor Break"
+  },
+
+  armor_break_refresh: {
+    pl: "+{value}% szansy na odnowienie czasu trwania Przełamania Pancerza",
+    en: "+{value}% chance for renew Armor Break duration"
+  },
+
+  armor_break_on_crit: {
+    pl: "+{value}% szansy że Atak Kryt. spowoduje Przełamanie Pancerza (25%)",
+    en: "+{value}% chance to Armor Break after Crit. (25%)"
+  },
+
+  def_after_armor_break: {
+    pl: "+{value}% pancerza podczas działania Przełamania Pancerza",
+    en: "+{value}% armor while Armor Break is active"
+  },
+
+  gain_def_below_hp: {
+    pl: "+{value}% pancerza poniżej 35% Życia",
+    en: "+{value}% armor below 35% HP"
+  },
+
+  bleed_enemy_deal_less_damage: {
+    pl: "Krwawiący wrogowie zadawają {value}% mniej obrażeń",
+    en: "Bleeded enemies deals {value}% less damage"
+  },
+  
+  stamina_regen_exhausted: {
+    pl: "+{value}/s. regeneracji Staminy podczas Wyczerpania",
+    en: "+{value}/s. stamina Regen while Exhausted"
+  },
+  
+  stamina_cost_after_dodge: {
+    pl: "-{value}% koszt Staminy po udanym Uniku",
+    en: "-{value}% stamina cost after Dodge"
+  },
+
+  bleed_slow: {
+    pl: "-{value}% do szybkości ataku u Krwawiących wrogów",
+    en: "-{value}% attack speed on Bleeding enemies"
+  },
+
+  bleed_per_stack_damage: {
+    pl: "+{value}% obrażeń od Krwawienia za każdy ładunek",
+    en: "+{value}% Bleed damage per stack"
+  },
+  
+  bleed_accelerate: {
+    pl: "Każdy ładunek zwiększa szybkość Krwawienia o {value}%",
+    en: "+{value}% accelerate Bleeding per stack"
+  },
+  
+  execute_bleeding: {
+    pl: "+{value}% obrażeń jeśli wróg ma conajmniej 2 ładunki Krwawienia",
+    en: "+{value}% damage to enemy with at least 2 Bleed stacks"
+  },
+  
+};
+
+const AFFIX_CODEX_TRANSLATIONS = {
+
+  perfect_block_window: {
+    pl: "Okno Idealnego Bloku",
+    en: "Perfect Block Window"
+  },
+
+  energy_on_perfect_block: {
+    pl: "Energia za Idealny Blok",
+    en: "Energy on Perfect Block"
+  },
+
+  perfect_block_restore_hp: {
+    pl: "Leczenie po Idealnym Bloku",
+    en: "Heal on Perfect Block"
+  },
+
+  perfect_block_missing_hp: {
+    pl: "Leczenie Brakującego Życia",
+    en: "Missing HP Heal"
+  },
+
+  perfect_block_gain_def: {
+    pl: "Pancerz po Idealnym Bloku",
+    en: "Armor after Perfect Block"
+  },
+
+  perfect_block_grant_stamina: {
+    pl: "Stamina za Idealny Blok",
+    en: "Stamina on Perfect Block"
+  },
+
+  perfect_block_atkspd: {
+    pl: "Szybkość Ataku po Idealnym Bloku",
+    en: "Attack Speed after Perfect Block"
+  },
+
+  perfect_block_armor_break: {
+    pl: "Przełamanie Pancerza po Idealnym Bloku",
+    en: "Armor Break on Perfect Block"
+  },
+
+  perfect_block_bleed: {
+    pl: "Krwawienie po Idealnym Bloku",
+    en: "Bleed on Perfect Block"
+  },
+
+  perfect_block_remove_energy_fatigue_stack: {
+    pl: "Usunięcie Zmęczenia Energią",
+    en: "Remove Energy Fatigue"
+  },
+
+  defensive_stance_gain_def: {
+    pl: "Pancerz podczas Obrony",
+    en: "Armor while Blocking"
+  },
+
+  dmg_reduction_blocking: {
+    pl: "Redukcja Obrażeń podczas Obrony",
+    en: "Damage Reduction while Blocking"
+  },
+
+  hp_regen_blocking: {
+    pl: "Regeneracja Życia podczas Obrony",
+    en: "HP Regen while Blocking"
+  },
+
+  loh_while_blocking: {
+    pl: "Życie za Trafienie podczas Obrony",
+    en: "Life on Hit while Blocking"
+  },
+
+  bleed_duration_while_blocking: {
+    pl: "Czas Krwawienia podczas Obrony",
+    en: "Bleed Duration while Blocking"
+  },
+
+  def_per_sec_while_blocking: {
+    pl: "Pancerz na Sekundę podczas Obrony",
+    en: "Armor per Second while Blocking"
+  },
+
+  hp_regen_of_bleed_dmg_while_blocking: {
+    pl: "Leczenie z Krwawienia podczas Obrony",
+    en: "Bleed Healing while Blocking"
+  },
+  
+  crit_per_guard_stack: {
+    pl: "Atak Kryt. za Ładunek Obronny",
+    en: "Critical Chance per Guard Stack"
+  },
+
+  def_per_guard_stack: {
+    pl: "Pancerz za Ładunek Obronny",
+    en: "Armor per Guard Stack"
+  },
+
+  dmg_per_guard_stack: {
+    pl: "Obrażenia za Ładunek Obronny",
+    en: "Damage per Guard Stack"
+  },
+
+  gain_dmg_equal_active_def_bonus: {
+    pl: "Obrażenia z Aktywnego Pancerza",
+    en: "Damage from Active Armor"
+  },
+
+  gain_def_below_hp: {
+    pl: "Pancerz przy Niskim Życiu",
+    en: "Armor while Low HP"
+  },
+
+  // ==========================
+  // POISE
+  // ==========================
+
+  dmg_after_break: {
+    pl: "Obrażenia po Przełamaniu Równowagi",
+    en: "Damage after Poise Break"
+  },
+
+  atkspd_after_break: {
+    pl: "Szybkość Ataku po Przełamaniu",
+    en: "Attack Speed after Poise Break"
+  },
+
+  energy_after_break: {
+    pl: "Energia po Przełamaniu",
+    en: "Energy after Poise Break"
+  },
+
+  crit_after_break: {
+    pl: "Atak Kryt. po Przełamaniu",
+    en: "Critical Chance after Poise Break"
+  },
+
+  stamina_after_break: {
+    pl: "Stamina po Przełamaniu",
+    en: "Stamina after Poise Break"
+  },
+  
+  dmg_taken_after_break: {
+    pl: "Redukcja Obrażeń po Przełamaniu",
+    en: "Damage Taken after Poise Break"
+  }, 
+
+  stun_after_break: {
+    pl: "Czas Ogłuszenia po Przełamaniu",
+    en: "Stun duration after Poise Break"
+ },
+
+  // ==========================
+  // ARMOR BREAK
+  // ==========================
+
+  armor_break_duration: {
+    pl: "Czas Przełamania Pancerza",
+    en: "Armor Break Duration"
+  },
+
+  armor_break_effect: {
+    pl: "Siła Przełamania Pancerza",
+    en: "Armor Break Effect"
+  },
+
+  energy_on_armor_break: {
+    pl: "Energia po Przełamaniu Pancerza",
+    en: "Energy on Armor Break"
+  },
+
+  dmg_vs_armor_break: {
+    pl: "Obrażenia przeciw Przełamaniu Pancerza",
+    en: "Damage vs Armor Break"
+  },
+
+  crit_vs_armor_break: {
+    pl: "Atak Kryt. przeciw Przełamaniu Pancerza",
+    en: "Critical Chance vs Armor Break"
+  },
+
+  stamina_vs_armor_break: {
+    pl: "Stamina za Przełamanie Pancerza",
+    en: "Stamina vs Armor Break"
+  },
+
+  armor_break_refresh: {
+    pl: "Odnowienie Przełamania Pancerza",
+    en: "Armor Break Refresh"
+  },
+
+  armor_break_on_crit: {
+    pl: "Przełamanie Pancerza po Atak Kryt.",
+    en: "Armor Break on Critical Hit"
+  },
+
+  def_after_armor_break: {
+    pl: "Pancerz po Przełamaniu Pancerza",
+    en: "Armor after Armor Break"
+  },
+  
+   // ==========================
+   // BLEED
+   // ==========================
+
+  bleed_duration: {
+    pl: "Czas Krwawienia",
+    en: "Bleed Duration"
+  },
+
+  bleed_damage: {
+    pl: "Obrażenia Krwawienia",
+    en: "Bleed Damage"
+  },
+
+  bleed_per_stack_damage: {
+    pl: "Obrażenia za Ładunek Krwawienia",
+    en: "Bleed Damage per Stack"
+  },
+
+  bleed_stack_faster: {
+    pl: "Szybsze Nakładanie Krwawienia",
+    en: "Faster Bleed Stacking"
+  },
+  
+  bleed_accelerate: {
+    pl: "Przyspieszenie Krwawienia",
+    en: "Bleed Acceleration"
+  },
+
+  energy_bleed_kill: {
+    pl: "Energia za Zabicie Krwawiącego",
+    en: "Energy on Bleeding Kill"
+  },
+
+  bleed_slow: {
+    pl: "Spowolnienie Krwawiących",
+    en: "Bleed Slow"
+  },
+  
+  hp_regen_of_bleed_dmg: {
+    pl: "Leczenie z Krwawienia",
+    en: "Bleed Healing"
+  },
+  
+  dmg_vs_bleeding: {
+    pl: "Obrażenia przeciw Krwawiącym",
+    en: "Damage vs Bleeding"
+  },
+
+  bleed_enemy_deal_less_damage: {
+    pl: "Osłabienie Krwawiących Wrogów",
+    en: "Bleeding Enemy Weakness"
+  },
+
+  execute_bleeding: {
+    pl: "Egzekucja Krwawiących",
+    en: "Bleeding Execute"
+  },
+  
+  // ==========================
+  // DODGE
+  // ==========================
+  
+  dodge_grant_crit: {
+    pl: "Atak Kryt. po Uniku",
+    en: "Critical after Dodge"
+  },
+
+  dodge_grant_energy: {
+    pl: "Energia po Uniku",
+    en: "Energy after Dodge"
+  },
+
+  crit_grant_dodge: {
+    pl: "Unik po Atak Kryt.",
+    en: "Dodge after Critical Hit"
+  },
+
+  atkspd_after_dodge: {
+    pl: "Szybkość Ataku po Uniku",
+    en: "Attack Speed after Dodge"
+  },
+
+  stamina_cost_after_dodge: {
+    pl: "Koszt Staminy po Uniku",
+    en: "Stamina Cost after Dodge"
+  },
+  
+  // ==========================
+  // CRITICAL
+  // ==========================
+  
+  crit_missing_hp: {
+    pl: "Atak Kryt. za Brak Życia",
+    en: "Critical per Missing HP"
+  },
+
+  crit_while_energy_fatigue: {
+    pl: "Atak Kryt. podczas Zmęczenia Energii",
+    en: "Critical while Energy Fatigued"
+  },
+
+  crit_while_bleed: {
+    pl: "Atak Kryt. przeciw Krwawiącym",
+    en: "Critical vs Bleeding"
+  },
+
+  crit_per_control_stack: {
+    pl: "Atak Kryt. za Kontrolę",
+    en: "Critical per Control Stack"
+  },
+
+  crit_exhausted: {
+    pl: "Atak Kryt. podczas Wyczerpania",
+    en: "Critical while Exhausted"
+  },
+
+  // ==========================
+  // EXHAUSTED / FATIGUE
+  // ==========================
+
+  stamina_fatique_penalty: {
+    pl: "Redukcja Kar Zmęczenia",
+    en: "Fatigue Penalty Reduction"
+  },
+
+  dmg_exhausted: {
+    pl: "Obrażenia podczas Wyczerpania",
+    en: "Damage while Exhausted"
+  },
+
+  def_exhausted: {
+    pl: "Pancerz podczas Wyczerpania",
+    en: "Armor while Exhausted"
+  },
+  
+  dmg_while_energy_fatigue: {
+    pl: "Obrażenia podczas Zmęczenia Energii",
+    en: "Damage while Energy Fatigued"
+  },
+
+  stamina_regen_exhausted: {
+    pl: "Regeneracja Staminy podczas Wyczerpania",
+    en: "Stamina Regen while Exhausted"
+  },
+
+  // ==========================
+  // ENERGY
+  // ==========================
+
+  energy_on_crit: {
+    pl: "Energia za Atak Kryt.",
+    en: "Energy on Critical Hit"
+  },
+  
+  // ==========================
+  // SPEAR CONTROL
+  // ==========================
+
+  pushback: {
+    pl: "Siła Odepchnięcia",
+    en: "Pushback Power"
+  },
+
+  energy_per_stack_control: {
+    pl: "Energia za Kontrolę",
+    en: "Energy per Control Stack"
+  },
+
+  stamina_per_stack_control: {
+    pl: "Stamina za Kontrolę",
+    en: "Stamina per Control Stack"
+  },
+
+  dmg_per_control_stack: {
+    pl: "Obrażenia za Kontrolę",
+    en: "Damage per Control Stack"
+  },
+
+  slow_enemy_per_control_stack: {
+    pl: "Spowolnienie Kontrolowanego",
+    en: "Controlled Enemy Slow"
+  },
+  
+  dmg_reduced_while_control: {
+    pl: "Redukcja Obrażeń podczas Kontroli",
+    en: "Damage Reduction while Control"
+  },
+
+  consume_guard_restore_hp: {
+    pl: "Leczenie za Ładunki Obronne",
+    en: "Guard Stack Healing"
+  },
+
+  armor_break_after_3control_stack: {
+    pl: "Przełamanie Pancerza za Kontrolę",
+    en: "Armor Break per Control Stack"
+  },
+  
+  // ==========================
+  // LOW HP
+  // ==========================
+
+  dmg_below_hp: {
+    pl: "Obrażenia przy Niskim Życiu",
+    en: "Damage while Low HP"
+  },
+
+  loh_doubled_below_hp: {
+    pl: "Podwójne Życie za Trafienie przy Niskim Życiu",
+    en: "Double Life on Hit while Low HP"
+  },
+
+
+  // ==========================
+  // RESOURCES / STAMINA
+  // ==========================
+
+  stamina_on_kill: {
+    pl: "Stamina za Zabicie",
+    en: "Stamina on Kill"
+  },
+
+  stamina_on_crit: {
+    pl: "Stamina za Atak Kryt.",
+    en: "Stamina on Critical Hit"
   },
   
   
@@ -747,7 +1549,8 @@ Object.assign(LANG.en, {
   bonuses_title: "AFFIXES",
   weapon_style_title: "COMBAT STYLE", 
   exclusive_title: "EXCLUSIVE",
-
+  combat_affixes_title: "COMBAT AFFIXES",
+  
   
   style_sword_name: "RHYTHM",
   style_sword_desc: "Build momentum and unleash increasingly powerful strikes",
@@ -848,6 +1651,13 @@ Object.assign(LANG.en, {
   belt: "Belt",
   pants: "Pants",
   boots: "Boots",
+  combat_boots: "Combat Boots",
+  combat_pants: "Combat Pants",
+  hood: "Hood",
+  cask: "Cask",
+  steel_cask: "Steel Cask",
+  leather_bracer: "Leather Bracers",
+  leather_gloves: "Leather Gloves",
   
   
   map: "Map",
@@ -901,9 +1711,21 @@ Object.assign(LANG.en, {
   suffix_vengeance: "of Vengeance",
   suffix_immortality: "of Immortality",
   suffix_ancestors: "of the Ancestors",
-  suffix_apocalypse: "of the End"
+  suffix_apocalypse: "of the End",
   
-  
+  perfect_block: "Perfect Block",
+  defensive_stance: "Defensive Stance",
+  poise: "Poise",
+  bleed: "Bleed",
+  armor_break: "Armor Break",
+  spear_control: "Spear Control",
+  dodge: "Dodge",
+  critical: "Exhaustion (Energy)",
+  exhausted: "Fatique/Exhausted (Stamina)",
+  low_hp: "Low Health",
+  crit: "Critical Hits",
+  resources: "Resources",
+  special: "Special",
   
 });
 
@@ -928,6 +1750,7 @@ Object.assign(LANG.pl, {
   bonuses_title: "BONUSY",
   weapon_style_title: "STYL WALKI",
   exclusive_title: "EKSKLUZYWNE",
+  combat_affixes_title: "BONUSY STYLÓW WALKI",
 
   
   style_sword_name: "RYTM",
@@ -1029,6 +1852,14 @@ Object.assign(LANG.pl, {
   belt: "Pas",
   pants: "Spodnie",
   boots: "Buty",
+  combat_boots: "Bojowe Buty",
+  combat_pants: "Bojowe Spodnie",
+  hood: "Kaptur",
+  cask: "Kask",
+  steel_cask: "Stalowy Kask",
+  leather_bracer: "Skórzane Karwasze",
+  leather_gloves: "Skórzane Rękawice",
+
   
   map: "Mapa",
   north_map_final: "Mapa Północy (Finałowa)",
@@ -1083,6 +1914,19 @@ Object.assign(LANG.pl, {
   suffix_ancestors: "Przodków",
   suffix_apocalypse: "Końca Świata",
   
+  perfect_block: "Idealny Blok",
+  defensive_stance: "Postawa Obronna",
+  poise: "Równowaga",
+  bleed: "Krwawienie",
+  armor_break: "Przełamanie Pancerza",
+  spear_control: "Kontrola Włócznią",
+  dodge: "Unik",
+  critical: "Zmęczenie (Energia)",
+  exhausted: "Wyczerpanie (Stamina)",
+  low_hp: "Niskie Życie",
+  crit: "Szansa na Atak Kryt.",
+  resources: "Zasoby",
+  special: "Specjalne"
   
   
 });

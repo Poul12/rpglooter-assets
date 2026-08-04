@@ -768,7 +768,7 @@ function loadFirstStep() {
   world.exploreOptions = step.exploreOptions;
   renderStepContents(step.contents);
   highlightCurrentStep();
-  syncStepEnemies(world.currentStepIndex);
+ // syncStepEnemies(world.currentStepIndex);
   unlockActions();
   startUiTick();
   
@@ -1164,7 +1164,7 @@ function rollOptions() {
   world.currentStepIndex++;
   world.locationSteps[world.currentStepIndex].unlocked = true;
   
-  syncStepEnemies(world.currentStepIndex);
+ // syncStepEnemies(world.currentStepIndex);
   
   if (world) {
    // console.log("regionId in rollOptions", world.selectedRegionId);
@@ -1205,7 +1205,7 @@ function loadStep(index) {
 
   world.currentStepIndex = index;
   const step = world.locationSteps[index];
-
+  
   world.exploreOptions = step.exploreOptions || step.contents.map(randomOpt);
   if (!step.exploreOptions) step.exploreOptions = world.exploreOptions;
   
@@ -1220,8 +1220,9 @@ function loadStep(index) {
   saveGame();
 }
 
-function goBack() {
+async function goBack() {
   console.log("🔙 Cofanie...");
+  stopEnemyUiRegenTick();
   const world = gameState.world;
  
   if (world.currentStepIndex <= 0) return;
@@ -1232,7 +1233,8 @@ function goBack() {
   
   const currentStep = world.locationSteps[world.currentStepIndex];
   loadStep(world.currentStepIndex); // ← ładuje stan exploreOptions i inne rzeczy
-  
+  //console.log("🔙 Cofanie after loadStep");
+
   const nextLevel = document.getElementById("next-level");
   const nextBtn = document.getElementById("next-btn");
   const nextArrow = document.getElementById("arrow-next-icon");
@@ -1248,12 +1250,15 @@ function goBack() {
   } else if ((gameState.world.mode ===`sandbox` || gameState.world.mode ===`adventure`) && world.currentStepIndex === 0) {
     document.getElementById(`store-button`).classList.remove('disabled');
   }
-
   
   world.inCombat = false;
 
+  //await wait(150);
+  
   //spendEnergy(`move`);
   renderLoots();
+  //console.log("🔙 Cofanie before renderOptions");
+  
   renderStats();
   renderOptions(); // ← renderuje sloty, wrogów, skrzynie itd.
   hideAttackBtn();

@@ -128,18 +128,29 @@ function updateCampfireBar(fillEl) {
   tick();
 }
 
-function healPlayer(hpAmount){
+function healPlayer(hpAmount, isPerfect = false){
   const char = gameState.char;
 
-  let amountToHeal = char.maxHp * ( hpAmount / 100 );
+  //console.log(`hpAmount`, hpAmount);
+  
   const missHp = char.maxHp - char.hp;
-   
+  
+  let amountToHeal = char.maxHp * ( hpAmount / 100 );
+  
+  if(gameState.char.combatAffixes[`perfect_block_missing_hp`] && isPerfect) {
+    amountToHeal = missHp * ( hpAmount / 100 );
+  }
+  
+  //console.log(`amountToHeal`, amountToHeal);
+  
   if(char.hp < char.maxHp) {
     if(amountToHeal >= missHp) {
       amountToHeal = missHp;
     }
     char.hp += amountToHeal;
   }  
+  
+  //console.log(`amountToHeal2`, amountToHeal);
   
   if(gameState.world.mode === `sandbox`) {
     showInfoAlert(`Wyleczono życie`, 2000, true);

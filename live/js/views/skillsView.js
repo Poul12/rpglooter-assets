@@ -115,16 +115,34 @@ function getSkillsTemplate() {
     <div class="skill-node locked" id="focus" style="left: 70%; top: 51%; transform: translate(-50%, -50%)"></div>
 
     <!-- Główna umiejętność (ziemia) --> 
-    <div class="skill-node unlocked" id="slash" style="left: 50%; top: 57%; transform: translate(-50%, -50%)"></div>  
+  <!--  <div class="skill-node unlocked" id="slash" style="left: 50%; top: 57%; transform: translate(-50%, -50%)"></div> --> 
     <!-- Korona (umiejętności aktywne) -->  
-    <div class="skill-node locked" id="double-attack" style="left: 50%; top: 47%; transform: translate(-50%, -50%)"></div>
+   <!-- <div class="skill-node locked" id="double-attack" style="left: 50%; top: 47%; transform: translate(-50%, -50%)"></div>
     
     <div class="skill-node locked" id="charge" style="left: 33%; top: 37%; transform: translate(-50%, -50%)"></div>
     <div class="skill-node locked" id="jump" style="left: 50%; top: 37%; transform: translate(-50%, -50%)"></div>
     <div class="skill-node locked" id="warrior-shout" style="left: 66%; top: 37%; transform: translate(-50%, -50%)"></div>
     
-    <div class="skill-node locked" id="skill-top-3.1" style="left: 15%; top: 35%; transform: translate(-50%, -50%)">3.1</div>
-    <div class="skill-node locked" id="skill-top-3.2" style="left: 23%; top: 27%; transform: translate(-50%, -50%)">3.2</div>
+    <div class="skill-node locked" id="skill-top-3.1" style="left: 15%; top: 35%; transform: translate(-50%, -50%)">3.1</div> -->
+  
+    <!-- Root -->
+    <div class="skill-node unlocked" id="skill-node-1" style="left:50%; top:57%; transform:translate(-50%,-50%)"></div>
+
+    <!-- Tier 2 -->
+    <div class="skill-node locked" id="skill-node-2" style="left:50%; top:47%; transform:translate(-50%,-50%)"></div>
+
+    <!-- Tier 3 -->
+    <div class="skill-node locked" id="skill-node-3" style="left:33%; top:37%; transform:translate(-50%,-50%)"></div>
+
+    <div class="skill-node locked" id="skill-node-4" style="left:50%; top:37%; transform:translate(-50%,-50%)"></div>
+
+    <div class="skill-node locked" id="skill-node-5" style="left:66%; top:37%; transform:translate(-50%,-50%)"></div>
+
+    <!-- Ultimate -->
+    <div class="skill-node locked" id="skill-node-6" style="left:50%; top:27%; transform:translate(-50%,-50%)"></div>
+  
+  
+  <!--  <div class="skill-node locked" id="skill-top-3.2" style="left: 23%; top: 27%; transform: translate(-50%, -50%)">3.2</div>
     <div class="skill-node locked" id="skill-top-3.3" style="left: 40%; top: 26%; transform: translate(-50%, -50%)">3.3</div>
     <div class="skill-node locked" id="skill-top-3.4" style="left: 57%; top: 26%; transform: translate(-50%, -50%)">3.4</div>
     <div class="skill-node locked" id="skill-top-3.5" style="left: 76%; top: 29%; transform: translate(-50%, -50%)">3.5</div>
@@ -138,7 +156,7 @@ function getSkillsTemplate() {
     
     <div class="skill-node locked" id="skill-top-5.1" style="left: 28%; top: 10%; transform: translate(-50%, -50%)">5.1</div>
     <div class="skill-node locked" id="skill-top-5.2" style="left: 50%; top: 8%; transform: translate(-50%, -50%)">5.2</div>
-    <div class="skill-node locked" id="skill-top-5.3" style="left: 70%; top: 10%; transform: translate(-50%, -50%)">5.3</div>
+    <div class="skill-node locked" id="skill-top-5.3" style="left: 70%; top: 10%; transform: translate(-50%, -50%)">5.3</div> -->
       <!-- Korzenie (umiejętności pasywne) -->  
     
     <div id="passive-start"></div>
@@ -191,7 +209,7 @@ async function renderSkillsView() {
     //await nextFrame();
     //await nextFrame();
     
-    await assetManager.preloadAssets(SKILLS_ASSETS);
+    //await assetManager.preloadAssets(SKILLS_ASSETS);
 
    // document.getElementById("app").innerHTML = getSkillsTemplate();
     
@@ -226,11 +244,11 @@ function initSkillsView() {
   if (typeof SKILLS_DATABASE === "undefined") return;
 
   loadPlayerSkills();
-  syncPlayerSkillsToSkills();
+  //syncPlayerSkillsToSkills();
   applyAllPassiveSkills();
   renderTree();
       
-  document.getElementById("charge").scrollIntoView({ behavior: "smooth" });
+  document.getElementById("skill-node-1").scrollIntoView({ behavior: "smooth" });
     
   /*document.documentElement.style.setProperty(
     "--skill-tree-bg",
@@ -327,7 +345,7 @@ function attachSkillListeners() {
   skillClickHandler = function (e) {
     const node = e.target.closest(".skill-node");
     if (!node) return;
-    showSkillPopup(node.id);
+    showSkillPopup(node.dataset.skillId);
     playSound("open", 0.4);
   };
     

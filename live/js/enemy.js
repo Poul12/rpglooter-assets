@@ -119,6 +119,8 @@ function updateEnemyAttack(delta) {
       
   decayArmorBreakStacks(enemy);
       
+  decayComboStack(enemy, gameState.combat.activeRingMode); 
+      
   if (enemy.status.slowEnd && now >= enemy.status.slowEnd) {
     clearEnemySlow(enemy, state.slotIndex);
   }
@@ -156,9 +158,64 @@ function updateEnemyAttack(delta) {
     const progress = 1 - state.remaining / state.baseCooldown;
     updateCooldownBar(enemy, progress * 100, state.slotIndex);
         
+    if(enemy.vulnerable) {
+      const windupBar = document.getElementById(`enemy-windup-bar-${state.slotIndex}`);
+      windupBar.classList.remove(`show`);
+    }
+        
     if (state.remaining <= 0) {
           
+      if(enemy.isGuarding) {
+        enemy.isGuarding = false;
+        gameState.combat.flags.windupEnd = true;
+        updateStatusEnemyUI(enemy);
+      }
+          
       rollEnemyIntent(enemy);
+
+      if (enemy.isCharged && (enemy.intent === "attack" || enemy.intent === "heavy")){
+        state.phase = "windup";
+        state.remaining = 0;
+
+        gameState.combat.flags.windupEnd = true;
+        updateStatusEnemyUI(enemy);
+
+      } else {
+        state.phase = "windup";
+
+        let windup = enemy.windupDuration;
+
+        if (enemy.spear) {
+          windup += enemy.spear.windupBonus;
+        }
+
+        state.remaining = windup;
+        state.windupDuration = windup;
+        
+        updateCooldownBar(enemy, 100, state.slotIndex);
+
+        if(enemy.intent === "attack" || enemy.intent === "heavy") {
+          const windupBar = document.getElementById(`enemy-windup-bar-${state.slotIndex}`);
+          windupBar.classList.add(`show`);
+        }
+            
+        if (gameState.combat.playerBlock.mode === "timed" &&
+          !perfectBlockTimingActive &&
+          intentDealsAttack(enemy.intent)) {
+                
+          setTimeout(() => activateTimedBlock(), 200);
+        }
+
+        emitEnemyAttackWindup({
+          enemy,
+          slotIndex: state.slotIndex,
+          duration: windup
+        });
+      }
+          
+          
+          
+     /* rollEnemyIntent(enemy);
 
       state.phase = "windup";
       state.remaining = enemy.windupDuration;
@@ -168,21 +225,16 @@ function updateEnemyAttack(delta) {
       if (enemy.spear) {
         windup += enemy.spear.windupBonus;
       }
-          
-      /*if(enemy.intent === `heavy`) {
-        //triggerSlowMo(0.35, 300);
-        slowMoAlert();
-      }*/
-          
+       
       //state.remaining = windup;
           
       updateCooldownBar(enemy, 100, state.slotIndex);
 
-      state.result = executeEnemyIntent(enemy);
+      //state.result = executeEnemyIntent(enemy);
       const player = gameState.char;
 
       if(gameState.combat.playerBlock.mode === "timed" && !perfectBlockTimingActive) {
-        if (intentDealsAttack(enemy.intent) && state.result.type === "action") {
+        if (intentDealsAttack(enemy.intent)) { //state.result.type === "action")
            //console.error(`enemy action attack`);
            setTimeout(() => {
              activateTimedBlock();
@@ -194,7 +246,7 @@ function updateEnemyAttack(delta) {
         enemy,
         slotIndex: state.slotIndex,
         duration: state.windupDuration
-      });
+      });*/
     }
   }
 
@@ -204,13 +256,19 @@ function updateEnemyAttack(delta) {
   else if (state.phase === "windup") {
         
     //console.error(`state.remaining windup`, state.remaining);  
-                 
+    const progress = state.remaining / state.windupDuration;
+    updateWindupBar(enemy, progress, state.slotIndex);
+                   
     if (state.remaining <= 0 ) {
           
+      const windupBar = document.getElementById(`enemy-windup-bar-${state.slotIndex}`);
+      windupBar.classList.remove(`show`);
+   
       //let dmgMultiplier = 1;
           
-      //const result = executeEnemyIntent(enemy);
-          
+      if(!gameState.combat.flags.isBlocked) {      
+        state.result = executeEnemyIntent(enemy);
+      }     
       /*if (enemy.intent) {
         dmgMultiplier = executeEnemyIntent(enemy);
       }*/
@@ -219,8 +277,9 @@ function updateEnemyAttack(delta) {
         //console.error(`dmgMultiplier`, state.result.dmgMultiplier);
         
         performIntentAttack(enemy, state.slotIndex, {multiplier: state.result.dmgMultiplier});
-        
-        stopTimedBlockUI();
+        if(gameState.combat.playerBlock.mode === "timed") {
+          stopTimedBlockUI();
+        }      
       } 
           
       gameState.combat.flags.isBlocked = false;
@@ -252,7 +311,7 @@ function updateEnemyAttack(delta) {
     if(state.remaining <= 0) {
           
       if(enemy.intent === "guard") {
-         enemy.isGuarding = false;
+         //enemy.isGuarding = false;
          enemy.guardCounter = true;
       }
           
@@ -262,8 +321,12 @@ function updateEnemyAttack(delta) {
       }
           
       //console.error(`state.phase remainig`);    
-      enemy.intent = null;
-  
+          
+      if(enemy.intent !== "guard") {
+         //enemy.isGuarding = false;
+         enemy.intent = null;
+      }
+          
       state.phase = "cooldown";
       state.remaining = getEnemyNextCooldown(enemy, state);
           
@@ -285,6 +348,7 @@ function getEnemyNextCooldown(enemy, state) {
 }
 
 function performIntentAttack(enemy, slotIndex, options = {}) {
+  //console.error("NORMAL ATTACK");
 
   let finalMultiplier = options.multiplier || 1;
 
@@ -301,6 +365,13 @@ function performIntentAttack(enemy, slotIndex, options = {}) {
    enemy.guardCounter = false;
   }
       
+  /*if(enemy.intent === "guard") {
+    enemy.isGuarding = false;
+  }*/
+      
+  gameState.combat.flags.windupEnd = true;
+  updateStatusEnemyUI(enemy);
+      
   performEnemyAttack(enemy, slotIndex, {
     multiplier: finalMultiplier
   });
@@ -311,39 +382,107 @@ function updateBleed(delta) {
 
   const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
 
-  if(!enemy?.bleed?.duration) return; 
+  //if(!enemy?.bleed?.duration) return; 
+  if (!enemy?.bleed?.stacks?.length) return;
       
-  if (!enemy || !enemy.bleed || enemy.currentHp <= 0 || !gameState.world.inCombat) return;
+  if (enemy.currentHp <= 0 || !gameState.world.inCombat) return;
 
   const bleed = enemy.bleed;
 
   bleed.timer += delta;
 
   let totalBleedDamage = 0;
-
-  if (bleed.timer >= bleed.tickRate) {
+      
+  let tickRate = bleed.tickRate;
+      
+  if(gameState.char.combatAffixes["bleed_accelerate"]) {
+    //console.error(`bleed.tickRate before bonus`, tickRate);
+    const value = gameState.char.combatAffixes["bleed_accelerate"].value;
+    tickRate *= 1 - (bleed.stacks.length * value / 100);
+    //console.error(`bleed.tickRate after bonus`, tickRate);
+  }
+      
+  while (bleed.timer >= tickRate) {
     bleed.timer -= bleed.tickRate;
 
-    totalBleedDamage = bleed.stacks * bleed.damage;
+    //totalBleedDamage = bleed.damage;
 
-    bleed.duration -= bleed.tickRate;
+    //console.error(`bleed.duration`, bleed.duration);   
+ 
+    if(!gameState.combat.blockingBonus.bleedBonus.wasAdded && gameState.combat.blockingBonus.bleedBonus.isActive && gameState.char.combatAffixes[`bleed_duration_while_blocking`]) {
+      const durationBonus = gameState.char.combatAffixes[`bleed_duration_while_blocking`].value || 0;
+      gameState.combat.blockingBonus.bleedBonus.wasAdded = true;
+      //console.error(`bleed.duration after bonus`, bleed.duration);
+      for (const stack of bleed.stacks) {
+        stack.duration += durationBonus;
+      }
+    }
+        
+    for (const stack of bleed.stacks) {
+      totalBleedDamage += stack.damage;
+    }
+
+    if(gameState.char.combatAffixes["bleed_per_stack_damage"]) {
+      //console.error(`totalBleedDamage before bonus`, totalBleedDamage);
+      const value = gameState.char.combatAffixes["bleed_per_stack_damage"].value;
+      totalBleedDamage *= 1 + (bleed.stacks.length * value / 100);
+      //console.error(`totalBleedDamage after bonus`, totalBleedDamage);
+    }
+        
+    if (totalBleedDamage > 0) {
+      dealBleedDamage(enemy, totalBleedDamage, gameState.world.selectedSlotIndex);
+    }
+        
+    //bleed.duration -= bleed.tickRate;
+        
+    for (let i = bleed.stacks.length - 1; i >= 0; i--) {
+      bleed.stacks[i].duration -= bleed.tickRate;
+          
+      if (bleed.stacks[i].duration <= 0) {
+        bleed.stacks.splice(i, 1);
+      }
+    }
+        
   }
 
+  if(gameState.char.combatAffixes[`execute_bleeding`] && bleed.stacks.length >= 2) {
+    const dmgBonus = gameState.char.combatAffixes[`execute_bleeding`].value;
+    gameState.combat.activeBonus.dmgSources.bleed = dmgBonus;
+    recalculateDamageBonus();
+  }
+      
    //console.error(`totalBleedDamage`, totalBleedDamage);   
       
-  if (totalBleedDamage > 0) {
+  /*if (totalBleedDamage > 0) {
     dealBleedDamage(enemy, totalBleedDamage, gameState.world.selectedSlotIndex);
-  }
+  }*/
 
   // 🔥 CLEANUP
-  if (bleed.duration <= 0) {
+  /*if (bleed.duration <= 0) {
+    clearBleed(enemy);
+  }*/
+      
+  if(!bleed.stacks.length) {
     clearBleed(enemy);
   }
 }
 
 function clearBleed(enemy) {
   enemy.bleed = null;
+  gameState.combat.blockingBonus.bleedBonus.wasAdded = false;
   updateStatusEnemyUI(enemy);
+      
+  gameState.combat.activeBonus.dmgSources.bleed = 0;
+  recalculateDamageBonus();
+  clearAllDiffs(`dmg`);
+
+  if(gameState.char.combatAffixes[`crit_while_bleed`]) {
+    gameState.combat.activeBonus.critSources.bleed = 0;
+    recalculateCritBonus();
+  }
+
+      
+      
  // console.log("BLEED CLEARED");
 }
 
@@ -362,18 +501,147 @@ function dealBleedDamage(enemy, damage, index) {
     hideFleeButton();
     winCombat();
     stopEnemyAttack(gameState.world.selectedSlotIndex); // linia czasu wroga – STOP
+        
+    if(gameState.char.combatAffixes[`energy_bleed_kill`]) {
+      const energyGain = gameState.char.combatAffixes[`energy_bleed_kill`].value;
+      gainEnergy(energyGain);
+      //showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
+      showEnergyGain(energyGain);
+     // console.error(`energy gain on kill`, energyGain); 
+    }          
   }
       
   updateStatusEnemyUI(enemy);
       
   // 🔥 natychmiastowy update (bez animacji)
   updateEnemyHealthBar(enemy, index);
+      
+  if(gameState.char.combatAffixes[`hp_regen_of_bleed_dmg`] && enemy?.bleed) {
+    const value = gameState.char.combatAffixes[`hp_regen_of_bleed_dmg`].value;
+    const hpBonus = damage * (value / 100);
+    //console.log(`hp regen bleed damage, bonus value, hpBonus`, damage, value, hpBonus);
+        
+    const char = gameState.char;
+    
+    char.hp = Math.min(
+      char.maxHp,
+      char.hp + Math.round(hpBonus)
+    );
+    
+    setTimeout(() => {
+        updatePlayerHp(char.hp);
+    }, 160);
 
+  }
+
+      
   // 🔥 floating damage (opcjonalnie)
     showEnemyDamage({
       damage: Math.ceil(damage),
       isBleed: true
     });
+}
+
+function updateStatusPlayerUI(enemy) {
+  const container = document.getElementById(`player-status`);
+      
+  if(!enemy) return;  
+      
+  if(!container) return;  
+      
+  const activeStatuses = new Set();
+      
+  
+      
+  if (gameState.combat.lastBastion.isActive) {
+    activeStatuses.add("bastion");
+        
+    let el = container.querySelector(".player-status.bastion");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "player-status bastion";
+          
+      const bastionIconUrl = assetManager.getResolvedAsset("img/icons/bastion-bonus-icon.png");
+  
+      const icon = document.createElement("img");
+      icon.src = `${bastionIconUrl}`;
+
+      el.appendChild(icon);
+      container.appendChild(el);
+    }
+  }
+
+      
+  if (gameState.combat.activeBonus.crit) {
+    activeStatuses.add("crit");
+        
+    let el = container.querySelector(".player-status.crit");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "player-status crit";
+          
+      const critIconUrl = assetManager.getResolvedAsset("img/icons/crit-bonus-icon.png");
+  
+      const icon = document.createElement("img");
+      icon.src = `${critIconUrl}`;
+
+      el.appendChild(icon);
+      container.appendChild(el);
+    }
+  }
+      
+  if (gameState.combat.activeBonus.atkSpd) {
+    activeStatuses.add("atkspd");
+        
+    let el = container.querySelector(".player-status.atkspd");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "player-status atkspd";
+          
+      const atkspdIconUrl = assetManager.getResolvedAsset("img/icons/atkspd-bonus-icon2.png");
+  
+      const icon = document.createElement("img");
+      icon.src = `${atkspdIconUrl}`;
+
+      el.appendChild(icon);
+      container.appendChild(el);
+    }
+  }
+
+  const staminaState = gameState.resources.staminaState;
+  const isExhausted = staminaState.fatigue === "exhausted" || staminaState.fatigue === "critical";
+      
+  if (isExhausted) {
+    activeStatuses.add("exhausted");
+        
+    let el = container.querySelector(".player-status.exhausted");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "player-status exhausted";
+          
+      const exhaustedIconUrl = assetManager.getResolvedAsset("img/icons/exhausted-bonus-icon3.png");
+  
+      const icon = document.createElement("img");
+      icon.src = `${exhaustedIconUrl}`;
+
+      el.appendChild(icon);
+      container.appendChild(el);
+    }
+  }
+
+      
+  [...container.children].forEach(child => {
+    const type = [...child.classList].find(c => c !== "player-status");
+
+    if (!activeStatuses.has(type)) {
+      child.remove();
+    }
+  });
+      
 }
 
 function updateStatusEnemyUI(enemy) {
@@ -383,7 +651,144 @@ function updateStatusEnemyUI(enemy) {
       
   const activeStatuses = new Set();
 
-  if (enemy.bleed && enemy.bleed.duration > 0) {
+  if (enemy.vulnerable) {
+    activeStatuses.add("vulnerable");
+        
+    let el = container.querySelector(".enemy-status.vulnerable");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "enemy-status vulnerable";
+          
+      const vulnerableIconUrl = assetManager.getResolvedAsset("img/icons/vulnerable-bonus-icon2.png");
+  
+      const icon = document.createElement("img");
+      icon.src = `${vulnerableIconUrl}`;
+
+      el.appendChild(icon);
+      container.appendChild(el);
+    }
+  }
+      
+  if(!gameState.combat.flags.windupEnd && enemy.intent) {
+        
+    activeStatuses.add("windup");
+  
+    let el = container.querySelector(".enemy-status.windup");
+
+    if (!el && (enemy.intent === "guard" || enemy.intent === "charge")) {
+      el = document.createElement("div");
+      el.className = "enemy-status windup";
+      console.log(`guard / charge status`, enemy.intent);
+      let iconUrl = ``;
+      //let windupIconUrl = ``;
+          
+      switch(enemy.intent) {
+      /*  case `attack`:
+          iconUrl = "img/icons/normal-windup-icon.png";
+          //windupIconUrl = ICONS.attack;
+          break;            
+        case `heavy`:
+          iconUrl = "img/icons/heavy-windup-icon.png";
+          el.classList.add("windup-brute");
+
+          //windupIconUrl = ICONS.heavy;
+          break;  */          
+        case `guard`:
+          iconUrl = "img/icons/guard-windup-icon.png";
+          //windupIconUrl = ICONS.guard;
+          break;
+        case `charge`:
+          iconUrl = "img/icons/charge-windup-icon.png";
+          el.classList.add("windup-brute");
+          //windupIconUrl = ICONS.charge;
+          break;
+      }
+          
+      /*const windupIcons = {
+        attack: ICONS.attack,
+        heavy: ICONS.heavy,
+        guard: ICONS.guard,
+        charge: ICONS.charge
+      };*/
+          
+      const windupIconUrl = assetManager.getResolvedAsset(iconUrl);
+          
+      const icon = document.createElement("img");
+      icon.src = `${windupIconUrl}`;
+      //icon.src = windupIcons[enemy.intent];
+   
+      el.appendChild(icon);
+      container.appendChild(el);
+    }
+        
+  }          
+
+  if (enemy?.status?.slow) {
+    activeStatuses.add("slow");
+        
+    let el = container.querySelector(".enemy-status.slow");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "enemy-status slow";
+          
+      const slowIconUrl = assetManager.getResolvedAsset("img/icons/skill-slow-icon.png");
+  
+      const icon = document.createElement("img");
+      icon.src = `${slowIconUrl}`;
+
+      el.appendChild(icon);
+      container.appendChild(el);
+    }
+  }
+      
+  if (enemy?.status?.stunEnd) {
+    activeStatuses.add("stun");
+        
+    console.error(`enemy status stun enter`);   
+        
+    let el = container.querySelector(".enemy-status.stun");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "enemy-status stun";
+          
+      const stunIconUrl = assetManager.getResolvedAsset("img/icons/skill-stun-icon.png");
+  
+      const icon = document.createElement("img");
+      icon.src = `${stunIconUrl}`;
+
+      el.appendChild(icon);
+      container.appendChild(el);
+          
+      console.error(`enemy status stun added`);   
+
+    }
+  }
+
+      
+  if (enemy.spear?.stackControl) {
+    activeStatuses.add("control");
+        
+    let el = container.querySelector(".enemy-status.control");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "enemy-status control";
+          
+      const controlIconUrl = assetManager.getResolvedAsset("img/icons/spear-control-icon.png");
+  
+      const icon = document.createElement("img");
+      icon.src = `${controlIconUrl}`;
+
+      el.appendChild(icon);
+      container.appendChild(el);
+    }
+  }
+      
+      
+  if (enemy.bleed && enemy.bleed.stacks.length > 0) {
     activeStatuses.add("bleed");
   
     let el = container.querySelector(".enemy-status.bleed");
@@ -391,9 +796,9 @@ function updateStatusEnemyUI(enemy) {
     if (!el) {
       el = document.createElement("div");
       el.className = "enemy-status bleed";
-
+          
       const bleedIconUrl = assetManager.getResolvedAsset("img/icons/bleed-icon.png");
-
+  
       const icon = document.createElement("img");
       icon.src = `${bleedIconUrl}`;
 
@@ -405,7 +810,7 @@ function updateStatusEnemyUI(enemy) {
       container.appendChild(el);
     }
 
-    el.querySelector(".stacks").textContent = `x${enemy.bleed.stacks}`;
+    el.querySelector(".stacks").textContent = `x${enemy.bleed.stacks.length}`;
   }
       
   if (enemy.armorBreak && enemy.armorBreak.duration > 0) {
@@ -416,9 +821,9 @@ function updateStatusEnemyUI(enemy) {
     if (!el) {
       el = document.createElement("div");
       el.className = "enemy-status armor-break";
-
+          
       const armorBreakIconUrl = assetManager.getResolvedAsset("img/icons/armor-break-icon.png");
-
+  
       const icon = document.createElement("img");
       icon.src = `${armorBreakIconUrl}`;
 
@@ -442,13 +847,39 @@ function updateArmorBreak(delta) {
 
   const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
       
-  if (!enemy?.armorBreak) return;
+  if (!enemy?.armorBreak?.value) return;
 
   enemy.armorBreak.duration -= delta;
+      
+  if(gameState.char.combatAffixes[`armor_break_refresh`] && gameState.combat.armorBreakBonus.refreshBonus.isReady) {
+      const value = gameState.char.combatAffixes[`armor_break_refresh`].value;
+      const refreshRoll = Math.random() * 100;
+ 
+      gameState.combat.armorBreakBonus.refreshBonus.isReady = false;
+      
+      if(refreshRoll < value) {
+        enemy.armorBreak.duration = enemy.armorBreak.maxDuration;
+        //console.log(`refreshRoll < value, enemy.armorBreak.duration`, refreshRoll, value, enemy.armorBreak.duration);
+        showReward(`${t("armor_break_refreshed")}`, 2300);
+      }  
+    }
 
   if (enemy.armorBreak.duration <= 0) {
     enemy.armorBreak.value = 0;
     updateStatusEnemyUI(enemy); 
+        
+    if(gameState.char.combatAffixes[`def_after_armor_break`]) {
+      gameState.combat.activeBonus.defSources.armorBreak = 0;
+      recalculateDefenseBonus();
+          
+      clearAllDiffs(`def`); 
+    }
+        
+    if(gameState.char.combatAffixes[`crit_vs_armor_break`]) {
+      gameState.combat.activeBonus.critSources.armorBreak = 0;
+      recalculateCritBonus();
+    }
+        
   }
 }
 
@@ -483,7 +914,7 @@ function updateCooldownBar(enemy, percent, slotIndex) {
   if (enemy?.status?.stun) {
     fill.classList.add('stun');
     fill.classList.remove('slow');
-  } else if (enemy?.status?.slow) {
+  } else if (enemy?.status?.slow || enemy?.spear?.stackControl) {
     fill.classList.add('slow');
     fill.classList.remove('stun');
   } else {
@@ -491,7 +922,23 @@ function updateCooldownBar(enemy, percent, slotIndex) {
   }
 }
 
-function weightedPick(weights) {
+function updateWindupBar(enemy, progress, slotIndex) {
+    const windupBar = document.getElementById(`enemy-windup-bar-${slotIndex}`);
+  
+    const fill = document.getElementById(`enemy-windup-fill-${slotIndex}`);
+    if (!fill) return;
+    
+    fill.style.transform = `scaleX(${progress})`;
+      
+    if (enemy?.intent === `heavy`) {
+      windupBar.classList.add(`heavy`);
+    } else {
+      windupBar.classList.remove('heavy');
+    }
+}
+
+
+/*function weightedPick(weights) {
   const entries = Object.entries(weights).filter(([_, v]) => v > 0);
 
   const total = entries.reduce((sum, [_, value]) => sum + value, 0);
@@ -506,8 +953,32 @@ function weightedPick(weights) {
   }
 
   return "attack";
-}
+}*/
 
+function weightedPick(weights) {
+  const localWeights = { ...weights };
+
+  if (gameState.combat.provocation.isActive) {
+    localWeights.charge = 0;
+    localWeights.guard = 0;
+    gameState.combat.provocation.isActive = false;
+  }
+
+  const entries = Object.entries(localWeights).filter(([_, v]) => v > 0);
+
+  const total = entries.reduce((sum, [_, value]) => sum + value, 0);
+
+  if (total <= 0) return "attack";
+
+  let roll = Math.random() * total;
+
+  for (const [key, value] of entries) {
+    roll -= value;
+    if (roll <= 0) return key;
+  }
+
+  return "attack";
+}
 
 function rollEnemyIntent(enemy) {
   const now = performance.now();
@@ -639,11 +1110,11 @@ function rollEnemyIntent(enemy) {
       break;
 
     case "guard":
-      enemy.windupDuration = 350;
+      enemy.windupDuration = 0;
       break;
 
     case "charge":
-      enemy.windupDuration = 300;
+      enemy.windupDuration = 0;
       break;
 
     default:
@@ -677,12 +1148,13 @@ function executeEnemyIntent(enemy) {
   switch (enemy.intent) {
 
     case "attack":
-      showEnemyOutcome("dodge", `${t("attack_outcome")}`, 1000);
-      //dmgMultiplier = 1;
+      //showEnemyOutcome("dodge", `${t("attack_outcome")}`, 1000);
+      //console.warn(`enemy outcome attack`);
+        //dmgMultiplier = 1;
       return { type:"action", dmgMultiplier: 1 };
 
     case "heavy":
-      showEnemyOutcome("miss", `${t("heavy_outcome")}`, 1000);
+      //showEnemyOutcome("miss", `${t("heavy_outcome")}`, 1000);
       dmgMultiplier = 1.6;
         
       return { type:"action", dmgMultiplier: 1.6 };
@@ -695,16 +1167,17 @@ function executeEnemyIntent(enemy) {
         enemy.isGuarding = false;
       }, 1300);*/
 
-      return { type:"utility", duration:1300 };
+       
+      return { type:"utility", duration: 400};
 
     case "charge":
       //slowMoAlert();
       showEnemyOutcome("perfect", `${t("charge_outcome")}`, 1000);
-      showReward(`${t("next_strengthened_reward")}`);
+      //showReward(`${t("next_strengthened_reward")}`);
  
       enemy.isCharging = true;
 
-      return { type:"utility", duration:1000 };
+      return { type:"utility", duration: 600 };
   }
 
   return { type:"action", dmgMultiplier: 1 };
@@ -738,7 +1211,7 @@ function tryInterruptEnemy(enemy, source) {
         break;        
 
       case "perfect-spear":
-        duration = 2300;  
+        duration = 2300 + (200 * enemy.spear.stackControl);  
         break;        
 
       case "poise-break":
@@ -746,11 +1219,13 @@ function tryInterruptEnemy(enemy, source) {
         break;  
         
       case "stun":
-        duration = 0;  
+        duration = 2100;  
         break;        
         
   }
-      
+
+  //console.error(`spear vulnerable duration`, duration);
+ 
   applyVulnerable(enemy, duration);
       
   showEnemyOutcome("perfect", `${t("interrupt_outcome")}`);
@@ -769,7 +1244,14 @@ function intentDealsAttack(intent){
 
 function applyVulnerable(enemy, duration) {
   enemy.vulnerable = true;
-  setTimeout(() => enemy.vulnerable = false, duration);
+      
+  updateStatusEnemyUI(enemy);
+      
+  setTimeout(() => {
+    enemy.vulnerable = false; 
+    updateStatusEnemyUI(enemy);
+  }, duration);
+      
 }
 
 /*function showEnemyIntentUI(enemy) {
@@ -824,6 +1306,11 @@ function performEnemyAttack(enemy, slotIndex, options = {}) {
     
  // console.error(`enemy dmg after block`, dmg);
   if (dmg > 0) {
+
+    playPlayerAnimation("hit");
+    playEnemyAnimation("attack", slotIndex);
+
+        
     const dmgReduction = player.dmgReduction.reduction / 100;
     const reductionCooldown = player.dmgReduction.cooldown * 1000;
     //console.error(`dmgReduction, reductionDuration`, dmgReduction, reductionCooldown);
@@ -852,13 +1339,74 @@ function performEnemyAttack(enemy, slotIndex, options = {}) {
     }
         
     if (playerBlock.mode === "defensive" && playerBlock.active) {
+      const gainedDef = gameState.char.combatAffixes[`def_per_guard_stack`]?.value;
+      const gainedDmg = gameState.char.combatAffixes[`dmg_per_guard_stack`]?.value;
+ 
       if(guardStacks < DEFENSIVE_GUARD_STACK_MAX) {
          guardStacks++;
+            
+         if(gameState.combat.lastBastion.isActive) {
+           gameState.combat.lastBastion.nextAttack = gameState.combat.lastBastion.attackValue;
+         }
+            
+         if(gainedDef) {  
+          // console.log(`guard stack gainedDef`, gainedDef);
+          // gameState.combat.activeBonus.def += gainedDef;
+          // showBuff(`def`, gameState.combat.activeBonus.def);
+ 
+           gameState.combat.activeBonus.defSources.guard = gainedDef * guardStacks;
+           recalculateDefenseBonus();
+         }   
+            
+         if(gainedDmg) {
+           //gameState.combat.activeBonus.dmg += gainedDmg;
+               
+           gameState.combat.activeBonus.dmgSources.guardStacks = gainedDmg * guardStacks;
+           recalculateDamageBonus();
+               
+           //showBuff(`dmg`, gameState.combat.activeBonus.dmg);
+           //showPercentBuff("dmg", gameState.combat.activeBonus.dmg);
+         }
+            
          updateGuardUI(guardStacks);
+            
+         if(gameState.char.combatAffixes[`crit_per_guard_stack`]) {
+            gameState.combat.guardBonus.critBonus.isActive = true;
+            gameState.combat.guardBonus.critBonus.stacks = guardStacks;
+               
+            const critBonus = gameState.char.combatAffixes[`crit_per_guard_stack`].value;
+            gameState.combat.activeBonus.critSources.guardStacks = critBonus * guardStacks;
+            recalculateCritBonus();
+         }                
+   
+         if(gameState.char.combatAffixes[`def_per_guard_stack`]) {
+            gameState.combat.guardBonus.defBonus.isActive = true;
+            gameState.combat.guardBonus.defBonus.stacks = guardStacks;
+         }
+            
+         if(gameState.char.combatAffixes[`dmg_per_guard_stack`]) {
+            gameState.combat.guardBonus.dmgBonus.isActive = true;
+            gameState.combat.guardBonus.dmgBonus.stacks = guardStacks;
+         }
+   
+            
       }
-       if(guardStacks === 1) showReward(`${t("stack1_reward")}`);
-       else if(guardStacks === 2) showReward(`${t("stack2_reward")}`);
-       else showReward(`${t("stack3_reward")}`);
+       //const gainedDef = gameState.char.combatAffixes[`def_per_guard_stack`];
+       if(guardStacks === 1) {
+          //gameState.combat.activeBonus.def += gainedDef * guardStacks;
+          //showBuff(`def`, gameState.combat.activeBonus.def);
+          //showReward(`${t("stack1_reward")}`);
+       }    
+       else if(guardStacks === 2) {
+          //gameState.combat.activeBonus.def += gainedDef * guardStacks;
+          //showBuff(`def`, gameState.combat.activeBonus.def);
+          //showReward(`${t("stack2_reward")}`);
+       }     
+       else {
+          //gameState.combat.activeBonus.def += gainedDef * guardStacks;
+          //showBuff(`def`, gameState.combat.activeBonus.def);
+          //showReward(`${t("stack3_reward")}`);
+       }       
     }    
         
        // Napór Presja Przewaga
@@ -875,6 +1423,27 @@ function performEnemyAttack(enemy, slotIndex, options = {}) {
     //updatePlayerHp(player.hp - dmg);
     //console.error(`enemy dmg couldn't be zero`, dmg);
 
+    if(gameState.combat.counterStrike.isActive) {
+      console.error(`gameState.combat.counterStrike.isActive`, gameState.combat.counterStrike.isActive);
+      const attackValue = gameState.combat.counterStrike.attackValue;
+          
+        performAttack(
+          player,
+          enemy,
+          {
+            isDefShield: true,
+            isSkillAttack: true,
+            baseMultiplier: attackValue
+          }
+        );
+      console.error(`attackValue`, attackValue);
+ 
+          
+      const staminaRecovered = gameState.combat.counterStrike.staminaRecover;
+      console.error(`staminaRecovered`, staminaRecovered);
+      gainStamina(staminaRecovered);
+    }
+        
    
    // slotName.style.color = "white"
    // slotName.innerHTML = ' enemyDamage: ' + dmg;
@@ -969,7 +1538,7 @@ function setEnemyAttackSpeed(enemy, multiplier, slotIndex) {
   }
 }
 
-function startAnimation(enemy, durationMs, slotIndex) {
+/*function startAnimation(enemy, durationMs, slotIndex) {
   const enemySlot = document.getElementById(`enemy-slot-${slotIndex}`);
 
   // Jeśli była stara animacja, zatrzymaj ją
@@ -999,7 +1568,7 @@ function startAnimation(enemy, durationMs, slotIndex) {
     delete enemy.animations.jelly;
     enemySlot.style.transform = "scale(1)";
   };
-}
+}*/
 
 function pauseAnimation(enemy) {
   if (enemy.animations?.jelly) {
@@ -1014,9 +1583,19 @@ function resumeAnimation(enemy) {
 }
 
 function deathAnimation(enemySlot) {
-   //const enemySlot = document.getElementById(`enemy-slot-${slotIndex}`);
-   enemySlot.classList.add(`enemy-death`);
+  /*const enemySlot = document.getElementById(`enemy-slot-${gameState.world.selectedSlotIndex}`);
+  enemy.beforeDeath = false;
+  enemy.isDead = true;*/
+      
+  enemySlot.classList.add(`enemy-death`);
 }
+
+function removeDeathAnimation(enemy) {
+  const enemySlot = document.getElementById(`enemy-slot-${gameState.world.selectedSlotIndex}`);
+      
+  enemySlot.classList.remove(`enemy-death`);
+}
+
 
 
 function changeSpeedAnimation(enemy, multiplier) {
@@ -1028,12 +1607,12 @@ function playEnemyHitAnimation(enemy, slotIndex) {
   const enemySlot = document.getElementById(`enemy-slot-${slotIndex}`);
 
   const hitAnimation = enemySlot?.animate([
-    { transform: "translateX(0px)", filter: "brightness(1)", offset: 0 },
-    { transform: "translateX(-6px)", filter: "brightness(1.5)", offset: 0.2 },
-    { transform: "translateX(6px)", filter: "brightness(1.5)", offset: 0.4 },
-    { transform: "translateX(-4px)", filter: "brightness(1.2)", offset: 0.6 },
-    { transform: "translateX(4px)", filter: "brightness(1.1)", offset: 0.8 },
-    { transform: "translateX(0px)", filter: "brightness(1)", offset: 1 }
+    { transform: "translateX(0px) scaleX(-1)", filter: "brightness(1)", offset: 0 },
+    { transform: "translateX(-6px) scaleX(-1)", filter: "brightness(1.5)", offset: 0.2 },
+    { transform: "translateX(6px) scaleX(-1)", filter: "brightness(1.5)", offset: 0.4 },
+    { transform: "translateX(-4px) scaleX(-1)", filter: "brightness(1.2)", offset: 0.6 },
+    { transform: "translateX(4px) scaleX(-1)", filter: "brightness(1.1)", offset: 0.8 },
+    { transform: "translateX(0px) scaleX(-1)", filter: "brightness(1)", offset: 1 }
   ], {
     duration: 250,
     iterations: 1,
@@ -1212,6 +1791,7 @@ function scaleEnemyStats(template, level, forcedType, isStoryEnemy) {
     poiseBroken: false,
     hpAtLeave: 0,
     lastCombatTimestamp: 0,
+    lastComboHit: null,
     exposeStacks: 0,
     armorBreakReady: false,
     lastArmorBreakHit: null,
@@ -1220,9 +1800,7 @@ function scaleEnemyStats(template, level, forcedType, isStoryEnemy) {
     lastBleedHit: null,
     bleedReady: false,
     bleed: { 
-      stacks: 0,
-      damage: 0,
-      duration: 0,
+      stacks: [],
       tickRate: 1,
       timer: 0
     },
@@ -1232,11 +1810,13 @@ function scaleEnemyStats(template, level, forcedType, isStoryEnemy) {
       slow: 0,
       windupBonus: 0,
       pushback: 0,
-      expiresAt: 0
+      expiresAt: 0,
+      stackControl: 0,
     },
     armorBreak: {
       value: 0,
-      duration: 0
+      duration: 0,
+      maxDuration: 0, 
     },
     regen: {
       fromHp: 0,

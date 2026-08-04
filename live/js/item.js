@@ -30,6 +30,39 @@ function getRandomWeaponSubtype() {
      return 'triangle_shield';
    }
 
+   function getRandomHelmetSubtype() {
+     const roll = Math.random();
+     if (roll < 0.4) return 'hood';
+     if (roll < 0.7) return 'cask';
+     if (roll < 0.9) return 'steel_cask';
+     return 'helmet';
+   }
+
+   function getRandomBracerSubtype() {
+     const roll = Math.random();
+     if (roll < 0.6) return 'leather_bracer';
+     return 'bracers';
+   }
+
+  function getRandomPantsSubtype() {
+     const roll = Math.random();
+     if (roll < 0.6) return 'pants';
+     return 'combat_pants';
+   }
+
+  function getRandomBootsSubtype() {
+     const roll = Math.random();
+     if (roll < 0.6) return 'boots';
+     return 'combat_boots';
+   }
+
+  function getRandomGlovesSubtype() {
+     const roll = Math.random();
+     if (roll < 0.6) return 'leather_gloves';
+     return 'gloves';
+   }
+
+
    function getRandomItemLevel(characterLevel) {
      const roll = Math.random() * 100;
      if (roll < 60) return characterLevel;        
@@ -127,6 +160,8 @@ function getImplicitBonus({ itemTypeKey, itemLevel, rarityMultiplier = 1 }) {
 }
 
 function canApplyBonus(bonus, used, usedTags, limits, slot) {
+  //if (bonus?.category === "combat") return true;
+  
   if (used.has(bonus.id)) return false;
 
   const tags = bonus.tags || [];
@@ -155,20 +190,25 @@ function getAllowedBonuses(list, used, usedTags, limits, slot) {
   });
 }
 
-function generateBonusValue(bonus, itemTypeKey, rarityMultiplier, bonusMultiplier, softScale) {
+function generateBonusValue(bonus, itemTypeKey, rarityMultiplier, bonusMultiplier, combatScale, softScale) {
   const min = bonus.min ?? 0;
   const max = bonus.max ?? 0;
 
   const meta = bonus.meta || getAffixMeta(bonus);
-  const isLowPercent = meta.scale === "low_percent";
+  const isLowPercent = meta.type === "percent_low";
+  const isCombatScale = meta.type === "combat_scale";
 
-  const base = isLowPercent
+  const base = isLowPercent || isCombatScale
     ? getRandomFloat(min, max, 1)
     : getRandomInt(min, max);
 
   let value = base * (rarityMultiplier || 1);
 
-  value *= isLowPercent ? softScale : bonusMultiplier;
+  if (isLowPercent) value *= softScale;
+  else if (isCombatScale) value *= combatScale; 
+  else value *= bonusMultiplier; 
+  
+  //value *= isLowPercent ? softScale : bonusMultiplier;
 
   const slotMult = slotBonusMultiplier[itemTypeKey] || 1;
 
@@ -176,18 +216,21 @@ function generateBonusValue(bonus, itemTypeKey, rarityMultiplier, bonusMultiplie
 
   value *= slotScaledBonuses.includes(id) ? slotMult : 1;
 
-  value = isLowPercent
+  value = isLowPercent || isCombatScale
     ? Number(value.toFixed(1))
     : Math.floor(value);
 
+  //console.log(`bonus value`, id, value);
   return value;
 }
 
 function buildResistBonus(result, bonus, rarity, rarityMultiplier, bonusMultiplier, options = {}) {
+  if(bonus?.category === `combat`) return;
+  
   const base = getRandomInt(bonus.min, bonus.max);
   const value = Math.floor(base * (rarityMultiplier || 1) * bonusMultiplier);
 
-  const shuffledElements = [...bonus.elements].sort(() => 0.5 - Math.random());
+  const shuffledElements = [...bonus?.elements].sort(() => 0.5 - Math.random());
   const limit = maxResistByRarity[rarity] || 2;
 
   let howMany = Math.floor(Math.random() * (limit + 1));
@@ -196,8 +239,12 @@ function buildResistBonus(result, bonus, rarity, rarityMultiplier, bonusMultipli
     howMany = 1;
   }
 
+  //console.log(`resist build howMany`, howMany);
+  
   if (howMany === 0) return;
 
+  //console.log(`resist build after howMany return`);
+  
   const selected = shuffledElements.slice(0, howMany);
 
   if (selected.length === 4) {
@@ -205,6 +252,7 @@ function buildResistBonus(result, bonus, rarity, rarityMultiplier, bonusMultipli
          id: "all_resist",
          value
        });
+      //console.log(`all resist dodany w build resist`, value);
      } else {
        selected.forEach(el => {
          result.push({
@@ -214,6 +262,8 @@ function buildResistBonus(result, bonus, rarity, rarityMultiplier, bonusMultipli
          });
        });
      }
+
+  //console.log(`resist dodany w build resist`);
 
   
  /* if (selected.length === 4) {
@@ -241,73 +291,113 @@ function getBaseLifeRegen(level) {
   return minRegen + Math.pow(t, 1.4) * (maxRegen - minRegen);
 }
 
-function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, speed, block, diagnostic) {
-  /*const baseBonuses = [
-    { nazwa: "% Pancerz", min: 7, max: 11, weight: 100, minRarity: "rare", types: ["armor", `shoulder`, `bracers`, `pants`, `shield`], tags: ["def"], canStackWithImplicit: true},
-    { nazwa: "% Obrażenia", min: 7, max: 11, weight: 100, minRarity: "rare", types: ["weapon"], tags: ["offense"], canStackWithImplicit: true },
-    { nazwa: " Życie", min: 8, max: 11, weight: 85, minRarity: "rare", types: ["armor", `shield`, `shoulder`, `helmet`, `bracers`, `gloves`, `belt`, `pants`, `boots`], tags: ["hp"] },
-    { nazwa: " Obrażenia od Żywiołów", min: 3, max: 4, weight: 75, minRarity: "unique", types: ["weapon"], tags: ["offense"] },
-    { nazwa: " Siła", min: 2, max: 2, weight: 80, minRarity: "unique", types: ["weapon", `shoulder`, `armor`], tags: ["attribute"] },
-    { nazwa: " Zręczność", min: 2, max: 2, weight: 80, minRarity: "unique", types: ["weapon", `gloves`, `boots`], tags: ["attribute"] },
-    { nazwa: " Witalność", min: 2, max: 2, weight: 80, minRarity: "unique", types: ["armor", "shield", `helmet`, `shoulder`, `bracers`, `gloves`, `belt`, `pants`], tags: ["hp", `attribute`] },
-    { nazwa: " Stamina", min: 3, max: 4, weight: 50, minRarity: "rare", types: ["armor"], tags: [`sustain`], meta: { scale: "low_percent", type: "percent"}  },
-    { nazwa: " Energia", min: 1, max: 2, weight: 35, minRarity: "epic", types: ["armor"], tags: [`sustain`] },
-    { nazwa: "% Energii za Idealny Blok", min: 3, max: 4, weight: 50, minRarity: "unique", types: ["shield"], tags: [`def`] },
-    { nazwa: "% Energii za Krytyczny Atak", min: 4, max: 5, weight: 50, minRarity: "unique", types: ["gloves"], tags: [`offense`] },
-    { nazwa: " Regeneracji Staminy", min: 2, max: 3, weight: 50, minRarity: "rare", types: ["gloves"], tags: [`sustain`] },
-    { nazwa: "% Regeneracji Staminy", min: 1, max: 2, weight: 50, minRarity: "unique", types: ["boots"], tags: [`sustain`] },
-    { nazwa: "% Regeneracji Energii", min: 3, max: 5, weight: 50, minRarity: "unique", types: ["helmet"], tags: [`sustain`] },
-    { nazwa: "% Stamina", min: 5, max: 6, weight: 50, minRarity: "unique", types: ["pants"], tags: [`sustain`] },
-    { nazwa: " Życia za Trafienie", min: 5, max: 7, weight: 30, minRarity: "unique", types: [`gloves`, `weapon`], tags: ["sustain"], chance: 0.50 },
-    { nazwa: "% Szybkość Ataku", min: 1, max: 2, weight: 40, minRarity: "epic", types: [`gloves`, `weapon`], tags: ["offense"], canStackWithImplicit: true, chance: 0.50 },
-    { nazwa: " Regeneracji Życia na sek.", min: 5, max: 7, weight: 30, minRarity: "epic", types: [`helmet`, `belt`], tags: ["sustain"], chance: 0.60 },
-    { nazwa: "% Redukcji Obrażeń Fizycznych", min: 2, max: 3, weight: 15, minRarity: "epic", types: [`armor`, `shoulder`, `pants`, `shield`, `bracers`, `helmet`], tags: ["def"], canStackWithImplicit: true, chance: 0.30  },
-    { nazwa: "% Krytyczny Atak", min: 2, max: 3, weight: 50, minRarity: "unique", types: ["weapon", `gloves`], tags: ["offense"] },
-    { nazwa: "% Obrażenia Krytyczne", min: 3, max: 4, weight: 25, minRarity: "epic", types: ["weapon"], tags: ["offense"] },
-    { nazwa: "% Szansa na Blok", min: 3, max: 4, weight: 65, minRarity: "epic", types: ["shield", `bracers`], tags: ["sustain"], canStackWithImplicit: true, chance: 0.60},
-    { nazwa: "% Koszt Ruchu", min: 2, max: 3, weight: 45, minRarity: "unique", types: ["boots"], tags: ["mobility"] },
-    { nazwa: "% Unik", min: 1, max: 2, weight: 25, minRarity: "epic", types: ["boots"], tags: ["mobility"], canStackWithImplicit: true },
-    { nazwa: "% Koszt Uniku", min: 2, max: 3, weight: 25, minRarity: "epic", types: ["boots"], tags: ["mobility"] },
-    { nazwa: "% Precyzji Bloku Taktycznego", min: 12, max: 15, weight: 25, minRarity: "epic", types: ["shield"], tags: ["def"] },
-    { nazwa: "% Znajdowanie Magicznych Przedmiotów", min: 1.5, max: 2, weight: 20, minRarity: "unique", types: [`weapon`, "helmet", `belt`, `pants`, `boots`], tags: ["economy"], chance: 0.45},
-    { nazwa: "% Premii do Złota", min: 1.5, max: 1.5, weight: 25, minRarity: "rare", types: [`weapon`, "gloves", `belt`, `pants`, `boots`], tags: ["economy"], chance: 0.65 },
-    { nazwa: " Odporność na Żywioł", elements: ["Ogień", "Zimno", "Truciznę", "Magię"], min: 2, max: 3, weight: 70, minRarity: "unique", types: ["armor", `shield`, `helmet`, `shoulder`, `bracers`, `belt`, `pants`, `boots`], tags: ["resist"] }
-  ];*/
-   
-  const baseBonuses = [
-  { id: "armor_percent", min: 7, max: 11, weight: 100, minRarity: "rare", types: ["armor","shoulder","bracers","pants","shield"], tags: ["def"], canStackWithImplicit: true },
-  { id: "damage_percent", min: 7, max: 11, weight: 100, minRarity: "rare", types: ["weapon"], tags: ["offense"], canStackWithImplicit: true },
-  { id: "flat_life", min: 8, max: 11, weight: 85, minRarity: "rare", types: ["armor","shield","shoulder","helmet","bracers","gloves","belt","pants","boots"], tags: ["hp"] },
-  { id: "elemental_damage", min: 3, max: 4, weight: 75, minRarity: "unique", types: ["weapon"], tags: ["offense"] },
-  { id: "strength", min: 2, max: 2, weight: 80, minRarity: "unique", types: ["weapon","shoulder","armor"], tags: ["attribute"] },
-  { id: "dexterity", min: 2, max: 2, weight: 80, minRarity: "unique", types: ["weapon","gloves","boots"], tags: ["attribute"] },
-  { id: "vitality", min: 2, max: 2, weight: 80, minRarity: "unique", types: ["armor","shield","helmet","shoulder","bracers","gloves","belt","pants"], tags: ["hp","attribute"] },
-  { id: "stamina_flat", min: 3, max: 4, weight: 50, minRarity: "rare", types: ["armor", "belt", "helmet"], tags: ["sustain"], meta: { type: "percent_low" } },
-  { id: "energy_flat", min: 1, max: 2, weight: 35, minRarity: "epic", types: ["armor", "belt", "helmet"], tags: ["sustain"] },
-  { id: "energy_on_perfect_block", min: 3, max: 4, weight: 50, minRarity: "unique", types: ["shield"], tags: ["def"], meta: { type: "percent_low" } },
-  { id: "energy_on_crit", min: 4, max: 5, weight: 50, minRarity: "unique", types: ["gloves"], tags: ["offense"], meta: { type: "percent_low" } },
-  { id: "stamina_regen_flat", min: 2, max: 3, weight: 50, minRarity: "rare", types: ["gloves", "belt"], tags: ["sustain"] },
-  { id: "stamina_regen_percent", min: 1, max: 2, weight: 50, minRarity: "unique", types: ["boots"], tags: ["sustain"], meta: { type: "percent_low" } },
-  { id: "energy_regen_percent", min: 3, max: 5, weight: 50, minRarity: "unique", types: ["helmet"], tags: ["sustain"], meta: { type: "percent_low" } },
-  { id: "stamina_percent", min: 5, max: 6, weight: 50, minRarity: "unique", types: ["pants"], tags: ["sustain"], meta: { type: "percent_low" } },
-  { id: "life_on_hit", min: 5, max: 7, weight: 30, minRarity: "unique", types: ["gloves","weapon"], tags: ["sustain"], chance: 0.5 },
-  { id: "attack_speed_percent", min: 1, max: 2, weight: 40, minRarity: "epic", types: ["gloves","weapon"], tags: ["offense"], canStackWithImplicit: true, chance: 0.5, meta: { type: "percent_low" } },
-  { id: "life_regen_flat", min: 5, max: 7, weight: 30, minRarity: "epic", types: ["helmet","belt"], tags: ["sustain"], chance: 0.6 },
-  { id: "phys_damage_reduction", min: 2, max: 3, weight: 15, minRarity: "epic", types: ["armor","shoulder","pants","shield","bracers","helmet"], tags: ["def"], canStackWithImplicit: true, chance: 0.3, meta: { type: "percent_low" } },
-  { id: "crit_chance", min: 2, max: 3, weight: 50, minRarity: "unique", types: ["weapon","gloves"], tags: ["offense"], meta: { type: "percent_low" } },
-  { id: "crit_damage", min: 3, max: 4, weight: 25, minRarity: "epic", types: ["weapon"], tags: ["offense"], meta: { type: "percent_low" } },
-  { id: "block_chance", min: 3, max: 4, weight: 65, minRarity: "epic", types: ["shield","bracers"], tags: ["sustain"], canStackWithImplicit: true, chance: 0.6, meta: { type: "percent_low" } },
-  { id: "move_cost_reduction", min: 2, max: 3, weight: 45, minRarity: "unique", types: ["boots"], tags: ["mobility"], meta: { type: "percent_low" } },
-  { id: "dodge_chance", min: 1, max: 2, weight: 25, minRarity: "epic", types: ["boots"], tags: ["mobility"], canStackWithImplicit: true, meta: { type: "percent_low" } },
-  { id: "dodge_cost_reduction", min: 2, max: 3, weight: 25, minRarity: "epic", types: ["boots"], tags: ["mobility"], meta: { type: "percent_low" } },
-  { id: "perfect_block_window", min: 12, max: 15, weight: 25, minRarity: "epic", types: ["shield"], tags: ["def"], meta: { type: "percent_low" } },
-  { id: "magic_find", min: 1.5, max: 2, weight: 20, minRarity: "unique", types: ["weapon","helmet","belt","pants","boots"], tags: ["economy"], chance: 0.45, meta: { type: "percent_low" } },
-  { id: "gold_bonus", min: 1.5, max: 1.5, weight: 25, minRarity: "rare", types: ["weapon","gloves","belt","pants","boots"], tags: ["economy"], chance: 0.65, meta: { type: "percent_low" } },
-  { id: "elemental_resist", elements: ["fire","cold","poison","arcane"], min: 2, max: 3, weight: 70, minRarity: "unique", types: ["armor","shield","helmet","shoulder","bracers","belt","pants","boots"], tags: ["resist"] }
-];
+let hardDefensiveUsed = false;
+
+function rollAffixes(pool, count, used, usedTags, itemTypeKey, rarityMultiplier, bonusMultiplier, rarity) {
+  const result = [];
+
+  let resistAdded = false;
+  let attempts = 0;
+  const MAX_ATTEMPTS = 100;
+
+  while (result.length < count && attempts < MAX_ATTEMPTS) {
+
+    attempts++;
+
+    const allowed = pool.filter(b =>
+      canApplyBonus(
+        b,
+        used,
+        usedTags,
+        synergyLimits,
+        itemTypeKey
+      )
+    );
+
+    if (!allowed.length) break;
+
+    const affix = weightedBonusRandom(allowed);
+
+    if (!affix) break;
+
+    if (HARD_DEFENSIVE_AFFIXES.includes(affix.id) && hardDefensiveUsed) {
+       continue;
+    }
+    
+    if (used.has(affix.id)) continue;
+
+    const tags = affix.tags || [];
+
+    let blocked = false;
+
+    for (const tag of tags) {
+
+      const limit =
+        synergyLimits[itemTypeKey]?.[tag];
+
+      if (
+        limit !== undefined &&
+        (usedTags[tag] || 0) >= limit
+      ) {
+        blocked = true;
+        break;
+      }
+    }
+
+    if (blocked) continue;
+
+ /*   // ✅ Obsługa odporności na żywioł
+    if (affix.id === "elemental_resist" && !resistAdded) {
+     resistAdded = true;
+     used.add(affix.id);
+
+     const base = getRandomInt(affix.min, affix.max);
+     const value = Math.floor(base * (rarityMultiplier || 1) * bonusMultiplier);
+      
+     const shuffledElements = [...affix.elements].sort(() => 0.5 - Math.random());
+     const limit = maxResistByRarity[rarity] || 2;
+     const howMany = Math.floor(Math.random() * (limit + 1));
+     if (howMany === 0) continue;
+     const selected = shuffledElements.slice(0, howMany);
+
+     if (selected.length === 4) {
+       result.push({
+         id: "all_resist",
+         value
+       });
+       console.log(`all resist dodany w roll`, value);
+     } else {
+       selected.forEach(el => {
+         result.push({
+           id: "elemental_resist",
+           element: el,
+           value
+         });
+       });
+     }
+      
+     console.log(`resist dodany w roll`);
+     continue;
+    }*/
+    
+    used.add(affix.id);
+
+    tags.forEach(tag => {
+      usedTags[tag] =
+        (usedTags[tag] || 0) + 1;
+    });
+
+    result.push(affix);
+  }
+
+  return result;
+}
+
+function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, speed, block, diagnostic, weaponStyle) {
   
   const rarityIndex = rarityOrder.indexOf(rarity);
   const bonusMultiplier = 1 + 0.08 * (itemLevel - 1);
+  const combatScale = 1 + 0.004 * (itemLevel - 1);
   const softScale = 1 + 0.015 * Math.sqrt(itemLevel);
   const critMultiplier = 1 + 0.04 * (itemLevel - 1);
 
@@ -352,6 +442,20 @@ function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, sp
     return Math.random() < b.chance;
   });
   
+/*  available = available.filter(b => {
+    if (!b.types?.includes("weapon")) return true;
+
+    if (!b.combatStyle) return true;
+    return b.combatStyle.includes(weaponStyle);
+  });*/
+  
+  if (itemTypeKey === "weapon") {
+    available = available.filter(b => {
+      if (!b.combatStyle) return true;
+      return b.combatStyle.includes(weaponStyle);
+    });
+  }
+  
   const implicitName = implicitBySlot[itemTypeKey]?.nazwa;
   if (implicitName) {
       available = available.filter(b => 
@@ -359,25 +463,287 @@ function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, sp
     );
   }
   
-  const used = new Set();
-  const result = [];
+  const cfg = affixConfig[rarity];
+  //console.log(`rarity`, rarity, cfg.normal[0]);
+  const normalCount = getRandomInt(cfg.normal[0], cfg.normal[1]);
+  const combatCount = getRandomInt(cfg.combat[0], cfg.combat[1]);
 
-  const [minCount, maxCount] = countByRarity[rarity] || [0, 0];
+  /*const [minCount, maxCount] = countByRarity[rarity] || [0, 0];
   const bonusCount = Math.floor(Math.random() * (maxCount - minCount + 1)) + minCount;
+  */
+  
+  const normalPool = available.filter(
+    b => b.category !== "combat"
+  );
 
+  const combatPool = available.filter(
+    b => b.category === "combat"
+  );
+  
   let updatedDmg = dmg;
   let updatedArmor = armor;
   let updatedSpeed = speed;
   let updatedBlock = block;
 
-  let resistAdded = false;
+  //let resistAdded = false;
 
   const resistChance = Math.random();
   const allowResistance = resistChance < 0.5;
   
-  let hardDefensiveUsed = false;
-  
   const usedTags = {};
+  let result = [];
+  const used = new Set();
+  
+  const normalAffixes = rollAffixes(
+    normalPool,
+    normalCount,
+    used,
+    usedTags,
+    itemTypeKey,
+    rarityMultiplier,
+    bonusMultiplier,
+    rarity
+  );
+
+  const combatAffixes = rollAffixes(
+    combatPool,
+    combatCount,
+    used,
+    usedTags,
+    itemTypeKey,
+    rarityMultiplier,
+    bonusMultiplier,
+    rarity
+  );
+
+  const selectedAffixes = [
+    ...normalAffixes,
+    ...combatAffixes
+  ];
+  
+  //console.log(`normalCount, normalAffixes.lenght`, normalCount, normalAffixes.length, rarity, typ);
+  //console.log(`combatCount, combatAffixes.lenght`, combatCount, combatAffixes.length, rarity, typ);
+
+  selectedAffixes.forEach(bonus => {
+
+    const base = getRandomInt(bonus.min, bonus.max);
+    let value = generateBonusValue(bonus, itemTypeKey, rarityMultiplier, bonusMultiplier, combatScale ,softScale);
+    const roll = getRandomFloat(0.75, 1.25);  
+      
+    if (HARD_DEFENSIVE_AFFIXES.includes(bonus.id)) {
+   //   console.log(`bonus.nazwa in hard defensive affixes = true`, bonus.nazwa);
+      hardDefensiveUsed = true;
+    }
+    
+    switch (bonus.id) {
+
+      case "elemental_resist": {
+       // console.log(`added build resist`);
+        buildResistBonus(result, bonus, rarity, rarityMultiplier, bonusMultiplier,  { forceAtLeastOne: true });
+        // { forceAtLeastOne: true }
+        break;
+      }
+      
+      case "crit_chance": {
+        value = Math.floor(base * critMultiplier);
+        result.push({ id: "crit_chance", value });
+        break;
+      }
+       
+      case "life_regen_flat": {
+        value = Math.round(getBaseLifeRegen(itemLevel));
+        result.push({ id: "life_regen_flat", value });
+        break;
+      }
+
+      case "strength":
+      case "dexterity":
+      case "vitality": {
+        value = Math.floor(value * (Math.random() * 0.15 + 0.85));
+        result.push({ id: bonus.id, value });
+        break;
+      }
+
+      case "elemental_damage": {
+        const element = getRandomFrom(["fire", "cold", "arcane", "poison"]);
+        result.push({
+          id: "elemental_damage",
+          element,
+          value
+        });
+        break;
+      }
+
+      case "damage_percent": {
+        if (isWeapon) {
+         updatedDmg = Math.floor(updatedDmg * (1 + value / 100));
+        } 
+        result.push({ id: "damage_percent", value });
+        break;
+      }
+      
+      case "armor_percent": {
+        if (isArmor) {
+          updatedArmor = Math.floor(updatedArmor * (1 + value / 100));
+        }
+        result.push({ id: "armor_percent", value });
+        break;
+      }
+
+      case "attack_speed_percent": {
+        if (isWeapon) {
+          updatedSpeed = (updatedSpeed * (1 + value / 100)).toFixed(2);
+        }
+        result.push({ id: "attack_speed_percent", value });
+        break;
+      }
+
+      case "block_chance": {
+        if (isShield) {
+          updatedBlock = Math.floor(updatedBlock * (1 + value / 100));
+        }
+        result.push({ id: "block_chance", value });
+        break;
+      }
+
+      default: {
+        //console.log(`generate bonus category`, bonus.id, bonus?.category, typ, value);
+        if(bonus.category === `combat`) {
+          result.push({ id: bonus.id, value, category: bonus.category, archetype: bonus.archetype });
+        } else {
+          result.push({ id: bonus.id, value });
+        }
+     }
+    }
+    
+     //let minCount = bonus?.category === `combat` ? combatCount : normalCount;
+     //console.log(`result.length, minCount`, result.length, normalCount, rarity, typ, bonus.id);
+     let minCount = normalCount;
+
+    if (result.length < minCount) {
+      
+      let safety = 0;
+           
+       while (result.length < minCount && safety-- > 0) {
+         
+        const fallbackPool = available.filter(b =>
+          canApplyBonus(b, used, usedTags, synergyLimits, itemTypeKey)
+        );
+
+        if (!fallbackPool.length) break;
+         
+        const bonus = weightedBonusRandom(fallbackPool);
+        if (!bonus) break;
+         
+        if(bonus?.category === "combat") break;
+         
+        const base = getRandomInt(bonus.min, bonus.max);
+
+        let value = generateBonusValue(bonus, itemTypeKey, rarityMultiplier, bonusMultiplier, softScale);
+        
+        used.add(bonus.id);
+        
+        switch (bonus.id) {
+
+          case "elemental_resist": {
+            //console.log(`added build resist dogrywka`);
+            buildResistBonus(result, bonus, rarity, rarityMultiplier, bonusMultiplier);
+            break;
+          }
+
+          case "armor_percent": {
+            if (isArmor) {
+              updatedArmor = Math.floor(updatedArmor * (1 + value / 100));
+            }
+            result.push({ id: "armor_percent", value });
+            break;
+          }
+
+          case "damage_percent": {
+            if (isWeapon) {
+              updatedDmg = Math.floor(updatedDmg * (1 + value / 100));
+            }
+            result.push({ id: "damage_percent", value });
+            break;
+          }
+
+          case "elemental_damage": {
+            const element = getRandomFrom(["fire", "cold", "arcane", "poison"]);
+            
+            result.push({
+              id: "elemental_damage",
+              element,
+              value
+            });
+            break;
+          }
+
+          case "crit_chance": {
+            value = Math.floor(base * critMultiplier);
+            result.push({ id: "crit_chance", value });
+            break;
+          }
+
+          case "life_regen_flat": {
+            value = Math.round(getBaseLifeRegen(itemLevel));
+            result.push({ id: "life_regen_flat", value });
+            break;
+          }
+
+          default: {
+            //console.log(`generate bonus category dogrywka`, bonus.id, bonus?.category, typ);
+            if(bonus.category === `combat`) {
+             // result.push({ id: bonus.id, value, category: bonus.category });
+            } else {
+              result.push({ id: bonus.id, value });
+            }
+          }
+        }
+         
+        // === AKTUALIZACJA TAGÓW (KLUCZ) ===
+        for (const tag of bonus.tags || []) {
+          usedTags[tag] = (usedTags[tag] || 0) + 1;
+        }
+                
+        //fallbackPool.splice(fallbackPool.indexOf(bonus), 1);
+      }
+    }
+    
+   /* const hasResist = result.some(b => b.id.includes("resist"));
+
+    const hasDefTag =
+     (usedTags["def"] || 0) > 0;// ||
+     //(usedTags["resist"] || 0) > 0;
+
+    const hasOffenseTag = (usedTags["offense"] || 0) > 0;
+    
+   // console.warn(`!hasResist, !hasDefTag, !hasOffenseTag`, !hasResist, !hasDefTag, !hasOffenseTag);
+    
+    if (!hasResist && !hasOffenseTag && rarity === "legendary") {
+      const resistBonus = baseBonuses.find(
+        b => b.id === "elemental_resist"
+      );
+      if (!resistBonus) return;
+      
+      console.warn(`dodaje ostatecznie resist`);
+    
+      buildResistBonus(
+        result,
+        resistBonus,
+        rarity,
+        rarityMultiplier,
+        bonusMultiplier,
+        { forceAtLeastOne: true }
+      );
+
+      console.warn(`resist ostatecznie dodany`);
+    
+      usedTags["resist"] = (usedTags["resist"] || 0) + 1;
+    }*/
+    
+  });
+  
+  /*const result = [];
   
   let attempts = 0;
   const MAX_ATTEMPTS = 100;
@@ -537,8 +903,13 @@ function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, sp
       }
 
       default: {
-        result.push({ id: bonus.id, value });
-      }
+        console.log(`generate bonus category`, bonus.id, bonus?.category);
+        if(bonus.category === `combat`) {
+          result.push({ id: bonus.id, value, category: bonus.category });
+        } else {
+          result.push({ id: bonus.id, value });
+        }
+     }
     }
     
      if (result.length < minCount) {
@@ -609,7 +980,12 @@ function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, sp
           }
 
           default: {
-            result.push({ id: bonus.id, value });
+            console.log(`generate bonus category`, bonus.id, bonus?.category);
+            if(bonus.category === `combat`) {
+              result.push({ id: bonus.id, value, category: bonus.category });
+            } else {
+              result.push({ id: bonus.id, value });
+            }
           }
         }
          
@@ -654,12 +1030,13 @@ function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, sp
       usedTags["resist"] = (usedTags["resist"] || 0) + 1;
     }
     
-  }
+  }*/
   
-  const hasEconomyTag = (usedTags["economy"] || 0) > 0;
+ /* const hasEconomyTag = (usedTags["economy"] || 0) > 0;
     
   if (result.length <= 3 && !hasEconomyTag && (typ === `Hełm` || typ === `Pas`) && (rarity === `epic` || rarity === `legendary`)) {
        const base = getRandomInt(1.5, 2);
+       let bonus = null;
        bonus.min = 1.5;
        bonus.max = 2;
        bonus.id = "magic_find";
@@ -673,6 +1050,7 @@ function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, sp
 
   if (result.length <= 3 && !hasEconomyTag && (typ === `Rękawice`) && (rarity === `epic` || rarity === `legendary`)) {
        const base = getRandomInt(1.5, 2);
+       let bonus = null;
        bonus.min = 1.5;
        bonus.max = 1.5;
        bonus.id = "gold_bonus";
@@ -683,7 +1061,7 @@ function getRandomBonus(rarity, rarityMultiplier, itemLevel, typ, dmg, armor, sp
       
        usedTags["economy"] = (usedTags["economy"] || 0) + 1;
     //  console.error(`dodaje gf na koncu`, result.length);
-  }
+  }*/
 
   
   
@@ -891,6 +1269,9 @@ function generateItem(opts = {}) {
     (typ === 'weapon'   ? getRandomWeaponSubtype() :
      typ === 'armor' ? getRandomArmorSubtype() :
      typ === 'shield' ? getRandomShieldSubtype() :
+     typ === 'helmet' ? getRandomHelmetSubtype() :
+     typ === 'bracers' ? getRandomBracerSubtype() :
+     typ === 'gloves' ? getRandomGlovesSubtype() :
      typ);
   
  // console.log(`baseName, forceSubtype, typ`, baseName, forceSubtype, typ);
@@ -1001,21 +1382,57 @@ function generateItem(opts = {}) {
      switch (typ) {
       case 'helmet':
         itemTypeKey = `helmet`;
+        isVaryArmor = true;
+  
+        const { profile: helmetProfile } = pickSlotProfile(helmetProfiles);
+        console.warn(`profile.name`, helmetProfile.name);
+ 
+        baseName = helmetProfile.name;
+
+        base = helmetProfile.baseArmor;
+
         break;
       case 'shoulder':
         itemTypeKey = `shoulder`;
         break;
       case 'bracers':
         itemTypeKey = `bracers`;
+        isVaryArmor = true;
+  
+        const { profile: bracerProfile } = pickSlotProfile(bracerProfiles);
+        //console.warn(`profile.name`, bracerProfile.name);
+ 
+        baseName = bracerProfile.name;
+
+        base = bracerProfile.baseArmor;
+       
         break;
       case 'gloves':
         itemTypeKey = `gloves`;
+        isVaryArmor = true;
+  
+        const { profile: glovesProfile } = pickSlotProfile(glovesProfiles);
+        //console.warn(`profile.name`, glovesProfile.name);
+ 
+        baseName = glovesProfile.name;
+
+        base = glovesProfile.baseArmor;
+
         break;
       case 'belt':
         itemTypeKey = `belt`;
         break;
       case 'pants':
         itemTypeKey = `pants`;
+        isVaryArmor = true;
+  
+        const { profile: pantsProfile } = pickSlotProfile(pantsProfiles);
+        //console.warn(`profile.name`, pantsProfile.name);
+ 
+        baseName = pantsProfile.name;
+
+        base = pantsProfile.baseArmor;
+       
         break;
       case 'shield':
         itemTypeKey = `shield`;
@@ -1036,6 +1453,15 @@ function generateItem(opts = {}) {
         break;
       case 'boots':
         itemTypeKey = `boots`;
+        isVaryArmor = true;
+  
+        const { profile: bootsProfile } = pickSlotProfile(bootsProfiles);
+        //console.warn(`profile.name`, bootsProfile.name);
+ 
+        baseName = bootsProfile.name;
+
+        base = bootsProfile.baseArmor;
+       
         break;
       case 'armor':
         itemTypeKey = `armor`;
@@ -1111,7 +1537,7 @@ function generateItem(opts = {}) {
     
    //console.log(`armor before update`, armor);
   
-  const { bonusy, updatedDmg, updatedArmor, updatedSpeed, updatedBlock} = getRandomBonus(klasa, rarityMultiplier, itemLevel, typ, dmg, armor, speed, block, diagnostic);
+  const { bonusy, updatedDmg, updatedArmor, updatedSpeed, updatedBlock} = getRandomBonus(klasa, rarityMultiplier, itemLevel, typ, dmg, armor, speed, block, diagnostic, style);
   
   //console.log(`armor after update`, updatedArmor);
 
@@ -1124,7 +1550,7 @@ function generateItem(opts = {}) {
     statystyki = statystyki.map(stat => stat.id === "armor" ? { ...stat, value: updatedArmor } : stat);
   }
 
-     statystyki.push(...bonusy);
+  statystyki.push(...bonusy);
   
   const exclusiveAffixes = maybeAddLegendaryExclusive(klasa, itemTypeKey);
   const exclusive = exclusiveAffixes?.exclusive;
@@ -1159,6 +1585,7 @@ function generateItem(opts = {}) {
     wartosc: scalePriceByLevel(basePrice, itemLevel), 
     level: itemLevel,
     requiredLevel: itemLevel,
+    discovered: false,
     sprite: klasa !== "legendary" ? assignSprite(baseName) : `${legendId}.png`
   };
   

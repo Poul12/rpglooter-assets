@@ -52,32 +52,99 @@ function updateSkillButtonsFatigueState() {
   const fatigueUntil = getPlayerFlag("fleeFatigueUntil") || 0;
   const now = nowDateMs();
   const isFatigued = now < fatigueUntil;
-
+    
   document.querySelectorAll("button.skill-button").forEach(btn => {
+    const skillId = btn.dataset.skill;
+    const skill = SKILLS_DATABASE[skillId];
+
     if (isFatigued) {
       btn.classList.add("disabled-skill");
     } else {
       btn.classList.remove("disabled-skill");
     }
   });
+  
+  skillsOn();
+  //renderCombat();
 }
 
+/*function canUseSkill(skill) {
+    if (skill.requirements?.blocking && !player.blocking) return false;
+    if (skill.requirements?.guardStacks &&
+        player.guardStacks < skill.requirements.guardStacks) return false;
+
+    return true;
+}*/
+
+/*function skillsOff() {
+    document.querySelectorAll("button.skill-button").forEach(btn => {
+        const skillId = btn.dataset.skill;
+        const skill = SKILLS_DATABASE[skillId];
+        //console.log(`skillId, usableWhileBlocking`, skillId, skill?.usableWhileBlocking);
+        if (skill?.usableWhileBlocking) {
+            btn.classList.remove("disabled-skill");
+        } else {
+            btn.classList.add("disabled-skill");
+        }
+    });
+}*/
+
 function skillsOff() {
-  document.querySelectorAll("button.skill-button").forEach(btn => {
-      btn.classList.add("disabled-skill");
-  });
+    document.querySelectorAll(".skill-button").forEach(btn => {
+        const skillId = btn.dataset.skill;
+        const skill = SKILLS_DATABASE[skillId];
+
+        const mode = skill?.usableWhileBlocking ?? "normal";
+
+        if (mode === "blocking" || mode === "both") {
+            btn.classList.remove("disabled-skill");
+        } else {
+            btn.classList.add("disabled-skill");
+        }
+    });
 }
 
 function skillsOn() {
-  document.querySelectorAll("button.skill-button").forEach(btn => {
-      btn.classList.remove("disabled-skill");
-  });
+    document.querySelectorAll(".skill-button").forEach(btn => {
+        const skillId = btn.dataset.skill;
+        const skill = SKILLS_DATABASE[skillId];
+
+        const mode = skill?.usableWhileBlocking ?? "normal";
+
+        if (mode === "normal" || mode === "both") {
+            btn.classList.remove("disabled-skill");
+        } else {
+            btn.classList.add("disabled-skill");
+        }
+    });
 }
+
+/*function skillsOff() {
+  document.querySelectorAll("button.skill-button").forEach(btn => {
+      btn.classList.add("disabled-skill");
+  });
+}*/
+
+/*function skillsOn() {
+  document.querySelectorAll("button.skill-button").forEach(btn => {
+        const skillId = btn.dataset.skill;
+        const skill = SKILLS_DATABASE[skillId];
+        //console.log(`skillId, usableWhileBlocking`, skillId, skill?.usableWhileBlocking);
+        if (skill?.usableWhileBlocking) {
+            btn.classList.add("disabled-skill");
+        } else {
+            btn.classList.remove("disabled-skill");
+        }
+    });
+
+}*/
 
 function handleSkillClick(button) {
  // console.error(`handleSkillClick enter`);
   const world = gameState.world;
 
+  if(!world.inCombat) return;
+  
   if (!canPerformAction(`skill`)) return;
   //console.error(`handleSkillClick enter`);
   
@@ -99,12 +166,29 @@ function handleSkillClick(button) {
   if (!skillId || !SKILLS_DATABASE[skillId]) return;
 
   const skill = SKILLS_DATABASE[skillId];
-  const effectiveCost = skill.staminaCost + Math.max(0, gameState.resources.staminaState.max - 100)  * COST_SCALE;
   
-  //console.error(`skill effectiveCost`, effectiveCost);
-  if(!spendStamina(effectiveCost)) return;
-  //console.log("Skill after spend stamina.");
- 
+  if(skill?.staminaCost) {
+    const effectiveCost = skill.staminaCost + Math.max(0, gameState.resources.staminaState.max - 100)  * COST_SCALE;
+  
+    //console.error(`skill effectiveCost`, effectiveCost);
+    if(!spendStamina(effectiveCost)) return;
+    //console.log("Skill after spend stamina.");
+  }
+  
+  if(skill?.guardCost) {
+    
+    if(guardStacks >= skill.guardCost) {
+      guardStacks -= skill.guardCost;
+      consumeGuardStacks(guardStacks);
+      decreaseGuardStack();
+    } else {
+      showReward(`${t("low_guard_reward")}`);
+      playSound(`error`);
+      return;
+    }
+  }
+  
+  
   const now = getGameTime();
   const cooldown = (SKILLS_DATABASE[skillId].baseCooldown || 5) * 1000; // ms
 
@@ -140,7 +224,9 @@ function renderSkillButtons(playerLevel, start = 1, end = 6) {
 
   for (let i = start; i <= end; i++) {
     const skillId = gameState.combat.skills.assignedSkills[i];
-    const skills = gameState.combat.skills.playerSkills;
+    //const skills = gameState.combat.skills.playerSkills;
+    const style = getCurrentWeaponStyle();
+    const skills = gameState.combat.skills.playerSkills.active[style];
     const skill = SKILLS_DATABASE[skillId];
 
     if (!skill) {
@@ -157,6 +243,7 @@ function renderSkillButtons(playerLevel, start = 1, end = 6) {
     const hasRequiredLevel = playerLevel >= skill.requiredLevel;
     const parentUnlocked = !skill.parent || (skills[skill.parent] && skills[skill.parent].unlocked);
     const isUnlocked = hasRequiredLevel && parentUnlocked;
+    const usableMode = skill.usableWhileBlocking ?? "normal";   
     //console.error(`parentUnlocked, isUnlocked, skill.parent, skills[skill.parent]`, parentUnlocked, isUnlocked, skill.parent, skills[skill.parent]);
     const titleText = `${skill.name} (poziom ${skill.level})`;
 
@@ -190,7 +277,8 @@ function renderSkillButtons(playerLevel, start = 1, end = 6) {
       <div class="skill-wrapper">
         <button 
           id="skill-${skillId}" data-action="skill"
-          class="skill-button ${isUnlocked ? "" : "locked"}"
+          class="skill-button ${isUnlocked ? "" : "locked"}
+          ${(usableMode === "blocking") ? "disabled-skill" : ""}"
           ${isUnlocked ? `data-skill="${skillId}"` : "disabled"}
           title="${titleText}"
         >
@@ -198,19 +286,22 @@ function renderSkillButtons(playerLevel, start = 1, end = 6) {
         </button>
       </div>
     `;
+    
   }
-
+    
   return output;
 }
 
 function renderFocusSkillButton(playerLevel) {
-  const skills = gameState.combat.skills.playerSkills;
+  //const skills = gameState.combat.skills.playerSkills;
   const skillId = "focus";
   const skill = SKILLS_DATABASE[skillId];
 
   if (!skill) return "";
 
-  const playerSkill = skills[skillId];
+  //const playerSkill = skills[skillId];
+  const playerSkill = getPlayerSkillData(skillId);
+
   const skillLevel = playerSkill?.level || 0;
   const unlocked = playerSkill?.unlocked || false;
 
@@ -630,6 +721,11 @@ function calculateEffectValue(effect, player, enemy) {
     case "armor-break":
       // np. 150% obrażeń = 1.5 * atak gracza
       return effect.value / 100;// * player.dmg);
+    case "counter-strike":
+      return effect.value / 100;// * player.dmg);
+    case "buff-next-attack":
+      return 1 + (effect.value / 100);// * player.dmg);
+    
       /*case "heal":
       // np. 120% leczenia = 1.2 * siła leczenia gracza
       return Math.floor((effect.value / 100) * player.magic || player.attack);*/
@@ -639,6 +735,9 @@ function calculateEffectValue(effect, player, enemy) {
      case "slow":
       // Slow w procentach — bez przeliczeń
       return effect.value;
+    case "def-buff":
+      // def buff w procentach — bez przeliczeń
+      return 1 + (effect.value / 100);
     case "slowmo":
       // Slow w procentach — bez przeliczeń
       return effect.value / 100;
@@ -649,6 +748,8 @@ function calculateEffectValue(effect, player, enemy) {
      // console.log("damage-buff: %", effect.value);
       //console.log("player dmg ", player.dmg);
       return 1 + (effect.value / 100);
+    case "stamina-recover":
+      return effect.value;
     case "armor-duration":
       return effect.value;
     case "slow-duration":
@@ -659,6 +760,8 @@ function calculateEffectValue(effect, player, enemy) {
       return effect.value;
     case "bleed-duration":
       return effect.value;
+    case "def-buff-duration":
+      return effect.value;
 
     default:
       return 0;
@@ -667,7 +770,9 @@ function calculateEffectValue(effect, player, enemy) {
 
 function getSkillEffectsAtLevel(skillId) {
   const skill = SKILLS_DATABASE[skillId];
-  const state = gameState.combat.skills.playerSkills[skillId];
+  //const state = gameState.combat.skills.playerSkills[skillId];
+  const state = getPlayerSkillData(skillId);
+
   const { effects, level } = skill;
      
   return effects.map(effect => {
@@ -755,6 +860,7 @@ function applyBuff(stat, value) {
 
     case "def":
       //currentBuff.def = value;
+      console.error(`buff value def`, value);
       updatePlayerDef(value, true);
       break;
 
@@ -835,7 +941,9 @@ function useSkill(skillId, player, enemy) {
   
   effects.forEach(effect => {
     const actualValue = calculateEffectValue(effect, player, enemy);
-
+    let durationEffect = null;
+    let buffDuration = 5;
+    
     switch (effect.type) {
       case "damage":
         if (!gameState.world.inCombat) return;
@@ -906,7 +1014,6 @@ function useSkill(skillId, player, enemy) {
           
           break;
         }
-
       
         performAttack(
           player,
@@ -916,6 +1023,7 @@ function useSkill(skillId, player, enemy) {
             baseMultiplier: actualValue
           }
         );
+      
       
         if(skillId === "double-attack") {
           spawnEffect("double", enemy.dom.slot);
@@ -959,6 +1067,18 @@ function useSkill(skillId, player, enemy) {
       
         break;
       
+      case "counter-strike":
+      
+        const staminaEffect = getEffectByType(effects, "stamina-recover");
+        const staminaRecovered = calculateEffectValue(staminaEffect, player, enemy);
+        console.error(`staminaRecovered in useSkill`, staminaRecovered);
+        gameState.combat.counterStrike.isActive = true;
+        gameState.combat.counterStrike.staminaRecover = staminaRecovered;
+        gameState.combat.counterStrike.attackValue = actualValue;
+        //gainStamina(staminaRecovered);
+   
+        break;
+      
       case "bleed":
         const durationTime = getEffectByType(effects, "bleed-duration");
         const bleedDuration = durationTime
@@ -966,7 +1086,7 @@ function useSkill(skillId, player, enemy) {
           : 5;
    
         let bleedDamage = actualValue * (1 + player.str * 0.003);
-          
+      
         applyBleed(enemy, bleedDamage, bleedDuration);
  
         break;
@@ -981,8 +1101,13 @@ function useSkill(skillId, player, enemy) {
           
           let armorBreakPenetration = actualValue * (1 + player.str * 0.002);
            
+          let powerBonus = 1;
+          if(gameState.char.combatAffixes[`armor_break_effect`]) {
+            powerBonus = 1 + (gameState.char.combatAffixes[`armor_break_effect`].value / 100);
+          }
+          
           applyArmorBreak(enemy, armorBreakPenetration, armorDuration)
-          showReward(`${t("break_defense_reward")} -${(armorBreakPenetration * 100).toFixed(0)}`);
+          //showReward(`${t("break_defense_reward")} -${((armorBreakPenetration * powerBonus) * 100).toFixed(0)}%`);
   
           }, 450);
       
@@ -992,9 +1117,53 @@ function useSkill(skillId, player, enemy) {
         player.hp += actualValue;
         break;
       
+      case "provocation-trigger":
+        gameState.combat.provocation.isActive = true;
+      
+        enemy.isGuarding = false;
+        enemy.guardCounter = false;
+        enemy.isCharged = false;
+        enemy.isCharging = false;
+      
+        performEnemyAttack(enemy, gameState.world.selectedSlotIndex, { multiplier: 1 });
+             
+        const state = enemy.attackState;
+      
+        const windupBar = document.getElementById(`enemy-windup-bar-${state.slotIndex}`);
+        windupBar.classList.remove(`show`);
+      
+        state.phase = "cooldown";
+        state.remaining = state.baseCooldown;
+        updateCooldownBar(enemy, 0, state.slotIndex);
+
+        applyVulnerable(enemy, 2000);
+      
+        enemy.intent = null;
+      
+        updateStatusEnemyUI(enemy);
+      
+      
+        break;
+      
+      case "remove-debuff":
+      
+        gameState.combat.ironWill.isActive = true;
+        //updateStatusPlayerUI(enemy);
+        showPercentDebuff(`dmg`, 0); 
+        setTimeout(() => {
+          gameState.combat.ironWill.isActive = false;
+          //updateStatusPlayerUI(enemy);
+          const { attackPenalty: penaltyDmg } = computeShieldPenalties(player.blockPower);
+          const minusValue = (0 - 1) + (1 - penaltyDmg);
+          showPercentDebuff(`dmg`, minusValue * 100);
+        }, 4000);
+        
+        
+        break;
+      
       case "damage-buff": 
-        const durationEffect = getEffectByType(effects, "shout-duration");
-        const buffDuration = durationEffect
+        durationEffect = getEffectByType(effects, "shout-duration");
+        buffDuration = durationEffect
           ? calculateEffectValue(durationEffect, player, enemy)
           : 5;
       
@@ -1022,6 +1191,51 @@ function useSkill(skillId, player, enemy) {
         setTimeout(() => {
           removeDmgBuff();
         }, durationMs);*/
+
+        break;
+      
+      case "buff-next-attack":
+        const durationBuffEffect = getEffectByType(effects, "def-buff-duration");
+        const lastBastionDuration = durationBuffEffect
+          ? calculateEffectValue(durationBuffEffect, player, enemy)
+          : 5;
+     
+        gameState.combat.lastBastion.attackValue = actualValue;
+        gameState.combat.lastBastion.isActive = true;
+      
+        gameState.resources.staminaState.disabled = true;
+      
+        updateStatusPlayerUI(enemy); 
+      
+        setTimeout(() => {
+          gameState.combat.lastBastion.isActive = false;
+          gameState.combat.lastBastion.attackValue = 0;
+          
+          updateStatusPlayerUI(enemy); 
+          
+          gameState.resources.staminaState.disabled = false;
+          //console.log(`end of last bastion`, lastBastionDuration);
+        }, lastBastionDuration * 1000);
+      
+      break;
+      
+      case "def-buff": 
+        durationEffect = getEffectByType(effects, "def-buff-duration");
+        buffDuration = durationEffect
+          ? calculateEffectValue(durationEffect, player, enemy)
+          : 5;
+      
+        if(skillId === "shield-wall") {
+          const staminaGained = gameState.resources.staminaState.max * 0.2;
+          gainStamina(staminaGained);
+        }
+      
+        addTemporaryBuff({
+          stat: "def",
+          value: actualValue,
+          durationSec: buffDuration,
+          source: "skill"
+        });
 
         break;
       
@@ -1111,6 +1325,95 @@ function useSkill(skillId, player, enemy) {
 }
 
 function applyBleed(enemy, damage, duration) {
+
+  if (!enemy.bleed) {
+    enemy.bleed = {
+      stacks: [],
+      tickRate: 1,
+      timer: 0
+    };
+  }
+
+  if(gameState.char.combatAffixes[`bleed_damage`]) {
+    const value = gameState.char.combatAffixes[`bleed_damage`].value;
+    damage *= 1 + (value / 100);
+    //console.log(`bleed damage increased`, damage);
+  }
+  
+  const bleedDamage = gameState.combat.finalDamage * damage;
+
+  if(gameState.char.combatAffixes[`bleed_duration`]) {
+     duration += gameState.char.combatAffixes[`bleed_duration`].value || 0;
+  }
+  
+  if(gameState.combat.blockingBonus.bleedBonus.isActive && gameState.char.combatAffixes[`bleed_duration_while_blocking`]) {
+     duration += gameState.char.combatAffixes[`bleed_duration_while_blocking`].value || 0;
+  }
+  
+  const newStack = {
+    damage: bleedDamage,
+    duration: duration
+  };
+
+  // Jeśli jest miejsce
+  addBleedStack(enemy, { damage: bleedDamage, duration });
+  //addBleedStack(enemy, newStack);
+
+  
+  if(gameState.char.combatAffixes[`bleed_slow`]) {
+    const value = gameState.char.combatAffixes[`bleed_slow`].value;
+    const slow = 1 - (value / 100);
+    
+    const maxDuration = Math.max(
+      ...enemy.bleed.stacks.map(stack => stack.duration)
+    );
+    
+    applyEnemySlow(enemy, slow, maxDuration * 1000, gameState.world.selectedSlotIndex);
+
+   // console.log(`enemy slow while bleed, durationMs`, slow, enemy.bleed.duration * 1000);
+  }
+  
+  if(gameState.char.combatAffixes[`crit_while_bleed`]) {
+    const critBonus = gameState.char.combatAffixes[`crit_while_bleed`].value;
+    gameState.combat.activeBonus.critSources.bleed = critBonus;
+    recalculateCritBonus();
+  }
+  
+  
+  if(gameState.char.combatAffixes[`bleed_stack_faster`]) {
+      const value = gameState.char.combatAffixes[`bleed_stack_faster`].value;
+      const bleedStackRoll = Math.random() * 100;
+
+      if(bleedStackRoll < value) {
+        //addBleedStack(enemy, newStack, bleedDamage);
+        addBleedStack(enemy, { damage: bleedDamage, duration });
+        //console.log(`extra bleed stack`, enemy.bleed.stacks);
+        //console.log(`bleedStackRoll < value`, bleedStackRoll, value);
+      }  
+  }
+}
+
+function addBleedStack(enemy, newStack) {
+
+  if (enemy.bleed.stacks.length < 3) {
+    enemy.bleed.stacks.push(newStack);
+    return;
+  }
+
+  let weakestIndex = 0;
+
+  for (let i = 1; i < enemy.bleed.stacks.length; i++) {
+    if (enemy.bleed.stacks[i].damage < enemy.bleed.stacks[weakestIndex].damage) {
+      weakestIndex = i;
+    }
+  }
+  
+  if (newStack.damage > enemy.bleed.stacks[weakestIndex].damage) {
+    enemy.bleed.stacks[weakestIndex] = newStack;
+  }
+}
+
+/*function applyBleed(enemy, damage, duration) {
   if (!enemy.bleed) {
     enemy.bleed = {
       stacks: 0,
@@ -1127,26 +1430,109 @@ function applyBleed(enemy, damage, duration) {
  // if (weapon?.baseName !== `axe`){
     // zwiększamy stacki
     enemy.bleed.stacks += 1;
+  
+    console.log(`enemy.bleed.stacks adding`, enemy.bleed.stacks);
+     
+    if(gameState.char.combatAffixes[`bleed_stack_faster`]) {
+      const value = gameState.char.combatAffixes[`bleed_stack_faster`].value;
+      const bleedStackRoll = Math.random() * 100;
 
+      if(bleedStackRoll < value) {
+        enemy.bleed.stacks += 1;
+        //console.log(`extra bleed stack`, enemy.bleed.stacks);
+        //console.log(`bleedStackRoll < value`, bleedStackRoll, value);
+      }  
+    }
+  
     // opcjonalny cap (ważne dla balansu!)
     enemy.bleed.stacks = Math.min(enemy.bleed.stacks, 3);
  // }
+  console.log(`enemy.bleed.stacks added`, enemy.bleed.stacks);
+
+  if(gameState.char.combatAffixes[`bleed_duration`]) {
+     duration += gameState.char.combatAffixes[`bleed_duration`].value || 0;
+  }
+  
+  if(gameState.combat.blockingBonus.bleedBonus.isActive && gameState.char.combatAffixes[`bleed_duration_while_blocking`]) {
+     duration += gameState.char.combatAffixes[`bleed_duration_while_blocking`].value || 0;
+  }
   
   // odświeżamy duration
   enemy.bleed.duration = Math.max(enemy.bleed.duration, duration);
   
-  const bleedDamage = gameState.char.baseDamage.weapon * damage;
+  //console.log(`bleed damage`, damage);
+
+  if(gameState.char.combatAffixes[`bleed_damage`]) {
+    const value = gameState.char.combatAffixes[`bleed_damage`].value;
+    damage *= 1 + (value / 100);
+    //console.log(`bleed damage increased`, damage);
+  }
+  
+  if(gameState.char.combatAffixes[`bleed_slow`]) {
+    const value = gameState.char.combatAffixes[`bleed_slow`].value;
+    const slow = 1 - (value / 100);
+    
+    applyEnemySlow(enemy, slow, enemy.bleed.duration * 1000, gameState.world.selectedSlotIndex);
+
+   // console.log(`enemy slow while bleed, durationMs`, slow, enemy.bleed.duration * 1000);
+  }
+
+   
+  
+  //const bleedDamage = gameState.char.baseDamage.weapon * damage;
+  const bleedDamage = gameState.combat.finalDamage * damage;
   enemy.bleed.damage = bleedDamage * enemy.bleed.stacks;
 
-  //console.log(`enemy.bleed.duration, damage`, enemy.bleed.duration, enemy.bleed.damage);
+  //console.log(`applyBleed bleedDamage, finalDamage`, bleedDamage, gameState.combat.finalDamage);
 
  // console.log(`BLEED → stacks: ${enemy.bleed.stacks}`);
-}
+}*/
 
 function applyArmorBreak(enemy, value, duration) {
+  
+  //console.log(`armor break duration`, duration);
+  
+  if(gameState.char.combatAffixes[`armor_break_duration`]) {
+    duration += gameState.char.combatAffixes[`armor_break_duration`].value || 0;
+    //console.log(`armor break duration bonus`, duration);
+  }
+ 
+  //console.log(`armor break power`, value);
+  
+  if(gameState.char.combatAffixes[`armor_break_effect`]) {
+    const powerBonus = gameState.char.combatAffixes[`armor_break_effect`].value || 0;
+    
+    value *= 1 + (powerBonus / 100);
+    //console.log(`armor break power bonus`, value, powerBonus);
+  }
+ 
+  if(gameState.char.combatAffixes[`energy_on_armor_break`]) {
+    const energyGain = gameState.char.combatAffixes[`energy_on_armor_break`].value;
+    
+    gainEnergy(energyGain);
+    //showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
+    showEnergyGain(energyGain);
+  }
+
+  if(gameState.char.combatAffixes[`def_after_armor_break`]) {
+      const gainedDef = gameState.char.combatAffixes[`def_after_armor_break`].value;
+
+      gameState.combat.activeBonus.defSources.armorBreak = gainedDef;
+      recalculateDefenseBonus();
+  }
+
+  if(gameState.char.combatAffixes[`crit_vs_armor_break`]) {
+    const critBonus = gameState.char.combatAffixes[`crit_vs_armor_break`].value;
+    
+    gameState.combat.activeBonus.critSources.armorBreak = critBonus;
+    recalculateCritBonus();
+  }
+
+  
   enemy.armorBreak = {
     value,
-    duration
+    duration,
+    maxDuration: duration,
   };
   
   //enemy.dom.healthBar.classList.add("armor-break");
@@ -1161,7 +1547,6 @@ function applyEnemyStun(enemy, multiplier, durationMs, slotIndex) {
   //console.log("durationMs STUN", durationMs);
   let isAnotherStun = false;
   
-  // ✅ STACKUJ STUN (to jest Twój główny bug)
   if (enemy?.status.stunEnd && enemy?.status.stunEnd > now) {
     enemy.status.stunEnd += durationMs;
     isAnotherStun = true;
@@ -1169,7 +1554,11 @@ function applyEnemyStun(enemy, multiplier, durationMs, slotIndex) {
     enemy.status.stunEnd = now + durationMs;
   }
   
-  tryInterruptEnemy(enemy, `stun`);
+  updateStatusEnemyUI(enemy);
+  
+  if(!enemy.poiseBroken) {
+    tryInterruptEnemy(enemy, `stun`);
+  }
   
   //enemy.status.stunRemaining = durationMs;
   enemy.status.stunRemaining = enemy.status.stunEnd - now;
@@ -1193,9 +1582,9 @@ function stunAnimation(enemySlot, enemy, stunMs) {
 
   const stunAnim = enemySlot?.animate(
     [
-      { filter: "brightness(1)", offset: 0 },
-      { filter: "brightness(1.5) hue-rotate(240deg)", offset: 0.5 },
-      { filter: "brightness(1)", offset: 1 }
+      { filter: "brightness(1)", transform: "scaleX(-1)", offset: 0 },
+      { filter: "brightness(1.5) hue-rotate(240deg)", transform: "scaleX(-1)", offset: 0.5 },
+      { filter: "brightness(1)", transform: "scaleX(-1)", offset: 1 }
     ],
     { duration: stunMs, iterations: 1, easing: "ease-in-out" }
   );
@@ -1264,6 +1653,8 @@ function clearEnemyStun(enemy, slotIndex) {
     changeSpeedAnimation(enemy, restoredSpeed);
   }
 
+  updateStatusEnemyUI(enemy);
+  
   if (enemy.animations?.stun?.cancel) {
     enemy.animations.stun.cancel();
     enemy.animations.stun = null;
@@ -1285,24 +1676,25 @@ function applyEnemySlow(enemy, multiplier, durationMs, slotIndex) {
   //enemy.status.slowEnd = Date.now() + durationMs;
   enemy.status.slowEnd = performance.now() + durationMs;
   
-  // Jeśli jest stun, tylko zapamiętaj speed, nie zmieniaj jeszcze timeline
   if (enemy.status.stun) {
     enemy.status.speedBeforeStun = multiplier;
   } else {
     setEnemyAttackSpeed(enemy, multiplier, slotIndex);
   }
 
+  updateStatusEnemyUI(enemy);
+  
   slowAnimation(enemySlot, enemy, durationMs);
 }
 
 function slowAnimation(enemySlot, enemy, slowMs) {
-  if (enemy.animations?.slow) enemy.animations.slow.cancel();
+  //if (enemy.animations?.slow) enemy.animations.slow.cancel();
 
   const slowAnim = enemySlot?.animate([
-    { filter: "hue-rotate(0deg)", transform: "translateX(0px)", offset: 0 },
-    { filter: "hue-rotate(200deg)", transform: "translateX(-2px)", offset: 0.3 },
-    { filter: "hue-rotate(200deg)", transform: "translateX(2px)", offset: 0.6 },
-    { filter: "hue-rotate(0deg)", transform: "translateX(0px)", offset: 1 }
+    { filter: "hue-rotate(0deg)", transform: "translateX(0px) scaleX(-1)", offset: 0 },
+    { filter: "hue-rotate(200deg)", transform: "translateX(-2px) scaleX(-1)", offset: 0.3 },
+    { filter: "hue-rotate(200deg)", transform: "translateX(2px) scaleX(-1)", offset: 0.6 },
+    { filter: "hue-rotate(0deg)", transform: "translateX(0px) scaleX(-1)", offset: 1 }
   ], {
     duration: slowMs,
     iterations: Infinity,
@@ -1350,6 +1742,8 @@ function clearEnemySlow(enemy, slotIndex) {
     }
   }
 
+  updateStatusEnemyUI(enemy);
+  
   if (enemy.animations?.slow?.cancel) {
     enemy.animations.slow.cancel();
     enemy.animations.slow = null;

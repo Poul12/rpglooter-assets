@@ -7,7 +7,7 @@ function getCharacterTemplate() {
    
   <div style="font-size: 24px; text-align:center; margin-top: 10px">${t("char_class_title")}</div>
    <div style="font-size: 14px">${t("char_class_level")} <span id="level">1</span></div>
-  <br>
+  <br><br><br><br>
   
     <div class="character-wrapper">
      <img data-src= "img/backgrounds/warrior.png" alt="Postać" class="character-bg" />
@@ -15,14 +15,7 @@ function getCharacterTemplate() {
      <div id="equipment-slots"></div>
       
   
-    <div class="character-top-ui">
-  
-     <button class="item-button" id="attr-btn" onclick="showAttributesPopup()">${t("attributes_btn")}</button>
-  
-     <button class="item-button" id="stats-btn" onclick="showStatsPopup()">${t("stats_btn")}</button>
-  
-    </div>
-  
+    
   
     <!-- <div class="shield-mode-toggle hidden">
        <label class="shield-toggle">
@@ -166,6 +159,41 @@ function getCharacterTemplate() {
   </div>
 </div>
   
+<div id="combat-affixes-popup" class="npc-popup hidden">
+
+  <div class="popup-content">
+
+    <h2 class="popup-title stone-title">
+      ${t("combat_codex_title")}
+    </h2>
+
+     <div id="combat-affixes-scroll">
+
+       <div id="combat-affixes-container"></div>
+
+     </div>
+  
+    <div class="close-btn-wrapper" id="affixes-close-wrapper">
+      <button class="close-button" onclick="closeCombatAffixesPopup()"></button>
+
+      <img data-src="img/buttons/close-btn.png" class="close-btn-frame">
+    </div>
+
+  </div>
+
+</div>
+  
+  
+ <div class="character-top-ui"> 
+
+     <button class="item-button" id="attr-btn" onclick="showAttributesPopup()">${t("attributes_btn")}</button>
+  
+     <button class="item-button" id="stats-btn" onclick="showStatsPopup()">${t("stats_btn")}</button>
+  
+     <button class="item-button" id="affixes-btn" onclick="showCombatAffixesPopup()">${t("affixes_btn")}</button>
+
+  </div>
+
   
 <div id="stat-tooltip" class="stat-tooltip hidden">
   <div class="stat-tooltip-title"></div>
@@ -228,9 +256,11 @@ function initCharacterView() {
   
   const attrBtn = document.getElementById("attr-btn");
   const statsBtn = document.getElementById("stats-btn");
+  const affixesBtn = document.getElementById("affixes-btn");
 
   setGlobalButtonTexture(attrBtn);
   setGlobalButtonTexture(statsBtn);
+  setGlobalButtonTexture(affixesBtn);
 
   renderEquipment();
   updateCharacterView();
@@ -259,6 +289,7 @@ function initializeCharacterImages() {
 let blockModeHandler = null;
 
 function initBlockModeToggle() {
+  //console.log(`enter blockMode`);
 
   const blockModeEl = document.querySelector(".shield-mode-toggle");
   const checkbox = document.getElementById("block-mode-toggle");
@@ -274,20 +305,13 @@ function initBlockModeToggle() {
     e.stopPropagation();
   });
   
-  const eq = gameState.char?.equipment || {};
-  const shield = eq["shield"];
-
-  if (!shield) {
-    gameState.char.blockMode = "none";
-    blockModeEl.classList.add("hidden");
-    return;
-  }
-
   checkbox.checked = gameState.char?.blockMode === "timed";
 
   blockModeHandler = () => {
     setBlockMode(checkbox.checked ? "timed" : "defensive");
   };
+  
+ // console.log(`blockMode end`, gameState.char.blockMode);
 
   checkbox.addEventListener("change", blockModeHandler);
 }

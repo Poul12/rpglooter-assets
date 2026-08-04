@@ -24,6 +24,25 @@ Object.assign(LANG.en, {
   shout_skill_desc: "You let out a fierce war cry, empowering yourself to deal {damage-buff} increased damage for {shout-duration}",
   
   
+  shield_bash_skill_name: "Shield Bash",
+  shield_bash_skill_desc: "You slam your shield into the enemy, dealing {damage} damage and stunning them for {stun-duration}.",
+
+  shield_wall_skill_name: "Shield Wall",
+  shield_wall_skill_desc: "You raise your shield into an impenetrable stance, increasing your defense by {def-buff} for {def-buff-duration}.",
+  
+  counter_strike_skill_name: "Counter Strike",
+  counter_strike_skill_desc: "While blocking, you retaliate against your enemy with a powerful counterattack, dealing {damage} damage and recovering {stamina-recover} stamina.",
+
+  iron_will_skill_name: "Iron Will",
+  iron_will_skill_desc: "Your determination breaks through all limitations caused by active shield.",
+  
+  provocation_skill_name: "Provocation",
+  provocation_skill_desc: "You challenge your enemy with a fierce taunt, forcing them to focus their aggression on you. The enemy becomes vulnerable for 4 sec.",
+
+  last_bastion_skill_name: "Last Bastion",
+  last_bastion_skill_desc: "You become the final line of defense, increasing your defense by {def-buff} for {def-buff-duration} and empowering your next attack to deal {buff-next-attack} increased damage. Additionally, blocking with a shield does not consume stamina.",
+  
+  
   extra_life_skill_name: "Endurance",
   extra_life_skill_desc: "Your body grows unnaturally resilient, increasing your maximum health by {life-bonus}",
   
@@ -104,6 +123,26 @@ Object.assign(LANG.pl, {
   shout_skill_name: "Wojenny Okrzyk",
   shout_skill_desc: "Wykonujesz głośny okrzyk, który zwiększa twoją krzepę. Zadajesz o {damage-buff} większe obrażenia przez {shout-duration}",
 
+  
+  shield_bash_skill_name: "Uderzenie Tarczą",
+  shield_bash_skill_desc: "Uderzasz przeciwnika tarczą z ogromną siłą, zadając {damage} obrażeń i ogłuszając go na {stun-duration}.",
+
+  shield_wall_skill_name: "Mur Tarczy",
+  shield_wall_skill_desc: "Unosisz tarczę, tworząc niemal nieprzeniknioną obronę, zwiększając swoją obronę o {def-buff} na {def-buff-duration}.",
+
+  counter_strike_skill_name: "Kontratak",
+  counter_strike_skill_desc: "Podczas blokowania odpowiadasz potężnym kontratakiem, zadając {damage} obrażeń i odzyskując {stamina-recover} staminy.",
+  
+  iron_will_skill_name: "Żelazna Wola",
+  iron_will_skill_desc: "Twoja niezłomna determinacja pozwala ci przełamać wszelkie ograniczenia podczas aktywnej tarczy.",
+  
+  provocation_skill_name: "Prowokacja",
+  provocation_skill_desc: "Wyzwasz przeciwnika do walki, wzbudzając jego gniew i zmuszając go do skupienia na tobie swojej agresji. Wróg staje się wrażliwy na 4 sek.",
+
+  last_bastion_skill_name: "Ostatni Bastion",
+  last_bastion_skill_desc: "Stajesz się ostatnią linią obrony, zwiększając swoją obronę o {def-buff} na {def-buff-duration} oraz wzmacniając kolejny atak, który zada {buff-next-attack} dodatkowych obrażeń. Dodatkowo blokowanie nie zużywa staminy.",
+  
+  
   
   extra_life_skill_name: "Długowieczność",
   extra_life_skill_desc: "Zwiększa maksymalne punkty życia o {life-bonus} Twoje ciało nabiera niezwykłej wytrzymałości.",

@@ -148,6 +148,8 @@ function initStoreView() {
   initShopTabs();
   renderShop();
     
+  gameState.resources.enterStore = true;
+  
   updateCharMenuIcon();
   updateSkillsMenuIcon();
 }

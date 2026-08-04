@@ -25,6 +25,22 @@ const ATTRIBUTE_CONFIG = {
   }
 };
 
+const COMBAT_ARCHETYPES = [
+  "perfect_block",
+  "defensive_stance",
+  "poise",
+  "bleed",
+  "armor_break",
+  "spear_control",
+  "dodge",
+  "critical",
+  "exhausted",
+  "low_hp",
+  "crit",
+  "resources",
+  "special",
+];
+
  function renderEquipment() {
   const container = document.getElementById("equipment-slots");
   if(!container) return;
@@ -123,7 +139,8 @@ function showStatsPopup() {
 // <span class="item-class">(${getGenderedClassLabel(item.klasa, item.baseName || item.typ)})</span><br>
 // <img src="assets/img/frame5.png" class="popup-image-frame" />
 
- function showEqItemPopup(item, type) {
+
+function showEqItemPopup(item, type) {
   const popup = document.getElementById("item-popup");
   const content = document.getElementById("popup-content");
   const charLevel = gameState.char.level || 1;
@@ -131,6 +148,7 @@ function showStatsPopup() {
   const baseHTML = renderBaseStats(item, charLevel)
   const implicitHTML = renderImplicitStats(item);
   const statsHTML = renderItemStats(item);
+  const combatAffixes = renderCombatAffixes(item);
   const exclusiveStats = renderExclusiveAffixes(item);
   const classLabel = translateClass(item.klasa); // np. "Epicki", "Unikalny" itd.
   const styleHTML = renderWeaponStyle(item);
@@ -148,8 +166,7 @@ function showStatsPopup() {
      <img src="${spriteUrl}" alt="${item.nazwa}" class="item-popup-image" />
    </div>
    
-    <strong class="item-name item-name-${item.klasa}">${itemName}</strong><br>
-    <div class="sparator"></div>
+    <strong class="item-name item-name-${item.klasa}">${itemName}</strong>
     <div class="item-base-stats">
       ${baseHTML}
     </div>
@@ -161,6 +178,9 @@ function showStatsPopup() {
     </div>
     <div class="item-stats">
       ${statsHTML}
+    </div>
+    <div class="item-stats">
+      ${combatAffixes}
     </div>
     <div class="item-stats">
       ${exclusiveStats}
@@ -194,6 +214,11 @@ function showStatsPopup() {
    document.getElementById("item-popup").classList.add("hidden");
  }
 
+function closeCombatAffixesPopup() {
+  document.getElementById("combat-affixes-popup").classList.add("hidden");
+}
+
+
 function closeStatsPopup() {
    document.getElementById("stats-popup").classList.add("hidden");
  }
@@ -203,6 +228,259 @@ function closeStatsPopup() {
   closeEqItemPopup();
  }
 
+function showCombatAffixesPopup() {
+  const popup = document.getElementById("combat-affixes-popup");
+  const content = document.getElementById("popup-content");
+  const container = document.getElementById("combat-affixes-container");
+
+  setPopupBackground3(`#combat-affixes-popup .popup-content`, `coal`);
+  
+  showCombatAffixes();
+  
+  /*const button = document.getElementById("unequip-btn");
+  setGlobalButtonTexture(button);*/
+   
+  playSound("open", 0.4);
+  
+  popup.classList.remove("hidden");
+}
+
+
+function showCombatAffixes(){
+  const container = document.getElementById("combat-affixes-container");
+  const eq = gameState.char?.equipment || {};
+
+  container.innerHTML = "";
+  
+  COMBAT_ARCHETYPES.forEach(type => {
+    const list = getCombatAffixesByType(type);
+    //console.log(`combatAffixes list`, list.length);
+    //let isDisabled = false;
+    //if(list.length === 0) isDisabled = true;
+    let isDisabled = !list.some(affix => affix.equipped);
+    container.appendChild(createArchetypeSection(type, list, isDisabled));
+
+  });
+}
+
+function createArchetypeSection(archetype, affixes, isDisabled) {
+  const wrapper = document.createElement("div");
+    
+  wrapper.className = "combat-archetype";
+  
+  if(isDisabled) wrapper.classList.add(`disabled`);
+  
+  const codex = gameState.char.combatAffixCodex;
+
+  const hasNotification = affixes.some(
+    affix => affix.discovered && !codex[affix.name]?.seen
+  );
+  
+  //console.log(`hasNotification`, hasNotification);
+  
+  const equippedCount = affixes.filter(affix => affix.equipped).length;
+  const discoveredCount = affixes.filter(affix => affix.discovered).length;
+  
+  wrapper.innerHTML = `
+    <div class="combat-archetype-header ${hasNotification ? "has-notification" : ""}">
+      <div class="combat-archetype-left">
+        <span class="affix-dot"></span>
+        <span class="combat-arrow">▶</span>
+        <span class="combat-title">${t(archetype)}</span>
+        <span class="combat-equipped">(${equippedCount})</span>
+      </div>
+      <div class="combat-summary">
+        <div>${discoveredCount}/${affixes.length} affixes</div>
+      </div>
+     </div>
+
+     <div class="combat-archetype-body hidden"></div>
+  `;
+  
+  const body = wrapper.querySelector(".combat-archetype-body");
+
+  affixes.forEach(a => {
+    body.appendChild(createAffixElement(a));
+  });
+  wrapper.querySelector(".combat-archetype-header").onclick = () => {
+    body.classList.toggle("hidden");
+    wrapper.classList.toggle("expanded");
+    
+    affixes.forEach(affix => {
+        if (affix.discovered) {
+            codex[affix.name].seen = true;
+        }
+    });
+
+    wrapper.querySelector(".combat-archetype-header")
+        .classList.remove("has-notification");
+
+  };
+  
+  return wrapper;
+}
+
+function createAffixElement(affix) {
+  const div = document.createElement("div");
+  div.className = "combat-affix";
+
+  let affixName = "???";
+  let unit = "";
+  let value = "";
+  let sourcesHtml = "";
+
+  // Nieodkryty affix
+  if (!affix.discovered) {
+    div.classList.add("disabled");
+
+    div.innerHTML = `
+      <div class="combat-affix-name">???</div>
+    `;
+    return div;
+  }
+
+  //console.error(`affix.equipped before`, affix.equipped);
+
+  // Odkryty, ale nieaktywny
+  if (!affix.equipped) {
+    div.classList.add("disabled");
+
+    affixName = getAffixCodexLabel(affix.name);
+
+    div.innerHTML = `
+      <div class="combat-affix-name">${affixName}</div>
+    `;
+
+    return div;
+  }
+
+  //console.error(`affix.stat after`, affix.stat);
+  
+  // Aktywny (założony)
+  const affixFullName = getAffixLabel(affix.stat);
+
+  affixName = getAffixCodexLabel(affix.name);
+
+  if (affixFullName.includes("%")) unit = "%";
+  else if (affixFullName.includes("/s.")) unit = "/s.";
+  else if (affixFullName.includes("s.")) unit = "s.";
+
+  value = `${affix.total.toFixed(1)}${unit}`;
+
+  sourcesHtml = affix.sources.map(source => `
+      <div>
+        ${t(source.baseName)}
+        <span>${source.value.toFixed(1)}${unit}</span>
+      </div>
+  `).join("");
+
+  div.innerHTML = `
+    <div class="combat-affix-name">
+      ${affixName}
+      <span>${value}</span>
+    </div>
+
+    <div class="combat-affix-sources">
+      ${sourcesHtml}
+    </div>
+  `;
+
+  return div;
+}
+
+/*function createAffixElement(affix){
+  const div = document.createElement("div");
+  
+  div.className="combat-affix";
+
+  let affixName = `???`;
+  let unit = ``;
+  
+  div.innerHTML=`
+    <div class="combat-affix-name">${affixName}
+    </div>
+  `;
+  
+  if(!affix.stat && !affix.discovered) {
+    return div;
+  }
+  
+  if(!affix.stat && affix.discovered) {
+    div.classList.add(`disabled`);
+    affixName = getAffixCodexLabel(affix.id);
+  } else if(affix.stat && affix.discovered) {
+    const affixFullName = getAffixLabel(affix.stat);
+    
+    if(affixFullName.includes(`%`)) unit = `%`;
+    else if(affixFullName.includes(`/s.`)) unit = `/s.`;
+    else if(affixFullName.includes(`s.`)) unit = `s.`;
+  }
+  
+  div.innerHTML=`
+    <div class="combat-affix-name">${affixName}
+      <span>${affix.total.toFixed(1)}${unit}</span>
+    </div>
+    <div class="combat-affix-sources">
+      ${affix.sources.map(source=>`
+        <div>${t(source.baseName)}
+          <span>${source.value.toFixed(1)}${unit}</span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  return div;
+}*/
+
+function getCombatAffixesByType(archetype) {
+  const result = [];
+  const codex = gameState.char.combatAffixCodex;
+  const equipped = gameState.char.combatAffixes;
+
+  for (const id in codex) {
+
+    if (codex[id]?.archetype !== archetype) continue;
+    
+    result.push({
+        name: id,
+        discovered: codex[id].discovered,
+        equipped: !!equipped[id],
+        stat: equipped[id]?.stat ?? null,
+        total: equipped[id]?.value ?? 0,
+        sources: equipped[id]?.sources ?? [],
+    });
+  }
+  
+  
+  
+  /*const equippedAffixes = gameState.char.combatAffixes;
+
+  for (const id in equippedAffixes) {
+
+    //console.log(`enter for equippedAffixes, id, archetype`, id, archetype);
+    
+    if (!equippedAffixes[id]) continue;
+
+    //console.log(`equippedAffixes[id].archetype`, equippedAffixes[id].archetype);
+    
+    if (equippedAffixes[id].archetype !== archetype) continue;
+
+    result.push({
+      id,
+      name: id, 
+      stat: equippedAffixes[id].stat,
+      total: equippedAffixes[id].value,
+      sources: equippedAffixes[id].sources
+    });
+
+  }*/
+
+  return result;
+}
+
+function getCombatIcon(type) {
+  return `icon.png`;
+}
    
  function updateCharacterView() {
   
@@ -295,7 +573,8 @@ function setBlockMode(mode) {
 
   //char.block ||= {};
   gameState.char.blockMode = mode;
-
+  gameState.combat.playerBlock.mode = mode;
+  
   if(mode === `defensive`) {
     gameState.combat.activeRingMode = `guard`;
   }
@@ -512,11 +791,26 @@ function recalculateDerivedStats(char) {
      //   console.error(`char.equipment.length`, gameState.char.equipment.length);
        // console.error(`char.hp`, gameState.char.hp);
         
+        //const eq = gameState.char?.equipment || {};
+        //const shield = eq["shield"];
+
+        //console.log(`shield blockMode`, shield);
+
+        if (type === `shield`) {
+          gameState.char.blockMode = "none";
+          //blockModeEl.classList.add("hidden");
+          //console.log(`not shield blockMode none`, gameState.char.blockMode);
+ 
+          //saveGame();
+          //return;
+        }
+        
         playSound(`unequip`, 1, randomRange(0.95, 1.05), 0.45);
 
         refreshCharacterStats();
         renderEquipment();
         updateCharacterView();
+        //initBlockModeToggle();
         saveGame();
       }
     }
@@ -777,7 +1071,7 @@ const STAT_DESCRIPTIONS = {
 
     <li>
       <span style="color: #e6a23c;">
-        ${ctx.lifeOnHit} HP
+        ${getLoH()} HP
       </span>
 
       ${t("tooltip_for_each_hit")}
@@ -827,8 +1121,9 @@ dmgstat: {
     <li>
       ${t("tooltip_attack_ready_time")}:
       <span style="color:#e6a23c;">
-        ${ctx.baseCooldown.toFixed(1)}s.
-      </span>
+       <!-- ${ctx.baseCooldown.toFixed(1)}s. -->
+        ${calculateCooldown(getPlayerAttackSpeed()).toFixed(1)}s.
+  </span>
     </li>
   </ul>
 

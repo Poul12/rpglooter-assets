@@ -54,10 +54,16 @@ function getRandomDeathTip() {
 }
 
 function getPlayerAttackSpeed() {
-  //console.log("atkspd", char.atkSpd);
+  //console.log("atkspd", gameState.char.atkSpd);
   const staminaPenalty = getAttackSpeedMultiplier();
- // console.error(`atkspd, staminaPenalty`, char.atkSpd, staminaPenalty);
-  return parseFloat(staminaPenalty * gameState.char.atkSpd);
+  //console.error(`atkspd, staminaPenalty`, gameState.char.atkSpd, staminaPenalty);
+  let atkSpd = gameState.char.atkSpd;
+  
+  atkSpd = getAttackSpeedWithBonus(gameState.char.atkSpd);
+
+  console.error(`atkspd after`, atkSpd);
+
+  return parseFloat(staminaPenalty * atkSpd);
 }
 
 // Oblicza cooldown na podstawie szybkości ataku
@@ -242,20 +248,35 @@ function updateFatigue() {
 
 function getAttackSpeedMultiplier() {
   switch (gameState.resources.staminaState.fatigue) {
-    case "tired": return 0.9;
-    case "exhausted": return 0.75;
-    case "critical": return 0.6;
+    //case "tired": return 0.9;
+    case "tired":
+      return 1 - ((1 - 0.95) * getFatiguePenaltyMultiplier());
+    case "exhausted":
+      return 1 - ((1 - 0.85) * getFatiguePenaltyMultiplier());
+    case "critical": 
+      return 1 - ((1 - 0.75) * getFatiguePenaltyMultiplier());
+
     default: return 1;
   }
 }
 
 function getStaminaRegenMultiplier() {
   switch (gameState.resources.staminaState.fatigue) {
-    case "tired": return 0.85;
-    case "exhausted": return 0.6;
-    case "critical": return 0.35;
+    case "tired":
+      return 1 - ((1 - 0.85) * getFatiguePenaltyMultiplier());
+    case "exhausted":
+      return 1 - ((1 - 0.6) * getFatiguePenaltyMultiplier());
+    case "critical": 
+      return 1 - ((1 - 0.35) * getFatiguePenaltyMultiplier());
+
     default: return 1;
   }
+}
+
+function getFatiguePenaltyMultiplier() {
+  const reduction = gameState.char.combatAffixes[`stamina_fatique_penalty`]?.value || 0;
+
+  return 1 - reduction / 100;
 }
 
 function getArmorReduction(armor, attackerLevel) {
@@ -459,7 +480,7 @@ function tryTriggerBlockReward(damage, player, enemy, isSim = false) {
     case "stun":
       let stunDuration = getStunDuration(player.blockPower, bonus) * 1000;
       applyEnemyStun(enemy, 0.001, stunDuration, gameState.world.selectedSlotIndex);
-      showReward(`${(stunDuration / 1000).toFixed(1)}${t("stun_enemy_reward")}`, 2100);
+      //showReward(`${(stunDuration / 1000).toFixed(1)}${t("stun_enemy_reward")}`, 2100);
       break;
 
     case "crit":
@@ -487,12 +508,19 @@ function getDefensiveBlockReduction(blockPower) {
   const t = Math.max(0, Math.min(1, (blockPower - 30) / 30));
 
   // 2️⃣ Agresywna krzywa (szybko rośnie)
-  const baseReduction = lerp(0.75, 0.95, t * t);
+  const baseReduction = lerp(0.6, 0.95, t * t);
 
   // 3️⃣ Stamina MA WPŁYW, ale nie zabija
   const staminaPenalty = lerp(0.85, 1, staminaRatio);
 
-  return Math.min(baseReduction * staminaPenalty, 0.95);
+  let reduction = baseReduction * staminaPenalty;
+
+  reduction += (gameState.char.combatAffixes[`dmg_reduction_blocking`]?.value || 0) / 100;
+  
+  return Math.min(reduction, 0.95);
+
+  
+ // return Math.min(baseReduction * staminaPenalty, 0.95);
 }
 
 function applyDevensiveBlockRegen(deltaTime) {
@@ -511,10 +539,38 @@ function applyDevensiveBlockRegen(deltaTime) {
   renderHpBar(combat.stats.currentHp, combat.stats.maxHp);
   */
   
-  const regen =
+  const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
+
+  const bleedDamage = enemy?.bleed?.damage;
+  
+  let regenPerSec = DEFENSIVE_HP_REGEN_PERCENT_PER_SEC;
+  
+  let regenBonus = 1;
+  
+  if(gameState.char.combatAffixes[`hp_regen_blocking`]) {
+    regenPerSec *= 1 + ((gameState.char.combatAffixes[`hp_regen_blocking`].value || 0) / 100);
+  } 
+  
+  //console.error(`enemy?.bleed?.damage`, enemy?.bleed?.damage);
+
+  let regen =
     char.maxHp *
-    (DEFENSIVE_HP_REGEN_PERCENT_PER_SEC / 100) *
+    (regenPerSec / 100) *
     deltaTime;
+  
+  //console.error(`hp regen blocking`, regen);
+  
+  if(bleedDamage && gameState.char.combatAffixes[`hp_regen_of_bleed_dmg_while_blocking`]) {
+    const value = gameState.char.combatAffixes[`hp_regen_of_bleed_dmg_while_blocking`].value;
+   
+   // console.error(`bleed hp regen value`, value);
+
+    regen += bleedDamage * (value / 100) * deltaTime;
+  }
+
+ // console.error(`hp regen from bleed blocking, bleedDamage`, regen, bleedDamage);
+
+  //console.log(`hp regen blocking`, DEFENSIVE_HP_REGEN_PERCENT_PER_SEC * regenBonus);
   
   char.hp = Math.min(char.hp + regen, char.maxHp);
   
@@ -525,7 +581,7 @@ function applyDevensiveBlockRegen(deltaTime) {
 let guardStacks = 0;
 
 function consumeGuardStacksOnAttack(damage) {
- // console.error(`consumeGuardStacksOnAttack block active`, gameState.combat.playerBlock.active);
+  //console.error(`consumeGuardStacksOnAttack block active`, gameState.combat.playerBlock.active);
 
   if (gameState.combat.activeRingMode !== `guard`) return damage;
   
@@ -542,15 +598,85 @@ function consumeGuardStacksOnAttack(damage) {
   if(guardStacks == 3) {
     showOutcome("miss", `${t("gurd_momentum_outcome")}`);
     triggerCriticalShake();
-  }  
+  }
+  
+  if(gameState.char.combatAffixes[`consume_guard_restore_hp`]) {
+    const restoredHp = gameState.char.combatAffixes[`consume_guard_restore_hp`].value * Math.sqrt(guardStacks);
+    healPlayer(restoredHp);
+    //console.error(`consumeGuard restoredHp * stacks`, restoredHp, Math.sqrt(guardStacks));
+  }
+  
+  const defValue = (gameState.char.combatAffixes["def_per_guard_stack"]?.value || 0) * guardStacks;
+  const dmgValue = (gameState.char.combatAffixes["dmg_per_guard_stack"]?.value || 0) * guardStacks;
+  
+  gameState.combat.guardBonus.critBonus.isActive = false;
+  gameState.combat.guardBonus.critBonus.stacks = 0;
+  gameState.combat.guardBonus.defBonus.isActive = false;
+  gameState.combat.guardBonus.defBonus.stacks = 0;
+  gameState.combat.guardBonus.dmgBonus.isActive = false;
+  gameState.combat.guardBonus.dmgBonus.stacks = 0;
   
   guardStacks = 0;
   
- // console.error(`consumeGuardStacksOnAttack block bonus`, bonus);
+  //console.error(`consumeGuard gameState.combat.activeBonus.def`, gameState.combat.activeBonus.def);
+
+  //decreaseBonusDefBuff(defValue);
+  //decreaseBonusDmgBuff(dmgValue);
+
+  gameState.combat.activeBonus.defSources.guard = 0;
+  recalculateDefenseBonus();
+  
+  gameState.combat.activeBonus.dmgSources.guardStacks = 0;
+  recalculateDamageBonus();
+  
+  clearAllDiffs(`def`);
+  clearAllDiffs(`dmg`);
+  
+  gameState.combat.activeBonus.critSources.guardStacks = 0;
+  recalculateCritBonus();
+      
+  
+  //console.error(`consumeGuardStacksOnAttack block bonus`, bonus);
   
   consumeGuardStacks(guardStacks);
   
   return Math.floor(damage * bonus);
+}
+
+function decreaseGuardStack() {
+  if(gameState.char.combatAffixes[`def_per_guard_stack`]) {
+    const defBonus = gameState.char.combatAffixes[`def_per_guard_stack`].value;
+    gameState.combat.activeBonus.defSources.guard = defBonus * guardStacks;
+    recalculateDefenseBonus();
+    if(guardStacks === 0) {
+      gameState.combat.guardBonus.defBonus.isActive = false;
+      clearAllDiffs(`def`);
+    }
+  }                
+
+
+  
+    if(gameState.char.combatAffixes[`dmg_per_guard_stack`]) {
+    const dmgBonus = gameState.char.combatAffixes[`dmg_per_guard_stack`].value;
+    gameState.combat.activeBonus.dmgSources.guardStacks = dmgBonus * guardStacks;
+    recalculateDamageBonus();
+    if(guardStacks === 0) {
+      gameState.combat.guardBonus.dmgBonus.isActive = false;
+      clearAllDiffs(`dmg`);
+    }
+  }                
+
+  
+  
+  if(gameState.char.combatAffixes[`crit_per_guard_stack`]) {
+    const critBonus = gameState.char.combatAffixes[`crit_per_guard_stack`].value;
+    gameState.combat.activeBonus.critSources.guardStacks = critBonus * guardStacks;
+    recalculateCritBonus();
+    if(guardStacks === 0) {
+      gameState.combat.guardBonus.critBonus.isActive = false;
+    }
+  }                
+  
 }
 
 function getPotionEffectMultiplier() {
@@ -564,7 +690,9 @@ function onPerfectBlock() {
   
   const energyGain = 2 * (1 + player.perfectBlockEnergy);
   gainEnergy(energyGain);
-  showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
+  //showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
+  
+  showEnergyGain(energyGain);
 }
 
 function onCrit() {
@@ -574,7 +702,8 @@ function onCrit() {
  
   const energyGain = 1 * (1 + player.critEnergy);
   gainEnergy(energyGain);
-  showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
+  //showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
+  showEnergyGain(energyGain);
 }
 
 function getEnergyCombatMultiplier(cost) {
@@ -601,39 +730,35 @@ function applyEnergyDebuff(mult) {
   updateGlobalStatsColors();
 }
 
-function applyDeathDebuff() {
-  const combat = gameState.combat;
-
-  combat.deathDebuff.deathMultiplier = 0.9;
-  combat.deathDebuff.deathDebuffFightsLeft = 2;
-  
-  saveGame();
-}
-
-function handleDeathDebuffAfterFight() {
-  const combat = gameState.combat;
-
-  if (combat.deathDebuff.deathDebuffFightsLeft > 0) {
-    combat.deathDebuff.deathDebuffFightsLeft--;
-
-    if (combat.deathDebuff.deathDebuffFightsLeft <= 0) {
-      combat.deathDebuff.deathMultiplier = 1;
-    }
-  }
-  
-}
-
-function applyEnergyFatigue() {
+function applyEnergyFatigue(isPreview = false) {
   const combat = gameState.combat;
 
   const f = combat.stats.energyFatigueStack;
   const penalty = Math.min(f * 0.05, 0.25);
+  
+  //console.error(`applyEnergyFatigue f, penalty`, f, penalty);
   
   combat.stats.hp *= (1 - penalty);
   combat.stats.dmg *= (1 - penalty);
   combat.stats.def *= (1 - penalty);
   
   showOutcome("miss", `${t("tired_outcome")} x${f}`, 3500);
+  
+  if(gameState.char.combatAffixes[`crit_while_energy_fatique`]) {
+    gameState.combat.energyBonus.critBonus.isActive = true;
+    
+    const critBonus = gameState.char.combatAffixes[`crit_while_energy_fatique`].value;
+    gameState.combat.activeBonus.critSources.energy = critBonus;
+    recalculateCritBonus();
+  }
+  
+  if(gameState.char.combatAffixes[`dmg_while_energy_fatigue`]) {
+    gameState.combat.energyBonus.dmgBonus.isActive = true;
+    const dmgBonus = gameState.char.combatAffixes[`dmg_while_energy_fatigue`].value;
+    
+    gameState.combat.activeBonus.dmgSources.energy = dmgBonus;
+    if(!isPreview) recalculateDamageBonus();
+  }
   
   renderStats();
 }
@@ -663,13 +788,15 @@ function debuffStatsPreview(type, i) {
   const attackBtn = document.getElementById(`slot-attack-button-${i}`);
   const cost = getEnergyCostForSlot(type);
   const multiplier = getEnergyCombatMultiplier(cost);
+  const f = combat.stats.energyFatigueStack;
 
   if (multiplier >= 1) return;
 
   applyEnergyDebuff(multiplier);
-  applyEnergyFatigue();
   
-  showOutcome("miss", `${t("tired_outcome")}`, 3500);
+  applyEnergyFatigue(true);
+  
+  showOutcome("miss", `${t("tired_outcome")} x${f}`, 3500);
 
   // 🛑 wyczyść poprzedni preview jeśli istnieje
   if (debuffPreviewTimer) {
@@ -697,6 +824,28 @@ function debuffStatsPreview(type, i) {
     debuffPreviewTimer = null;
     attackBtn.classList.remove("hidden");
   }, 1500); // 👈 idealne UX: 1–1.5s
+}
+
+function applyDeathDebuff() {
+  const combat = gameState.combat;
+
+  combat.deathDebuff.deathMultiplier = 0.9;
+  combat.deathDebuff.deathDebuffFightsLeft = 2;
+  
+  saveGame();
+}
+
+function handleDeathDebuffAfterFight() {
+  const combat = gameState.combat;
+
+  if (combat.deathDebuff.deathDebuffFightsLeft > 0) {
+    combat.deathDebuff.deathDebuffFightsLeft--;
+
+    if (combat.deathDebuff.deathDebuffFightsLeft <= 0) {
+      combat.deathDebuff.deathMultiplier = 1;
+    }
+  }
+  
 }
 
 function applyHpToDmgBonus(threshold, maxBonus) {
@@ -892,7 +1041,12 @@ function updateActionLockUI() {
 function enterCriticalState() {
   const combat = gameState.combat;
   const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex].enemyData;
+  const playerBlock = combat.playerBlock;
+
   combat.flags.isCritical = true;
+  gameState.combat.flags.isBlocked = false;
+  
+  playerBlock.cooldownUntil = 0;
   
   combat.stats.currentHp = 0;
 
@@ -906,8 +1060,15 @@ function enterCriticalState() {
   //showCriticalUI();
 
   //showOutcome(`miss`, `STAN KRYTYCZNY`);
-  
+  showEnemyOutcome("wind-up", `${t("windup_critical_outcome")}`, CRITICAL_FINISHER_TIME - 600);
+     
   //triggerCriticalShake();
+  if(gameState.combat.playerBlock.mode === "timed") {
+    setTimeout(() => {
+      activateTimedBlock();
+    }, 1000);
+  } 
+  
   startFinisherBar(CRITICAL_FINISHER_TIME, enemy);
   
   startEnemyFinisherWindup(enemy, gameState.world.selectedSlotIndex);
@@ -931,12 +1092,17 @@ function startEnemyFinisherWindup(enemy, slotIndex) {
   });
   
   enemy.finisherTimeout = setTimeout(() => {
-     performEnemyFinisherAttack(enemy, slotIndex);
+    if(!gameState.combat.flags.isBlocked) {
+      //console.error(`perform finisher timeout, isCritical`, gameState.combat.flags.isCritical);
+
+      performEnemyFinisherAttack(enemy, slotIndex);
+      stopTimedBlockUI();
+    }
   }, CRITICAL_FINISHER_TIME);
 }
 
 function performEnemyFinisherAttack(enemy, slotIndex) {
-  //console.error("FINISHER ATTACK");
+ // console.error("FINISHER ATTACK");
   const combat = gameState.combat;
   const player = getPlayerStats();
   
@@ -1022,7 +1188,12 @@ function grantCriticalLastStand() {
     bonusThreshold: 0.6,   // normalnie np. 0.3
     bonusCap: 0.6          // max +60% dmg
   };
+  
+  const player = getPlayerStats();
 
+  const newHp = player.maxHp * 0.33;
+  updatePlayerHp(newHp);  
+  
   //showOutcome("buff", "OSTATNI ZRYW");
 }
 
@@ -1100,7 +1271,8 @@ function handlePlayerDeath() {
     rollOptions();
   };
   
-  renderOptions(); // ← renderuje sloty, wrogów, skrzynie itd.
+  //renderOptions(); // ← renderuje sloty, wrogów, skrzynie itd.
+  stopEnemyUiRegenTick();
   hideAttackBtn();
   highlightCurrentStep(); // ← aktualizuje pasek postępu
   
@@ -1399,634 +1571,4 @@ function showEndStoryPopup() {
 }
 
 
-function applyPoiseDamage(enemy, player, value) {
-  if (enemy.poiseBroken) return;
-  
-  if(enemy.poise > 0) {
-    enemy.poise -= value;
-  } 
-  
-  if (enemy.poise < 0) {
-    enemy.poise = 0;
-  }
-  
-  
-  if (enemy.poise <= 0) {// && enemy.attackState.phase === "windup") {
-    breakPoise(enemy, player);
-  }
-}
 
-function breakPoise(enemy, player) {
-  const bar = document.querySelector(".poise-bar");
-  const strScale = getStrScaling(player);
-
-  enemy.poiseBroken = true;
-  enemy.poise = 0;
-
-  const duration = 1200 + (strScale.durationBonus * 2000);
-  
-  showOutcome(`miss`, `${t("break_outcome")}`);
-  
-  playSound(`poise_break`, 0.4);
-  
-  applyEnemyStun(enemy, 0.001, duration, gameState.world.selectedSlotIndex);
-  
-  bar.classList.add("break-impact");
-  setTimeout(() => bar.classList.remove("break-impact"), 250);  
-  
-  triggerCriticalShake();
-  
-  //slowMoImpact();
-  
-  enemy.wasInterruptedRecently = true;
-  
-  const interruptPower = 800 + (player.str * 3);
-  triggerInterrupt(enemy, interruptPower); // przerywa windup
- 
-  tryInterruptEnemy(enemy, `poise-break`);
-  
-  setTimeout(() => {
-    enemy.poiseBroken = false;
-    enemy.poise = enemy.maxPoise * 0.5; // wraca z połową
-  }, 2000);
-}
-
-function hammerOnHit(enemy, player) {
-  gameState.combat.activeRingMode = "poise";
-  
-  const strScale = getStrScaling(player);
-
-  let poiseDmg = 35 + strScale.effectPower;
-
-  if(enemy.isGuarding) {
-    poiseDmg *= 0.6;
-  }
-  
-  applyPoiseDamage(enemy, player, poiseDmg);
-  
-  // bonus: dociążenie cooldownu
-  if (enemy.attackState.phase === "cooldown") {
-    enemy.attackState.remaining += 300 + player.str * 1.5;
-  }
-}
-
-function triggerInterrupt(enemy, penaltyMs = 800) {
-
-  if (!enemy.attackState) return;
-
-  //if (enemy.attackState.phase !== "windup") return;
-
-  const now = performance.now();
-
-  // cofamy do cooldown
-  enemy.attackState.phase = "cooldown";
-
-  // dodajemy karę
-  enemy.attackState.remaining += penaltyMs;
-}
-
-function doubleaxeOnHit(enemy, player) {
-  if (!enemy.bleedStacks) enemy.bleedStacks = 0;
-  
-  if (enemy.bleedReady || enemy.hitAfterResolve) {
-    enemy.hitAfterResolve = false;
-    return;
-  }
-  
-  gameState.combat.activeRingMode = "bleed";
-  
-  enemy.bleedStacks++;
-  enemy.lastBleedHit = getGameTime();
-
-  if(gameState.world.inCombat) updateBleedRing(enemy);
-
-  if(!enemy.bleedReady) {
-    showReward(`${t("bleed_reward")} ${enemy.bleedStacks}/3`);
-  }
-  
-  // 🔥 jeśli osiągnął max → tylko ustaw stan READY
-  if (enemy.bleedStacks >= 3 && !enemy.bleedReady) {
-    enemy.bleedReady = true;
-    enemy.bleedStacks = 3;
-    setBleedReadyUI(true);
-    //showBleedTimingUI(player); 
-  }
-  // 💥 jeśli już był ready → odpal burst
-  else if (enemy.bleedReady) {
-    //handleBleedAttack(enemy, player);
-    //triggerBleedBurst(enemy, player);
-  }
-}
-
-function triggerBleedBurst(enemy, player, perfect = false) {
-  const strScale = getStrScaling(player);
-
-  let baseDmg = 0.15 * (1 + strScale.effectPower / 100); // 🔥 DUŻO większe niż normal bleed
-  let duration = 4 + strScale.durationBonus;
-
-  if(perfect && !enemy.isGuarding) {
-    baseDmg *= 1.6;
-    duration *= 1.3;
-  }
-    
-  applyBleed(enemy, baseDmg, duration);
-  
-  triggerBleedVFX();
-
-  resetBleed(enemy);
-  resetBleedUI();
-}
-
-function resetBleed(enemy) {
-  //if (gameState.combat.activeRingMode !== `bleed`) return;
-  
-  enemy.bleedStacks = 0;
-  enemy.bleedReady = false;
-  gameState.combat.bleedTimingActive = false;
-  
-  updateBleedRing(enemy);
-  setBleedReadyUI(false);
-}
-
-function getBleedWindows(player) {
-  const BASE_TOTAL = 260; // większe niż block → łatwiejsze
-  const PERFECT_RATIO = 0.22; // większe okno
-
-  const agiBonus = 1 + player.agi * 0.0015; // delikatniejszy scaling niż block
-
-  const total = BASE_TOTAL;
-  const perfect = total * PERFECT_RATIO * agiBonus;
-  const normal = total - perfect;
-
-  return {
-    perfect,
-    normal
-  };
-}
-
-function getTimingResult() {
-  const bar = document.getElementById("timing-mode");
-  const indicator = bar.querySelector(".time-indicator");
-  const perfect = bar.querySelector(".perfect-window");
-  const normal = bar.querySelector(".normal-window");
-
-  const iRect = indicator.getBoundingClientRect();
-  const pRect = perfect.getBoundingClientRect();
-  const nRect = normal.getBoundingClientRect();
-
-  const iCenter = iRect.left + iRect.width / 2;
-
-  if (iCenter >= pRect.left && iCenter <= pRect.right) {
-    return "perfect";
-  }
-
-  if (iCenter >= nRect.left && iCenter <= nRect.right) {
-    return "normal";
-  }
-
-  return "miss";
-}
-
-function handleBleedAttack(enemy, player) {
-  const result = getTimingResult();
-  const now = performance.now();
-
-  if (result === "perfect") {
-    triggerBleedBurst(enemy, player, true);
-    playSound(`bleed_boom`, 0.5);
-    triggerCriticalShake();
-    showOutcome("perfect", `${t("bleed_perfect_outcome")}`);
-  } else if (result === "normal") {
-    showOutcome("normal", `${t("bleed_outcome")}`);
-    triggerBleedBurst(enemy, player, false);
-  } else {
-    showOutcome("miss", `${t("bleed_miss_outcome")}`);
-    enemy.bleedStacks = 1; // kara
-    enemy.bleedReady = false;
-    updateBleedRing(enemy);
-  }
-
-  stopBleedTimingUI();
-  
-  const atkSpeed = getPlayerAttackSpeed();
-  const cooldownDuration = calculateCooldown(atkSpeed);
-
-  startAttackCooldown(cooldownDuration);
-  playerAttackCooldown.playerCooldownEnd = now + cooldownDuration * 1000;
-  
-  gameState.combat.bleedTimingActive = false;
-  enemy.hitAfterResolve = true;
-  //enemy.bleedReady = false;
-}
-
-function greatswordOnHit(enemy, player) {
-  // jeśli READY → NIE dodawaj stacków
-  //console.error(`enter enemy.armorBreakReady`, enemy.exposeStacks, enemy.armorBreakReady);
-  
-  if (enemy.armorBreakReady || enemy.hitAfterResolve) {
-    enemy.hitAfterResolve = false;
-    return;
-  }
-  
-  //console.error(`enemy.armorBreakReady`, enemy.exposeStacks, enemy.armorBreakReady);
-  
-  gameState.combat.activeRingMode = `armor`;
-  
-  // budowanie stacków
-  enemy.exposeStacks = (enemy.exposeStacks || 0) + 1;
-  
-  enemy.lastArmorBreakHit = getGameTime();
-  
-  if(gameState.world.inCombat) updateArmorRing(enemy);
-  
-  if (enemy.exposeStacks >= 3) {
-    enemy.exposeStacks = 3;
-    enableArmorBreakReady(enemy);
-  }
-
-  //console.error(`axe on hit armor break`, enemy.exposeStacks);
-}
-
-function enableArmorBreakReady(enemy) {
-  enemy.armorBreakReady = true;
-
-  const ring = document.getElementById("guard-ring");
-  ring.classList.add("full"); // puls
-}
-
-function resolveArmorBreak(enemy) {
-  const result = getTimingResult();
-  const player = getPlayerStats();
-  const now = performance.now();
-
-  const str = player.str;
-  const agi = player.agi;
-  
-  //console.error(`resolve armor break`, enemy.exposeStacks);
-  
-  if (result === "perfect") {
-    let penetration = 0.55 + (str * 0.0015);  
-    const duration = 4.3 + (str * 0.015) + (agi * 0.005);
-
-    tryInterruptEnemy(enemy, `perfect-armor`);
-    
-    if(enemy.isGuarding) {
-      penetration *= 0.5;
-    }
-    
-    playSound(`armor_break`, 0.45);
-    applyArmorBreak(enemy, penetration, duration);
-    triggerBleedVFX();
-    triggerCriticalShake();
-    resetArmorBreak(enemy);
-    showOutcome("perfect", `${t("armor_break_outcome")} <br> -${(penetration * 100).toFixed(0)}%`);
-  } else if (result === "normal") {
-    const penetration = 0.32 + (str * 0.001);
-    const duration = 3.3 + (str * 0.01);
-    
-    applyArmorBreak(enemy, penetration, duration);
-    triggerBleedVFX();
-    resetArmorBreak(enemy);
-    showOutcome("normal", `${t("armor_scrape_outcome")} -${(penetration * 100).toFixed(0)}%`);
-  } else {
-    enemy.exposeStacks = 1;
-  }
-  
-   // 🔥 TU ODpalasz cooldown (bo to jest finalny hit)
-  const atkSpeed = getPlayerAttackSpeed();
-  const cooldownDuration = calculateCooldown(atkSpeed);
-
-  startAttackCooldown(cooldownDuration);
-  playerAttackCooldown.playerCooldownEnd = now + cooldownDuration * 1000;
-  
-  stopArmorBreakTimingUI(enemy); 
-  
-  gameState.combat.armorBreakTimingActive = false;
-  enemy.hitAfterResolve = true;
-  enemy.armorBreakReady = false;
-  updateArmorRing(enemy);
-}
-
-function resetArmorBreak(enemy) {
-  if (gameState.combat.activeRingMode !== `armor`) return;
-  
-  enemy.exposeStacks = 0;
-  enemy.armorBreakReady = false;
-  gameState.combat.armorBreakTimingActive = false;
-  
- // console.error(`reset armor break`, enemy.exposeStacks);
-  
-  updateArmorRing(enemy);
-  setArmorReadyUI(false);
-}
-
-
-function spearOnHit(enemy, player) {
-  const slow = 0.08 + player.str * 0.00015;
-  const windupBonus = 120 + player.str * 0.5;
-  const pushback = 250 + player.str * 1;
-
- // if (!enemy.spear.stacks) enemy.spear.stacks = 0;
-  
-  gameState.combat.activeRingMode = `spear`;
-  
-  applySpearDebuff(enemy, {
-    slow,
-    windupBonus,
-    pushback,
-    duration: 3200
-  });
-}
-
-function applySpearDebuff(enemy, { slow, windupBonus, pushback, duration }) {
-  if (!enemy.spear) {
-    enemy.spear = {
-      stacks: 0,
-      slow: 0,
-      windupBonus: 0,
-      pushback: 0,
-      expiresAt: 0
-    };
-  }
-
-  const player = getPlayerStats();
-
-  const d = enemy.spear;
-
-  d.stacks = Math.min(3, d.stacks + 1);
-  d.slow = slow * d.stacks;
-  d.windupBonus = windupBonus * d.stacks;
-  d.pushback = pushback * d.stacks;
-  d.expiresAt = getGameTime() + duration;
-  
-  if(enemy.isGuarding) {
-    d.slow *= 0.5;
-    d.windupBonus *= 0.65;
-  }
-  
-  if (enemy.attackState?.phase === "cooldown") {
-    enemy.attackState.remaining += d.pushback;
-  }
-  
-  if (enemy.attackState?.phase === "windup") {
-    enemy.attackState.remaining += d.windupBonus;
-  }
-  
-  if(gameState.world.inCombat) updateSpearRing(enemy);
-  
-  if (!enemy.spearReady) {
-    showReward(`${d.stacks}x ${t("control_reward")}`);
-  }
-  
-  if (enemy.spear.stacks >= 3 && !enemy.spearReady) {
-    enemy.spearReady = true;
-    setSpearReadyUI(true);
-    startSpearControlUI(player); 
-  }
-  
-  else if (enemy.spearReady) {
-    resolveSpearControl(enemy);
-  }
-}
-
-function getSpearWindows(player) {
-  const BASE_TOTAL = 200; // większe niż block → łatwiejsze
-  const PERFECT_RATIO = 0.2; // większe okno
-
-  const agiBonus = 1 + player.agi * 0.0015; // delikatniejszy scaling niż block
-
-  const total = BASE_TOTAL;
-  const perfect = total * PERFECT_RATIO * agiBonus;
-  const normal = total - perfect;
-
-  return {
-    perfect,
-    normal
-  };
-}
-
-
-function resolveSpearControl(enemy) {
-  const result = getTimingResult(); // reuse system
-  const now = getGameTime();
-
-  if (result === "perfect") {
-    extendSpearControl(enemy, 2000);
-    tryInterruptEnemy(enemy, `perfect-spear`);
-    playSound(`spear_control`, 0.4);
-    
-    showOutcome("perfect", `${t("control_outcome")}!`);
-  } else if (result === "normal") {
-    extendSpearControl(enemy, 1000);
-    showOutcome("normal", `${t("keep_outcome")}!`);
-  } else {
-    reduceSpearControl(enemy);
-    updateSpearRing(enemy);
-    showOutcome("miss", `${t("lost_rythm_outcome")}!`);
-  }
-
-  if(enemy.spear.stacks === 0) {
-    resetSpear(enemy);
-    resetSpearUI();  
-    stopSpearControlUI();
-  }  
-  
-  //startAttackCooldown(calculateCooldown(getPlayerAttackSpeed()));
-}
-
-function extendSpearControl(enemy, duration) {
-  if (!enemy.spear) return;
-
-  enemy.spear.expiresAt += duration;
-}
-
-function reduceSpearControl(enemy) {
-  if (!enemy.spear) return;
-
-  enemy.spear.stacks = Math.max(0, enemy.spear.stacks - 1);
-}
-
-function resetSpear(enemy) {
-  if (gameState.combat.activeRingMode !== `spear`) return;
-  
-  if(enemy.spear?.stacks) {
-    enemy.spear.stacks = 0;
-  }  
-  
-  enemy.spearReady = false;
-
-  updateSpearRing(enemy);
-  setSpearReadyUI(false);
-}
-
-
-function daggerOnHit(enemy, player) {
-  const strScale = getStrScaling(player);
-
-  const doubleHitChance = 0.15 + strScale.procChance;
-
-  if (Math.random() < doubleHitChance) {
-    performExtraHit(enemy);
-    showReward("DOUBLE");
-  }
-}
-
-function swordOnHit(enemy) {
-  const stats = gameState.combat.stats;
-  
-  //console.error(`gameState.combat.activeRingMode`, gameState.combat.activeRingMode);
-  
-  if(gameState.combat.playerBlock.active) return;
-  
-  if (gameState.combat.activeRingMode === "guard") {
-    gameState.combat.activeRingMode = ``;
-    return;
-  }
-  
-  if (stats.comboReady) {
-    stats.comboReady = false;
-    return; 
-  }
-  
-  gameState.combat.activeRingMode = `sword`;
-  
-  stats.combo = (stats.combo || 0) + 1;
-  
-  //console.error(`combo`, stats.nextHitMultiplier, stats.combo);
-  
-  if(gameState.world.inCombat) updateGuardRing("sword", stats.combo);
-  
-  if (stats.combo >= 2) {
-    stats.combo = 0;
-    stats.comboReady = true;
-    stats.nextHitMultiplier = 1.5;
-    
-    if(enemy.isGuarding) {
-      stats.nextHitMultiplier = 1.2;
-    }
-
-  }
-}
-
-function maceOnHit(enemy, player) {
-  const stats = gameState.combat.stats;
-  
-  if(gameState.combat.playerBlock.active) return;
-  
-  if (gameState.combat.activeRingMode === "guard") {
-    gameState.combat.activeRingMode = ``;
-    return;
-  }
-  
-  if (stats.comboReady) {
-    stats.comboReady = false;
-    return; 
-  }
-  
-  gameState.combat.activeRingMode = `mace`;
-  
-  stats.combo = (stats.combo || 0) + 1;
-
-  enemy.attackState.remaining += 150;
-  
-  if(gameState.world.inCombat) updateGuardRing("mace", stats.combo);
-  
-  if (stats.combo >= 2) {
-    stats.comboReady = true;
-  }
-}
-
-function axeOnHit(enemy) {
-  if(gameState.combat.playerBlock.active) return;
-  
-  if (gameState.combat.activeRingMode === "guard") {
-    gameState.combat.activeRingMode = ``;
-    return;
-  }
-  
-  gameState.combat.activeRingMode = `axe`;
-  
-  if(!enemy.isGuarding) {
-    applyBleed(enemy, 0.025, 2.01);
-  } 
-   
-  resetGuardRing();
-  triggerRingPulse("axe");
-  
-  showReward(`${t("bleed_reward")}`);
-}
-
-function longswordOnPerfect() {
-  gameState.combat.stats.nextHitMultiplier = 1.25;
-  setLongswordBuffUI(true);
-}
-
-function longswordOnHit(enemy) {
-  const stats = gameState.combat.stats;
-  
-  if(gameState.combat.playerBlock.active) return;
-  
-  if (gameState.combat.activeRingMode === "guard") {
-    gameState.combat.activeRingMode = ``;
-    return;
-  }
-  
-  if (stats.comboReady) {
-    stats.comboReady = false;
-    return; 
-  }
-  
-  gameState.combat.activeRingMode = `sword`;
-  
-  stats.combo = (stats.combo || 0) + 1;
-
-  if(gameState.world.inCombat) updateGuardRing("sword", stats.combo);
-  
-  if (stats.combo >= 3) {
-    stats.combo = 0;
-    //stats.comboReady = true;
-    stats.nextHitPenetration = 0.25;
-    
-    if(enemy.isGuarding) {
-      stats.nextHitPenetration = 0.15;
-    } 
-    
-    applyArmorBreak(enemy, stats.nextHitPenetration, 4);
-    
-    if(enemy.isGuarding) {
-      showReward(`${t("break_defense_reward")} -15%`);
-    } else {
-      showReward(`${t("break_defense_reward")} -25%`);
-    }
-   
-    
-    triggerRingFull();
-    triggerRingBurst();
-    setTimeout(() => {
-        resetGuardRing();
-    }, 300);
-  }
-}
-
-function onWeaponHit(enemy, player, weaponType) {
-  switch (weaponType) {
-    case "short_sword": return swordOnHit(enemy);
-    case "mace": return maceOnHit(enemy);
-    case "axe": return axeOnHit(enemy);
-    case "long_sword": return longswordOnHit(enemy);
-    case "hammer": return hammerOnHit(enemy, player);
-    case "double_axe": return doubleaxeOnHit(enemy, player);
-    case "great_sword": return greatswordOnHit(enemy, player);
-    case "spear": return spearOnHit(enemy, player);
-    case "dagger": return daggerOnHit(enemy, player);
-  }
-}
-
-function getStrScaling(player) {
-  return {
-    dmg: player.str * 3,
-    effectPower: player.str * 0.1,     // siła efektów
-    procChance: player.str * 0.001,    // 0.1% per STR
-    durationBonus: player.str * 0.001   // % czasu efektów
-  };
-}

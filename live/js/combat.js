@@ -22,7 +22,7 @@ const STAMINA_COST = {
 
 const CRITICAL_FINISHER_TIME = 2300;
 
-const DEFENSIVE_HP_REGEN_PERCENT_PER_SEC = 1;
+const DEFENSIVE_HP_REGEN_PERCENT_PER_SEC = 0.8;
 const DEFENSIVE_POTION_EFFECT_MULTIPLIER = 1.4;
 const DEFENSIVE_GUARD_STACK_INTERVAL = 1.2; // sek
 const DEFENSIVE_GUARD_STACK_MAX = 3;
@@ -122,20 +122,45 @@ function updateEnemyHealthBar(enemy, i) {
 
 function enterCombat() {
   const char = gameState.char;
-
+    
   char.inCombat = true;
   char.lastRegenTs = Date.now();
   char.regenAllowedAt = 0;
   gameState.resources.staminaState.inCombat = true;
 }
 
-function startCombat(i) {
+function hideOtherNonCombatElements() {
+  const world = gameState.world;
+  const progressBar = document.getElementById("progress-container");
+  const arrows = document.querySelector(".arrows-center");
+  const questBtn = document.getElementById("quest-button");
+  const storeBtn = document.getElementById("store-button");
+  const stats = document.querySelector(".enemy-stat-group");
+  const enemyInfo = document.querySelector(".enemy-info");
+  const testBtn = document.getElementById("test-holder");
+
+  //enemyInfo.style.opacity = `0`;
+  //stats.style.opacity = `0`;
+  progressBar.style.opacity = `0`;
+  arrows.style.opacity = `0`;
+  testBtn.style.opacity = `0`;
+
+  if(world.mode === `story`) {
+    questBtn.style.opacity = `0`;
+  } else {
+    storeBtn.style.opacity = `0`;
+  }
+}
+
+async function startCombat(i) {
   const world = gameState.world;
   const combat = gameState.combat;
   const perfectBar = document.querySelector(".perfect-block-bar");
   const bar = document.getElementById("poise-mode");
 
-  lockCombatScroll();
+  //window.scrollTo(0, 0);
+   
+ // console.log(`block mode`, combat.playerBlock.mode);
   
   const eq = gameState.char?.equipment || {};
   const weapon = eq[`weapon`];
@@ -156,6 +181,10 @@ function startCombat(i) {
   //console.log("enemy ", enemy.name);
   setMenuDisabled(true); // zablokuj menu
   
+  resetSlotActionButton(i);
+  
+  //focusOnAttackDialogBox();
+  
   combat.flags.isCritical = false;
   
   combat.stats.combo = 0;
@@ -165,7 +194,7 @@ function startCombat(i) {
   initCombatState();
   
   playSound(`open`, 0.4);
-   
+
   const enSlot = document.querySelectorAll('.explore-slot')[i];
   enemy.dom = {
     slot: enSlot,
@@ -174,6 +203,11 @@ function startCombat(i) {
     healthText: enSlot.querySelector('.enemy-health-text'),
     cooldownFill: document.getElementById(`enemy-cooldown-fill-${i}`)
   }
+  
+  /*if(combat.flags.isLowHp && ) {
+    combat.lowHpBonus.lowHpDmgActive = true;
+  }*/
+  
   
   const cost = getEnergyCostForSlot(world.exploreOptions[i].type);
   const multiplier = getEnergyCombatMultiplier(cost);
@@ -193,6 +227,7 @@ function startCombat(i) {
     //combatState.energyMultiplier = multiplier;
     const hpPercent = getHpPercentFromChar();
     //console.error(`hpPercent in start combat `, hpPercent);
+    //console.error(`debuff stats multiplier in start combat `, multiplier);
     //playSound(`player-exhausted`, 0.38);
     applyEnergyDebuff(multiplier);
     applyEnergyFatigue();
@@ -212,7 +247,14 @@ function startCombat(i) {
   enemySlot.appendChild(enemyContent);
   //enemy.enemyContent = enemyContent;
   
-  startEnemyAttackTimeline(enemy, i);
+  const enemySlotGlow = document.querySelector(`.explore-slot[data-index='${i}']`);
+
+  enemySlotGlow.classList.remove("enemy-glow", "enemy-glow-normal");
+  if(enemy?.type === "elite") {
+    enemySlotGlow.classList.remove("enemy-glow", "enemy-glow-elite");
+  }
+  
+ // startEnemyAttackTimeline(enemy, i);
   
   if (i < 0 || i >= world.exploreOptions.length) {
    // console.warn(`Nieprawidłowy index: ${i}`);
@@ -225,13 +267,198 @@ function startCombat(i) {
   isExploring = false;
   stopEnemyUiRegenTick();
   
-  //applyEnemyRegen(enemy);
-  renderCombat();
+  document.querySelectorAll(".explore-slot")
+    .forEach((slot, index) => {
+
+      if(index !== i) {
+        requestAnimationFrame(() => {
+          slot.classList.add("faded");
+        });
+      }
+    });
+
+  hideOtherNonCombatElements();
+  
+  await wait(250);
+  
   renderOptions();
+  
+  renderPlayerCombatSlot();
+  
+  await wait(950);
+  
+  vsSymbolAnimationShow();
+  
+  //renderPlayerCombatSlot();
+  
+  //animateEnemyStatsToCombat();
+  startEnemyAttackTimeline(enemy, i);
+  
+ // animateEnemyStatsToCombat();
+  //applyEnemyRegen(enemy);
+  //renderCombat();
+  lockCombatScroll();
+  //renderOptions();
   lockOtherActions(i);
-  hideNavigateButtons();
   focusOnAttackDialogBox();
+  hideNavigateButtons();
   saveGame();
+}
+
+function renderPlayerCombatSlot(){
+    const slot = document.getElementById("player-combat-slot");
+
+    if(!gameState.world.inCombat){
+      return;
+    }
+  
+    slot.classList.remove("fade-out");
+  
+    // wymuszenie restartu animacji
+    void slot.offsetWidth;
+
+    slot.classList.add("fade-in");
+  
+    const bg = document.getElementById("player-slot-bg");
+
+    bg.src = assetManager.getResolvedAsset(
+        `img/backgrounds/${backgroundMap[gameState.world.currentLocation]}`
+    );
+    bg.style.marginTop = "15px";
+  
+    //const playerBody = document.getElementById("player-body");
+    //playerBody.src = assetManager.getResolvedAsset("img/avatar/avatar-body.png");
+     
+    /*const playerShadow = document.getElementById("player-shadow");
+    playerShadow.className = "enemy-shadow";*/
+    
+    const playerFrame = document.getElementById("player-frame");
+
+    playerFrame.alt = `Player Frame`;
+    playerFrame.src = assetManager.getResolvedAsset(`img/frames/explore-frame.png`);
+  
+    renderPlayerHealth();
+    //renderPlayerCooldown();
+  
+    renderPlayerAvatar();
+}
+
+function renderPlayerAvatar() {
+  const eq = gameState.char?.equipment || {};
+
+  const weapon = eq.weapon;
+  const helmet = eq.helmet;
+  const armor = eq.armor;
+  const gloves = eq.gloves;
+  const boots = eq.boots;
+  const pants = eq.pants;
+  const shoulder = eq.shoulder;
+  const bracer = eq.bracers;
+  const shield = eq.shield;
+  
+  const is2H = weapon?.twoHanded;
+  
+  const basePath = `img/avatar/`;
+  const bodyFile = is2H
+    ? "body-for-2h.png"
+    : "body-for-1h.png";
+  
+  const armorType = armor?.sprite ?? "chestplate.png";
+  
+  const handsFile =
+    `hands-for-${is2H ? "2h" : "1h"}-${armorType}`;
+  
+  const playerBody = document.getElementById("player-body");
+  const playerHead = document.getElementById("player-head");
+  const playerHands = document.getElementById("player-hands");
+
+  playerBody.src = assetManager.getResolvedAsset(basePath + bodyFile);
+  playerHead.src = assetManager.getResolvedAsset("img/avatar/head.png");
+  playerHands.src = assetManager.getResolvedAsset(basePath + handsFile);
+
+  playerHead.style.display = helmet ? "none" : "";
+
+  
+  renderLayer("player-helmet", helmet);
+  renderLayer("player-armor", armor);
+  renderLayer("player-boots", boots);
+  renderLayer("player-pants", pants);
+  renderLayer("player-gloves", gloves);
+  renderLayer("player-bracer", bracer);
+  renderLayer("player-shoulder", shoulder);
+  renderLayer("player-weapon", weapon);
+  renderLayer("player-shield", shield);
+  
+}
+
+function renderLayer(id, item){
+    const img = document.getElementById(id);
+
+    if(!item){
+        img.style.display="none";
+        console.log(`return renderLayer`, item);
+        return;
+    }
+    
+   const basePath = `img/avatar/`;
+
+    //console.log(`renderLayer`, item.sprite);
+  
+    img.style.display="";
+
+    img.src = assetManager.getResolvedAsset(basePath + item.sprite);
+}
+
+
+function vsSymbolAnimationShow() {
+    const vsSymbol = document.getElementById("vs-symbol");
+
+    vsSymbol.src = assetManager.getResolvedAsset("img/exploring-slots/vs-symbol-combat.png");
+  
+    //vsSymbol.classList.remove("vs-enter");
+    void vsSymbol.offsetWidth;
+    vsSymbol.classList.add("vs-enter");
+}
+
+function renderPlayerHealth(){
+
+    const char = gameState.char;
+
+    const percent = char.hp / char.maxHp * 100;
+
+    document.getElementById("player-health-fill").style.width =
+        percent + "%";
+
+    document.getElementById("player-health-text").innerText =
+        `${formatNumber(char.hp)}/${formatNumber(char.maxHp)}`;
+}
+
+function vsSymbolAnimationHide() {
+    const vsSymbol = document.getElementById("vs-symbol");
+
+    vsSymbol.classList.remove("vs-enter");
+}
+
+function hidePlayerAvatar() {
+    const slot = document.getElementById("player-combat-slot");
+  
+    //slot.classList.add("hidden");
+    //slot.style.opacity = `0`;
+    //slot.classList.remove("fade-in");
+  
+    /*requestAnimationFrame(() => {
+      slot.classList.add("fade-out");
+    });*/
+  
+    void slot.offsetWidth;
+    slot.classList.add("fade-out");
+  
+   /* requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        //slot.classList.add("fade-out");
+        //slot.style.transform = "translateX(-150px) scale(1.14)";
+      });
+    });*/
 }
 
 function playerHasShieldEquipped() {
@@ -243,6 +470,34 @@ function playerHasShieldEquipped() {
   }
   
   return false;
+}
+
+function animateEnemyStatsToCombat() {
+  const stats = document.querySelector(".enemy-stat-group");
+  const enemyInfo = document.querySelector(".enemy-info");
+
+  if (!stats) return;
+  
+  requestAnimationFrame(() => {
+    stats.classList.add("combat-layout");
+    enemyInfo.classList.add("enemy-name-combat");
+    
+    enemyInfo.style.opacity = `1`;
+    stats.style.opacity = `1`;
+  });
+}
+
+function restoreEnemyStatsLayout() {
+  const stats = document.querySelector(".enemy-stat-group");
+  const enemyInfo = document.querySelector(".enemy-info");
+
+  if (!stats) return;
+  
+  stats.classList.remove("combat-layout");
+  
+  enemyInfo.classList.remove("enemy-name-combat");
+
+  stats.style.opacity = `1`;
 }
 
 function renderCombat(renderPotion = false) {
@@ -280,7 +535,7 @@ function renderCombat(renderPotion = false) {
     dlg.innerHTML = `
       <div id="combat-enemy-section"></div>
 
-      <div id="test-holder" class="hidden">
+      <div id="test-holder">
         <button class="menu-item" onclick="toggleBypass()" id="bypass-btn" title="Test">T
           <!-- <img data-src="img/icons/menu-market-icon.png" alt="Zamknij" class="menu-icon" />-->
         </button>
@@ -381,6 +636,15 @@ function renderCombat(renderPotion = false) {
     dlg.dataset.initialized = "true";
   }
 
+  const potionsSection = document.querySelector(".potions-section");
+  potionsSection.innerHTML = `
+    <div class="potions-grid">
+       ${renderPotions()}
+    </div>
+  `;
+  
+  if(renderPotion) return;
+  
   applyImageFallback(dlg);
   
   updateGuardUI(guardStacks);
@@ -468,7 +732,6 @@ function renderCombat(renderPotion = false) {
   
     </div>
   `;
-
   
   const focusHolder = document.getElementById("focus-holder");
 
@@ -477,14 +740,14 @@ function renderCombat(renderPotion = false) {
     focusHolder.dataset.ready = "true";
   }
   
-  const potionsSection = document.querySelector(".potions-section");
+ /* const potionsSection = document.querySelector(".potions-section");
   potionsSection.innerHTML = `
     <div class="potions-grid">
        ${renderPotions()}
     </div>
   `;
   
-  if(renderPotion) return;
+  if(renderPotion) return;*/
   
   // 🧩 Dynamiczny przycisk w sekcji attack-center
   const attackCenter = document.getElementById("attack-center-container");
@@ -586,6 +849,8 @@ function handleAttack() {
   
   //console.error(`common break attack`);
 
+  //playPlayerAnimation("attack");
+  
   attack(isDefShield);
   spawnEffect("basic", enemy.dom.slot);
   playHit(`enemy`);
@@ -639,7 +904,7 @@ function handleShieldAction() {
     //blockButton.classList.add(`active`);
     blockButton.classList.add(`turtle`);
    // console.error(`na cooldownie`);
-  } else if (combat.playerBlock.mode === "timed") {
+  } else if (combat.playerBlock.mode === "timed" && perfectBlockTimingActive) {
     if(!spendStamina(STAMINA_COST.TIMED_BLOCK)) return;
     //activateTimedBlock();
     executeTimedBlock();
@@ -750,7 +1015,8 @@ function setupFleeButton() {
   const penaltyPercent = calculateGoldLossOnFlee(player);
   const gold = parseInt(gameState.resources.gold, 10);
   const loss = Math.floor(gold * penaltyPercent);
-
+  
+  //console.log(`enter setupFleeButton`);
   // pobieramy już istniejący przycisk z HTML
   fleeBtn = document.getElementById(`slot-attack-button-${gameState.world.selectedSlotIndex}`);
   if (!fleeBtn) return console.warn("Brak przycisku flee w HTML!");
@@ -804,7 +1070,7 @@ function showFleeButton() {
   if (fleeBtn && fleeBtn.classList.contains("hidden")) {
     fleeBtn.classList.remove("hidden");
     //fleeBtn.classList.add("visible");
-    //console.log("Flee button shown");
+   // console.log("Flee button shown", fleeBtn);
   }
 }
 
@@ -812,7 +1078,7 @@ function hideFleeButton() {
   if (fleeBtn) {
     //fleeBtn.classList.remove("visible");
     fleeBtn.classList.add("hidden");
-    //console.log(`chowam fleeBtn`);
+   // console.log(`chowam fleeBtn`, fleeBtn);
   }
   fleeIsSet = false;
 }
@@ -831,10 +1097,54 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
   const roll = Math.random() * 100;
   const dodgeRoll = Math.random() * 100;
   if(!gameState.combat.playerBlock.lastResult) {
-    if(dodgeRoll < player.dodge) {
+    let dodgeValue = player.dodge;
+ 
+    if(gameState.combat.critBonus.dodgeBonus.isActive) {
+      const dodgeBonus = gameState.char.combatAffixes[`crit_grant_dodge`]?.value;
+      dodgeValue = getDodgeWithBonus(player.dodge, dodgeBonus);
+      //console.log(`dodgeValue after crit`, dodgeValue);
+
+      //dodgeValue = player.dodge + dodgeBonus;
+    }
+    
+    if(dodgeRoll < dodgeValue) {
       const dodgeCostReduce = player.dodgeCostReduce;
       if(spendStamina(STAMINA_COST.DODGE * (1 - dodgeCostReduce))) {
         showOutcome("dodge", `${t("dodge_outcome")}`);
+        
+        playPlayerAnimation("dodge");
+        
+        if(gameState.char.combatAffixes[`dodge_grant_crit`]) {
+          const critChance = gameState.char.combatAffixes[`dodge_grant_crit`].value;
+          gameState.combat.dodgeBonus.critBonus.expiresAt = getGameTime() + 4000;
+          gameState.combat.dodgeBonus.critBonus.isActive = true;
+          
+          gameState.combat.activeBonus.critSources.dodge = critChance;
+          recalculateCritBonus();
+        }
+        
+        if(gameState.char.combatAffixes[`dodge_grant_energy`]) {
+          const energyGain = gameState.char.combatAffixes[`dodge_grant_energy`].value;
+          gainEnergy(energyGain);
+          //showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
+          showEnergyGain(energyGain);
+        }
+        
+        if(gameState.char.combatAffixes[`atkspd_after_dodge`] && !gameState.combat.dodgeBonus.atkSpdBonus.isActive) { 
+          gameState.combat.dodgeBonus.atkSpdBonus.isActive = true;
+          gameState.combat.dodgeBonus.atkSpdBonus.expiresAt = getGameTime() + 4000;
+          const atkSpdBonus = gameState.char.combatAffixes[`atkspd_after_dodge`].value;
+          gameState.combat.activeBonus.atkSpd += atkSpdBonus;
+          
+          updateStatusPlayerUI(enemy);
+        }
+        
+        if(gameState.char.combatAffixes[`stamina_cost_after_dodge`]) {
+          gameState.combat.dodgeBonus.staminaBonus.expiresAt = getGameTime() + 4000;
+          gameState.combat.dodgeBonus.staminaBonus.isActive = true;
+        }
+     
+        
         return {
           isDodge: true,
           dmg: 0
@@ -845,15 +1155,64 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
   }
   
   // 1️⃣ Armor (physical only)
-  //console.log(`enemy dmg i player def`, enemy.dmg, player.def);
+  console.log(`player def before`, player.def);
   
-  let effectiveArmor = getArmorReduction(player.def, enemy.level);
+  let baseArmor = player.def;
+  
+  if(gameState.char.combatAffixes[`perfect_block_gain_def`]) {
+    const gainedDef = gameState.char.combatAffixes[`perfect_block_gain_def`].value;
+    baseArmor = getArmorWithBonus(baseArmor, gainedDef);
+  }
+  
+  if(gameState.char.combatAffixes[`defensive_stance_gain_def`]) {
+    const gainedDef = gameState.char.combatAffixes[`defensive_stance_gain_def`].value;
+    baseArmor = getArmorWithBonusWhileBlock(baseArmor, gainedDef);
+   // console.error(`gainedDef, blocking`, gainedDef);
+  }
+  
+  if(gameState.char.combatAffixes[`def_per_guard_stack`]) {
+    const gainedDef = gameState.char.combatAffixes[`def_per_guard_stack`].value;
+    const stacks = gameState.combat.guardBonus.defBonus.stacks;
+    baseArmor *= (1 + (gainedDef / 100) * stacks);
+   // console.error(`gainedDef, guard stacks`, gainedDef, stacks, baseArmor);
+  }
+  
+  const isExhausted = gameState.resources.staminaState.fatigue === "exhausted" || gameState.resources.staminaState.fatigue === "critical";
+
+  if(isExhausted && gameState.char.combatAffixes[`def_exhausted`]) {
+    const gainedDef = gameState.char.combatAffixes[`def_exhausted`].value;
+    baseArmor *= 1 + (gainedDef / 100);
+   // console.error(`gainedDef exhauted`, gainedDef);
+  }
+  
+  if(gameState.char.combatAffixes[`def_per_sec_while_blocking`]) {
+    const gainedDef = gameState.combat.guardBonus.defBonus.accumulate;
+    baseArmor *= 1 + (gainedDef / 100);
+    //console.error(`gainedDef def/sec`, gainedDef, baseArmor);
+  }
+
+  if(enemy?.armorBreak?.value && gameState.char.combatAffixes[`def_after_armor_break`]) {
+    const gainedDef = gameState.char.combatAffixes[`def_after_armor_break`].value;
+    baseArmor *= 1 + (gainedDef / 100);
+    //console.error(`gainedDef while armor break`, gainedDef, baseArmor);
+  }
+
+  if(gameState.combat.flags.isLowHp && gameState.char?.combatAffixes[`gain_def_below_hp`]) {
+    const defBelowHp = 1 + (gameState.char.combatAffixes[`gain_def_below_hp`].value / 100);
+    baseArmor *= 1 + (defBelowHp / 100);
+    //console.error(`defBelowHp`, defBelowHp, baseArmor);
+  }
+
+  
+  console.log(`player def after`, baseArmor);
+
+  let effectiveArmor = getArmorReduction(baseArmor, enemy.level);
   
   //console.error(`player.effectiveArmor`, effectiveArmor);
   
-  effectiveArmor = getArmorWithStacks(effectiveArmor, player.stackDefense?.stack / 100); 
-
-  //console.error(`player.effectiveArmor after stack armor`, effectiveArmor);
+  effectiveArmor = getArmorWithStacks(effectiveArmor, player.stackDefense?.stack / 100);
+  
+  console.error(`player.effectiveArmor`, effectiveArmor);
  
   const stackArmor = gameState.combat.armorStacks.stacks;
   
@@ -863,7 +1222,7 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
   
   let dmg = damage * (1 - effectiveArmor);
   
-//  console.log(`enemy dmg after player def`, dmg);
+  //console.log(`enemy dmg after player def`, dmg);
   
   // 2️⃣ Redukcje procentowe
   const physRed = (player.physDmgReduction || 0) / 100;
@@ -874,7 +1233,29 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
   
   // 3️⃣ Zastosowanie redukcji
   dmg *= (1 - physRed);
+  
+  if(gameState.char.combatAffixes[`dmg_reduced_while_control`] && enemy.spear?.stackControl) {
+    const reducedDmg = gameState.char.combatAffixes[`dmg_reduced_while_control`].value;
+    dmg *= 1 - (reducedDmg / 100);
+    //console.error(`reducedDmg, dmg`, reducedDmg, dmg);
+  }
+  
+  if(gameState.char.combatAffixes[`dmg_taken_after_break`] && gameState.combat.poiseBonus.dmgTakenBonus.isActive) {
+    const value = gameState.char.combatAffixes[`dmg_taken_after_break`].value;
+    const reducedDamage = 1 - (value / 100);
+    dmg = getReducedDamageAfterBreak(dmg, reducedDamage);
+    //console.error(`reduced dmg after break, reducedDamage value`, dmg, reducedDamage);
+  }
 
+  if(gameState.char.combatAffixes[`bleed_enemy_deal_less_damage`] && enemy?.bleed) {
+    const value = gameState.char.combatAffixes[`bleed_enemy_deal_less_damage`].value;
+    const reducedDamage = 1 - (value / 100);
+    dmg *= reducedDamage;
+    //console.error(`reduced dmg while enemy bleed, reducedDamage, value`, dmg, reducedDamage);
+  }
+
+  
+  
   //console.log(`enemy dmg after all reduction`, dmg);
   
   dmg = applyIronStanceReduction(dmg, player.dmgReduction?.cooldown * 1000);
@@ -935,8 +1316,81 @@ function applyCritDamage(baseDamage, player, noCrit = false) {
   const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
 
   if(enemy.vulnerable){
-    rawCritChance += 20;
+    rawCritChance += 25;
   }
+  
+  if(gameState.char.combatAffixes[`dodge_grant_crit`]) {
+    const critBonus = gameState.char.combatAffixes[`dodge_grant_crit`].value;
+    //console.warn(`rawCritChance before dodge`, rawCritChance);
+    rawCritChance = getCritWithBonus(rawCritChance, critBonus);
+    //console.warn(`rawCritChance after dodge`, rawCritChance);
+  }
+  
+ // console.log(`raw crit chance before`, rawCritChance);
+
+  if(gameState.char.combatAffixes[`crit_per_guard_stack`]) {
+    const critBonus = gameState.char.combatAffixes[`crit_per_guard_stack`].value;
+    const critStacks = gameState.combat.guardBonus.critBonus.stacks;
+    rawCritChance += critBonus * critStacks;
+    
+   // console.log(`raw crit chance after guard`, rawCritChance, critBonus, critStacks);
+  }                
+  
+  if(gameState.char.combatAffixes[`crit_after_break`] && gameState.combat.poiseBonus.critBonus.isActive) {
+    const critBonus = gameState.char.combatAffixes[`crit_after_break`].value;
+    rawCritChance = getCritWithBonusAfterBreak(rawCritChance, critBonus);
+    //console.log(`raw crit chance after break`, rawCritChance, critBonus);
+  }
+  
+  
+  const isExhausted = gameState.resources.staminaState.fatigue === "exhausted" || gameState.resources.staminaState.fatigue === "critical";
+   
+  if(isExhausted && gameState.char.combatAffixes[`crit_exhausted`]) {
+    const critBonus = gameState.char.combatAffixes[`crit_exhausted`].value;
+    rawCritChance += critBonus;
+    //console.log(`raw crit chance after exhausted`, rawCritChance, critBonus);
+  }                
+
+  if(gameState.char.combatAffixes[`crit_while_energy_fatique`] && gameState.combat.energyBonus.critBonus.isActive) {
+    const critBonus = gameState.char.combatAffixes[`crit_while_energy_fatique`].value;
+    rawCritChance += critBonus;
+    //console.log(`raw crit chance after energy fatique`, rawCritChance, critBonus);
+  }
+  
+  if(gameState.char.combatAffixes[`crit_while_bleed`] && enemy.bleed) {
+    const critBonus = gameState.char.combatAffixes[`crit_while_bleed`].value;
+    rawCritChance += critBonus;
+    //console.log(`raw crit chance after bleed`, rawCritChance, critBonus);
+  }
+
+  if(gameState.char.combatAffixes[`crit_per_control_stack`] && gameState.combat.controlBonus.critBonus.isActive) {
+    const critBonus = gameState.combat.controlBonus.critBonus.accumulate;
+    rawCritChance += critBonus;
+    //console.log(`raw crit chance after control`, rawCritChance, critBonus);
+  }
+
+  if(gameState.char.combatAffixes[`crit_missing_hp`]) {
+    const char = gameState.char;
+    const critBonus = gameState.char.combatAffixes[`crit_missing_hp`].value;
+    const missHp = char.maxHp - char.hp;
+    //const critMultiplier = (missHp / char.maxHp) * 100;
+    const missingRatio = missHp / char.maxHp;
+    //const stacks = Math.floor(critMultiplier / 10);
+
+    //rawCritChance += critBonus * stacks;
+    rawCritChance += critBonus * (missingRatio * 10);
+
+    //console.log(`raw crit chance after missHp, critMultiplier, stacks, missHp`, rawCritChance, critMultiplier, stacks, missHp);
+    //console.log(`raw crit chance after missHp, missingRatio, missHp`, rawCritChance, missingRatio, missHp);
+  }
+  
+  if(gameState.char.combatAffixes[`crit_vs_armor_break`] && enemy?.armorBreak?.value) {
+    const critBonus = gameState.char.combatAffixes[`crit_vs_armor_break`].value;
+    rawCritChance += critBonus;
+    //console.log(`raw crit chance after armor break`, rawCritChance, critBonus);
+  }
+
+
   
   const effectiveCritChance = getEffectiveCritChance(rawCritChance);
   const roll = Math.random() * 100;
@@ -959,16 +1413,49 @@ function applyCritDamage(baseDamage, player, noCrit = false) {
         critMultiplier *= 0.6;
       }
       
+      if(enemy.vulnerable){
+        critMultiplier *= 1.25;
+      }
+      
      // console.log(`critBonusPercent`, critBonusPercent, critMultiplier);
 
       onCrit();
+      
+      if(gameState.char.combatAffixes[`stamina_on_crit`]) {
+        const staminaGained = gameState.char.combatAffixes[`stamina_on_crit`].value;
+        gainStamina(staminaGained);
+        //showReward(`+${staminaGained.toFixed(0)} ${t("stamina_on_kill_reward")}`, 2100);
+        showStaminaPopup(staminaGained);
+      }
+
+      if(gameState.char.combatAffixes[`crit_grant_dodge`]) {
+        gameState.combat.critBonus.dodgeBonus.expiresAt = getGameTime() + 4000;
+        gameState.combat.critBonus.dodgeBonus.isActive = true;
+      }
+
+      if(gameState.char.combatAffixes[`armor_break_on_crit`]) {
+        const value = gameState.char.combatAffixes[`armor_break_on_crit`].value;
+        const armorBreakRoll = Math.random() * 100;
+        
+        if(armorBreakRoll < 99) {
+          let powerBonus = 1;
+          if(gameState.char.combatAffixes[`armor_break_effect`]) {
+            powerBonus = 1 + (gameState.char.combatAffixes[`armor_break_effect`].value / 100);
+          }
+
+          applyArmorBreak(enemy, 0.25, 3);
+          //showReward(`-${(25 * powerBonus).toFixed(1)}% ${t("break_defense_reward")}`, 2300);
+        }
+       }
+
+      
       
      // console.error(`baseDamage and critMultiplier`, baseDamage, critMultiplier);
       combat.playerBlock.nextAttackGuaranteedCrit = false;
       
       playSound(`crit`, 0.4);
       
-      const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
+      //const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
 
       spawnEffect("crit", enemy.dom.slot);
       
@@ -996,18 +1483,40 @@ function startBlock() {
 
   isBlocking = true;
 
-  lockActions({ duration: Infinity, reason: "block", allow: [`attack`, `potion`, `block`] });
+  lockActions({ duration: 200, reason: "block", allow: [`attack`, `potion`, `block`] });
   
   playSound(`turtle-up`, 1.3, 1, 0.4);
   
   skillsOff(); 
   
+    
+  if(gameState.char.combatAffixes[`defensive_stance_gain_def`]) {
+    const gainedDef = gameState.char.combatAffixes[`defensive_stance_gain_def`].value;
+    //console.error(`start def while blocking`);
+    gameState.combat.blockingBonus.defBonus.isActive = true;
+    //gameState.combat.activeBonus.def += gainedDef;
+    //showBuff(`def`, gameState.combat.activeBonus.def);
+    gameState.combat.activeBonus.defSources.defensiveStance = gainedDef;
+    recalculateDefenseBonus();
+  }
+  
   blockDrainInterval = setInterval(() => {
     if (!isBlocking) return;
     
-    if(staminaState.disabled) return;
+    //if(staminaState.disabled) return;
     
-    staminaState.current -= staminaState.blockDrainPerSecond / 10;
+    if(gameState.char.combatAffixes[`def_per_sec_while_blocking`]) {
+      const defBonus = gameState.char.combatAffixes[`def_per_sec_while_blocking`].value;// / 10;
+      //console.log(`defBonus per sec`, defBonus);
+      gameState.combat.guardBonus.defBonus.accumulate += defBonus;
+      
+      gameState.combat.activeBonus.defSources.perSecBlock = gameState.combat.guardBonus.defBonus.accumulate;
+      recalculateDefenseBonus();
+      //console.log(`defBonus per sec total before stop`, gameState.combat.guardBonus.defBonus.accumulate);
+    }
+
+    
+   /* staminaState.current -= staminaState.blockDrainPerSecond / 10;
 
     if (staminaState.current <= 0) {
       staminaState.current = 0;
@@ -1016,9 +1525,9 @@ function startBlock() {
       triggerStaminaBreak();
     }
 
-    staminaState.lastSpendTs = performance.now();
-    saveStamina();
-  }, 100);
+    staminaState.lastSpendTs = performance.now();*/
+    //saveStamina();
+  }, 1000);
 }
 
 function stopBlock() {
@@ -1030,12 +1539,80 @@ function stopBlock() {
   
   skillsOn();
   
+  if(gameState.char.combatAffixes[`defensive_stance_gain_def`]) {
+    gameState.combat.blockingBonus.defBonus.isActive = false;
+   // console.log(`stop def while blocking`);
+  
+    const value = gameState.char.combatAffixes["defensive_stance_gain_def"].value;
+    //decreaseBonusDefBuff(value);
+    
+    gameState.combat.activeBonus.defSources.defensiveStance = 0;
+    recalculateDefenseBonus();
+     
+    clearAllDiffs(`def`);
+  }
+  
+  if(gameState.char.combatAffixes[`def_per_sec_while_blocking`]) {
+    //console.log(`defBonus per sec total after stop`, gameState.combat.guardBonus.defBonus.accumulate);
+    //decreaseBonusDefBuff(gameState.combat.guardBonus.defBonus.accumulate);
+    
+    gameState.combat.activeBonus.defSources.perSecBlock = 0;
+    recalculateDefenseBonus();
+    
+    gameState.combat.guardBonus.defBonus.accumulate = 0;
+    clearAllDiffs(`def`);
+  }
+
+  gameState.combat.counterStrike.isActive = false;
+  
   if (blockDrainInterval) {
     clearInterval(blockDrainInterval);
     blockDrainInterval = null;
+    saveStamina();
   }
 
   gameState.resources.staminaState.lastSpendTs = performance.now();
+}
+
+function drainStamina(delta) {
+    if (!isBlocking) return;
+  
+    let staminaState = gameState.resources.staminaState;
+
+    if(staminaState.disabled) return;
+    
+    if(gameState.combat.lastBastion.isActive) return;
+  
+   /* if(gameState.char.combatAffixes[`def_per_sec_while_blocking`]) {
+      //gameState.combat.poiseBonus.atkSpdBonus.isActive = true;
+      const defBonus = gameState.char.combatAffixes[`def_per_sec_while_blocking`].value;// / 10;
+      //console.log(`defBonus per sec`, defBonus);
+      //gameState.combat.activeBonus.def += defBonus;
+      gameState.combat.guardBonus.defBonus.accumulate += defBonus * delta;
+      //showBuff("def", gameState.combat.activeBonus.def);
+      
+      gameState.combat.activeBonus.defSources.perSecBlock = gameState.combat.guardBonus.defBonus.accumulate;
+      //recalculateDefenseBonus();
+      //console.log(`defBonus per sec total before stop`, gameState.combat.guardBonus.defBonus.accumulate);
+    }*/
+  
+    //gameState.combat.counterStrike.isActive = true;
+  
+    staminaState.current -= staminaState.blockDrainPerSecond * delta;// / 10;
+
+    console.log(`drain stamina`, gameState.combat.lastBastion.isActive);
+
+  
+    if (staminaState.current <= 0) {
+      staminaState.current = 0;
+      deactivateDefensiveStance();
+      //stopBlock();
+      triggerStaminaBreak();
+    }
+
+    staminaState.lastSpendTs = performance.now();
+    //saveStamina();
+
 }
 
 function activateDefensiveStance() {
@@ -1052,6 +1629,12 @@ function activateDefensiveStance() {
   stats.comboReady = false;
   stats.nextHitMultiplier = 0;
 
+  const { attackPenalty: penaltyDmg } = computeShieldPenalties(player.blockPower);
+
+  const minusValue = (0 - 1) + (1 - penaltyDmg);
+  
+  showPercentDebuff(`dmg`, minusValue * 100); 
+  
   resetGuardRing();
   
   startBlock();
@@ -1068,7 +1651,16 @@ function activateDefensiveStance() {
   
   showOutcome("normal",  `${t("turtle_outcome")}`);
   showReward(`${(damageReduction * 100).toFixed(0)}% ${t("dmg_reduction_reward")}`);
+  
+  if (gameState.char.combatAffixes[`loh_while_blocking`]) {
+    gameState.combat.blockingBonus.lohBonus.isActive = true;
+  }
 
+  if (gameState.char.combatAffixes[`bleed_duration_while_blocking`]) {
+    gameState.combat.blockingBonus.bleedBonus.isActive = true;
+  }
+  
+  
   /*if(!combatState.isCritical) {
     lockActions({ duration: 230, reason: "block", allow: [] });
   }*/
@@ -1083,7 +1675,11 @@ function deactivateDefensiveStance() {
   
   stopBlock();
   
+  showPercentDebuff(`dmg`, 0); 
+
   //gameState.combat.activeRingMode = ``;
+  
+  gameState.combat.lastBastion.isActive = false;
   
   playerBlock.active = false;
   //playerBlock.mode = null;
@@ -1096,19 +1692,31 @@ function deactivateDefensiveStance() {
   //blockButton.classList.remove(`active`);
   blockButton.classList.remove(`turtle`);
 
+  if (gameState.char.combatAffixes[`loh_while_blocking`]) {
+    gameState.combat.blockingBonus.lohBonus.isActive = false;
+  }
+  
+  if (gameState.char.combatAffixes[`bleed_duration_while_blocking`]) {
+    gameState.combat.blockingBonus.bleedBonus.wasAdded = false;
+    gameState.combat.blockingBonus.bleedBonus.isActive = false;
+  }
+
+  
   //console.error("Postawa Obronna WYŁĄCZONA");
 }
 
-const TIMED_DURATION = 600;
-const PERFECT_START = 230;//200
-const PERFECT_END = 350;//320
+const TIMED_DURATION = 550;
+const PERFECT_START = 200;//200
+const PERFECT_END = 320;//320
 const PERFECT_CENTER = TIMED_DURATION / 2; 
 
 function executeTimedBlock() {
-  //console.error(`enter execute timed block`, perfectBlockTimingActive);
+  //console.error(`enter execute timed block, isCritical`, perfectBlockTimingActive, gameState.combat.flags.isCritical);
 
   if(!perfectBlockTimingActive) return;
 
+  //console.error(`after return execute timed block`, gameState.combat.flags.isCritical);
+  
   const blockButton = document.getElementById("attack-left");
   
   const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
@@ -1134,8 +1742,14 @@ function executeTimedBlock() {
   playerBlock.lastResult = null;
   playerBlock.activeRemaining = TIMED_DURATION;*/
   
-  performIntentAttack(enemy, gameState.world.selectedSlotIndex, {multiplier: enemy.attackState.result.dmgMultiplier});
-
+  if (gameState.combat.flags.isCritical) {
+    performEnemyFinisherAttack(enemy, gameState.world.selectedSlotIndex);
+  } else {
+    enemy.attackState.result = executeEnemyIntent(enemy);
+    //console.error(`enemy state dmg multiplier`, enemy.attackState.result.dmgMultiplier);
+    performIntentAttack(enemy, gameState.world.selectedSlotIndex, {multiplier: enemy.attackState.result.dmgMultiplier});
+  }
+  
   //blockButton.classList.add(`timed`);
 
   if(!gameState.combat.flags.isCritical) {
@@ -1146,7 +1760,7 @@ function executeTimedBlock() {
 
 function activateTimedBlock() {
   //if (!canPerformAction()) return;
-  //console.error(`enter activate timed block`);
+  //console.error(`enter activate timed block`, gameState.combat.playerBlock.cooldownUntil > getGameTime());
   
   const player = gameState.char;
 
@@ -1154,9 +1768,11 @@ function activateTimedBlock() {
   
   const now = getGameTime();
   
-  if (playerBlock.cooldownUntil > now) return;
+  if(!gameState.combat.flags.isCritical) {
+    if (playerBlock.cooldownUntil > now) return;
+  }
   
-  //console.error(`timed block activated`);
+ // console.error(`timed block activated`);
   
   //const blockButton = document.getElementById("attack-left");
 
@@ -1186,7 +1802,7 @@ function activateTimedBlock() {
     lockActions({ duration: 230, reason: "block", allow: [] });
   }*/
   
- // console.error("Blok Taktyczny AKTYWNY");
+  //console.error("Blok Taktyczny AKTYWNY");
 }
 
 
@@ -1222,6 +1838,72 @@ function resolveTimedBlock(damage, player, enemy) {
       expeditionLevelStats.perfectBlock++;
       expeditionRunStats.perfectBlock++;
     }
+    
+    if(gameState.char.combatAffixes[`perfect_block_restore_hp`]) {
+      const restoredHpValue = gameState.char.combatAffixes[`perfect_block_restore_hp`].value;
+      healPlayer(restoredHpValue);
+    }
+    
+    if(gameState.char.combatAffixes[`perfect_block_gain_def`]) {
+      const gainedDef = gameState.char.combatAffixes[`perfect_block_gain_def`].value;
+      gameState.combat.perfectBlockBonus.defBonus.expiresAt = now + 5000;
+      //console.error(`perfect_block_gain_def`, gainedDef);
+      gameState.combat.perfectBlockBonus.defBonus.isActive = true;
+      //gameState.combat.activeBonus.def += gainedDef;
+      //showBuff(`def`, gameState.combat.activeBonus.def);
+      gameState.combat.activeBonus.defSources.perfectBlock = gainedDef;
+      recalculateDefenseBonus();
+    }
+    
+    if(gameState.char.combatAffixes[`perfect_block_grant_stamina`]) {
+      const gainedStamina = gameState.char.combatAffixes[`perfect_block_grant_stamina`].value;
+      gainStamina(gainedStamina);
+      //showReward(`+${gainedStamina.toFixed(0)} ${t("stamina_on_kill_reward")}`, 2100);
+      showStaminaPopup(gainedStamina);
+    }
+
+    if(gameState.char.combatAffixes[`perfect_block_missing_hp`]) {
+      const value = gameState.char.combatAffixes[`perfect_block_missing_hp`].value;
+      healPlayer(value, true);
+    }
+ 
+    if(gameState.char.combatAffixes[`perfect_block_atkspd`] && !gameState.combat.perfectBlockBonus.atkSpdBonus.isActive) { 
+      gameState.combat.perfectBlockBonus.atkSpdBonus.expiresAt = getGameTime() + 4000;
+      gameState.combat.perfectBlockBonus.atkSpdBonus.isActive = true;
+      const atkSpdBonus = gameState.char.combatAffixes[`perfect_block_atkspd`].value;
+      gameState.combat.activeBonus.atkSpd += atkSpdBonus;
+      
+      updateStatusPlayerUI(enemy);
+    }
+    
+    if(gameState.char.combatAffixes[`perfect_block_armor_break`]) {
+      const value = gameState.char.combatAffixes[`perfect_block_armor_break`].value;
+      const armorBreakValue = value / 100;
+      
+      let powerBonus = 1;
+      if(gameState.char.combatAffixes[`armor_break_effect`]) {
+        powerBonus = 1 + (gameState.char.combatAffixes[`armor_break_effect`].value / 100);
+      }
+ 
+      applyArmorBreak(enemy, armorBreakValue, 4);
+      //showReward(`${t("break_defense_reward")} -${((armorBreakValue * powerBonus) * 100).toFixed(0)}%`);
+    }
+
+    if(gameState.char.combatAffixes[`perfect_block_bleed`]) {
+      const value = gameState.char.combatAffixes[`perfect_block_bleed`].value;
+      const bleedValue = value / 100;
+      applyBleed(enemy, bleedValue, 3);
+    }
+
+    if(gameState.char.combatAffixes[`perfect_block_remove_energy_fatigue_stack`]) {
+      if(gameState.combat.stats.energyFatigueStack > 0) {      
+       // console.error(`remove energy fatique stack`);
+        gameState.combat.stats.energyFatigueStack--;
+        showReward(`-1 ${t("remove_fatique_stack")}`);
+      } 
+    }
+
+    
     
     const eq = gameState.char?.equipment || {};
     const weapon = eq[`weapon`];
@@ -1314,1019 +1996,34 @@ function applyBlock(incomingDamage, player, enemy) {
   return Math.floor(reduced);
 }
 
+function showOtherNonCombatElements() {
+  const world = gameState.world;
+  const progressBar = document.getElementById("progress-container");
+  const arrows = document.querySelector(".arrows-center");
+  const questBtn = document.getElementById("quest-button");
+  const storeBtn = document.getElementById("store-button");
+  
+  progressBar.style.opacity = `1`;
+  arrows.style.opacity =`1`;
+  if(world.mode === `story`) {
+    questBtn.style.opacity = `1`;
+  } else {
+    storeBtn.style.opacity = `1`;
+  }
+}
+
 function exitCombat() {
   const char = gameState.char;
-
+  
   char.inCombat = false;
   char.lastRegenTs = Date.now();
   char.regenAllowedAt = Date.now() + 3000;
   gameState.resources.staminaState.inCombat = false;
-}
-
-function dealDamageToEnemy(enemy, damage, isCrit = false, critMultiplier = 2, source = `game`) {
-  const world = gameState.world;
-
-  if (!world.inCombat) return;
   
-  if(enemy.isGuarding) {
-    damage *= 0.55;
-  }
-  
-  enemy.currentHp -= damage;
-  enemy.currentHp = Math.max(0, enemy.currentHp);
-  
-  if(source === `game`) {
-    showEnemyDamage({
-      damage: damage,
-      isCrit: isCrit,
-      multiplier: critMultiplier
-    });
-  }
-  
-  if(enemy.name === "Strażnik Runicznego Kamienia" && enemy.currentHp <= 2000) {
-    exitCombat();
-    hideFleeButton();
-    winCombat();
-    stopEnemyAttack(world.selectedSlotIndex);
-  }
-  
-  if (enemy.currentHp <= 0) {
-    //  console.error(`enemy.currentHp <= 0 in useSkill`);
-      enemy.currentHp = 0;
-      clearBleed(enemy);
-      exitCombat();
-      hideFleeButton();
-      winCombat();
-      stopEnemyAttack(world.selectedSlotIndex); // linia czasu wroga – STOP
-  } 
-  
-  //console.error(`deal damage before update enemy hp`, damage);
-  updateEnemyHealthBar(enemy, world.selectedSlotIndex);
-}
-
-function performAttack(
-  attacker,
-  defender,
-  {
-    isDefShield = false,
-    isSkillAttack = false,
-    baseMultiplier = 1,
-    canCrit = true,
-    ignoreArmor = false,
-    source = "game"
-  } = {}
-)
-{
-  
-  const eq = gameState.char?.equipment || {};
-  const weapon = eq[`weapon`];
-  
-  const expeditionLevelStats = gameState.expedition.modes[gameState.world.expeditionMode].level;
-  const expeditionRunStats = gameState.expedition.modes[gameState.world.expeditionMode].run;
-
-  //console.log(`base dmg`, attacker.dmg);
-  //console.log(`performAttack defender`, defender.name);
-
-  const rawDmg = 2;
-  
-  let weaponDamage = attacker.baseDamage.weapon + rawDmg;
-  
-  weaponDamage *= baseMultiplier ?? 1;
-  
-  //console.error(`weaponDamage`, weaponDamage);
-
-  const baseDamage = weaponDamage + 
-                     attacker.baseDamage.stats +
-                     attacker.baseDamage.flat +
-                     attacker.baseDamage.implicit;
-  
-  let totalMultiplier = 1;
-  
-  if (currentBuff?.dmg) {
-    totalMultiplier *= currentBuff.dmg
-    //baseDamage *= currentBuff.dmg;
-  }
-  
-  //console.error(`baseDamage`, baseDamage);
-  
-  //let baseDmg = rollDamage(attacker.dmg);
-  let baseDmg = rollDamage(baseDamage);
-  //let baseDmg = baseDamage;
-  
-  //console.log(`base dmg after roll`, baseDmg);
-  
-  //baseDmg *= baseMultiplier ?? 1;
-  //console.log(`base dmg after skill multiplier`, baseDmg, baseMultiplier);
-  
-  const { damage, isCrit, critMultiplier } =
-    applyCritDamage(baseDmg, attacker, isDefShield);
-  //console.log(`dmg with crit`, damage, isCrit);
-  
-  let dmgWithElemental = damage + (attacker.elementalDmg || 0);
-  //console.error(`dmg with elemental`, dmgWithElemental);
-  
-  if(defender.status.stunned) {
-    dmgWithElemental *= (1 + defender.status.multiplier);
-    defender.status.stunned = false;
-    defender.status.multiplier = 0;
-    //console.error(`dmg with elemental after stunned`, dmgWithElemental);
-  }
-  
-  if(gameState.combat.stats.nextHitMultiplier && !isSkillAttack) {
-    dmgWithElemental *= gameState.combat.stats.nextHitMultiplier;
-    gameState.combat.stats.nextHitMultiplier = 0;
-    
-    if (weapon?.baseName === `Długi Miecz`) {
-      setLongswordBuffUI(false);
-      showReward(`${t("block_reward")} x1.2`);
-    }else { 
-      showReward(`${t("combo_reward")} x1.5`);
-      triggerRingFull();
-      triggerRingBurst();
-      setTimeout(() => {
-        resetGuardRing();
-      }, 300);
-    }
-  }
-  
-  if(gameState.combat.activeRingMode === `mace` && gameState.combat.stats.combo === 2 && !isSkillAttack) {
-    gameState.combat.stats.combo = 0;
-    defender.attackState.remaining += 500;
-    
-    if(defender.isGuarding) {
-      defender.attackState.remaining += 250;
-    } else {
-      defender.attackState.remaining += 500;
-    }
-    
-    showReward(`${t("pushback_reward")}`);
-    
-    triggerRingFull();
-    triggerRingBurst();
-    setTimeout(() => {
-        resetGuardRing();
-    }, 300);
-  }
-  
-   if(defender.vulnerable){
-    dmgWithElemental *= 1.25;
-  }
-  
-  let finalDamage =
-    calculateReducedPlayerDamage(dmgWithElemental, attacker, defender);
-  //console.log(`finalDamage after reduced by armor`, finalDamage);
-  
-  //console.error(`hpPct`, combatState.currentHp / combatState.maxHp);
-  //console.error(`applyHpToDmgBonus `, attacker.hpToDmg.threshold, attacker.hpToDmg.maxBonus, applyHpToDmgBonus(attacker.hpToDmg.threshold, attacker.hpToDmg.maxBonus));
- 
-  if (isDefShield) {
-    finalDamage = applyDefensivePenaltyDmgReduction(attacker, finalDamage);
-  }
-  
-  //finalDamage *= applyHpToDmgBonus(attacker.hpToDmg?.threshold, attacker.hpToDmg?.maxBonus);
-  
-  const hpBonus = applyHpToDmgBonus(attacker.hpToDmg?.threshold, attacker.hpToDmg?.maxBonus);
-  if (hpBonus) totalMultiplier *= hpBonus;
-  
-  //console.error(`perfom attack finalDamage penalty`, finalDamage);
-  
-  if(gameState.char.bonus.perfectDmgBonus && gameState.combat.flags.isPerfectDmgBonus) {
-    const bonus = gameState.char.bonus.perfectDmgBonus / 100;
-    //finalDamage *= 1 + bonus;
-    totalMultiplier *= 1 + bonus;
-    gameState.combat.flags.isPerfectDmgBonus = false;
-    showReward(`+${(bonus * 100).toFixed(0)}% ${t("perfect_riposte_reward")}`);
-  }
-  
-  if(gameState.combat.perfectChainStacks) {
-    const bonus = gameState.char.bonus.perfectChainBonus / 100;
-    //finalDamage *= 1 + (bonus * gameState.combat.perfectChainStacks);
-    totalMultiplier *= 1 + (bonus * gameState.combat.perfectChainStacks);
-
-    //console.error(`finalDamage after chain stack`, finalDamage, gameState.combat.perfectChainStacks);
-    gameState.combat.perfectChainStacks = 0;
-  }
-  
-  finalDamage *= totalMultiplier;
-  
-  //console.error(`finalDamage after totalMultiplier `, finalDamage);
-  
-  // console.error(`finalDamage before guard attack`, finalDamage);
-    
-  if(source === `game`) {
-    finalDamage = consumeGuardStacksOnAttack(finalDamage);
-  }
-  
-  expeditionLevelStats.damageDealt += finalDamage;
-  expeditionRunStats.damage += finalDamage;
- 
-  //console.error(`finalDamage after guard attack`, finalDamage);
-  
- // console.error(`isCrit`, isCrit);
-  //console.error(`perfom attack finalDamage 2`, finalDamage);
-
-  dealDamageToEnemy(defender, finalDamage, isCrit, critMultiplier, source);
-
-  gameState.combat.criticalLastStand = null;
-  
-  // life on hit
-  if (attacker.lifeOnHit) {
-    attacker.hp = Math.min(
-      attacker.maxHp,
-      attacker.hp + Math.round(attacker.lifeOnHit)
-    );
-    
-    updatePlayerHp(attacker.hp);
-  }
-
-  if(source === `sim`) {
-    console.error(`perfom attack finalDamage 3`, finalDamage);
-
-    console.error(`perfom attack return`, source);
-    return {
-      damage: finalDamage,
-      isCrit
-    };
-  }
-  
-}
-
-function attack(isDefShield = false) {
-  const world = gameState.world;
-
-  const player = getPlayerStats();
-  const enemy = world.exploreOptions[world.selectedSlotIndex].enemyData;
-
-  performAttack(
-    player,
-    enemy,
-    {
-      isDefShield: isDefShield,
-      source: "game"
-    }
-  );
-  
-  const eq = gameState.char?.equipment || {};
-  const weapon = eq[`weapon`];
-  
-  //if (weapon?.baseName === `Młot`) hammerOnHit(enemy, player); 
-  //if (weapon?.baseName === `Topór`) axeOnHit(enemy, player); 
-  if (enemy.currentHp > 0) {
-    onWeaponHit(enemy, player, weapon?.baseName);
-  }
-  
-  if(!guardStacks && !gameState.combat.playerBlock.active && gameState.combat.activeRingMode !== `poise`) {
-    //gameState.combat.activeRingMode = ``;
-  }
-  
-  playEnemyHitAnimation(enemy, world.selectedSlotIndex);
-    
-  // pokaż flee po pierwszym ataku
-  if (!fleeIsSet) setupFleeButton();
-  showFleeButton();
-  
-  //renderStats();
-
-  //const currentPlayerHp = getPlayerStats().hp;
-  const currentPlayerHp = gameState.char.hp;
-  
-  if (currentPlayerHp <= 0 && !gameState.combat.flags.isCritical) {
-    enterCriticalState();
-  }  
-  
-  lockActions({ duration: 300, reason: "attack", allow: [`block`] });
-  console.timeEnd("attack");
-}
-
-function showReward(text, duration = 1600) {
-  const container = document.getElementById("combat-rewards");
-
-  // limit: max 2 rewardy
-  if (container.children.length >= 3) {
-    container.removeChild(container.firstChild);
-  }
-
-  const reward = document.createElement("div");
-  reward.className = "combat-reward";
-  reward.textContent = text;
-
-  container.appendChild(reward);
-
-  // auto cleanup
-  setTimeout(() => {
-    reward.remove();
-  }, duration);
-}
-
-function showOutcome(type, text, duration = 1700) {
-  const el = document.getElementById("combat-outcome");
-
-  //onBlockOutcome(type);
-  el.className = `combat-msg outcome ${type}`;
-  el.querySelector(".main").innerHTML = text;
-
-  el.classList.add("show");
-
-  setTimeout(() => {
-    el.classList.remove("show");
-  }, duration);
-}
-
-function showEnemyOutcome(type, text, duration = 1700) {
-  const el = document.getElementById("enemy-combat-outcome");
-
-  //onBlockOutcome(type);
-  el.className = `combat-msg enemy-feedback outcome ${type}`;
-  el.querySelector(".main").textContent = text;
-
-  el.classList.add("show");
-
-  setTimeout(() => {
-    el.classList.remove("show");
-  }, duration);
+  hidePlayerAvatar();
+  vsSymbolAnimationHide();
 }
 
 
-function showEnemyDamage({ damage, isCrit, multiplier, isBleed = false }) {
-  const container = document.getElementById(`enemy-damage-float-container-${gameState.world.selectedSlotIndex}`);
 
-  const el = document.createElement("div");
-  el.classList.add("damage-float");
-
-  if(isBleed) {
-    el.classList.add("crit");
-  }
-  
-  if (isCrit) {
-    showOutcome("miss", `${t("crit_outcome")}`);
-    showReward(`${damage} x${multiplier.toFixed(1)}`, 2300);
- 
-    el.classList.add("crit");
-    el.textContent = `-${damage.toFixed(0)} x${multiplier.toFixed(1)}`;
-  } else {
-    el.textContent = `-${damage.toFixed(0)}`;
-  }
-
-  if(container) container.appendChild(el);
-
-  // animacja + cleanup
-  setTimeout(() => el.remove(), 1500);
-}
-
-/*function turnOffShieldMode() {
-  const blockButton = document.getElementById("attack-left");
-  //const blockButton = document.getElementById("attack-left").querySelector(".attack-button");
-  let playerBlock = gameState.combat.playerBlock;
-  
-  if (playerBlock.active) {
-    if (playerBlock.mode === "defensive") {
-      deactivateDefensiveStance();
-      //blockButton.classList.remove(`active`);
-      blockButton.classList.remove(`turtle`);
-      blockButton.classList.add(`cooldown`);
-    }
-    //return;
-  }
-
-}*/
-
-function turnOffShieldMode() {
-  const blockButton = document.getElementById("attack-left");
-  const playerBlock = gameState.combat.playerBlock;
-
-  // stan logiczny
-  playerBlock.active = false;
-  playerBlock.mode = null;
-  playerBlock.cooldownUntil = 0;
-
-  // UI
-  blockButton.classList.remove("turtle");
-  blockButton.classList.remove("cooldown");
-  blockButton.classList.remove("disabled");
-
-  gameState.combat.flags.isBlocked = false;
-  
-  const overlay = blockButton.querySelector(".block-cooldown-overlay");
-  if (overlay) {
-    overlay.style.transform = `scaleY(0)`;
-  }
-  
-  if (blockDrainInterval) {
-    clearInterval(blockDrainInterval);
-    blockDrainInterval = null;
-  }
-}
-
-function getDebuffPercentHp() {
-  const combat = gameState.combat;
-
-  const debuffedMaxHp = combat.stats.maxHp;
-  const currentHp = combat.stats.currentHp;
-  combat.stats.hpPercent = debuffedMaxHp > 0 ? currentHp / debuffedMaxHp : 1;
-  
-  //console.error(`combatState.hpPercent in get percent`, combat.stats.hpPercent);
-}
-
-function getHpPercentFromChar() {
-  const char = gameState.char;
-
-  return char.maxHp > 0
-    ? char.hp / char.maxHp
-    : 1;
-}
-
-function applyPercentToChar(percent) {
-  const char = gameState.char;
-
-  char.hp = Math.round(char.maxHp * percent);
-  
-  if (char.hp > char.maxHp) {
-    char.hp = char.maxHp;
-  }
-
-}
-
-function setDebuffPercentHp() {
-  const char = gameState.char;
-
-  char.hp = Math.round(char.maxHp * gameState.combat.stats.hpPercent);
-  
-  if (char.hp > char.maxHp) {
-    char.hp = char.maxHp;
-  }
-  
-  renderStats();
-}
-
-function finishCombatWithDebuff() {
-  const charBefore = gameState.char;
-
-  const hpPercent = charBefore.maxHp > 0
-    ? charBefore.hp / charBefore.maxHp
-    : 1;
-
-  // 2️⃣ Wyłącz debuff
-  gameState.combat.flags.isDebuff = false;
-  
-  // 3️⃣ Przelicz staty bez debuffa (maxHp wróci do normalnego)
-  renderStats();
-
-  // 4️⃣ Pobierz nowy stan po przeliczeniu
-  let charAfter = gameState.char;
-
-  // 5️⃣ Skaluj HP procentowo
-  charAfter.hp = Math.round(charAfter.maxHp * hpPercent);
-
-  if (charAfter.hp > charAfter.maxHp) {
-    charAfter.hp = charAfter.maxHp;
-  }
-
-  if (charAfter.hp < 0) {
-    charAfter.hp = 0;
-  }
-
- }
-
-function winCombat() {
-  //const expGained = 10 + Math.floor(Math.random() * 10);
-  //let combatState = gameState.combat;
-  const combat = gameState.combat;
-  const world = gameState.world;
-  const expeditionRunStats = gameState.expedition.modes[world.expeditionMode].run;
-  const expeditionLevelStats = gameState.expedition.modes[world.expeditionMode].level;
-  const quests = Object.values(QUEST_DATA);
-  const enemy = world.exploreOptions[world.selectedSlotIndex].enemyData;
-  const expGained = getExpForEnemy(enemy);
-  const prefix = addExp(expGained);
-  const message = 
-     (prefix ? prefix + "\n" : "") +  // jeśli coś zwróciło, to dodajemy + nowa linia
-     `Pokonałeś ${enemy.name} (Poziom ${enemy.level})!\n Zdobywasz ${expGained} EXP.`;
-  
-  const bar = document.getElementById("poise-mode");
-  bar.classList.add("hidden");
-  
-  showOutcome("perfect", `${t("won_outcome")}`);
-  showReward(`${expGained} EXP`, 2000);
-  
-  world.exploreOptions[world.selectedSlotIndex].used = true;
-  world.inCombat = false;
-  
-  if(world.mode === `expedition`) {
-    expeditionRunStats.kills++;
-    expeditionLevelStats.kills++;
-    
-    if(world.expeditionMode === `endless`) {
-      expeditionRunStats.impulses += 3;
-      showReward(`+${3} Impulsy`, 2000);
-    }
-  }
-    
-  if(enemy.type === "elite" && world.mode === `story`) {
-    //console.log(`quest enemy deafeted`, enemy.type);
-    const questData = QUEST_DATA[enemy.questId];
-    if(!questData.requiredItem) {
-      const quest = world.battleState.quests?.[enemy.questId];
-      quest.enemyPassed = true;
-      quest.objective = questData.objectiveAfterEvent;
-      quest.questNotifications = true;
-      notifyQuestUpdate(enemy.questId);
-    }
-  }
-  
-  const matchingQuest = quests.find(quest => 
-      quest?.objectiveTarget === enemy.name
-    );
-      
-  if(matchingQuest && world.mode === `story`) {
-    const quest = world.battleState.quests?.[matchingQuest.id];
-    
-    if (quest.targetCount >= matchingQuest.targetCount) {
-      //return; 
-      //console.log(`nothing is counting`);
-    }else {
-      quest.targetCount++;
-      quest.objective = `${matchingQuest.objective} (${quest.targetCount}/${matchingQuest.targetCount})`;
-      //console.error(`targetCount`, quest.targetCount);
-      //console.error(`matchingQuest.state1`, quest.state);
-      quest.questNotifications = true;
-      notifyQuestUpdate(matchingQuest.id);
-      updateQuestShortInfo();
-    }
-      
-    if(quest.targetCount == matchingQuest.targetCount && quest.state === `active`) {
-     // console.log(`objective after event in target counter`);
-      //console.error(`matchingQuest.state2`, quest.state);
-      quest.objective = matchingQuest.objectiveAfterEvent;
-      quest.questNotifications = true;
-      
-      notifyQuestUpdate(matchingQuest.id);
-    }
-    
-  }
-  
-  if(enemy.type === `mini_boss`) {
-    const nextBtn = document.getElementById("next-btn");
-    nextBtn.classList.remove(`hidden`);
-    //nextBtn.classList.add(`hidden`);
-    world.bossDefeatedState.isBossDefeated = true;
-    
-    //showEndStoryPopup();
-    
-    nextBtn.onclick = (e) => { 
-        e.stopPropagation(); 
-        showEndStoryPopup();
-        /*showCustomConfirm(
-          `${t("next_location")}`,
-          () => { goToNextLevel(); },
-          () => { }
-        );*/
-      };
-    
-  }
-  
-  //console.log("currentStepIndex winCombat", currentStepIndex);
-  setMenuDisabled(false);
-  
-  turnOffShieldMode();
-  
-  handleDeathDebuffAfterFight();
-  
-  clearBleed(enemy);
-  
-  guardStacks = 0;
-  updateGuardUI(0);
-  
-  enemy.poise = 100;
-  
-  resetArmorBreak(enemy);
-  
-  resetSpear(enemy);
-  resetSpearUI();  
-  stopSpearControlUI();
-  //delete enemy.spear;
-  
-  resetBleed(enemy);
-  
-  stopBleedTimingUI();
-  
-  gameState.combat.bleedTimingActive = false;
-  
-  combat.stats.combo = 0;
-  combat.stats.nextHitMultiplier = 0;
-  combat.stats.nextHitPenetration = 0;
-  
-  gameState.combat.activeRingMode = ``;
-  
-  resetGuardRing();
-  
-  resetEnemyAI(enemy);
-  
-  if(combat.flags.isDebuff && combat.stats.energyFatigueStack < 5) combat.stats.energyFatigueStack++;
-   
-  //combatState.isDebuff = false;
-  finishCombatWithDebuff();
-  combat.flags.previewStats = false;
-  
-  world.locationSteps[world.currentStepIndex].exploreOptions = world.exploreOptions; // ZAPISZ STAN KROKU
-  unlockActions();
-  showNavigateButtons();
-  if (world.bossDefeatedState.isBossDefeated) {
-    hideGoBackButton();
-  }
-  
-  unlockCombatScroll();
-  
-  if ((gameState.world.mode ===`sandbox` || gameState.world.mode ===`adventure`) && world.currentStepIndex !== 0) {
-    //navigate(`battle`);
-   // console.warn(`after battle store button`);
-    document.getElementById(`store-button`).classList.add('disabled');
-    //saveGame();
-    //return;
-  }
-  
-  //enemy.isDead = true;
-  enemy.beforeDeath = true;
-  
-  renderOptions();
-  addLootToStep(enemy, world.currentStepIndex, message);
-  renderLoots(world.selectedSlotIndex);
-
-  world.selectedSlotIndex = null;
-  
-  renderStats();
-  //setDebuffPercentHp();
-  saveGame();
-  
-}
-
-function loseCombat() {
-  const world = gameState.world;
-  const combat = gameState.combat;
-
-  const enemy = world.exploreOptions[world.selectedSlotIndex].enemyData;
-    
-  const newHp = 1;
-  updatePlayerHp(newHp);
-    
-  const bar = document.getElementById("poise-mode");
-  bar.classList.add("hidden");
-  
-  world.inCombat = false;
-  
-  //registerEnemyForRegen(enemy);
-  markEnemyForRegen(enemy);
-  
-  clearBleed(enemy);
-  
-  isExploring = true;
-  startEnemyUiRegenTick();
-  
-  syncStepEnemies(world.currentStepIndex);
-
-  turnOffShieldMode(); 
-  
-  guardStacks = 0;
-  updateGuardUI(0);
-  
-  handleDeathDebuffAfterFight();
-  
-  if(combat.flags.isDebuff && combat.stats.energyFatigueStack < 5) combat.stats.energyFatigueStack++;
-  
-  //combatState.isDebuff = false;
-  finishCombatWithDebuff();
-  combat.flags.previewStats = false;
-  
-  enemy.poise = 100;
-  
-  resetArmorBreak(enemy);
-
-  resetSpear(enemy);
-  resetSpearUI();
-  stopSpearControlUI();
-  //delete enemy.spear;
-  
-  resetBleed(enemy);
-  
-  stopBleedTimingUI();
-  
-  gameState.combat.bleedTimingActive = false;
-  
-  combat.stats.combo = 0;
-  combat.stats.nextHitMultiplier = 0;
-  combat.stats.nextHitPenetration = 0;
-  
-  gameState.combat.activeRingMode = ``;
-  
-  resetGuardRing();
-  
-  resetEnemyAI(enemy);
-  
-  setMenuDisabled(false);
-  world.exploreOptions[world.selectedSlotIndex].isAttacked = false;
-  
-  world.selectedSlotIndex = null;
-  
-  unlockActions();
-  showNavigateButtons();
-  //renderOptions();
-  
-  renderLoots(world.selectedSlotIndex);
-  
-  //setDebuffPercentHp();
-  
-  unlockCombatScroll();
-  
-  saveGame();
-  
-}
-
-function calculateGoldLossOnFlee(player) {
-  const hpPercent = player.hp / player.maxHp;
-  //console.log("maxHp", player.maxHp);
-  
- // console.log("hpPercent", hpPercent);
-  
-  // kara liniowo od 20% (przy pełnym HP) do 5% (przy 1% HP)
-  const maxPenalty = 0.20; // 20%
-  const minPenalty = 0.05; // 5%
-
-  let penalty = minPenalty + (maxPenalty - minPenalty) * hpPercent;
-  
-  //penalty -= player.agi * 0.0005; // mniejszy koszt ucieczki
-  
-  penalty *= (1 - player.agi * 0.001);
-  
-  return penalty;
-}
-
-function calculateFleeChance(player, enemy){
-  // Jeśli masz atrybuty szybkości – podepnij tu; na razie użyjemy różnicy poziomów
-  const lvlDiff = (player.level || 1) - (enemy.level || 1);
-
-  let chance = FLEE_CFG.BASE_CHANCE;
-  if (lvlDiff > 0) chance += lvlDiff * FLEE_CFG.LVL_DIFF_BONUS;
-  if (lvlDiff < 0) chance += Math.abs(lvlDiff) * (-FLEE_CFG.LVL_DIFF_PENALTY);
-
-   // 🔥 PITY SYSTEM
-  chance += gameState.combat.fleeFailStreak * FLEE_CFG.PITY_BONUS;
-  
-  chance += player.agi * 0.002; // 0.2% za punkt
-  
-  return clamp(chance, FLEE_CFG.MIN_CHANCE, FLEE_CFG.MAX_CHANCE);
-}
-
-async function attemptFlee() {
-  const world = gameState.world;
-  const combat = gameState.combat;
-
-  if (!world.inCombat || world.selectedSlotIndex === null) return;
-
-  const player = getPlayerStats();
-  const enemy = world.exploreOptions[world.selectedSlotIndex].enemyData;
-
-  // Szansa
-  const chance = calculateFleeChance(player, enemy);
-  const roll = Math.random();
-
-  if (roll <= chance) {
-    combat.fleeFailStreak = 0;
-    await onFleeSuccess(player, enemy, world.selectedSlotIndex);
-  } else {
-    combat.fleeFailStreak++;
-    await onFleeFail(player, enemy, world.selectedSlotIndex);
-  }
-}
-
-async function onFleeSuccess(player, enemy, slotIndex, msg = false){
-  // Koszt: złoto
-  const world = gameState.world;
-  const combat = gameState.combat;
-  const penaltyPercent = calculateGoldLossOnFlee(player);
-  //console.log("penaultyGold", penaltyPercent);
-  let gold = parseInt(gameState.resources.gold, 10);
-  const loss = Math.floor(gold * penaltyPercent);
-  gold = Math.max(0, gold - loss);
-  
-  gameState.resources.gold = gold;
-  
-  // Zmęczenie – blok skilli na X sekund
-  const until = nowDateMs() + FLEE_CFG.FATIGUE_SEC * 1000;
-  setPlayerFlag("fleeFatigueUntil", until);
-
-  const bar = document.getElementById("poise-mode");
-  bar.classList.add("hidden");
-  
-  updateSkillButtonsFatigueState();
-  
-  // Zatrzymaj “czas” wroga i pasek (twardy stop)
-  stopEnemyAttack(slotIndex);
-
-  // Wróg chwilę „poza walką” (opcjonalna blokada re-engage)
-  enemy.reengageLockedUntil = nowDateMs() + FLEE_CFG.REENGAGE_LOCK_SEC * 1000;
-
-  //registerEnemyForRegen(enemy);
-  markEnemyForRegen(enemy);
-  
-  isExploring = true;
-  startEnemyUiRegenTick();
-  
-  clearBleed(enemy);
-  
-  stopBleedTimingUI();
-  
-  guardStacks = 0;
-  updateGuardUI(0);
-  
-  enemy.poise = 100;
-  
-  resetArmorBreak(enemy);
-
-  resetSpear(enemy);
-  resetSpearUI();  
-  stopSpearControlUI();
-  //delete enemy.spear;
-  
-  resetBleed(enemy);
-  
-  gameState.combat.bleedTimingActive = false;
-  
-  combat.stats.combo = 0;
-  combat.stats.nextHitMultiplier = 0;
-  combat.stats.nextHitPenetration = 0;
-  
-  gameState.combat.activeRingMode = ``;
-  
-  resetGuardRing();
-  
-  resetEnemyAI(enemy);
-  
-  syncStepEnemies(world.currentStepIndex);
-  
-  spendEnergy(`flee`);
-  
-  turnOffShieldMode();
-  
-  if(combat.flags.isDebuff && combat.stats.energyFatigueStack < 5) combat.stats.energyFatigueStack++;
-  
-  //combatState.isDebuff = false;
-  finishCombatWithDebuff();
-  combat.flags.previewStats = false;
-  
-  hideFleeButton(); 
-  
-  exitCombat();
-  
-  // Zamknij sekwencję walki
-  world.inCombat = false;
-  world.exploreOptions[slotIndex].isAttacked = false;
-  world.selectedSlotIndex = null;
-
-  // UI
-  //showInfoAlert(`Udało Ci się uciec! -${loss} złota. Skille zablokowane na ${FLEE_CFG.FATIGUE_SEC}s.`);
-  
-  let fleeMsg = "succes_flee_info1";
-   
-  if(msg) fleeMsg = "succes_flee_info_app_kill";
-  
-  showInfoAlert(
-  `${t(fleeMsg)}<span style="color:red"> ${loss}${t("succes_flee_info2")}</span>${t("succes_flee_info3")}<span style="color:#0096FF">${t("succes_flee_info4")}</span> 
-   ${t("succes_flee_info5")}<span style="color:orange">${FLEE_CFG.FATIGUE_SEC}s</span>.`,
-  3000, true);
-
-  //lockActions({ duration: 600, reason: "flee", allow: [] });
-  
-  setMenuDisabled(false);
-  unlockActions();
-  showNavigateButtons();
-  renderLoots(world.selectedSlotIndex);
-  renderOptions();
-  unlockCombatScroll();
-  
-  if ((gameState.world.mode ===`sandbox` || gameState.world.mode ===`adventure`) && world.currentStepIndex !== 0) {
-    //navigate(`battle`);
-    //console.warn(`after battle store button`);
-    document.getElementById(`store-button`).classList.add('disabled');
-    //saveGame();
-    //return;
-  }
-  
-  renderStats();
-  
-  //setDebuffPercentHp();
-  saveGame();
-}
-
-
-async function onFleeFail(player, enemy, slotIndex){
-
-  resumeEnemyAttack(enemy, slotIndex); 
-  
-  if (!enemy.status.isStunned && !enemy.status.isSlowed) {
-
-    // 🧠 AGI – szansa na unik kontrataku
-    const avoidChance = player.agi * 0.002;
-    if (Math.random() < avoidChance) {
-      showInfoAlert(`${t("fail_flee_info")}`);
-      return;
-    }
-
-    // ❤️ HP scaling
-    const hpFactor = player.hp / player.maxHp;
-
-    // ⚡ AGI redukcja
-    const agiReduction = player.agi * 0.001;
-
-    let dmgMultiplier = 0.3 + (hpFactor * 0.4); // 30–70%
-    dmgMultiplier *= (1 - agiReduction);
-
-    dmgMultiplier = Math.max(0.2, dmgMultiplier);
-
-    //console.error(`dmgMultiplier kontratak`, dmgMultiplier);
-    
-    performEnemyAttack(enemy, slotIndex, { multiplier: dmgMultiplier });
-  }
-  
-  showInfoAlert(
-    `<span style="color:white">${t("fail_flee_counterattack_info")}</span>`
-  );
-    
-  saveGame();
-}
-
-function flee(i) {
-  const world = gameState.world;
-  const combat = gameState.combat;
-
-  const enemy = world.exploreOptions[i].enemyData;
-  
-  const bar = document.getElementById("poise-mode");
-  bar.classList.add("hidden");
-  
-  world.inCombat = false;
-  world.selectedSlotIndex = null;
-  world.exploreOptions[i].isAttacked = false;
-  setMenuDisabled(false);
-  //document.getElementById("slot-name").classList.add("hidden");
-  
-  markEnemyForRegen(enemy);
-  
-  isExploring = true;
-  startEnemyUiRegenTick();
-  
-  clearBleed(enemy);
-  
-  enemy.poise = 100;
-  
-  resetArmorBreak(enemy);
-  
-  resetSpear(enemy);
-  resetSpearUI();  
-  stopSpearControlUI();
-  //delete enemy.spear;
-  
-  resetBleed(enemy);
-  
-  gameState.combat.bleedTimingActive = false;
-  
-  stopBleedTimingUI();
-  
-  combat.stats.combo = 0;
-  combat.stats.nextHitMultiplier = 0;
-  combat.stats.nextHitPenetration = 0;
-  
-  gameState.combat.activeRingMode = ``;
-  
-  resetGuardRing();
-  
-  resetEnemyAI(enemy);
-  
-  guardStacks = 0;
-  updateGuardUI(0);
-  
-  syncStepEnemies(world.currentStepIndex);
-  
-  turnOffShieldMode();
-  
-  if(combat.flags.isDebuff && combat.stats.energyFatigueStack < 5) combat.stats.energyFatigueStack++;
-  
-  //combatState.isDebuff = false;
-  finishCombatWithDebuff();
-  combat.flags.previewStats = false;
-  
-  spendEnergy(`flee`);
-  
-  saveSkillCooldowns(combat.skills.skillCooldowns);
-  //console.log("przerywam stun z idx", i);
-  stopEnemyAttack(i);
- // hideEnemyDialog();
-  //hideEnemySlotSmooth();
-  unlockCombatScroll();
-  focusOnSlots();
-  unlockActions();
-  showNavigateButtons();
-  renderOptions();
-  renderStats();
-  //setDebuffPercentHp();
-  saveGame();
-}
 

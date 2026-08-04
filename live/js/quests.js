@@ -350,6 +350,8 @@ function openNpcDialog(npc, quest) {
   let isTyping = false; // blokada podczas pisania
    
   const typeText = async (element, text, speed = 50) => {
+    const dialogBtn = document.getElementById("dialog-btn");
+
     element.innerHTML = "";
     isTyping = true;
     let skip = false;
@@ -395,6 +397,7 @@ function openNpcDialog(npc, quest) {
       
     element.removeEventListener("click", skipHandler);
     isTyping = false;
+    dialogBtn.classList.remove(`disabled`);
   }; 
   
   //console.log("quest wejsciowe", quest.id);
@@ -625,6 +628,8 @@ function openNpcDialog(npc, quest) {
       setGlobalButtonTexture(dialogBtn);
       setGlobalButtonTexture(storeBtn);
       
+      dialogBtn.classList.add(`disabled`);
+      
       if(qs.state === `completed`) {
         dialogBtn.classList.add(`hidden`);
       }
@@ -638,6 +643,7 @@ function openNpcDialog(npc, quest) {
       
       function buttonActionHandler() {  
         if (isTyping) return; // nie klikaj w trakcie pisania
+        dialogBtn.classList.remove(`disabled`);
         buttonAction();
       }
       

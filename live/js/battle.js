@@ -76,7 +76,7 @@ function loadState() {
   
     renderStats();
     updateLocationName();
-    syncStepEnemies(world.currentStepIndex);
+   // syncStepEnemies(world.currentStepIndex);
     renderOptions();
     updateQuestNotification();
     updateQuestShortInfo();
@@ -439,18 +439,42 @@ function renderOptions() {
      // console.log("wstawiam slot to keep");
       // wstawiamy ponownie istniejący slot bez nadpisywania
       root.appendChild(slotToKeep);
+      
+      //console.log(`enter slot centering in renderOptions`, slotToKeep);
+      
+      requestAnimationFrame(() => {
+        const rect = slotToKeep.getBoundingClientRect();
+        const centerX = window.innerWidth / 2;
+        
+        //const centerY = window.innerHeight / 2;
+        //const centerY = window.scrollY + window.innerHeight / 2;
+        const dx = centerX - (rect.left + rect.width / 2);
+        //const dy = centerY - (rect.top + rect.height / 2);
+  
+        slotToKeep.style.transform = `translate(${dx + 105}px, 5%) scale(1.1)`;
+      });
+      
       return;
     }
-     
+    
+    if(world.inCombat && !world.exploreOptions[world.selectedSlotIndex]?.isAttacked) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          slotToKeep.style.transform = "translate(0px, 0px) scale(1)";
+        });
+      });  
+      //return;
+    }
+    
     const div = document.createElement("div");
     div.className = "explore-slot" +
       (opt.used ? " used" : "") +
-      (world.inCombat && i !== world.selectedSlotIndex ? " disabled faded" : "");
+      (world.inCombat && i !== world.selectedSlotIndex ? " disabled faded " : "");
     div.dataset.index = i;
 
     div.onclick = () => slotClicked(i);
     
-    // Renderuj przeciwnika
+     // Renderuj przeciwnika
     if ((opt.type === "enemy" || opt.type === `story_enemy`) && opt.enemyData) {
       
      // console.log(`enemy type in renderOptions`, opt.enemyData.type);
@@ -505,6 +529,12 @@ function renderOptions() {
         deathAnimation(img); 
       }
       
+      /*let enemyHp = opt.enemyData.currentHp;
+
+      if(areAllEnemiesDefeated(step)) enemyHp = 0;
+      
+      console.log(`enemyHp`, enemyHp);*/
+      
        // Pasek życia
       const healthPercent = (opt.enemyData.currentHp / opt.enemyData.maxHp) * 100;
       const healthBar = document.createElement("div");
@@ -532,27 +562,19 @@ function renderOptions() {
         <div class="enemy-cooldown-fill" id="enemy-cooldown-fill-${i}" ></div>
       `;
       
-      const bleedContainer = document.createElement("div");
-      bleedContainer.id = `enemy-status-container-${i}`;
-      bleedContainer.className = "enemy-status-container";
-      div.appendChild(bleedContainer);
+      const statusContainer = document.createElement("div");
+      statusContainer.id = `enemy-status-container-${i}`;
+      statusContainer.className = "enemy-status-container";
+      div.appendChild(statusContainer);
  
+      const windupBar = document.createElement("div");
+      windupBar.id = `enemy-windup-bar-${i}`;
+      windupBar.className = `enemy-windup-bar`;
+      windupBar.innerHTML = `
+        <div class="windup-fill" id="enemy-windup-fill-${i}" ></div>
+      `;
       
-      /*const bleedEnemy = opt.enemyData.bleed;
-      if(bleedEnemy.duration) {
-        const enemyStatus = document.createElement("div");
-        enemyStatus.className = `enemy-status`;
-        const bleedIcon = document.createElement("img");
-        bleedIcon.src = `${ASSET_BASE}img/icons/bleed.png`;
-        bleedIcon.alt = `Bleed`;
-        const stacks = document.createElement("span");
-        stacks.className = `stacks`;
-        stacks.textContent = bleedEnemy.stacks;
-        
-        enemyStatus.appendChild(bleedIcon);
-        enemyStatus.appendChild(stacks);
-        div.appendChild(enemyStatus);
-      }*/   
+      div.appendChild(windupBar);
       
       //console.log("render healthPercent", i, healthPercent);
         
@@ -783,11 +805,11 @@ function renderOptions() {
       
       div.appendChild(damageFloatContainer);
       
-      const bleedContainer = document.createElement("div");
-      bleedContainer.id = `enemy-status-container-${i}`;
-      bleedContainer.className = "enemy-status-container";
+      const statusContainer = document.createElement("div");
+      statusContainer.id = `enemy-status-container-${i}`;
+      statusContainer.className = "enemy-status-container";
       
-      div.appendChild(bleedContainer);
+      div.appendChild(statusContainer);
       
       const cooldownBar = document.createElement("div");
       cooldownBar.className = "enemy-cooldown-bar";
@@ -832,11 +854,11 @@ function renderOptions() {
       
       div.appendChild(damageFloatContainer);
       
-      const bleedContainer = document.createElement("div");
-      bleedContainer.id = `enemy-status-container-${i}`;
-      bleedContainer.className = "enemy-status-container";
+      const statusContainer = document.createElement("div");
+      statusContainer.id = `enemy-status-container-${i}`;
+      statusContainer.className = "enemy-status-container";
   
-    div.appendChild(bleedContainer);
+      div.appendChild(statusContainer);
       
       const cooldownBar = document.createElement("div");
       cooldownBar.className = "enemy-cooldown-bar";
@@ -1219,6 +1241,9 @@ function focusOnDialogBox(){
 
 function focusOnAttackDialogBox(){
   document.getElementById("attack-dialog-box").scrollIntoView({ behavior: "smooth" });
+  //console.log(`focus on dlg`);
+  //const container = document.getElementById("attack-dialog-box");
+  //smoothScrollToElement(container);
 }
 
 function showLootBtn() {
@@ -1228,6 +1253,64 @@ function showLootBtn() {
 function hideLootBtn() {
   document.getElementById("loot-btn").classList.add("hidden");
 }
+
+function smoothScrollToElement(element, duration = 1000) {
+  const container = document.getElementById("battle-view");
+  console.log(`focus on dlg`);
+   
+  const start = window.scrollY;
+  const target =
+    element.getBoundingClientRect().top + window.scrollY;
+
+  const distance = target - start;
+  const startTime = performance.now();
+
+  function animate(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // easeInOut
+    const eased =
+      progress < 0.5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    window.scrollTo(
+      0,
+      start + distance * eased
+    );
+   
+    console.log(`focus on dlg`, start, progress, distance);
+
+    console.log(`scrollTop`, document.getElementById("battle-view").scrollTop);
+    
+    console.log(`scrollHeight vs clientHeight`,
+      document.getElementById("battle-view").scrollHeight,
+      document.getElementById("battle-view").clientHeight
+    );
+    
+   /* document.querySelectorAll("*")
+  .forEach(el => {
+    if (el.scrollHeight > el.clientHeight) {
+      console.log(el);
+    }
+  });*/
+    
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+/*function focusOnAttackDialogBox() {
+  const el = document.getElementById("attack-dialog-box");
+
+  if (!el) return;
+
+  smoothScrollToElement(el, 1500); // 1.5 sekundy
+}*/
 
 function focusOnSlots(){
   const target = document.getElementById("explore-options");

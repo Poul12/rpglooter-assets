@@ -143,10 +143,37 @@ function spawnSingleEffect(type, targetEl, config = {}) {
   }, duration);
 }
 
+function playPlayerAnimation(className){
+    const avatar = document.getElementById("player-avatar");
+
+    avatar.classList.remove(className);
+    void avatar.offsetWidth;
+    avatar.classList.add(className);
+
+    avatar.addEventListener("animationend", () => {
+        avatar.classList.remove(className);
+    }, { once:true });
+}
+
+function playEnemyAnimation(className, slotIndex){
+    const enemySlot = document.getElementById(`enemy-slot-${slotIndex}`);
+
+    enemySlot.classList.remove(className);
+    void enemySlot.offsetWidth;
+    enemySlot.classList.add(className);
+
+    enemySlot.addEventListener("animationend", () => {
+        enemySlot.classList.remove(className);
+    }, { once:true });
+}
+
+
 
 let enemyUiTickId = null;
 
 const enemyHpAnimations = {}; // slotIndex -> boolean
+
+let hpAnimationGeneration = 0;
 
 function getEnemyRegenHp(enemy, now = getGameTime()) {
   if (!enemy.regen) return enemy.currentHp;
@@ -177,7 +204,7 @@ function syncStepEnemies(stepIndex) {
 
   step.exploreOptions.forEach(opt => {
     if (opt.enemyData) {
-     // console.log("SYNC", opt.enemyData.name, opt.enemyData.__stepIndex, world.currentStepIndex, opt.enemyData);
+      //console.log("SYNC", opt.enemyData.name, opt.enemyData.__stepIndex, gameState.world.currentStepIndex, opt.enemyData);
       syncEnemyHpFromTime(opt.enemyData, stepIndex);
     }
   });
@@ -197,7 +224,7 @@ function syncEnemyHpFromTime(enemy, stepIndex) {
   }
 }
 
-function onStepChange(newStepIndex) {
+/*function onStepChange(newStepIndex) {
   gameState.world.locationSteps.forEach((step, i) => {
     if (!step.exploreOptions) return;
 
@@ -207,22 +234,31 @@ function onStepChange(newStepIndex) {
       }
     });
   });
-}
+}*/
 
 function startEnemyUiRegenTick() {
   if (enemyUiTickId) return;
 
   enemyUiTickId = setInterval(() => {
+    //console.log(`enter enemy regen`);
     if (gameState.world.inCombat || !isExploring) return;
+    //console.log(`enemy regen after inCombat`, gameState.world.inCombat);
 
     const step = gameState.world.locationSteps[gameState.world.currentStepIndex];
+    
     if (!step?.exploreOptions) return;
+
+    const allEnemiesDead = areAllEnemiesDefeated(step);
+    
+    if(allEnemiesDead) return;
+   // console.log(`enemy regen after allEnemiesDefeated`, areAllEnemiesDefeated(step));
 
     step.exploreOptions.forEach((opt, slotIndex) => {
       const enemy = opt.enemyData;
       
       if (!enemy?.regen) return;
-      
+      //console.log(`enemy regen after enemy?.regen`, enemy?.regen);
+
       // ⛔ tylko ten krok
       //if (enemy.__stepIndex !== currentStepIndex) return;
 
@@ -235,7 +271,7 @@ function startEnemyUiRegenTick() {
          
       enemy.currentHp = hpAfter;
 
-      animateEnemyHpBar(slotIndex, hpBefore, hpAfter, enemy.maxHp);
+      animateEnemyHpBar(slotIndex, hpBefore, hpAfter, enemy.maxHp, allEnemiesDead);
 
       if (enemy.currentHp >= enemy.maxHp) {
         enemy.regen = null;
@@ -247,12 +283,17 @@ function startEnemyUiRegenTick() {
 function stopEnemyUiRegenTick() {
   if (!enemyUiTickId) return;
 
+  hpAnimationGeneration++;
+  
   clearInterval(enemyUiTickId);
   enemyUiTickId = null;
 }
 
-function animateEnemyHpBar(slotIndex, fromHp, toHp, maxHp) {
+
+function animateEnemyHpBar(slotIndex, fromHp, toHp, maxHp, allEnemiesDead) {
   // ⛔ jeśli animacja już trwa → NIE restartuj
+ // console.log(`enter animateHp`, slotIndex);
+
   if (enemyHpAnimations[slotIndex]) return;
 
   enemyHpAnimations[slotIndex] = true;
@@ -265,10 +306,13 @@ function animateEnemyHpBar(slotIndex, fromHp, toHp, maxHp) {
 
   const duration = 700; // trochę krócej niż tick
   const start = performance.now();
+  
+  const generation = hpAnimationGeneration;
 
   function frame(now) {
     const t = Math.min(1, (now - start) / duration);
     const current = Math.floor(fromHp + (toHp - fromHp) * t);
+    //console.log(`animateHp before allEnemiesDead`, allEnemiesDead);
     const percent = (current / maxHp) * 100;
 
     const bar = document.getElementById(`enemy-health-bar-${slotIndex}`);
@@ -277,11 +321,18 @@ function animateEnemyHpBar(slotIndex, fromHp, toHp, maxHp) {
       return;
     }
 
+    if (generation !== hpAnimationGeneration) {
+      enemyHpAnimations[slotIndex] = false;
+      return;
+    }
+    
+    //console.log(`animateHp current`, current);
+
     /*bar.innerHTML = `
       <div class="enemy-health-fill" style="width:${percent}%;"></div>
       <div class="enemy-health-text">${current}/${maxHp}</div>
     `;*/
-
+    
     bar.innerHTML = `
         <div class="enemy-health-fill" style="transform:scaleX(${percent / 100});"></div>
         <div class="enemy-health-text">${current}/${maxHp}</div>
@@ -583,8 +634,12 @@ function updateShieldUI() {
 
   if (!shieldBtn || !cooldownOverlay) return;
 
-  const COOLDOWN = 3000;
+  let COOLDOWN = 3000;
 
+  if(gameState.combat.flags.isCritical) {
+    COOLDOWN = 900;
+  }
+  
   const now = getGameTime();
   const cdEnd = gameState.combat.playerBlock.cooldownUntil || 0;
   
@@ -672,6 +727,16 @@ function animateAttackCooldown() {
   playerAttackCooldown.overlay.style.transform = `scaleY(${1 - progress})`;
 
   playerAttackCooldown.rafId = requestAnimationFrame(animateAttackCooldown);
+  
+  const fill = document.getElementById("player-cooldown-fill");
+
+  if(!fill) return;
+  //fill.style.width = (progress * 100) + "%";
+
+  //console.log(`progress`, progress);
+  
+  fill.style.transform = `scaleX(${progress})`;
+  
 }
 
 
@@ -701,6 +766,10 @@ function finishAttackCooldown() {
   if (playerAttackCooldown.overlay) {
     playerAttackCooldown.overlay.style.transform = "scaleY(0)";
   }
+
+  //const fill = document.getElementById("player-cooldown-fill");
+  //fill.style.width = "100%";
+  //fill.style.transform = `scaleX(0)`;
 
   cancelAnimationFrame(playerAttackCooldown.rafId);
 
@@ -845,6 +914,7 @@ function resumePlayerAttack() {
   playerAttackCooldown.rafId = requestAnimationFrame(animate);
 }
 
+
 function startFinisherBar(durationMs, enemy) {
   gameState.combat.flags.enemyFinisherActive = true;
 
@@ -873,7 +943,7 @@ function startFinisherBar(durationMs, enemy) {
   // ostrzeżenie przed ciosem (300 ms)
   setTimeout(() => {
     //bar.classList.add("warning");
-    showOutcome("miss", `${t("now_outcome")}`, 500);
+    showEnemyOutcome("miss", `${t("now_outcome")}`, 500);
   }, durationMs - 550);
 
   // cleanup
@@ -948,7 +1018,7 @@ function consumeGuardStacks(stacks) {
 
   ring.classList.toggle("full", stacks === 3);
   
-  if (stacks === 3) showOutcome("perfect", `${t("counterattack_outcome")}`);
+ // if (stacks === 3) showOutcome("perfect", `${t("counterattack_outcome")}`);
   
   setTimeout(() => {
     ring.classList.remove("guard-release");
@@ -1338,7 +1408,7 @@ function stopArmorBreakTimingUI(enemy) {
   }
 
   if (enemy.armorBreakReady) {
-    enemy.exposeStacks = 1; 
+    enemy.exposeStacks = 0; 
     
     gameState.combat.armorBreakTimingActive = false;
     enemy.armorBreakReady = false;
@@ -1507,7 +1577,7 @@ function stopSpearControlUI() {
     spearAnimationFrame = null;
   }
   
- // console.error(`stop spear UI`);
+  //console.error(`stop spear UI`);
 
   const bar = document.getElementById("timing-mode");
   bar.classList.add("hidden");
@@ -1622,6 +1692,29 @@ function setSpearReadyUI(isReady) {
   }
 }*/
 
+function decayComboStack(enemy, mode) {
+  if (!enemy.lastComboHit) return;
+  
+  const stats = gameState.combat.stats;
+  if (!stats.combo) return;
+
+  if (gameState.combat.activeRingMode !== mode) return;
+  
+  const now = getGameTime();
+
+  if (now - enemy.lastComboHit > 3000) {
+    stats.combo = Math.max(0, stats.combo - 1);
+
+    enemy.lastComboHit = now;
+    
+    if (stats.combo < 3) {
+      stats.comboReady = false; 
+    }
+    
+    //console.error(`combo decay`, stats.combo);
+    updateGuardRing(mode, stats.combo);
+  }
+}
 
 function updateGuardRing(mode, stacks) {
   const ring = document.getElementById("guard-ring");

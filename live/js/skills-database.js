@@ -1,8 +1,1012 @@
 const COST_SCALE = 0.10;
 
 const SKILLS_DATABASE = {
+  
+
+  // =========================
+  // SHIELD BLOCK - BULWARK
+  // =========================
+
+  "shield-bash": {
+    name: "shield_bash_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 1,
+    usableWhileBlocking: "normal",
+    parent: null,
+    children: ["shield-wall"],
+    description: "shield_bash_skill_desc",
+    baseCooldown: 6,
+    staminaCost: 20,
+    effects: [
+      {
+        type: "damage",
+        baseValue: 120,
+        scalingPerLevel: 8,
+        target: "enemy"
+      },
+      {
+        type: "stun",
+        baseValue: 1,
+        scalingPerLevel: 0.1,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/shield-bash-icon.png"
+  },
+
+
+  "shield-wall": {
+    name: "shield_wall_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 4,
+    usableWhileBlocking: "blocking",
+    parent: "shield-bash",
+    children: ["counter-strike", "iron-will"],
+    description: "shield_wall_skill_desc",
+    baseCooldown: 8,
+    guardCost: 2,
+    effects: [
+      {
+        type: "def-buff",
+        baseValue: 25,
+        scalingPerLevel: 2,
+        target: "self"
+      },
+      {
+        type: "def-buff-duration",
+        baseValue: 5,
+        scalingPerLevel: 0.2,
+        target: "enemy"
+      }
+   
+    ],
+    icon: "img/icons/shield-wall-icon.png"
+  },
+
+
+  "counter-strike": {
+    name: "counter_strike_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 6,
+    usableWhileBlocking: "blocking",
+    parent: "shield-wall",
+    children: ["provocation"],
+    description: "counter_strike_skill_desc",
+    baseCooldown: 10,
+    guardCost: 2,
+    effects: [
+      {
+        type: "counter-strike",
+        baseValue: 130,
+        scalingPerLevel: 5,
+        target: "enemy"
+      },
+      {
+        type: "stamina-recover",
+        baseValue: 10,
+        scalingPerLevel: 2,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/counter-strike-icon.png"
+  },
+
+
+  "iron-will": {
+    name: "iron_will_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 6,
+    usableWhileBlocking: "blocking",
+    parent: "shield-wall",
+    children: [],
+    description: "iron_will_skill_desc",
+    baseCooldown: 15,
+    staminaCost: 35,
+    effects: [
+      {
+        type: "remove-debuff",
+        baseValue: 0,
+        scalingPerLevel: 0,
+        target: "self"
+      }
+    ],
+    icon: "img/icons/iron-will-icon.png"
+  },
+
+
+  "provocation": {
+    name: "provocation_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 8,
+    usableWhileBlocking: "normal",
+    parent: "counter-strike",
+    children: ["last-bastion"],
+    description: "provocation_skill_desc",
+    baseCooldown: 12,
+    staminaCost: 30,
+    effects: [
+      {
+        type: "provocation-trigger",
+        baseValue: 0,
+        scalingPerLevel: 0,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/provocation-icon.png"
+  },
+  
+  "last-bastion": {
+    name: "last_bastion_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 10,
+    usableWhileBlocking: "blocking",
+    parent: "provocation",
+    children: [],
+    description: "last_bastion_skill_desc",
+    baseCooldown: 30,
+    guardCost: 3,
+    effects: [
+     {
+        type: "def-buff",
+        baseValue: 40,
+        scalingPerLevel: 2,
+        target: "self"
+      },
+      {
+        type: "def-buff-duration",
+        baseValue: 6,
+        scalingPerLevel: 0.2,
+        target: "enemy"
+      },
+      {
+        type: "buff-next-attack",
+        baseValue: 30,
+        scalingPerLevel: 2,
+        target: "enemy"
+      },
+
+    ],
+    icon: "img/icons/last-bastion-icon.png"
+  },
+
+
+  // =========================
+  // SHIELD PERFECT - DUELIST
+  // =========================
+
+  "riposte": {
+    name: "riposte_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 1,
+    parent: null,
+    children: ["opening-strike"],
+    description: "riposte_skill_desc",
+    baseCooldown: 5,
+    staminaCost: 20,
+    effects: [
+      {
+        type: "damage",
+        baseValue: 140,
+        scalingPerLevel: 10,
+        target: "enemy"
+      },
+      {
+        type: "crit",
+        baseValue: 20,
+        scalingPerLevel: 1,
+        target: "self"
+      }
+    ],
+    icon: "img/icons/riposte-icon.png"
+  },
+
+
+  "opening-strike": {
+    name: "opening_strike_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 4,
+    parent: "riposte",
+    children: ["precision", "parry-master"],
+    description: "opening_strike_skill_desc",
+    baseCooldown: 8,
+    staminaCost: 25,
+    effects: [
+      {
+        type: "bonus-damage",
+        baseValue: 35,
+        scalingPerLevel: 2,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/opening-strike-icon.png"
+  },
+
+
+  "precision": {
+    name: "precision_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 6,
+    parent: "opening-strike",
+    children: ["weak-point"],
+    description: "precision_skill_desc",
+    baseCooldown: 15,
+    staminaCost: 30,
+    effects: [
+      {
+        type: "crit-chance",
+        baseValue: 15,
+        scalingPerLevel: 1,
+        target: "self"
+      }
+    ],
+    icon: "img/icons/precision-icon.png"
+  },
+
+
+  "parry-master": {
+    name: "parry_master_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 6,
+    parent: "opening-strike",
+    children: [],
+    description: "parry_master_skill_desc",
+    baseCooldown: 20,
+    staminaCost: 35,
+    effects: [
+      {
+        type: "cooldown-reset",
+        baseValue: 1,
+        scalingPerLevel: 0,
+        target: "self"
+      }
+    ],
+    icon: "img/icons/parry-master-icon.png"
+  },
+
+
+  "weak-point": {
+    name: "weak_point_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 8,
+    parent: "precision",
+    children: ["perfect-execution"],
+    description: "weak_point_skill_desc",
+    baseCooldown: 12,
+    staminaCost: 30,
+    effects: [
+      {
+        type: "vulnerable",
+        baseValue: 3,
+        scalingPerLevel: 0.2,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/weak-point-icon.png"
+  },
+
+
+  "perfect-execution": {
+    name: "perfect_execution_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 10,
+    parent: "weak-point",
+    children: [],
+    description: "perfect_execution_skill_desc",
+    baseCooldown: 30,
+    staminaCost: 50,
+    effects: [
+      {
+        type: "critical-damage",
+        baseValue: 100,
+        scalingPerLevel: 5,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/perfect-execution-icon.png"
+  },
+
+
+  // =========================
+  // SPEAR - WARDEN
+  // =========================
+
+  "piercing-thrust": {
+    name: "piercing_thrust_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 1,
+    parent: null,
+    children: ["defensive-reach"],
+    description: "piercing_thrust_skill_desc",
+    baseCooldown: 4,
+    staminaCost: 15,
+    effects: [
+      {
+        type: "damage",
+        baseValue: 110,
+        scalingPerLevel: 8,
+        target: "enemy"
+      },
+      {
+        type: "spear-control",
+        baseValue: 1,
+        scalingPerLevel: 0,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/piercing-thrust-icon.png"
+  },
+
+
+  "defensive-reach": {
+    name: "defensive_reach_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 4,
+    parent: "piercing-thrust",
+    children: ["sweep"],
+    description: "defensive_reach_skill_desc",
+    baseCooldown: 12,
+    staminaCost: 30,
+    effects: [
+      {
+        type: "spear-control-duration",
+        baseValue: 30,
+        scalingPerLevel: 2,
+        target: "self"
+      }
+    ],
+    icon: "img/icons/defensive-reach-icon.png"
+  },
+
+
+  "sweep": {
+    name: "sweep_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 6,
+    parent: "defensive-reach",
+    children: ["impale", "spear-discipline"],
+    description: "sweep_skill_desc",
+    baseCooldown: 10,
+    staminaCost: 30,
+    effects: [
+      {
+        type: "slow",
+        baseValue: 30,
+        scalingPerLevel: 2,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/sweep-icon.png"
+  },
+
+
+  "impale": {
+    name: "impale_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 8,
+    parent: "sweep",
+    children: ["absolute-control"],
+    description: "impale_skill_desc",
+    baseCooldown: 15,
+    staminaCost: 35,
+    effects: [
+      {
+        type: "armor-break",
+        baseValue: 30,
+        scalingPerLevel: 2,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/impale-icon.png"
+  },
+
+
+  "spear-discipline": {
+    name: "spear_discipline_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 8,
+    parent: "sweep",
+    children: [],
+    description: "spear_discipline_skill_desc",
+    baseCooldown: 20,
+    staminaCost: 35,
+    effects: [
+      {
+        type: "spear-control-bonus",
+        baseValue: 20,
+        scalingPerLevel: 2,
+        target: "self"
+      }
+    ],
+    icon: "img/icons/spear-discipline-icon.png"
+  },
+
+
+  "absolute-control": {
+    name: "absolute_control_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 10,
+    parent: "impale",
+    children: [],
+    description: "absolute_control_skill_desc",
+    baseCooldown: 30,
+    staminaCost: 50,
+    effects: [
+      {
+        type: "spear-control-max",
+        baseValue: 5,
+        scalingPerLevel: 0,
+        target: "enemy"
+      }
+    ],
+    icon: "img/icons/absolute-control-icon.png"
+  },
+
+// =========================
+// HAMMER - JUGGERNAUT
+// =========================
+
+"crushing-blow": {
+  name: "crushing_blow_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 1,
+  parent: null,
+  children: ["ground-slam"],
+  description: "crushing_blow_skill_desc",
+  baseCooldown: 6,
+  staminaCost: 25,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 160,
+      scalingPerLevel: 10,
+      target: "enemy"
+    },
+    {
+      type: "poise-damage",
+      baseValue: 40,
+      scalingPerLevel: 3,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/crushing-blow-icon.png"
+},
+
+
+"ground-slam": {
+  name: "ground_slam_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 4,
+  parent: "crushing-blow",
+  children: ["heavy-momentum", "armor-crusher"],
+  description: "ground_slam_skill_desc",
+  baseCooldown: 12,
+  staminaCost: 35,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 130,
+      scalingPerLevel: 8,
+      target: "enemy"
+    },
+    {
+      type: "stun",
+      baseValue: 2,
+      scalingPerLevel: 0.15,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/ground-slam-icon.png"
+},
+
+
+"heavy-momentum": {
+  name: "heavy_momentum_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 6,
+  parent: "ground-slam",
+  children: ["unstoppable"],
+  description: "heavy_momentum_skill_desc",
+  baseCooldown: 15,
+  staminaCost: 30,
+  effects: [
+    {
+      type: "damage-buff",
+      baseValue: 25,
+      scalingPerLevel: 2,
+      target: "self"
+    },
+    {
+      type: "attack-speed",
+      baseValue: -10,
+      scalingPerLevel: 0,
+      target: "self"
+    }
+  ],
+  icon: "img/icons/heavy-momentum-icon.png"
+},
+
+
+"armor-crusher": {
+  name: "armor_crusher_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 6,
+  parent: "ground-slam",
+  children: ["earthshatter"],
+  description: "armor_crusher_skill_desc",
+  baseCooldown: 14,
+  staminaCost: 35,
+  effects: [
+    {
+      type: "armor-break",
+      baseValue: 35,
+      scalingPerLevel: 2,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/armor-crusher-icon.png"
+},
+
+
+"unstoppable": {
+  name: "unstoppable_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 8,
+  parent: "heavy-momentum",
+  children: [],
+  description: "unstoppable_skill_desc",
+  baseCooldown: 20,
+  staminaCost: 40,
+  effects: [
+    {
+      type: "poise",
+      baseValue: 50,
+      scalingPerLevel: 3,
+      target: "self"
+    }
+  ],
+  icon: "img/icons/unstoppable-icon.png"
+},
+
+
+"earthshatter": {
+  name: "earthshatter_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 10,
+  parent: "armor-crusher",
+  children: [],
+  description: "earthshatter_skill_desc",
+  baseCooldown: 30,
+  staminaCost: 50,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 250,
+      scalingPerLevel: 15,
+      target: "enemy"
+    },
+    {
+      type: "stun",
+      baseValue: 3,
+      scalingPerLevel: 0.2,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/earthshatter-icon.png"
+},
+
+
+// =========================
+// DOUBLE AXE - BERSERKER
+// =========================
+
+"twin-slash": {
+  name: "twin_slash_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 1,
+  parent: null,
+  children: ["blood-frenzy"],
+  description: "twin_slash_skill_desc",
+  baseCooldown: 5,
+  staminaCost: 20,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 70,
+      scalingPerLevel: 7,
+      target: "enemy"
+    },
+    {
+      type: "bleed",
+      baseValue: 8,
+      scalingPerLevel: 0.5,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/twin-slash-icon.png"
+},
+
+
+"blood-frenzy": {
+  name: "blood_frenzy_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 4,
+  parent: "twin-slash",
+  children: ["whirlwind", "blood-pact"],
+  description: "blood_frenzy_skill_desc",
+  baseCooldown: 15,
+  staminaCost: 30,
+  effects: [
+    {
+      type: "attack-speed",
+      baseValue: 25,
+      scalingPerLevel: 2,
+      target: "self"
+    }
+  ],
+  icon: "img/icons/blood-frenzy-icon.png"
+},
+
+
+"whirlwind": {
+  name: "whirlwind_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 6,
+  parent: "blood-frenzy",
+  children: ["savage-momentum"],
+  description: "whirlwind_skill_desc",
+  baseCooldown: 12,
+  staminaCost: 35,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 120,
+      scalingPerLevel: 8,
+      target: "enemy"
+    },
+    {
+      type: "bleed",
+      baseValue: 12,
+      scalingPerLevel: 1,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/whirlwind-icon.png"
+},
+
+
+"blood-pact": {
+  name: "blood_pact_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 6,
+  parent: "blood-frenzy",
+  children: ["executioner"],
+  description: "blood_pact_skill_desc",
+  baseCooldown: 20,
+  staminaCost: 0,
+  effects: [
+    {
+      type: "hp-cost",
+      baseValue: 10,
+      scalingPerLevel: 0,
+      target: "self"
+    },
+    {
+      type: "damage-buff",
+      baseValue: 40,
+      scalingPerLevel: 3,
+      target: "self"
+    }
+  ],
+  icon: "img/icons/blood-pact-icon.png"
+},
+
+
+"savage-momentum": {
+  name: "savage_momentum_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 8,
+  parent: "whirlwind",
+  children: [],
+  description: "savage_momentum_skill_desc",
+  baseCooldown: 18,
+  staminaCost: 35,
+  effects: [
+    {
+      type: "combo-damage",
+      baseValue: 15,
+      scalingPerLevel: 2,
+      target: "self"
+    }
+  ],
+  icon: "img/icons/savage-momentum-icon.png"
+},
+
+
+"executioner": {
+  name: "executioner_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 10,
+  parent: "blood-pact",
+  children: [],
+  description: "executioner_skill_desc",
+  baseCooldown: 30,
+  staminaCost: 50,
+  effects: [
+    {
+      type: "bonus-vs-bleeding",
+      baseValue: 75,
+      scalingPerLevel: 5,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/executioner-icon.png"
+},
+
+
+// =========================
+// GREATSWORD - EXECUTIONER
+// =========================
+
+"cleave": {
+  name: "cleave_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 1,
+  parent: null,
+  children: ["overhead-strike"],
+  description: "cleave_skill_desc",
+  baseCooldown: 6,
+  staminaCost: 25,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 180,
+      scalingPerLevel: 12,
+      target: "enemy"
+    },
+    {
+      type: "armor-break",
+      baseValue: 20,
+      scalingPerLevel: 2,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/cleave-icon.png"
+},
+
+
+"overhead-strike": {
+  name: "overhead_strike_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 4,
+  parent: "cleave",
+  children: ["broken-guard"],
+  description: "overhead_strike_skill_desc",
+  baseCooldown: 10,
+  staminaCost: 35,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 240,
+      scalingPerLevel: 15,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/overhead-strike-icon.png"
+},
+
+
+"broken-guard": {
+  name: "broken_guard_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 6,
+  parent: "overhead-strike",
+  children: ["heavy-momentum-gs", "final-cut"],
+  description: "broken_guard_skill_desc",
+  baseCooldown: 15,
+  staminaCost: 35,
+  effects: [
+    {
+      type: "armor-break",
+      baseValue: 50,
+      scalingPerLevel: 3,
+      target: "enemy"
+    },
+    {
+      type: "vulnerable",
+      baseValue: 2,
+      scalingPerLevel: 0.2,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/broken-guard-icon.png"
+},
+
+
+"heavy-momentum-gs": {
+  name: "heavy_momentum_gs_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 8,
+  parent: "broken-guard",
+  children: ["devastating-blow"],
+  description: "heavy_momentum_gs_skill_desc",
+  baseCooldown: 20,
+  staminaCost: 40,
+  effects: [
+    {
+      type: "heavy-damage",
+      baseValue: 35,
+      scalingPerLevel: 3,
+      target: "self"
+    }
+  ],
+  icon: "img/icons/heavy-momentum-gs-icon.png"
+},
+
+
+"final-cut": {
+  name: "final_cut_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 8,
+  parent: "broken-guard",
+  children: [],
+  description: "final_cut_skill_desc",
+  baseCooldown: 18,
+  staminaCost: 35,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 220,
+      scalingPerLevel: 15,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/final-cut-icon.png"
+},
+
+
+"devastating-blow": {
+  name: "devastating_blow_skill_name",
+  type: "active",
+  unlocked: false,
+  level: 0,
+  maxLevel: 10,
+  requiredLevel: 10,
+  parent: "heavy-momentum-gs",
+  children: [],
+  description: "devastating_blow_skill_desc",
+  baseCooldown: 35,
+  staminaCost: 60,
+  effects: [
+    {
+      type: "damage",
+      baseValue: 350,
+      scalingPerLevel: 20,
+      target: "enemy"
+    },
+    {
+      type: "bonus-vs-vulnerable",
+      baseValue: 50,
+      scalingPerLevel: 5,
+      target: "enemy"
+    }
+  ],
+  icon: "img/icons/devastating-blow-icon.png"
+},
+  
+  
+  
+  
+  
+  
+  
    "focus": { 
       name: "focus_skill_name",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 5,
@@ -32,6 +1036,7 @@ const SKILLS_DATABASE = {
   
     "slash": { 
       name: "power_attack_skill_name",
+      type: "active",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -59,6 +1064,7 @@ const SKILLS_DATABASE = {
     },
     "double-attack": { 
       name: "double_attack_skill_name",
+      type: "active",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -92,6 +1098,7 @@ const SKILLS_DATABASE = {
     },
     "charge": { 
       name: "charge_skill_name",
+      type: "active",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -125,6 +1132,7 @@ const SKILLS_DATABASE = {
     },
     "jump": {
       name: "jump_skill_name",
+      type: "active",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -164,6 +1172,7 @@ const SKILLS_DATABASE = {
     },
     "warrior-shout": { 
       name: "shout_skill_name",
+      type: "active",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -189,14 +1198,17 @@ const SKILLS_DATABASE = {
       ],
       icon: "img/icons/warrior-shout-skill-icon.png" 
     },
+  
+  
     "extra-life": { 
       name: "extra_life_skill_name",
       style: "timed",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
       requiredLevel: 3,
-      parent: "slash",
+      parent: null,
       children: ["perfect-block-dmg", "block-recovery"],
       description: "extra_life_skill_desc",
       baseCooldown: 0,
@@ -213,11 +1225,12 @@ const SKILLS_DATABASE = {
     "extra-defense": { 
       name: "extra_defense_skill_name",
       style: "turtle",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
       requiredLevel: 3,
-      parent: "slash",
+      parent: null,
       children: ["hp-regen", "max-defense"],
       description: "extra_defense_skill_desc",
       baseCooldown: 0,
@@ -234,6 +1247,7 @@ const SKILLS_DATABASE = {
     "max-defense": { 
       name: "max_defense_skill_name",
       style: "turtle",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -255,6 +1269,7 @@ const SKILLS_DATABASE = {
     "iron-defense": { 
       name: "iron_defense_skill_name",
       style: "turtle",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -282,6 +1297,7 @@ const SKILLS_DATABASE = {
     "stack-defense": { 
       name: "stack_defense_skill_name",
       style: "turtle",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -310,11 +1326,12 @@ const SKILLS_DATABASE = {
     "extra-damage": { 
       name: "extra_damage_skill_name",
       style: "poise",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
       requiredLevel: 3,
-      parent: "slash",
+      parent: null,
       children: ["extra-crit", "atkspd-bonus"],
       description: "extra_damage_skill_desc",
       baseCooldown: 0,
@@ -331,6 +1348,7 @@ const SKILLS_DATABASE = {
     "extra-energy": { 
       name: "Głębokie Oddechy",
       style: "universal",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -352,6 +1370,7 @@ const SKILLS_DATABASE = {
     "extra-stamina": { 
       name: "extra_stamina_skill_name",
       style: "turtle",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -373,6 +1392,7 @@ const SKILLS_DATABASE = {
     "stamina-regen": { 
       name: "Nieustępliwość",
       style: "timed",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -394,6 +1414,7 @@ const SKILLS_DATABASE = {
     "hp-regen": { 
       name: "hp_regen_skill_name",
       style: "turtle",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -415,6 +1436,7 @@ const SKILLS_DATABASE = {
     "hp-to-dmg": { 
       name: "hp_to_dmg_skill_name",
       style: "poise",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -442,6 +1464,7 @@ const SKILLS_DATABASE = {
    "max-hp": { 
       name: "Wzmocniona Budowa",
       style: "universal",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -463,6 +1486,7 @@ const SKILLS_DATABASE = {
     "max-dmg": { 
       name: "Skupiona Siła",
       style: "poise",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -484,6 +1508,7 @@ const SKILLS_DATABASE = {
     "extra-crit": { 
       name: "extra_crit_skill_name",
       style: "poise",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -505,6 +1530,7 @@ const SKILLS_DATABASE = {
     "energy-regen": { 
       name: "Płynny Przepływ",
       style: "universal",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -526,6 +1552,7 @@ const SKILLS_DATABASE = {
     "atkspd-bonus": { 
       name: "atkspd_bonus_skill_name",
       style: "poise",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -547,6 +1574,7 @@ const SKILLS_DATABASE = {
     "crit-damage-bonus": { 
       name: "crit_damage_bonus_skill_name",
       style: "poise",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -569,6 +1597,7 @@ const SKILLS_DATABASE = {
     "perfect-block-dmg": { 
       name: "perfect_block_dmg_skill_name",
       style: "timed",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -591,6 +1620,7 @@ const SKILLS_DATABASE = {
     "perfect-window": { 
       name: "perfect_window_skill_name",
       style: "timed",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -613,6 +1643,7 @@ const SKILLS_DATABASE = {
     "perfect-chain": { 
       name: "perfect_chain_skill_name",
       style: "timed",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -635,6 +1666,7 @@ const SKILLS_DATABASE = {
     "block-recovery": { 
       name: "block_recovery_skill_name",     
       style: "timed",
+      type: "passive",
       unlocked: false,
       level: 0,
       maxLevel: 10,
@@ -663,6 +1695,88 @@ const SKILLS_DATABASE = {
   
 };
 
+
+const WEAPON_SKILL_TREES = {
+
+  shieldBlock: {
+    className: "Bulwark",
+    root: "shield-bash",
+    skills: [
+      "shield-bash",
+      "shield-wall",
+      "counter-strike",
+      "iron-will",
+      "provocation",
+      "last-bastion"
+    ]
+  },
+
+  shieldPerfect: {
+    className: "Duelist",
+    root: "riposte",
+    skills: [
+      "riposte",
+      "opening-strike",
+      "precision",
+      "parry-master",
+      "weak-point",
+      "perfect-execution"
+    ]
+  },
+
+  spear: {
+    className: "Warden",
+    root: "piercing-thrust",
+    skills: [
+      "piercing-thrust",
+      "defensive-reach",
+      "sweep",
+      "impale",
+      "spear-discipline",
+      "absolute-control"
+    ]
+  },
+
+  hammer: {
+    className: "Juggernaut",
+    root: "crushing-blow",
+    skills: [
+      "crushing-blow",
+      "ground-slam",
+      "heavy-momentum",
+      "armor-crusher",
+      "unstoppable",
+      "earthshatter"
+    ]
+  },
+
+  doubleAxe: {
+    className: "Berserker",
+    root: "twin-slash",
+    skills: [
+      "twin-slash",
+      "blood-frenzy",
+      "whirlwind",
+      "blood-pact",
+      "savage-momentum",
+      "executioner"
+    ]
+  },
+
+  greatsword: {
+    className: "Executioner",
+    root: "cleave",
+    skills: [
+      "cleave",
+      "overhead-strike",
+      "broken-guard",
+      "heavy-momentum-gs",
+      "final-cut",
+      "devastating-blow"
+    ]
+  }
+
+};
 
 const skillTest = {
     "skill-root-2.3": { unlocked: false, children: [] },

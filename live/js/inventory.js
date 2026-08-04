@@ -392,6 +392,7 @@ function showInvItemPopup(itemId) {
   const baseHTML = renderBaseStats(item, charLevel)
   const implicitHTML = renderImplicitStats(item);
   const statsHTML = renderItemStats(item);
+  const combatAffixes = renderCombatAffixes(item);
   const exclusiveStats = renderExclusiveAffixes(item);
   const styleHTML = renderWeaponStyle(item);
   const classLabel = translateClass(item.klasa); // np. "Epicki", "Unikalny" itd.
@@ -427,6 +428,9 @@ function showInvItemPopup(itemId) {
       ${statsHTML}
     </div>
     <div class="item-stats-normal">
+      ${combatAffixes}
+    </div>
+    <div class="item-stats-normal">
       ${exclusiveStats}
     </div>
     <div class="item-separator"></div>
@@ -437,6 +441,7 @@ function showInvItemPopup(itemId) {
     <div class="center-buttons">
       <button class="item-button" id="equip-btn">${t("equip_btn")}</button>
       <button class="item-button" id="compare-btn">${t("compare_btn")}</button>
+     <!-- <button class="item-button" id="discover-btn">${t("discover_btn")}</button> -->
     </div>
     <div class="close-btn-wrapper" id="item-close-wrapper-item">
       <button class="close-button" id="item-close-btn" onclick="closeInvItemPopup()"></button>
@@ -452,6 +457,9 @@ function showInvItemPopup(itemId) {
    const compareBtn = document.getElementById("compare-btn");
    setGlobalButtonTexture(compareBtn);
    
+   /*const discoverBtn = document.getElementById("discover-btn");
+   setGlobalButtonTexture(discoverBtn);*/
+   
    // Domyślne zachowanie
    equipBtn.onclick = () => equipItem(item._id);
    compareBtn.onclick = () => {
@@ -459,13 +467,26 @@ function showInvItemPopup(itemId) {
       playSound(`open`, 0.4);
    };
    
-    // ======================================
+   /*const hasCombatStat = item.statystyki?.some(stat => stat.category === "combat") || false;
+   
+   if(hasCombatStat) {
+      discoverBtn.onclick = () => discoverItem(item._id);
+   } else {
+      discoverBtn.classList.add(`hidden`);
+   }
+   
+   if(item.discovered) {
+      discoverBtn.classList.add(`hidden`);
+   }*/
+      
+   // ======================================
    //      SPECJALNE ZACHOWANIE DLA POTIONU
    // ======================================
    if (item.typ === "heal_potion") {
     
     equipBtn.remove();
-
+    //discoverBtn.remove();
+      
     // zmień akcję equip → insertPotionToSlot
     //equipBtn.onclick = () => usePotion(item._id);
     compareBtn.onclick = () => insertPotionToSlot(item._id);
@@ -475,6 +496,8 @@ function showInvItemPopup(itemId) {
    }
    
    if (item.typ === "Posiłek") {
+      
+    //discoverBtn.remove();
       
     equipBtn.onclick = () => useFood(item._id);
     //compareBtn.onclick = () => insertPotionToSlot(item._id);
@@ -486,6 +509,7 @@ function showInvItemPopup(itemId) {
    
    if (item.klasa === "special") {
       compareBtn.classList.add(`hidden`);
+      //discoverBtn.classList.add(`hidden`);
    }
    
    playSound("open", 0.4);
@@ -493,6 +517,67 @@ function showInvItemPopup(itemId) {
    popup.classList.remove("hidden");
 }
 
+function discoverItem(item) {
+   /*const itemIndex = gameState.inventory.findIndex(i => i._id === itemId);
+   if (itemIndex === -1) return;
+
+   const item = gameState.inventory[itemIndex];*/
+   const newlyDiscovered = [];
+   
+   const combatStats = item.statystyki.filter(
+     stat => stat.category === "combat"
+   );
+
+   combatStats.forEach(stat => {
+     const affixId = stat.id;
+     //let affix = gameState.char.discoveredCombatAffixes[affixId];
+
+      const codex = gameState.char.combatAffixCodex;
+      
+     // console.error(`affixId, discovered before add`, affixId, gameState.char.combatAffixCodex[affixId]?.discovered);
+
+     //const isDiscovered = gameState.char.discoveredCombatAffixes.has(affixId);
+     const isDiscovered = gameState.char.combatAffixCodex[affixId]?.discovered || false;
+      
+     if (!isDiscovered) {
+       //gameState.char.discoveredCombatAffixes.add(affixId);
+       gameState.char.combatAffixCodex[affixId].discovered = true;
+       /*let affix = gameState.char.discoveredCombatAffixes[affixId];
+       console.error(`affixId, discovered before add`, affixId, affix);
+
+       affix = true;*/
+       newlyDiscovered.push(affixId);
+     }
+      
+     //console.error(`affixId, discovered after add`, affixId, gameState.char.combatAffixCodex[affixId]?.discovered);
+
+     // pierwszy raz
+     /*if (!affix.discovered) {
+       affix.discovered = true;
+       newlyDiscovered.push(affixId);
+     }*/
+      
+      
+     /*if (gameState.char.combatAffixes[affixId]) {
+       gameState.char.combatAffixes[affixId].discovered = true;
+       console.error(`gameState.char.combatAffixes`, gameState.char.combatAffixes[affixId]);
+       newlyDiscovered.push(affixId);
+     }*/
+      
+   });
+   
+   item.discovered = true;
+   
+   if (newlyDiscovered.length) {
+     //console.log("Nowe affixy:", newlyDiscovered);
+
+     showInfoAlert(`${t("unlock_new_combat_affixes")}`, 1700, true);
+   }
+   
+   saveGame();
+   
+   //showInvItemPopup(itemId);
+}
 
 function useFood(itemId) {
  
@@ -596,6 +681,7 @@ function showComparePopup(itemId, key = null) {
   const baseHTML = renderBaseStats(item, charLevel)
   const implicitHTML = renderImplicitStats(item);
   const statsHTML = renderItemStats(item);
+  const combatAffixes = renderCombatAffixes(item);
   const exclusiveStats = renderExclusiveAffixes(item);
   const styleHTML = renderWeaponStyle(item);
   const itemName = getItemName(item); 
@@ -629,6 +715,9 @@ function showComparePopup(itemId, key = null) {
       ${statsHTML}
     </div>
     <div class="item-stats">
+      ${combatAffixes}
+    </div>
+    <div class="item-stats">
        ${exclusiveStats}
     </div>
     <div class="item-separator"></div>
@@ -648,6 +737,8 @@ function showComparePopup(itemId, key = null) {
   
    const backBtn = document.getElementById("back-btn");
    setGlobalButtonTexture(backBtn);
+   
+   fadeIn(equipBtn);
    
    equipBtn.onclick = () => equipComparedItem(item._id, key);
    
@@ -749,6 +840,7 @@ function compareItem(itemId, key = null) {
     const baseHTML = renderBaseStats(equipped, charLevel);
     const implicitHTML = renderImplicitStats(equipped);
     const statsHTML = renderItemStats(equipped);
+    const combatAffixes = renderCombatAffixes(equipped);
     const exclusiveStats = renderExclusiveAffixes(equipped);
     const styleHTML = renderWeaponStyle(equipped);
     const itemName = getItemName(equipped); 
@@ -774,6 +866,9 @@ function compareItem(itemId, key = null) {
     </div>
     <div class="item-stats">
       ${statsHTML}
+    </div>
+    <div class="item-stats">
+      ${combatAffixes}
     </div>
     <div class="item-stats">
        ${exclusiveStats}
@@ -859,6 +954,7 @@ function compareItem(itemId, key = null) {
 
 function closeComparePopup() {
    document.getElementById("compare-popup").classList.add("hidden");
+   
    clearAllDiffs();
    gameState.resources.isComparing = false;
    const hpEl = document.getElementById(`hp-stat-id`);
@@ -888,8 +984,7 @@ function equipItem(itemId, key = null) {
   }
 
   const equipped = gameState.char.equipment?.[item.typ];
-
-
+   
   // --- Blokady ---
   if (item.typ === "weapon" && item.twoHanded && gameState.char.equipment?.["shield"]) {
     showInfoAlert(`${t("equip_2h_alert")}`);
@@ -899,8 +994,8 @@ function equipItem(itemId, key = null) {
     showInfoAlert(`${t("equip_shield_alert")}`);
     return;
   }
-
-   if (item.klasa === "special") {
+   
+  if (item.klasa === "special") {
     return showInfoAlert(`${t("equip_special_alert")}`);
   }
   
@@ -916,7 +1011,7 @@ function equipItem(itemId, key = null) {
    // --- Zamiana ---
   const current = equipped;
   if (current) gameState.inventory.push(current);
-
+   
   gameState.char.equipment[item.typ] = item;
   gameState.inventory.splice(itemIndex, 1);
 
@@ -930,6 +1025,9 @@ function equipItem(itemId, key = null) {
   closeInvItemPopup();
   renderInventory();
   clearAllDiffs();
+   
+  discoverItem(item);
+   
 }
 
 function equipComparedItem(itemId, key = null) {
@@ -976,7 +1074,9 @@ function equipComparedItem(itemId, key = null) {
   // --- Zamiana ---
   const current = equipped;
   if (current) gameState.inventory.push(current);
-
+  
+  clearAllDiffs();
+   
   gameState.char.equipment[item.typ] = item;
   gameState.inventory.splice(itemIndex, 1);
    
@@ -985,6 +1085,8 @@ function equipComparedItem(itemId, key = null) {
   renderStats();
   renderInventory();
   
+  discoverItem(item);
+   
   const closeBtn = document.getElementById(`item-close-wrapper`);
   const equipBtn = document.getElementById(`equip-btn2`);
   const backBtn = document.getElementById(`back-btn`);
@@ -1014,14 +1116,16 @@ function equipComparedItem(itemId, key = null) {
           left.className = "item-panel show";
           contentL.innerHTML = `<div style="flex:1; text-align:center; margin-top: 25px;">${t("no_equipped_item")}</div>`;
         
-          const equipBtn = document.getElementById("equip-btn2");
-          equipBtn.classList.add(`hidden`);
+          //const equipBtn = document.getElementById("equip-btn2");
+          //equipBtn.classList.add(`hidden`);
+          //equipBtn.style.opacity = `0`;
          
           // pokaż w prawym panelu właśnie założony item
           const charLevel = gameState.char.level || 1;
           const baseHTML = renderBaseStats(item, charLevel);
           const implicitHTML = renderImplicitStats(item);
           const statsHTML = renderItemStats(item);
+          const combatAffixes = renderCombatAffixes(item);
           const exclusiveStats = renderExclusiveAffixes(item);
           const styleHTML = renderWeaponStyle(item);
           const itemName = getItemName(item); 
@@ -1051,6 +1155,9 @@ function equipComparedItem(itemId, key = null) {
              ${statsHTML}
            </div>
            <div class="item-stats">
+             ${combatAffixes}
+           </div>
+           <div class="item-stats">
              ${exclusiveStats}
            </div>
            <div class="item-separator"></div>
@@ -1065,7 +1172,7 @@ function equipComparedItem(itemId, key = null) {
          playSound(`equip-universal`, 1, randomRange(0.95, 1.05), 0.45);
          
          fadeIn(backBtn);
-         fadeIn(equipBtn);
+         //fadeIn(equipBtn);
          diffStats(item);
       }
     });
@@ -1262,20 +1369,28 @@ function sellMessage(msg) {
    
    const { hp, maxHp, dmg, def } = calculateTotalStats(equipment, true);
  
-   console.log("[diffStats]", { hp, maxHp, dmg, def });
+   //console.log("[diffStats]", { hp, maxHp, dmg, def });
    
     if(gameState.resources.isComparing) {
        const hpEl = document.getElementById(`hp-stat-id`);
        const goldEl = document.getElementById(`gold-stat-id`);
        const energyEl = document.getElementById(`energy-stat-id`);
-  
+       
        hpEl.classList.remove(`hidden`);
        goldEl.classList.add(`hidden`);
        energyEl.classList.add(`hidden`);
  
        diffPreview("hp", maxHp)
     } else {
-       diffPreview("hp-label", maxHp);
+       const isPotion = newItem.typ === "heal_potion";
+       const isFood = newItem.typ === "meal";
+      // console.log("hp diff", isPotion);
+
+       if(!isPotion && !isFood) {
+          //console.log("hp label", isPotion);
+
+         diffPreview("hp-label", maxHp);
+       }
     }
  
     // console.log("after diffPreview hp-label", maxHp);
@@ -1314,26 +1429,40 @@ function diffPreview(id, newVal) {
     return;
   }
    
-   console.log("newVal, current", newVal, current);
-   
-
+   //console.log("newVal, current", newVal, current);
    
   const diff = newVal - current;
   //console.warn(`[diffPreview] id=${id}, current=${current}, newVal=${newVal}, diff=${diff}`);
-
+   
+  const isCombatBuff = !gameState.resources.enterStore && !gameState.resources.isComparing;
+   
   if (diff > 0) {
     diffEl.textContent = `(+${formatNumber(diff)})`;
-    diffEl.className = "stat-diff stat-preview stat-change-up";
+     
+    if (isCombatBuff) {
+      diffEl.className = "stat-diff stat-preview stat-combat-buff";
+    } else {
+      diffEl.className = "stat-diff stat-preview stat-change-up";
+    }
+     
+   // diffEl.className = "stat-diff stat-preview stat-change-up";
   } else if (diff < 0) {
     diffEl.textContent = `(${formatNumber(diff)})`;
-    diffEl.className = "stat-diff stat-preview stat-change-down";
+     
+    if (isCombatBuff) {
+      diffEl.className = "stat-diff stat-preview stat-combat-debuff";
+    } else {
+      diffEl.className = "stat-diff stat-preview stat-change-down";
+    }
+     
+    //diffEl.className = "stat-diff stat-preview stat-change-down";
   } else {
     diffEl.textContent = "";
     diffEl.className = "stat-diff stat-preview";
   }
 }
 
-function clearAllDiffs() {
+/*function clearAllDiffs() {
    // Statyczna lista ID-ów, które używasz
   ["hp-label", "dmg", "def", `gold`].forEach(id => {
     // Główne diffy
@@ -1359,6 +1488,50 @@ function clearAllDiffs() {
    
   gameState.resources.isComparing = false;
  
+}*/
+
+function clearAllDiffs(statId = null) {
+
+   if(statId === `dmg`) {
+     if(gameState.combat.activeBonus.dmg > 0) return;
+   }
+  
+   if(statId === `def`) {
+     console.error(`def diff activeBonus.def`, gameState.combat.activeBonus.def);
+     if(gameState.combat.activeBonus.def > 0) return;
+   }
+   
+   console.error(`diff cleared!`, statId);
+   
+   const ids = statId
+    ? [statId]
+    : ["hp-label", "dmg", "def", "gold"];
+
+  ids.forEach(id => {
+
+    const diffEl = document.getElementById(`${id}-diff`);
+    if (diffEl) {
+      diffEl.textContent = "";
+      diffEl.className = "stat-diff";
+    }
+
+    const previewEl = document.getElementById(`${id}-diff-preview`);
+    if (previewEl) {
+      previewEl.textContent = "";
+      previewEl.className = "stat-diff stat-preview";
+    }
+
+    if (window.diffTimers?.[id]) {
+      clearTimeout(window.diffTimers[id]);
+      delete window.diffTimers[id];
+    }
+
+  });
+
+  if (!statId) {
+    gameState.resources.isComparing = false;
+  }
+
 }
 
 /*function sellItem(itemId) {

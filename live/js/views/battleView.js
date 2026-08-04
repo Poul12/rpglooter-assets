@@ -224,12 +224,72 @@ function getBattleTemplate() {
   </div> -->
 
   
+  <div id="combat-slots">
   
-  <div id="explore-options" class="slot-row">
-    
-  </div>   
+    <div id="player-combat-slot" class="player-slot">
   
-     
+        <div class="player-status-container" id="player-status"></div>
+  
+        <img class="player-frame" id="player-frame">
+
+        <img class="player-slot-bg" id="player-slot-bg">
+
+        <div class="player-shadow" id="player-shadow"></div>
+
+        <div class="player-avatar" id="player-avatar">
+
+            <img id="player-body" class="player-layer">
+
+            <img id="player-head" class="player-layer">
+
+            <img id="player-hands" class="player-layer">
+
+            <img id="player-helmet" class="player-layer">
+
+            <img id="player-armor" class="player-layer">
+
+            <img id="player-gloves" class="player-layer">
+
+            <img id="player-boots" class="player-layer">
+
+            <img id="player-pants" class="player-layer">
+
+            <img id="player-bracer" class="player-layer">
+
+            <img id="player-shoulder" class="player-layer">
+  
+            <img id="player-weapon" class="player-layer">
+
+            <img id="player-shield" class="player-layer">
+
+        </div>
+
+        <div id="player-effects"></div>
+
+        <div id="player-status-container"></div>
+
+        <div id="player-damage-float-container"></div> 
+
+        <div class="enemy-health-bar" id="player-health-bar">
+            <div class="enemy-health-fill" id="player-health-fill"></div>
+            <div class="enemy-health-text" id="player-health-text"></div>
+        </div>
+
+        <div class="enemy-cooldown-bar" id="player-cooldown-bar">
+            <div class="enemy-cooldown-fill" id="player-cooldown-fill"></div>
+        </div>
+
+    </div>
+  
+  <img id="vs-symbol" class="vs-symbol">
+  
+  <div id="explore-options" class="slot-row"></div>
+  
+</div>  
+  
+  
+  
+  
 <div id="item-popup" class="npc-popup hidden">
   <div class="popup-content">
     <div id="popup-content"></div>
@@ -540,6 +600,17 @@ let questTabHandlers = [];
 let potionClickHandler = null;
 let actionElements = [];
 
+/*const ICONS = {
+  attack: assetManager.getResolvedAsset("img/icons/normal-windup-icon.png"),
+  heavy: assetManager.getResolvedAsset("img/icons/heavy-windup-icon.png"),
+  guard: assetManager.getResolvedAsset("img/icons/guard-windup-icon.png"),
+  charge: assetManager.getResolvedAsset("img/icons/charge-windup-icon.png"),
+  bleed: assetManager.getResolvedAsset("img/icons/bleed-icon.png"),
+  armorBreak: assetManager.getResolvedAsset("img/icons/armor-break-icon.png")
+};*/
+
+
+
 function initBattleView() {
   //shopMenuBtn = document.getElementById('shop-menu-btn');
   //console.log("battle init");
@@ -594,8 +665,12 @@ function initBattleView() {
 
   checkIfGameIsSaved();
     
+  gameState.resources.enterStore = false;
+  
   updateCharMenuIcon();
   updateSkillsMenuIcon();
+  
+  updateLowHpUIBuff();
   
   checkIfGameWasKilled();
   
@@ -738,19 +813,30 @@ function handleEnemyWindup(e) {
     const { enemy, slotIndex, duration } = e.detail;
     //console.error(`slotIndex wind up`, enemy, slotIndex, duration);
     const slot = document.getElementById(`enemy-slot-${slotIndex}`);
-    slot.classList.add("windup");
-
+    if(!slot) return;
+  
+    //slot.classList.add("windup");
+    gameState.combat.flags.windupEnd = false;
+    updateStatusEnemyUI(enemy);
+  
+    let enemyCooldown = 0;
+  
     if(gameState.combat.flags.isCritical) {
       showOutcome(`miss`, `${t("critical_state_outcome")}`);
     } else {
-        if(enemy.intent === `attack`) showEnemyOutcome("wind-up", `${t("windup_outcome")}`, duration);
-        if(enemy.intent === `heavy`) showEnemyOutcome("miss",`${t("heavy_windup_outcome")}`, duration);
-        if(enemy.intent === `guard`) showEnemyOutcome("dodge", `${t("guard_outcome")}`, duration * 2);
+        //if(enemy.intent === `attack`) showEnemyOutcome("wind-up", `${t("windup_outcome")}`, duration);
+        //if(enemy.intent === `heavy`) showEnemyOutcome("miss",`${t("heavy_windup_outcome")}`, duration);
+        if(enemy.intent === `guard`) {
+          showEnemyOutcome("dodge", `${t("guard_outcome")}`, duration * 2);
+          enemyCooldown = enemy.attackState.baseCooldown;
+        }
     }
     
-    setTimeout(() => {
-      slot.classList.remove("windup");
-    }, duration);
+    /*setTimeout(() => {
+      //slot.classList.remove("windup");
+      gameState.combat.flags.windupEnd = true;
+      updateStatusEnemyUI(enemy);
+    }, (duration + enemyCooldown));*/
 
 }
 

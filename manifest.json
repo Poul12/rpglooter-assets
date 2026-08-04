@@ -1,5 +1,5 @@
 {
-  "version": "1785881979127",
+  "version": "1785883220056",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3526,32 +3526,44 @@
     },
     {
       "path": "live/js/battle.js",
-      "hash": "975198a480bad4c5458ea7ca1f053863",
-      "size": 48335,
+      "hash": "1019ec4c4c4e667024d91a3cc9ea121b",
+      "size": 50604,
       "type": "code"
     },
     {
       "path": "live/js/character.js",
-      "hash": "4527f1ac254aebbcaa5cefe99552261c",
-      "size": 32792,
+      "hash": "f1636020a333efa82f35bdd75cf68c82",
+      "size": 40178,
       "type": "code"
     },
     {
       "path": "live/js/combat-animations.js",
-      "hash": "5e178681854e21adb6c3292a0843e5b1",
-      "size": 45212,
+      "hash": "2c00e849229488099d877adef1da7cbf",
+      "size": 47693,
+      "type": "code"
+    },
+    {
+      "path": "live/js/combat-resolve.js",
+      "hash": "b85e6deab1458e1b20de6ed0ce7795fd",
+      "size": 42283,
+      "type": "code"
+    },
+    {
+      "path": "live/js/combat-style.js",
+      "hash": "b80c2beebc64ec39ae8282540128cb6f",
+      "size": 32923,
       "type": "code"
     },
     {
       "path": "live/js/combat-utility.js",
-      "hash": "0e5a81ceb7f6e4bcc1fcd19decaa7752",
-      "size": 52509,
+      "hash": "0fdb1a4ae39111e7d26ad06e58d109cd",
+      "size": 42859,
       "type": "code"
     },
     {
       "path": "live/js/combat.js",
-      "hash": "123048425ac050fce24b1fd58d7607c6",
-      "size": 66362,
+      "hash": "d1a50ff2202c0acf06fd238314ec326d",
+      "size": 64934,
       "type": "code"
     },
     {
@@ -3562,8 +3574,8 @@
     },
     {
       "path": "live/js/enemy.js",
-      "hash": "0cd4addc3323564c3121c4b66e4587d8",
-      "size": 37461,
+      "hash": "6451c268002308dee0293ae44df38734",
+      "size": 55606,
       "type": "code"
     },
     {
@@ -3580,20 +3592,20 @@
     },
     {
       "path": "live/js/inventory.js",
-      "hash": "c606bad40df83ef1f820c13cf3a57a9e",
-      "size": 45278,
+      "hash": "52b6d34de7f12445e52c89e27617e703",
+      "size": 50268,
       "type": "code"
     },
     {
       "path": "live/js/item-utility.js",
-      "hash": "43095fe8188979f955429ee289872955",
-      "size": 16624,
+      "hash": "a68e90ab8d36de29344dacdd177a6b14",
+      "size": 42432,
       "type": "code"
     },
     {
       "path": "live/js/item.js",
-      "hash": "84885b43d3f1ceff9d00ce6a9f64bf2b",
-      "size": 45532,
+      "hash": "e03101de5892c9b1ffaff7d44ded4336",
+      "size": 49943,
       "type": "code"
     },
     {
@@ -3604,8 +3616,8 @@
     },
     {
       "path": "live/js/localization-items.js",
-      "hash": "afb77da2f3068034f4b6320be27d79e3",
-      "size": 24033,
+      "hash": "accebe44c60b80fb4da57a4f23c38f6a",
+      "size": 45388,
       "type": "code"
     },
     {
@@ -3622,8 +3634,8 @@
     },
     {
       "path": "live/js/localization-skills.js",
-      "hash": "c17827748a7e3906e1f8cb35f32c16b1",
-      "size": 9924,
+      "hash": "4b2f2f519601ff349739fcf5a708dfe9",
+      "size": 12462,
       "type": "code"
     },
     {
@@ -3634,8 +3646,8 @@
     },
     {
       "path": "live/js/location.js",
-      "hash": "a47cc249a7c632bbcdf67fd215c43828",
-      "size": 49510,
+      "hash": "448d846ca86ad9516a18c838701c2dde",
+      "size": 49674,
       "type": "code"
     },
     {
@@ -3658,8 +3670,8 @@
     },
     {
       "path": "live/js/quests.js",
-      "hash": "fc3597f4432e2a6506a30a17dbd9f14c",
-      "size": 37840,
+      "hash": "3f63b2b5899e39f6097e2630f4b97d90",
+      "size": 38044,
       "type": "code"
     },
     {
@@ -3670,26 +3682,26 @@
     },
     {
       "path": "live/js/shrine-chest.js",
-      "hash": "45d3d0de9172c4e6dfd0eb8d04172ac0",
-      "size": 30950,
+      "hash": "aab6d26a56693b210cda8e0f729330fc",
+      "size": 31247,
       "type": "code"
     },
     {
       "path": "live/js/skills-combat.js",
-      "hash": "5ce12e86419d825ec0c29c438c8fce39",
-      "size": 41383,
+      "hash": "3c4782e426132ee7753b9ba1f3e9180f",
+      "size": 53996,
       "type": "code"
     },
     {
       "path": "live/js/skills-database.js",
-      "hash": "6377bf0c2d844a4c006f707d493d4ef1",
-      "size": 18214,
+      "hash": "feccdc1539d48da91094bd073ba31115",
+      "size": 39603,
       "type": "code"
     },
     {
       "path": "live/js/skills.js",
-      "hash": "4d80b063b1c0c81c807a00bb8d7b002c",
-      "size": 43021,
+      "hash": "2b05e11ef8500314d85e3e7f6f603f13",
+      "size": 50585,
       "type": "code"
     },
     {
@@ -3700,20 +3712,20 @@
     },
     {
       "path": "live/js/store.js",
-      "hash": "78871c332854c941787eca73516528dc",
-      "size": 38526,
+      "hash": "b86b09fa54e0345aff75049147f6d503",
+      "size": 38795,
       "type": "code"
     },
     {
       "path": "live/js/views/battleView.js",
-      "hash": "5991daad3f2153daea17ce68e07b176f",
-      "size": 24815,
+      "hash": "0b2cc35d6fece9486bb3b1043c35e9dc",
+      "size": 27391,
       "type": "code"
     },
     {
       "path": "live/js/views/characterView.js",
-      "hash": "8bde1a711dfe5740d8918a26019e7b01",
-      "size": 10153,
+      "hash": "634175c5102f447e31d7f879a9a2b99d",
+      "size": 10814,
       "type": "code"
     },
     {
@@ -3730,14 +3742,14 @@
     },
     {
       "path": "live/js/views/skillsView.js",
-      "hash": "fcca11f1f403d3727797309a3249ddb5",
-      "size": 14684,
+      "hash": "085a414bc4c9269bd5333fef9ad250db",
+      "size": 15534,
       "type": "code"
     },
     {
       "path": "live/js/views/storeView.js",
-      "hash": "a99a3ebd863fbc0eed41bfad307d3d04",
-      "size": 5793,
+      "hash": "902581314344d516b28859433c03e4b7",
+      "size": 5837,
       "type": "code"
     }
   ]
