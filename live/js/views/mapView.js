@@ -580,10 +580,15 @@ let outsideClickHandler = null;
 let enterWorldHandler = null;
 
 function initMapView() {
- // console.log("Map initialized");
+  //console.log("Map initialized");
   
   if(gameState.world.isStartNewGame) setStarterSet();
     
+  if(!appState.soundsInitialized) {
+    console.log(`PRELOAD SOUNDS`);
+    preloadSounds();
+  }
+  
  // preloadSounds();
   loadMapAssets();
     
