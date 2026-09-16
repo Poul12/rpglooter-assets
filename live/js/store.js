@@ -105,6 +105,8 @@ function ensureShopCategoryFilled(key) {
   } else if (key === "others") {
       items.push(makeSmallHealPotion(gameState.char.level));
       items.push(makeLightFoodItem());
+      gameState.resources.healPotionQuantity = 99;
+      gameState.resources.foodQuantity = 10;
   } else {
     // fourth -> pusta karta (zostaw wszystkie null)
   }
@@ -128,6 +130,7 @@ function generateNewShopForCity() {
 
   fillWeaponsShop();
   fillArmorShop();
+  
   ensureShopCategoryFilled("others");
 
   if(gameState.world.mode === `sandbox`) {
@@ -871,10 +874,8 @@ function buyItem(category, index) {
 
 function getRandomShopItemLevel(characterLevel) {
      const roll = Math.random() * 100;
-     if (roll < 50) return characterLevel + 1;        
-     if (roll < 75) return characterLevel + 2;    
-     if (roll < 88) return characterLevel + 3;    
-     return characterLevel + 4;                   
+     if (roll < 85) return characterLevel + 1;        
+     return characterLevel + 2;                   
    }
 
 function randItems(min, max){
@@ -905,6 +906,10 @@ function buildRarityPool(total = 16){
 
 function fillWeaponsShop() {
 
+  if(gameState.world.currentLevel === 3 && gameState.world.mode === `story`) {
+    return;
+  }
+  
   const arr = gameState.resources.shopItems[`weapons`];
   if (arr.some(x => x !== null)) return; 
   const subtypes = [
@@ -912,10 +917,10 @@ function fillWeaponsShop() {
     "mace",
     "axe",
     "long_sword",
-    "great_sword",
+   // "great_sword",
     "double_axe",
     "spear",
-    "hammer"
+    //"hammer"
   ];
 
   const items = [];
@@ -947,7 +952,11 @@ function fillWeaponsShop() {
 ========================= */
 
 function fillArmorShop() {
-
+  
+  if(gameState.world.currentLevel === 3 && gameState.world.mode === `story`) {
+    return;
+  }
+  
   const arr = gameState.resources.shopItems[`armors`];
   if (arr.some(x => x !== null)) return; 
   

@@ -1497,11 +1497,11 @@ function clearAllDiffs(statId = null) {
    }
   
    if(statId === `def`) {
-     console.error(`def diff activeBonus.def`, gameState.combat.activeBonus.def);
+     //console.error(`def diff activeBonus.def`, gameState.combat.activeBonus.def);
      if(gameState.combat.activeBonus.def > 0) return;
    }
    
-   console.error(`diff cleared!`, statId);
+  // console.error(`diff cleared!`, statId);
    
    const ids = statId
     ? [statId]

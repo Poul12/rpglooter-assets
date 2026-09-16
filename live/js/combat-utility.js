@@ -61,15 +61,32 @@ function getPlayerAttackSpeed() {
   
   atkSpd = getAttackSpeedWithBonus(gameState.char.atkSpd);
 
-  console.error(`atkspd after`, atkSpd);
+  if(gameState.combat.bleedBuff.atkSpd.isActive) {
+    atkSpd *= 1 + (gameState.combat.bleedBuff.atkSpd.value);
+  }
+  
+  if(gameState.combat.bloodFrenzy.isActive) {
+    //console.error(`bloodFrenzy atkspd`, gameState.combat.bloodFrenzy.atkSpd);
+    
+    atkSpd *= 1 + (gameState.combat.bloodFrenzy.atkSpd);
+  }
+
+  
+ // console.error(`atkspd after`, atkSpd);
 
   return parseFloat(staminaPenalty * atkSpd);
 }
 
 // Oblicza cooldown na podstawie szybkości ataku
-function calculateCooldown(atkSpeed) {
+function calculateCooldown(atkSpeed, enemy) {
   let cooldown = 1 / atkSpeed;
-  cooldown *= (1 - gameState.char.agi * 0.0015);
+  
+  return cooldown; // np. 0.5 -> 2s cooldown
+}
+
+function calculatePlayerCooldown(atkSpeed) {
+  let cooldown = 1 / atkSpeed;
+  
   return cooldown; // np. 0.5 -> 2s cooldown
 }
 
@@ -141,6 +158,7 @@ function getPlayerStats(resistKey = null) {
     resist: getEffectiveResist(rawResist),
     physDmgReduction: char.physDmgReduction,
     level: char.level,
+    dom: char.dom,
   };
 }
 
@@ -359,7 +377,7 @@ function getPerfectBlockRefund(baseCost, errorMs) {
 }*/
 
 function msToPercent(ms) {
-  return (ms / (PERFECT_CENTER)) * 50;
+  return (ms / (PERFECT_CENTER * gameState.combat.openingStrike.windUpMultiplier)) * 50;
 }
 
 const BASE_TOTAL_WINDOW = 230; // ms (perfect + normal przy full stam)
@@ -368,10 +386,21 @@ const PERFECT_RATIO_MAX = 0.27;
 
 function getBlockWindows(player) {
   const staminaFactor = getStaminaBlockWindow(); // np. 0.6 – 1.0
-  const bonusFactor = 1 + player.perfectWindowBonus;
+  
+  let bonus = 0;
+  if(gameState.char.combatAffixes[`perfect_block_window`]) {
+    bonus = gameState.char.combatAffixes[`perfect_block_window`].value || 0;
+  }
+  
+  const passiveBonus = 1 + (gameState.char.bonus.perfectWindowBonus / 100);
+  
+  const bonusFactor = 1 + (bonus / 100);
+  //const bonusFactor = 1 + player.perfectWindowBonus;
 
+  const precisionFactor = 1 + (gameState.combat.perfectChainBlock.perfectWindow / 100);
+  
   // 1️⃣ Cały sensowny obszar bloku
-  const total = BASE_TOTAL_WINDOW * staminaFactor;
+  const total = BASE_TOTAL_WINDOW * staminaFactor * gameState.combat.openingStrike.windUpMultiplier;
 
   // 2️⃣ Proporcja perfecta (zależna od blockPower)
   const perfectRatio = lerp(
@@ -392,11 +421,11 @@ function getBlockWindows(player) {
   );*/
   
   // 3️⃣ Okna
-  const perfect = total * perfectRatio * bonusFactor * agiBonus;
+  const perfect = total * perfectRatio * bonusFactor * agiBonus * precisionFactor * passiveBonus;
   const normal  = total - perfect;
 
   // 4️⃣ Miss = reszta paska
-  const miss = (PERFECT_CENTER) - total;
+  const miss = (PERFECT_CENTER * gameState.combat.openingStrike.windUpMultiplier) - total;
 
   return {
     perfect,
@@ -422,11 +451,22 @@ function getBlockWindows(player) {
   };
 }*/
 
-function getPerfectWindowRange(player) {
+/*function getPerfectWindowRange(player) {
   const perfectWindow = getPerfectWindow(player.blockPower); 
   const staminaWindow = getStaminaBlockWindow();
-  const perfectWindowBonus = player.perfectWindowBonus + 1;
-  const perfect = perfectWindow * staminaWindow * perfectWindowBonus;
+  //const bonus = gameState.char.combatAffixes[`perfect_block_window`].value || 0;
+  
+  let bonus = 0;
+  if(gameState.char.combatAffixes[`perfect_block_window`]) {
+    bonus = gameState.char.combatAffixes[`perfect_block_window`].value || 0;
+  }
+  
+  const perfectWindowBonus = 1 + (bonus / 100);
+
+  const precisionFactor = 1 + (gameState.combat.perfectChainBlock.perfectWindow / 100);
+  
+  //const perfectWindowBonus = player.perfectWindowBonus + 1;
+  const perfect = perfectWindow * staminaWindow * perfectWindowBonus * precisionFactor;
  // console.error(`perfectWindow, staminaWindow, window`, perfectWindow, staminaWindow, window);
   
   const half = perfect / 2;
@@ -435,7 +475,7 @@ function getPerfectWindowRange(player) {
     start: PERFECT_CENTER - half,
     end: PERFECT_CENTER + half
   };
-}
+}*/
 
 function getTimedBlockReduction(blockPower) {
   // blockPower 0.25 – 0.75
@@ -450,41 +490,47 @@ function getTimedBlockCooldown(blockPower) {
   return lerp(1800, 800, blockPower); // ms
 }
 
-function getReflectPct(blockPower, bonus) {
-  return lerp(0.10, 0.30, blockPower) * (1 + (bonus / 100));
+function getReflectPct(blockPower) {
+  return lerp(0.10, 0.30, blockPower);
 }
 
-function getStunDuration(blockPower, bonus) {
-  return lerp(1.0, 2.0, blockPower) * (1 + (bonus / 100));
+function getStunDuration(blockPower) {
+  return lerp(1.0, 2.0, blockPower);
 }
 
-function getCritBonus(blockPower, bonus = 0) {
-  return lerp(0.75, 1.5, blockPower) * (1 + (bonus / 100)); // +75% → +150% dmg
+function getCritBonus(blockPower) {
+  return lerp(0.75, 1.5, blockPower); // +75% → +150% dmg
 }
 
 function tryTriggerBlockReward(damage, player, enemy, isSim = false) {
   const playerBlock = gameState.combat.playerBlock;
-  const bonus = gameState.char.bonus.perfectWindowBonus;
- // console.error(`bonus reward`, bonus);
+  //const bonus = gameState.char.bonus.perfectWindowBonus;
+  
+  /*let bonus = 0;
+  if(gameState.char.combatAffixes[`perfect_block_window`]) {
+    bonus = gameState.char.combatAffixes[`perfect_block_window`].value || 0;
+  }*/
+
+  // console.error(`bonus reward`, bonus);
   const rewards = ["reflect", "stun", "crit"];
   //const rewards = ["stun"];
   const reward = rewards[Math.floor(Math.random() * rewards.length)];
   
   switch (reward) {
     case "reflect":
-      let reflectDamage = getReflectPct(player.blockPower, bonus);
+      let reflectDamage = getReflectPct(player.blockPower);
       dealDamageToEnemy(enemy, Math.floor(damage * reflectDamage));
       showReward(`+${(reflectDamage * 100).toFixed(0)}% ${t("dmg_reflect_reward")}`, 2100);
       break;
 
     case "stun":
-      let stunDuration = getStunDuration(player.blockPower, bonus) * 1000;
+      let stunDuration = getStunDuration(player.blockPower) * 1000;
       applyEnemyStun(enemy, 0.001, stunDuration, gameState.world.selectedSlotIndex);
       //showReward(`${(stunDuration / 1000).toFixed(1)}${t("stun_enemy_reward")}`, 2100);
       break;
 
     case "crit":
-      playerBlock.critBonus = getCritBonus(player.blockPower, bonus);
+      playerBlock.critBonus = getCritBonus(player.blockPower);
       showReward(`${t("next_crit_reward")} x${(playerBlock.critBonus + 1).toFixed(1)}`, 2100);
       playerBlock.nextAttackGuaranteedCrit = true;
       break;
@@ -686,9 +732,16 @@ function getPotionEffectMultiplier() {
 }
 
 function onPerfectBlock() {
-  const player = getPlayerStats();
+ // const player = getPlayerStats();
   
-  const energyGain = 2 * (1 + player.perfectBlockEnergy);
+  //const energyGain = 2 * (1 + player.perfectBlockEnergy);
+  
+  let energyGain = 0;
+  if(gameState.char.combatAffixes[`energy_on_perfect_block`]) {
+    value = gameState.char.combatAffixes[`energy_on_perfect_block`].value || 0;
+    energyGain = 1 * (1 + (value / 100));
+  }
+  
   gainEnergy(energyGain);
   //showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
   
@@ -696,11 +749,18 @@ function onPerfectBlock() {
 }
 
 function onCrit() {
-  const player = getPlayerStats();
+  //const player = getPlayerStats();
   
   //console.error(`player.critEnergy`, player.critEnergy);
  
-  const energyGain = 1 * (1 + player.critEnergy);
+  //const energyGain = 1 * (1 + player.critEnergy);
+  
+  let energyGain = 0;
+  if(gameState.char.combatAffixes[`energy_on_crit`]) {
+    value = gameState.char.combatAffixes[`energy_on_crit`].value || 0;
+    energyGain = 1 * (1 + (value / 100));
+  }
+  
   gainEnergy(energyGain);
   //showReward(`+${(energyGain).toFixed(1)} ${t("to_energy_reward")}`, 2300);
   showEnergyGain(energyGain);
@@ -875,7 +935,7 @@ function applyHpToDmgBonus(threshold, maxBonus) {
 
   const bonus = maxBonus * Math.pow(progress, curve);
 
-  showReward(`+${(bonus * 100).toFixed(0)}% ${t("last_stand_reward")}`);
+  //showReward(`+${(bonus * 100).toFixed(0)}% ${t("last_stand_reward")}`);
   
   return 1 + bonus;
 }
@@ -1042,6 +1102,8 @@ function enterCriticalState() {
   const combat = gameState.combat;
   const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex].enemyData;
   const playerBlock = combat.playerBlock;
+  const player = getPlayerStats();
+  const style = getCurrentWeaponStyle();
 
   combat.flags.isCritical = true;
   gameState.combat.flags.isBlocked = false;
@@ -1052,22 +1114,43 @@ function enterCriticalState() {
 
   stopEnemyAttack(gameState.world.selectedSlotIndex); // przerywa CD, jelly, wszystko
 
+  resetBleed(enemy);
+  clearBleed(enemy);
+  stopWhirlwind(); 
+  
   //console.error(`enter critical state`);
-  lockActions({ duration: Infinity, reason: "critical", allow: ["potion", "block"] });
+ // lockActions({ duration: Infinity, reason: "critical", allow: ["potion", "block"] });
   pauseAllSkillsCooldown();
-  pausePlayerAttack();
+ // pausePlayerAttack();
+  
+  hideFleeButton();
   
   //showCriticalUI();
 
-  //showOutcome(`miss`, `STAN KRYTYCZNY`);
+ // showOutcome(`miss`, `STAN KRYTYCZNY`);
   showEnemyOutcome("wind-up", `${t("windup_critical_outcome")}`, CRITICAL_FINISHER_TIME - 600);
      
   //triggerCriticalShake();
-  if(gameState.combat.playerBlock.mode === "timed") {
+  if(gameState.combat.playerBlock.mode === "timed" || gameState.combat.playerBlock.mode === "defensive") {
+    pausePlayerAttack();
+    lockActions({ duration: Infinity, reason: "critical", allow: ["potion", "block"] });
+
     setTimeout(() => {
       activateTimedBlock();
     }, 1000);
   } 
+  
+  if(style === "berserker") {
+    showBleedTimingUI(player);
+    lockActions({ duration: Infinity, reason: "critical", allow: ["potion", "attack"] });
+    //console.error(`showBleedTimingUI Critical`);
+  }
+  
+  if(style === "warden") {
+    startSpearControlUI(player);
+    lockActions({ duration: Infinity, reason: "critical", allow: ["potion", "attack"] });
+  }
+
   
   startFinisherBar(CRITICAL_FINISHER_TIME, enemy);
   
@@ -1075,7 +1158,7 @@ function enterCriticalState() {
 }
 
 function startEnemyFinisherWindup(enemy, slotIndex) {
-  const baseCooldown = calculateCooldown(enemy.atkSpd) * 1000;
+  const baseCooldown = calculateCooldown(enemy.atkSpd, enemy) * 1000;
   
   enemy.attackState = {
     phase: "finisher-windup",
@@ -1096,13 +1179,16 @@ function startEnemyFinisherWindup(enemy, slotIndex) {
       //console.error(`perform finisher timeout, isCritical`, gameState.combat.flags.isCritical);
 
       performEnemyFinisherAttack(enemy, slotIndex);
+      
       stopTimedBlockUI();
+      stopBleedTimingUI();
+      stopSpearControlUI();
     }
   }, CRITICAL_FINISHER_TIME);
 }
 
 function performEnemyFinisherAttack(enemy, slotIndex) {
- // console.error("FINISHER ATTACK");
+  console.error("FINISHER ATTACK");
   const combat = gameState.combat;
   const player = getPlayerStats();
   
@@ -1115,19 +1201,35 @@ function performEnemyFinisherAttack(enemy, slotIndex) {
   if (combat.flags.isBlocked && combat.playerBlock.lastResult === `perfect`) { 
     //combatState.isBlocked = false;
     combat.stats.currentHp = 2;
+    //console.error("combat.stats.currentHp", combat.stats.currentHp);
   }
 
+  if (enemy.bleedLastResult === `perfect`) {
+    combat.stats.currentHp = 2;
+    //console.error("combat.stats.currentHp bleed", combat.stats.currentHp);
+  }
+
+  if (enemy.spearLastResult === `perfect`) {
+    combat.stats.currentHp = 2;
+    //console.error("combat.stats.currentHp spear", combat.stats.currentHp);
+  }
+
+  
   triggerCriticalShake();
   
   //console.error("combatState.currentHp in perform finsher attack and dmg", combat.stats.currentHp, dmg);
   updatePlayerHp(combat.stats.currentHp - dmg);
 
-  resolveFinalEnemyAttack(enemy, slotIndex);
+  resolveFinalEnemyAttack(enemy);
 }
 
-function resolveFinalEnemyAttack() {
+function resolveFinalEnemyAttack(enemy) {
   const combat = gameState.combat;
   if (!combat.flags.isCritical) return;
+  
+  enemy.spearLastResult = null;
+  enemy.bleedLastResult = null;
+
   
   if (combat.stats.currentHp > 0) {
     exitCriticalState();
@@ -1155,6 +1257,9 @@ function exitCriticalState() {
   showOutcome(`wind-up`, `${t("survive_outcome")}`);
 
   grantCriticalLastStand();
+  
+  showFleeButton();
+  
   
   //showRecoverUI();
 }
@@ -1191,7 +1296,7 @@ function grantCriticalLastStand() {
   
   const player = getPlayerStats();
 
-  const newHp = player.maxHp * 0.33;
+  const newHp = player.maxHp * 0.5;
   updatePlayerHp(newHp);  
   
   //showOutcome("buff", "OSTATNI ZRYW");
@@ -1357,6 +1462,8 @@ function showDeathPopupDelayed({ goldLost, context }) {
     popup.classList.remove("visible");
     
     gameState.world.currentStepIndex = 0;
+    syncStepEnemies(gameState.world.currentStepIndex);
+    
     loadStep(gameState.world.currentStepIndex); // ← ładuje stan exploreOptions i inne rzeczy
     showNavigateButtons();
     navigate(`battle`);
@@ -1534,6 +1641,8 @@ function showEndStoryPopup() {
   
   gameState.world.isStoryEnded = true;
   
+  localStorage.setItem("adventure_unlocked", true);
+  
   setTimeout(() => {
     popup.classList.remove("hidden");
     popup.classList.remove("visible");
@@ -1568,6 +1677,7 @@ function showEndStoryPopup() {
   setGlobalButtonTexture(endStoryBtn);
   //console.error(`end levelup`);
 
+  saveGame();
 }
 
 

@@ -383,7 +383,7 @@ function generateLocation(options = {}) {
     config = getStoryConfig(world.currentLocation);
   }
   
-  console.log("📍 GENERUJĘ NOWĄ LOKACJĘ", world.currentLocation);
+ // console.log("📍 GENERUJĘ NOWĄ LOKACJĘ", world.currentLocation);
 
   world.locationSteps = [];
   const isLastLevel = world.currentLevel === MAX_LEVELS_PER_REGION;
@@ -762,7 +762,7 @@ function validateLocation(steps) {
 function loadFirstStep() {
   const world = gameState.world;
 
-  console.log("📍 ŁADUJE PIERWSZY KROK", world.currentLocation);
+  //console.log("📍 ŁADUJE PIERWSZY KROK", world.currentLocation);
   const step = world.locationSteps[world.currentStepIndex];
   initializeExploreOptions(step);
   world.exploreOptions = step.exploreOptions;
@@ -1221,7 +1221,7 @@ function loadStep(index) {
 }
 
 async function goBack() {
-  console.log("🔙 Cofanie...");
+ // console.log("🔙 Cofanie...");
   stopEnemyUiRegenTick();
   const world = gameState.world;
  
@@ -1636,7 +1636,7 @@ function goToNextLevel() {
     const quests = Object.values(world.battleState.quests || {});
 
     for (const quest of quests) {
-      if (quest.state === "active" && quest.location === world.currentLocation && quest.type === "Misja poboczna") { 
+      if (quest.state === "active" && quest.location === world.currentLocation && quest.type === "side_quest") { 
         failQuest(quest.id);
       }
     }
@@ -1677,7 +1677,7 @@ function hideAttackBtn() {
 }
 
 function startLevel() {
-  console.log("LOADING startLevel");
+  //console.log("LOADING startLevel");
   showNavigateButtons();
   updateLocationName();
   generateLocation();

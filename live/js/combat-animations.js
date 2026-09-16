@@ -66,8 +66,252 @@ const HIT_EFFECTS = {
     scale: [0.6, 1.4],
     opacity: [0, 1, 0],
     hitStop: 50
-  }
+  },
+  
+  shield_bash: {
+   /* sequence: [
+      { type: "shield-bash-impact", delay: 0 },
+      { type: "shield-bash-shockwave", delay: 70 }
+    ],*/
+    type: "shield-bash-shockwave",
+    duration: 350,
+    scale: [0.6, 1.25],
+    opacity: [0, 1, 0],
+    hitStop: 45
+  },
+  
+  shield_wall_activate: {
+    type: "shield-wall",
+    duration: 800,
+    scale: [0.65, 1.15],
+    opacity: [0, 0.85, 0.35],
+    linger: true,
+    hitStop: 20
+  },
+  
+  iron_will_activate: {
+    type: "iron-will",
+    duration: 600,
+    scale: [0.7, 1.15],
+    opacity: [0, 0.85, 0.4],
+    linger: true,
+    hitStop: 20
+  },
+
+  counter_strike: {
+    /*sequence: [
+      { type: "counter-flash", delay: 0 },
+      { type: "counter-slash", delay: 60 },
+      { type: "counter-impact", delay: 130 }
+    ],*/
+    type: "counter-strike",
+    duration: 350,
+    scale: [0.6, 1.2],
+    opacity: [0, 0.95, 0],
+    hitStop: 60
+  },
+  
+  provocation: {
+   /* sequence: [
+      { type: "provocation-pulse", delay: 0 },
+      { type: "provocation-mark", delay: 100 }
+    ],*/
+    type: "provocation",
+    duration: 500,
+    scale: [0.65, 1.15],
+    opacity: [0, 0.9, 0.2],
+    hitStop: 25
+  },
+
+  last_bastion_activate: {
+    /*sequence: [
+      { type: "bastion-flash", delay: 0 },
+      { type: "bastion-expansion", delay: 100 }
+    ],*/
+    type: "last-bastion",
+    duration: 900,
+    scale: [0.5, 1.15],
+    opacity: [0, 0.7, 0.25],
+    linger: true,
+    hitStop: 40
+  },
+
+    
+  riposte: {
+    /*sequence: [
+      { type: "riposte-slash", delay: 0 },
+      { type: "riposte-impact", delay: 70 }
+    ],*/
+    type: "riposte",
+    duration: 320,
+    scale: [0.65, 1.2],
+    opacity: [0, 1, 0],
+    hitStop: 45
+  },
+  
+  opening_strike: {
+    /*sequence: [
+      { type: "opening-cut", delay: 0 },
+      { type: "opening-break", delay: 80 }
+    ],*/
+    type: "opening-strike",
+    duration: 450,
+    scale: [0.6, 1.35],
+    opacity: [0, 0.85, 0],
+    hitStop: 30
+  },
+
+  precision_activate: {
+    type: "precision",
+    duration: 500,
+    scale: [0.65, 1.45],
+    opacity: [0, 0.9, 0.35],
+    hitStop: 15
+  },
+  
+  parry_master_activate: {
+    type: "parry-master",
+    duration: 750,
+    scale: [0.7, 1.15],
+    opacity: [0, 0.9, 0.4],
+    hitStop: 20
+  },
+
+    
+  duelist_perfect_block: {
+    sequence: [
+      { type: "duelist-perfect-flash", delay: 0 },
+      { type: "duelist-perfect-ring", delay: 45 }
+    ],
+    duration: 300,
+    scale: [0.65, 1.25],
+    opacity: [0, 1, 0],
+    hitStop: 55
+  },
+  
+  weak_point_apply: {
+    type: "weak-point",
+    duration: 450,
+    scale: [0.7, 1.1],
+    opacity: [0, 0.9, 0.7],
+    hitStop: 20
+  },
+
+  perfect_execution: {
+   /* sequence: [
+      { type: "execution-windup", delay: 0 },
+      { type: "execution-slash", delay: 100 },
+      { type: "execution-impact", delay: 180 }
+    ],*/
+    type: "perfect-execution",
+    duration: 700,
+    scale: [0.8, 1.05],
+    opacity: [0, 0.9, 0.35],
+    hitStop: 85
+  },
+
+  
+  piercing_thrust: {
+    sequence: [
+      { type: "spear-thrust", delay: 0 },
+      { type: "control-impact", delay: 100 },
+    ],
+    duration: 400,
+    scale: [0.65, 1.15],
+    opacity: [0, 1, 0],
+    hitStop: 40
+  },
+
+  sweep: {
+    sequence: [
+      { type: "spear-sweep", delay: 0 },
+      //{ type: "spear-control-wave", delay: 200 },
+    ],
+    duration: 600,
+    scale: [0.55, 1.25],
+    opacity: [0, 0.85, 0.4],
+    hitStop: 35
+  },
+
+  impale: {
+    type: "impale",
+    duration: 550,
+    scale: [0.5, 1.4],
+    opacity: [0, 1, 0],
+    hitStop: 80
+  },
+  
+  control_break: {
+    type: "control-break",
+    duration: 450,
+    scale: [0.5, 1.3],
+    opacity: [0, 0.8, 0.35],
+    hitStop: 70
+  },
+  
+  spear_discipline_activate: {
+    type: "spear-discipline",
+    duration: 600,
+    scale: [0.7, 1.25],
+    opacity: [0, 1, 0.4],
+    hitStop: 20
+  },
+  
+  absolute_control_activate: {
+    sequence: [
+      { type: "absolute-control-burst", delay: 0 },
+      //{ type: "absolute-control-ring", delay: 400 }
+    ],
+    duration: 700,
+    scale: [0.7, 1.5],
+    opacity: [0, 0.8, 0.45],
+    hitStop: 35
+  },
+  
+  whirlwind_hit: {
+    type: "whirlwind-hit",
+    duration: 250,
+    scale: [0.8, 1.15],
+    opacity: [0, 0.95, 0.4],
+    hitStop: 20
+  },
+
+  blood_frenzy: {
+    type: "blood-frenzy",
+    duration: 600,
+    scale: [0.7, 1.3],
+    opacity: [0, 0.85, 0.4],
+    hitStop: 40
+  },
+  
+  blood_pact: {
+    type: "blood-pact",
+    duration: 800,
+    scale: [0.8, 1.1],
+    opacity: [0, 0.75, 0.45],
+    hitStop: 20
+  },
+ 
+  blood_reaver: {
+    type: "blood-reaver",
+    duration: 650,
+    scale: [0.6, 1.35],
+    opacity: [0, 0.85, 0.4],
+    hitStop: 40
+  },
+ 
+  executioner: {
+    type: "executioner",
+    duration: 700,
+    scale: [0.7, 1.5],
+    opacity: [0, 0.8, 0],
+    hitStop: 60
+  },
+ 
+  
+  
 };
+
 
 
 function spawnEffect(configKey, targetEl, options = {}) {
@@ -75,7 +319,7 @@ function spawnEffect(configKey, targetEl, options = {}) {
   if (!config || !targetEl) return;
 
   // 🔥 HIT STOP
-  if (config.hitStop) hitStop(config.hitStop);
+  //if (config.hitStop) hitStop(config.hitStop);
 
   // 🔁 SEKWENCJA (np. double, jump)
   if (config.sequence) {
@@ -127,9 +371,16 @@ function spawnSingleEffect(type, targetEl, config = {}) {
     effect.style.setProperty("--stretch-y", config.stretchY || 1);
   }
 
+  const rotateStart = config.rotate?.[0] ?? 0;
+  const rotateMid = config.rotate?.[1] ?? 0;
+  const rotateEnd = config.rotate?.[2] ?? 0;
+
+  
   // rotacja (np. kierunek)
   if (config.rotate !== undefined) {
-    effect.style.setProperty("--rotate", `${config.rotate}deg`);
+    effect.style.setProperty("--rotate-start", `${rotateStart}deg`);
+    effect.style.setProperty("--rotate-mid", `${rotateMid}deg`);
+    effect.style.setProperty("--rotate-end", `${rotateEnd}deg`);
   }
 
   // czas trwania
@@ -161,13 +412,76 @@ function playEnemyAnimation(className, slotIndex){
     enemySlot.classList.remove(className);
     void enemySlot.offsetWidth;
     enemySlot.classList.add(className);
-
+  
     enemySlot.addEventListener("animationend", () => {
         enemySlot.classList.remove(className);
     }, { once:true });
 }
 
+let whirlwindSwingDirection = false;
 
+function playWhirlwindPlayerAnimation(duration) {
+    const avatar = document.getElementById("player-avatar");
+
+    if (!avatar) return;
+  
+    avatar.classList.remove(`whirlwind-swing`);
+  
+    void avatar.offsetWidth;
+
+    avatar.classList.add(`whirlwind-swing`);
+  
+    setTimeout(() => {
+      avatar.classList.remove(`whirlwind-swing`);
+    }, duration);
+
+}
+
+function playWhirlwindVFX(playerSlot, duration) {
+  const vfx = document.createElement("img");
+
+  const vfxUrl = assetManager.getResolvedAsset(`img/vfx/whirlwind.png`);
+  
+  vfx.src = vfxUrl;
+  vfx.className = "combat-vfx whirlwind-vfx";
+  vfx.style.animationDuration = `${duration}ms`;
+  
+  playerSlot.appendChild(vfx);
+
+  requestAnimationFrame(() => {
+    vfx.classList.add("active");
+  });
+  
+  //console.log(`stun animation`);
+  
+  setTimeout(() => {
+    vfx.classList.remove("active");
+
+    vfx.addEventListener("transitionend", () => {
+      vfx.remove();
+    }, { once: true });
+
+  }, duration);
+}
+
+
+function playWhirlwindSwingAnimation(playerSlot, duration) {
+    const effect = document.createElement("img");
+    const whirlwindUrl = assetManager.getResolvedAsset(`img/vfx/whirlwind.png`);
+  
+    effect.className = "combat-vfx whirlwind-vfx";
+    effect.src = whirlwindUrl;
+  
+    playerSlot.appendChild(effect);
+  
+    effect.classList.add(`active`);
+
+    setTimeout(() => {
+      effect.classList.remove(`active`);
+      effect.remove();
+    }, duration);
+
+}
 
 let enemyUiTickId = null;
 
@@ -451,7 +765,7 @@ function showTimedBlockUI(player) {
   perfectBlockTimingActive = true;
 
   function animate() {
-
+    
     if (!perfectBlockTimingActive) return;
 
     if (gameState.globalTime.isPaused) {
@@ -459,21 +773,22 @@ function showTimedBlockUI(player) {
       return;
     }
 
+    const totalDuration = TIMED_DURATION * gameState.combat.openingStrike.windUpMultiplier;
     const elapsed = getGameTime() - startTime;
 
-    const cycle = elapsed / TIMED_DURATION;
+    const cycle = elapsed / totalDuration;
 
     //const progress = Math.abs(Math.sin(cycle * Math.PI));
     //const progress = (elapsed % TIMED_DURATION) / TIMED_DURATION;
-    const cycleLength = TIMED_DURATION + 120;
+    const cycleLength = totalDuration + 120;
     const cycleTime = elapsed % cycleLength;
     let progress;
     
-    if (cycleTime >= TIMED_DURATION) {
+    if (cycleTime >= totalDuration) {
       progress = 0;
       gameState.combat.playerBlock.startTime = getGameTime();
     } else {
-      progress = cycleTime / TIMED_DURATION;
+      progress = cycleTime / totalDuration;
     }
     
     
@@ -504,6 +819,8 @@ function stopTimedBlockUI() {
     perfectBlockAnimationFrame = null;
   }
 
+  gameState.combat.openingStrike.windUpMultiplier = 1;
+  
   const bar = document.getElementById("timing-mode");
 
   bar.classList.add("hidden");
@@ -634,7 +951,7 @@ function updateShieldUI() {
 
   if (!shieldBtn || !cooldownOverlay) return;
 
-  let COOLDOWN = 3000;
+  let COOLDOWN = gameState.combat.playerBlock.cooldown || 3500;
 
   if(gameState.combat.flags.isCritical) {
     COOLDOWN = 900;
@@ -661,12 +978,42 @@ function updateShieldUI() {
   }
 }
 
+function reduceShieldCooldown(reductionPercent) {
+  const now = getGameTime();
+  const cdEnd = gameState.combat.playerBlock.cooldownUntil || 0;
+
+  // Tarcza nie jest aktualnie na cooldownie
+  if (now >= cdEnd) return;
+
+  const reduction = Math.max(0, Math.min(reductionPercent, 100)) / 100;
+
+  const remaining = cdEnd - now;
+
+  // Skracamy pozostały czas
+  const newRemaining = remaining * (1 - reduction);
+
+  gameState.combat.playerBlock.cooldownUntil = now + newRemaining;
+}
 
 const playerAttackCooldown = {
   cooldownEnd: 0,
   durationMs: 0,
   rafId: null,
-  overlay: null
+  overlay: null,
+  
+  progress: 0,
+  
+  stunnedUntil: 0,
+  isStunActive: false,
+  slowMultiplier: 1,
+  
+  slow: {
+    active: false,
+    multiplier: 1,
+    expiresAt: 0,
+    lastUpdate: 0
+  }
+  
 };
 
 
@@ -674,7 +1021,7 @@ function startAttackCooldown(durationInSeconds) {
   const attackButton = document.getElementById("attack-button");
   const attackIcon = document.getElementById("attack-icon");
   const overlay = attackButton.querySelector(".cooldown-overlay");
-
+    
   if (!attackButton || !attackIcon) return;
 
   const durationMs = durationInSeconds * 1000;
@@ -711,34 +1058,93 @@ function startAttackCooldown(durationInSeconds) {
   playerAttackCooldown.cooldownEnd = getGameTime() + durationMs;
   playerAttackCooldown.overlay = overlay;
 
+  playerAttackCooldown.progress = 0;
+  playerAttackCooldown.lastUpdate = getGameTime(); 
+  playerAttackCooldown.stunnedUntil = 0;
+  
+  if(!playerAttackCooldown.slow.active) {
+    playerAttackCooldown.slow.active = false;
+    playerAttackCooldown.slow.multiplier = 1;
+    playerAttackCooldown.slow.expiresAt = 0;
+  }
+ 
+  // playerAttackCooldown.isStunActive = false;
+  
   animateAttackCooldown();
 }
 
 function animateAttackCooldown() {
-  const now = getGameTime();
-  const remaining = playerAttackCooldown.cooldownEnd - now;
 
-  if (remaining <= 0) {
+  const now = getGameTime();
+
+  if (!playerAttackCooldown.lastUpdate) {
+    playerAttackCooldown.lastUpdate = now;
+  }
+
+  const delta = now - playerAttackCooldown.lastUpdate;
+
+  playerAttackCooldown.lastUpdate = now;
+  
+
+  // --------------------------------
+  // PROGRESS
+  // --------------------------------
+
+    
+  let speedMultiplier = 1;
+
+  if (playerAttackCooldown.slow.active && playerAttackCooldown.slow.expiresAt > now) {
+    speedMultiplier = playerAttackCooldown.slow.multiplier;
+  } else {
+    playerAttackCooldown.slow.active = false;
+    playerAttackCooldown.slow.multiplier = 1;
+    //updateStatusPlayerUI(enemy);
+  }
+  
+  const progressDelta = (delta / playerAttackCooldown.durationMs) * speedMultiplier;
+
+  playerAttackCooldown.progress += progressDelta;
+  
+
+  // --------------------------------
+  // KONIEC
+  // --------------------------------
+
+  if (playerAttackCooldown.progress >= 1) {
+
+    playerAttackCooldown.progress = 1;
+
     finishAttackCooldown();
+
     return;
   }
 
-  const progress = 1 - (remaining / playerAttackCooldown.durationMs);
-  playerAttackCooldown.overlay.style.transform = `scaleY(${1 - progress})`;
 
-  playerAttackCooldown.rafId = requestAnimationFrame(animateAttackCooldown);
-  
+  // --------------------------------
+  // UI
+  // --------------------------------
+
+  if (playerAttackCooldown.overlay) {
+    playerAttackCooldown.overlay.style.transform = `scaleY(${1 - playerAttackCooldown.progress})`;
+  }
+
   const fill = document.getElementById("player-cooldown-fill");
 
-  if(!fill) return;
-  //fill.style.width = (progress * 100) + "%";
+  if (fill) {
+    fill.style.transform = `scaleX(${playerAttackCooldown.progress})`;
+    
+    if (playerAttackCooldown.slow.active) {
+      fill.classList.add('slow');
+      fill.classList.remove('stun');
+    } else {
+      fill.classList.remove('slow', 'stun');
+    }
 
-  //console.log(`progress`, progress);
-  
-  fill.style.transform = `scaleX(${progress})`;
-  
+  }
+
+
+  playerAttackCooldown.rafId = requestAnimationFrame(animateAttackCooldown);
 }
-
 
 function finishAttackCooldown() {
   const attackButton = document.getElementById("attack-button");
@@ -748,38 +1154,58 @@ function finishAttackCooldown() {
   const weapon = eq["weapon"];
 
   let weaponSprite = "img/icons/right-hand-placeholder.png";
+
   if (weapon) {
     weaponSprite = "img/items/" + weapon.sprite;
   }
 
   const weaponUrl = assetManager.getResolvedAsset(weaponSprite);
-  
+
   if (attackButton && attackIcon) {
-    //attackButton.disabled = false;
     attackButton.classList.remove("disabled");
-    //attackButton.classList.remove("cooldown");
-    attackIcon.src = `${weaponUrl}`;
-  //  console.error(`weaponSprite`, weaponSprite);
-    //setSpriteImage(attackIcon, weaponSprite);
+    attackIcon.src = weaponUrl;
   }
 
   if (playerAttackCooldown.overlay) {
     playerAttackCooldown.overlay.style.transform = "scaleY(0)";
   }
 
-  //const fill = document.getElementById("player-cooldown-fill");
-  //fill.style.width = "100%";
-  //fill.style.transform = `scaleX(0)`;
+  const fill = document.getElementById("player-cooldown-fill");
+
+  if (fill) {
+    fill.style.transform = "scaleX(1)";
+  }
 
   cancelAnimationFrame(playerAttackCooldown.rafId);
 
   playerAttackCooldown.cooldownEnd = 0;
   playerAttackCooldown.durationMs = 0;
   playerAttackCooldown.rafId = null;
+
+  playerAttackCooldown.progress = 0;
+
+  playerAttackCooldown.lastUpdate = 0;
+  
+  // reset slow
+  if(!playerAttackCooldown.slow.active) {
+    playerAttackCooldown.slow.active = false;
+    playerAttackCooldown.slow.multiplier = 1;
+    playerAttackCooldown.slow.expiresAt = 0;
+    playerAttackCooldown.slow.lastUpdate = 0;
+  }
+  
+ // playerAttackCooldown.isStunActive = false;
+  
+  
 }
 
 function restoreAttackCooldownAfterLoad() {
+
   const now = getGameTime();
+
+  if (playerAttackCooldown.paused) {
+    return;
+  }
 
   if (playerAttackCooldown.cooldownEnd > now) {
     animateAttackCooldown();
@@ -789,129 +1215,113 @@ function restoreAttackCooldownAfterLoad() {
 }
 
 
-/*function startAttackCooldown(durationInSeconds) {
-  const attackButton = document.getElementById("attack-button");
-  const blockButton = document.getElementById("attack-left");
-  const attackIcon = document.getElementById("attack-icon");
-  const eq = char?.equipment || {};
-  const weapon = eq[`Broń`];
-   
-  let weaponSprite = `icons/right-hand-placeholder.png`;
-
-  if(weapon){
-    weaponSprite = `items/` + weapon.sprite;
-  }
-  
-  if (!attackButton || !attackIcon) return;
-
-  //attackIcon.src = `${ASSET_BASE}img/buttons/attack-off.png`;
-  attackIcon.src = `${ASSET_BASE}img/${weaponSprite}`;
-  attackButton.disabled = true;
-  attackButton.classList.add("cooldown");
-
-  let overlay = attackButton.querySelector(".cooldown-overlay");
-  if (!overlay) {
-    overlay = document.createElement("div");
-    overlay.className = "cooldown-overlay";
-    attackButton.appendChild(overlay);
-  }
-
-  overlay.style.transform = "scaleY(1)";
-
-  playerAttackCooldown.isOnCooldown = true;
-  playerAttackCooldown.wasRunning = false;
-  playerAttackCooldown.startTime = performance.now();
-  playerAttackCooldown.durationMs = durationInSeconds * 1000;
-  playerAttackCooldown.remainingMs = playerAttackCooldown.durationMs;
-  playerAttackCooldown.progressAtPause = 0;
-  playerAttackCooldown.overlay = overlay;
-
-  function animate(now) {
-    const elapsed = now - playerAttackCooldown.startTime;
-    const progress = Math.min(elapsed / playerAttackCooldown.durationMs, 1);
-    overlay.style.transform = `scaleY(${1 - progress})`;
-
-    if (progress < 1 && playerAttackCooldown.isOnCooldown) {
-      playerAttackCooldown.rafId = requestAnimationFrame(animate);
-    } else {
-      attackButton.disabled = false;
-      attackButton.classList.remove("cooldown");
-      //attackIcon.src = `${ASSET_BASE}img/buttons/attack-on.png`;
-      attackIcon.src = `${ASSET_BASE}img/${weaponSprite}`;
-      overlay.style.transform = "scaleY(0)";
-      playerAttackCooldown.isOnCooldown = false;
-      playerAttackCooldown.rafId = null;
-    }
-    
-    if (combat.playerBlock.cooldownUntil <= now) {
-      blockButton.classList.remove(`cooldown`);
-    }
-  }
-
-  playerAttackCooldown.rafId = requestAnimationFrame(animate);
-}*/
-
 function pausePlayerAttack() {
-  if (!playerAttackCooldown.isOnCooldown) return;
+
+  if (!playerAttackCooldown.rafId) return;
 
   cancelAnimationFrame(playerAttackCooldown.rafId);
-  const now = performance.now();
-  const elapsed = now - playerAttackCooldown.startTime;
 
-  playerAttackCooldown.remainingMs = Math.max(playerAttackCooldown.durationMs - elapsed, 0);
-  playerAttackCooldown.progressAtPause = elapsed / playerAttackCooldown.durationMs;
-  playerAttackCooldown.isOnCooldown = false;
-  playerAttackCooldown.wasRunning = true;
+  playerAttackCooldown.rafId = null;
+  playerAttackCooldown.lastUpdate = 0;
+
 }
 
 function resumePlayerAttack() {
-  if (!playerAttackCooldown.wasRunning || playerAttackCooldown.remainingMs <= 0) return;
 
-  playerAttackCooldown.isOnCooldown = true;
-  playerAttackCooldown.startTime = performance.now();
-  playerAttackCooldown.durationMs = playerAttackCooldown.remainingMs;
-
-  const overlay = playerAttackCooldown.overlay;
-  const startProgress = playerAttackCooldown.progressAtPause;
-  const eq = gameState.char?.equipment || {};
-  const weapon = eq[`weapon`];
-  
-  let weaponSprite = `img/icons/right-hand-placeholder.png`;
-  
-  if(weapon){
-    weaponSprite = `img/items/` + weapon.sprite;
-  }
-  
-  const weaponUrl = assetManager.getResolvedAsset(weaponSprite);
-  
-  function animate(now) {
-    const elapsed = now - playerAttackCooldown.startTime;
-    const progress = Math.min(elapsed / playerAttackCooldown.durationMs, 1);
-    const totalProgress = startProgress + progress * (1 - startProgress);
-
-    overlay.style.transform = `scaleY(${1 - totalProgress})`;
-
-    if (progress < 1 && playerAttackCooldown.isOnCooldown) {
-      playerAttackCooldown.rafId = requestAnimationFrame(animate);
-    } else {
-      playerAttackCooldown.isOnCooldown = false;
-      playerAttackCooldown.wasRunning = false;
-      playerAttackCooldown.rafId = null;
-
-      // po zakończeniu cooldownu przywróć stan przycisku
-      const attackButton = document.getElementById("attack-button");
-      const attackIcon = document.getElementById("attack-icon");
-      if (attackButton && attackIcon) {
-        attackButton.disabled = false;
-        attackButton.classList.remove("cooldown");
-        //attackIcon.src = `${ASSET_BASE}img/buttons/attack-on.png`;
-        attackIcon.src = `${weaponUrl}`;
-        overlay.style.transform = "scaleY(0)";
-      }
-    }
+  if (playerAttackCooldown.progress >= 1) {
+    finishAttackCooldown();
+    return;
   }
 
-  playerAttackCooldown.rafId = requestAnimationFrame(animate);
+  const now = getGameTime();
+
+  // ile czasu zostało od aktualnego progressu
+  const remaining = playerAttackCooldown.durationMs * (1 - playerAttackCooldown.progress);
+
+  playerAttackCooldown.cooldownEnd = now + remaining;
+
+  playerAttackCooldown.lastUpdate = getGameTime();
+
+  // ponownie uruchom animację
+  animateAttackCooldown();
+}
+
+function stunPlayer(enemy, durationMs) {
+  pausePlayerAttack();
+
+  playerAttackCooldown.isStunActive = true;
+  updateStatusPlayerUI(enemy);
+           
+  const fill = document.getElementById("player-cooldown-fill");
+
+  fill.classList.add("stun");
+  
+  setTimeout(() => {
+    resumePlayerAttack();
+    playerAttackCooldown.isStunActive = false;
+    updateStatusPlayerUI(enemy);
+    fill.classList.remove("stun");
+  }, durationMs);
+
+}
+
+
+function isPlayerStunned() {
+  return playerAttackCooldown.stunnedUntil > getGameTime();
+}
+
+/*function pushbackPlayer(durationMs) {
+  if (playerAttackCooldown.cooldownEnd <= 0) {
+    return;
+  }
+
+  playerAttackCooldown.cooldownEnd += durationMs;
+}*/
+
+function pushbackPlayer(percent) {
+
+  if (playerAttackCooldown.durationMs <= 0) {
+    return;
+  }
+
+  const progressLoss = percent * playerAttackCooldown.durationMs;
+
+  playerAttackCooldown.progress =
+    Math.max(
+      0,
+      playerAttackCooldown.progress - progressLoss
+    );
+}
+
+function slowPlayer(enemy, percent, durationMs) {
+
+  const now = getGameTime();
+
+  /*if (playerAttackCooldown.progress >= 1) {
+    return;
+  }*/
+
+  playerAttackCooldown.slow.active = true;
+  updateStatusPlayerUI(enemy); 
+  /*playerAttackCooldown.slow.multiplier =
+    1 + (percent / 100);*/
+
+  console.log(`slow durationMs`, durationMs);
+  
+  const fill = document.getElementById("player-cooldown-fill");
+
+  fill.classList.add('slow');
+    
+  playerAttackCooldown.slow.multiplier = Math.max(0, 1 - percent / 100);
+  
+  playerAttackCooldown.slow.expiresAt = now + durationMs;
+  
+  setTimeout(() => {
+    playerAttackCooldown.slow.active = false;
+    updateStatusPlayerUI(enemy); 
+    fill.classList.remove('slow');
+  }, durationMs);
+
 }
 
 
@@ -923,7 +1333,7 @@ function startFinisherBar(durationMs, enemy) {
   const bar = document.querySelector(".enemy-cooldown-bar");
   const fill = document.getElementById(`enemy-cooldown-fill-${gameState.world.selectedSlotIndex}`);
 
-  const baseCooldown = calculateCooldown(enemy.atkSpd) * 1000;
+  const baseCooldown = calculateCooldown(enemy.atkSpd, enemy) * 1000;
 
   //bar.classList.remove("hidden", "warning");
 
@@ -1018,7 +1428,7 @@ function consumeGuardStacks(stacks) {
 
   ring.classList.toggle("full", stacks === 3);
   
- // if (stacks === 3) showOutcome("perfect", `${t("counterattack_outcome")}`);
+  if (stacks === 3) showOutcome("perfect", `${t("counterattack_outcome")}`);
   
   setTimeout(() => {
     ring.classList.remove("guard-release");
@@ -1245,7 +1655,13 @@ function showBleedTimingUI(player) {
     const elapsed = getGameTime() - startTime;
     
     const cycle = elapsed / BLEED_TIMED_DURATION;
-    const progress = Math.abs(Math.sin(cycle * Math.PI));
+    
+    let criticalMultiplier = 1;
+    if(gameState.combat.flags.isCritical) {
+      criticalMultiplier = 1.6;
+    }
+    
+    const progress = Math.abs(Math.sin(cycle * criticalMultiplier * Math.PI));
     
     const moveX = progress * barWidth;
 
@@ -1317,12 +1733,14 @@ const GS_TIMED_DURATION = 800; // wolniej niż bleed
 function getArmorBreakWindows(player) {
   const BASE_TOTAL = 220; // mniejsze niż bleed
 
-  const PERFECT_RATIO = 0.14; // węższe okno
+  const PERFECT_RATIO = 0.12; // węższe okno
   const agiBonus = 1 + player.agi * 0.001; // mniejszy wpływ niż bleed
 
+  const bonus = 1 + (gameState.char.bonus.perfectWindowBonus / 100);
+  
   const total = BASE_TOTAL;
 
-  const perfect = total * PERFECT_RATIO * agiBonus;
+  const perfect = total * PERFECT_RATIO * agiBonus * bonus;
   const normal = total - perfect;
 
   return {
@@ -1507,7 +1925,7 @@ function decayArmorBreakStacks(enemy) {
 let spearTimingActive = false;
 let spearAnimationFrame = null;
 
-const SPEAR_TIMED_DURATION = TIMED_DURATION * 2.3;
+const SPEAR_TIMED_DURATION = TIMED_DURATION * 2;
 
 function startSpearControlUI(player) {
   const bar = document.getElementById("timing-mode");
@@ -1553,7 +1971,13 @@ function startSpearControlUI(player) {
     
     const cycle = elapsed / SPEAR_TIMED_DURATION;
     //const progress = Math.abs(Math.sin(cycle * Math.PI));
-    const progress = Math.pow(Math.abs(Math.sin(cycle * Math.PI)), 0.7);
+    
+    let criticalMultiplier = 1;
+    if(gameState.combat.flags.isCritical) {
+      criticalMultiplier = 1;
+    }
+    
+    const progress = Math.pow(Math.abs(Math.sin(cycle * criticalMultiplier * Math.PI)), 0.7);
     
     const moveX = progress * barWidth;
 
@@ -1662,7 +2086,7 @@ function resetSpearUI() {
 function setSpearReadyUI(isReady) {
   const ring = document.getElementById("guard-ring");
   if (!ring) return;
-
+  //console.log(`spear full toogle`);
   ring.classList.toggle("full", isReady);
 }
 

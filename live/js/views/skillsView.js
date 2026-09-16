@@ -27,7 +27,29 @@ function getSkillsTemplate() {
        ${t("combat_style")}: <span id="dominant-style">Brak</span>
      </div>
  
+    <div class="mastery-row">
+
+      <div class="mastery-header">
+        <span id="mastery-skill-title"></span>
+        <span id="mastery-level">Lv. 1</span>
+      </div>
+  
+      <div class="mastery-progress">
+
+        <div id="mastery-skill-bar">
+
+          <span id="mastery-skill-label">
+            0 / 100
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+  
    </div>
+  
 
 
    <div id="skill-tree-container">
@@ -35,7 +57,7 @@ function getSkillsTemplate() {
 
      
      <div class="left-skill-container rare oval">
-       <div class="level-text common circle" id="char-level"></div>
+       <div class="level-text common circle" id="mastery-points"></div>
      </div> 
      
      <div class="right-skill-container set oval">
@@ -57,7 +79,7 @@ function getSkillsTemplate() {
           <div class="skill-cooldown-wrapper">
             <img data-src="img/icons/skill-cooldown-icon.png" alt="Cooldown" class="skill-cooldown-icon" />
             <div id="skill-cooldown" class="skill-cooldown"></div>
-            <img data-src="img/icons/stamina-cost-icon.png" alt="Cost" id="cost-icon" class="skill-cooldown-icon" />
+            <img alt="Cost" id="cost-icon" class="skill-cooldown-icon" />
             <div id="skill-cost" class="skill-cooldown"></div>    
           </div> 
           <div class="item-separator"></div>
@@ -112,7 +134,7 @@ function getSkillsTemplate() {
     </svg>
 
     <!-- Focus -->
-    <div class="skill-node locked" id="focus" style="left: 70%; top: 51%; transform: translate(-50%, -50%)"></div>
+    <div class="skill-node locked" id="focus" style="left: 50%; top: 57%; transform: translate(-50%, -50%)"></div>
 
     <!-- Główna umiejętność (ziemia) --> 
   <!--  <div class="skill-node unlocked" id="slash" style="left: 50%; top: 57%; transform: translate(-50%, -50%)"></div> --> 
@@ -126,20 +148,20 @@ function getSkillsTemplate() {
     <div class="skill-node locked" id="skill-top-3.1" style="left: 15%; top: 35%; transform: translate(-50%, -50%)">3.1</div> -->
   
     <!-- Root -->
-    <div class="skill-node unlocked" id="skill-node-1" style="left:50%; top:57%; transform:translate(-50%,-50%)"></div>
+    <div class="skill-node unlocked" id="skill-node-1" style="transform:translate(-50%,-50%)"></div>
 
     <!-- Tier 2 -->
-    <div class="skill-node locked" id="skill-node-2" style="left:50%; top:47%; transform:translate(-50%,-50%)"></div>
+    <div class="skill-node locked" id="skill-node-2" style="transform:translate(-50%,-50%)"></div>
 
     <!-- Tier 3 -->
-    <div class="skill-node locked" id="skill-node-3" style="left:33%; top:37%; transform:translate(-50%,-50%)"></div>
+    <div class="skill-node locked" id="skill-node-3" style="transform:translate(-50%,-50%)"></div>
 
-    <div class="skill-node locked" id="skill-node-4" style="left:50%; top:37%; transform:translate(-50%,-50%)"></div>
+    <div class="skill-node locked" id="skill-node-4" style="transform:translate(-50%,-50%)"></div>
 
-    <div class="skill-node locked" id="skill-node-5" style="left:66%; top:37%; transform:translate(-50%,-50%)"></div>
+    <div class="skill-node locked" id="skill-node-5" style="transform:translate(-50%,-50%)"></div>
 
     <!-- Ultimate -->
-    <div class="skill-node locked" id="skill-node-6" style="left:50%; top:27%; transform:translate(-50%,-50%)"></div>
+    <div class="skill-node locked" id="skill-node-6" style="transform:translate(-50%,-50%)"></div>
   
   
   <!--  <div class="skill-node locked" id="skill-top-3.2" style="left: 23%; top: 27%; transform: translate(-50%, -50%)">3.2</div>
@@ -274,10 +296,38 @@ function initSkillsView() {
     
   updateCharMenuIcon();
   updateSkillsMenuIcon();
+  showMasteryBar();
 }
 
 async function initSkillsTreeBg() {
   await setCssAssetVar("--skill-tree-bg", "img/backgrounds/tree-skills-bg.png");
+}
+
+function showMasteryBar() {
+  const masteryBar = document.getElementById("mastery-skill-bar");
+  const masteryLvl = document.getElementById("mastery-level");
+
+  const style = getCurrentWeaponStyle();
+  
+  setMasteryStyle(style, true);
+  
+  const colors = MASTERY_COLORS[style];
+  const title = document.getElementById("mastery-skill-title");
+  const mastery = gameState.char.weaponMastery[style];
+  const masteryExp = mastery?.exp ?? 0;
+  const masteryExpToNext = mastery?.expToNext ?? 0;
+  const masteryLevel = mastery?.level ?? 0;
+  const masteryPercent = Math.min(125, Math.round(100 * masteryExp / masteryExpToNext));
+
+  title.textContent = t(colors?.title) ?? "";
+  title.style.color = colors?.c2;
+  masteryLvl.textContent = t(`item_lvl_text`) + ` ` + masteryLevel;
+  
+  masteryBar.style.width = masteryPercent + "%";
+  const masteryLabel = document.getElementById("mastery-skill-label");
+  masteryLabel.textContent = `${masteryExp} / ${masteryExpToNext}`;
+  document.getElementById("weapon-mastery").textContent = masteryLevel;
+
 }
 
 /*function setStylePanel() {

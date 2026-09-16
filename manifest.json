@@ -1,5 +1,5 @@
 {
-  "version": "1785885394944",
+  "version": "1789552521620",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -256,8 +256,8 @@
     },
     {
       "path": "img/backgrounds/coal-texture.png",
-      "hash": "643e89130c0118dd856d9852b94d0d3f",
-      "size": 2057954,
+      "hash": "c51124f79e033d01246857e98a8858f4",
+      "size": 972323,
       "type": "asset"
     },
     {
@@ -268,20 +268,20 @@
     },
     {
       "path": "img/backgrounds/compare-background.png",
-      "hash": "bc4c92ae29d22f4d22508f2506d81080",
-      "size": 2824067,
+      "hash": "c66cc69784331a7ffc87a9d1995d4fea",
+      "size": 1233313,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/dark-brown-texture.png",
-      "hash": "2b0874456afb12e8073488a459015e8e",
-      "size": 1702052,
+      "hash": "33c110de942cea6ca2976d1ff01e1c42",
+      "size": 852390,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/dark-violet-texture.png",
-      "hash": "4dfa452629d4bf358c6492b29b5fa49d",
-      "size": 1463344,
+      "hash": "4b066b297b95747980309d233fdeec95",
+      "size": 719798,
       "type": "asset"
     },
     {
@@ -310,6 +310,12 @@
     },
     {
       "path": "img/backgrounds/legendary-texture.png",
+      "hash": "81a094606d2ffe9090b972444e5dd7da",
+      "size": 875352,
+      "type": "asset"
+    },
+    {
+      "path": "img/backgrounds/legendary-texture2.png",
       "hash": "53d19549e7005ab05ef9278cc4e25100",
       "size": 743962,
       "type": "asset"
@@ -328,38 +334,38 @@
     },
     {
       "path": "img/backgrounds/map-pergamin-long.png",
-      "hash": "de1a77d0260a09fada7b4067021a5021",
-      "size": 2485715,
+      "hash": "c4de8896194f3f5dc6ab6ea84824a1f1",
+      "size": 1127406,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/metallic-texture.png",
-      "hash": "78e2ac73aaacce7a96d836dd8418954b",
-      "size": 2544971,
+      "hash": "e2b65de46c2274c6c80396ce3bed44a4",
+      "size": 1206021,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/other-texture.png",
-      "hash": "5239d974efe0f6fd6b7a864cb26ab3af",
-      "size": 1585694,
+      "hash": "7af55b327d65bcd4c0b1527e8a480f2a",
+      "size": 808163,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/other-texture2.png",
-      "hash": "b639b28075e12293c62c57fc7a68182d",
-      "size": 2040213,
+      "hash": "0cbb8b08e8714af80efcdb27a089af81",
+      "size": 1004956,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/other-texture3.png",
-      "hash": "3db17ae0b9011763f6fe28b854f072ae",
-      "size": 2436080,
+      "hash": "ce5ff2d3309564591a0e982667a6be4d",
+      "size": 1168388,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/poise-texture.png",
-      "hash": "eae839220a448aabc531c97d601dd8c2",
-      "size": 2101420,
+      "hash": "4e6a81163423035f2dd77dbe17362324",
+      "size": 986210,
       "type": "asset"
     },
     {
@@ -376,8 +382,8 @@
     },
     {
       "path": "img/backgrounds/ribbon-title.png",
-      "hash": "93c423455fc8f2da6f6855c8970b9311",
-      "size": 1355135,
+      "hash": "e756b9224ee4d6d91b64b76f24384722",
+      "size": 89820,
       "type": "asset"
     },
     {
@@ -394,8 +400,8 @@
     },
     {
       "path": "img/backgrounds/special-texture.png",
-      "hash": "7b7dc5d576ce2b81cb7009e20e7b519f",
-      "size": 2319719,
+      "hash": "83f5d3e789dc82e2e1cff11959d9feca",
+      "size": 1143008,
       "type": "asset"
     },
     {
@@ -406,32 +412,38 @@
     },
     {
       "path": "img/backgrounds/tree-skills-bg.png",
-      "hash": "a4d2e767c27dbcbb97d7902ada643f3b",
-      "size": 2477812,
+      "hash": "c68db2d5ece6b439d3d99cf23432def1",
+      "size": 1181140,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/turtle-texture.png",
-      "hash": "45f435131135bf4b3798d46a7b47db48",
-      "size": 1844048,
+      "hash": "2fecedeba7d81d5fd2ae38869f623c4a",
+      "size": 834915,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/unique-texture.png",
+      "hash": "b99964610cac8f756716110298c4ee40",
+      "size": 1378492,
+      "type": "asset"
+    },
+    {
+      "path": "img/backgrounds/unique-texture2.png",
       "hash": "f68b8662b770807b3a46d752d51ebbb0",
       "size": 951025,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/warrior.png",
-      "hash": "2cdde71528332bd0cca90f877ee4e8fa",
-      "size": 2248757,
+      "hash": "c9dcd3baa299d6307e0aac87c80ea97c",
+      "size": 1031953,
       "type": "asset"
     },
     {
       "path": "img/backgrounds/west-character-bg.png",
-      "hash": "b4cab06785f472d94bc8679d3fab360b",
-      "size": 2612083,
+      "hash": "9559afba85ec268d0c14d50b18247018",
+      "size": 1176168,
       "type": "asset"
     },
     {
@@ -496,14 +508,20 @@
     },
     {
       "path": "img/exploring-slots/alpha-wolf.png",
-      "hash": "d1855168b8ebdf4e155d01153e6fb701",
-      "size": 790279,
+      "hash": "6d9fb67ea72548918f840b644846b76c",
+      "size": 655620,
       "type": "asset"
     },
     {
       "path": "img/exploring-slots/alpha-wolf2.png",
       "hash": "753dc0b9eae061838b1a4460996549d9",
       "size": 2191356,
+      "type": "asset"
+    },
+    {
+      "path": "img/exploring-slots/alpha-wolf3.png",
+      "hash": "d1855168b8ebdf4e155d01153e6fb701",
+      "size": 790279,
       "type": "asset"
     },
     {
@@ -550,14 +568,20 @@
     },
     {
       "path": "img/exploring-slots/bossman.png",
-      "hash": "a56ec27232cb17a066e75a48cb3c9f25",
-      "size": 759878,
+      "hash": "68bfc2f52a4a9bdedf242f2e5fbc4528",
+      "size": 631442,
       "type": "asset"
     },
     {
       "path": "img/exploring-slots/bossman1.png",
       "hash": "78043cd2c301b9d252e31f499227bf61",
       "size": 529205,
+      "type": "asset"
+    },
+    {
+      "path": "img/exploring-slots/bossman2.png",
+      "hash": "a56ec27232cb17a066e75a48cb3c9f25",
+      "size": 759878,
       "type": "asset"
     },
     {
@@ -994,8 +1018,8 @@
     },
     {
       "path": "img/exploring-slots/vs-symbol-combat.png",
-      "hash": "1463cc4df34c43b1eee9d7c2214117ba",
-      "size": 1878945,
+      "hash": "cd88b9f861c995726cdc9c6bb1de76da",
+      "size": 262825,
       "type": "asset"
     },
     {
@@ -1101,6 +1125,18 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/absolute-bonus-icon.png",
+      "hash": "f674160c840ba2ab41a27718c386b561",
+      "size": 242789,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/absolute-control-icon.png",
+      "hash": "91f407ca1e38d741a4b139aa4e3da392",
+      "size": 346748,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/armor-break-icon.png",
       "hash": "ca95bb4d08efdf548cc660eddcd9dc56",
       "size": 266472,
@@ -1150,8 +1186,8 @@
     },
     {
       "path": "img/icons/bastion-bonus-icon.png",
-      "hash": "e859bcb7edf81df894a8f938c20ec1e3",
-      "size": 2527847,
+      "hash": "43d9edaeafe25d3da467f4cc0d4f9454",
+      "size": 337725,
       "type": "asset"
     },
     {
@@ -1174,8 +1210,20 @@
     },
     {
       "path": "img/icons/block-recovery-skill-icon.png",
+      "hash": "765b7a1f6b9ebb45e461c67f9e76c260",
+      "size": 375517,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/block-recovery-skill-icon2.png",
       "hash": "796ede335c3ef1862690b9aebd6a3df3",
       "size": 236662,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/block-recovery-skill-icon3.png",
+      "hash": "54192aad0bb46bb42767c6ffa92ca1bc",
+      "size": 365115,
       "type": "asset"
     },
     {
@@ -1191,6 +1239,24 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/blood-frenzy-icon.png",
+      "hash": "ffe16a5bfa8bf023edb975b53cbb3c28",
+      "size": 305684,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/blood-pact-icon.png",
+      "hash": "0adbd557c72fb832c29f65193fde15a9",
+      "size": 293459,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/blood-reaver-icon.png",
+      "hash": "74ac076e3ac3491412625e08083a4dd0",
+      "size": 246529,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/break-armor-skill-icon.png",
       "hash": "57a92512815330cd3cf7b8a7388ee046",
       "size": 320563,
@@ -1200,6 +1266,12 @@
       "path": "img/icons/broken-time-icon.png",
       "hash": "fa90955c733301dce90737919bff4ea0",
       "size": 155045,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/burn-icon.png",
+      "hash": "651a649079d5e03b6c80115120a7bcdc",
+      "size": 232346,
       "type": "asset"
     },
     {
@@ -1239,6 +1311,18 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/control-break-icon.png",
+      "hash": "f3521aec9106edeb966944542b360ca2",
+      "size": 356091,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/control-stack-skill-icon.png",
+      "hash": "d162c1aa49b0fd5efef2ea74bc884878",
+      "size": 137818,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/corrupted-simulation-icon.png",
       "hash": "3487bd50b44bb993dcf55dfe92e5322d",
       "size": 103394,
@@ -1246,8 +1330,8 @@
     },
     {
       "path": "img/icons/counter-strike-icon.png",
-      "hash": "a8781301c47bb6c3c48eebd37c3528c1",
-      "size": 2250793,
+      "hash": "5852cf48438589fe2fff7975a1d6bc07",
+      "size": 320213,
       "type": "asset"
     },
     {
@@ -1276,8 +1360,8 @@
     },
     {
       "path": "img/icons/crit-passive-icon.png",
-      "hash": "e71afdb1c7138d03b10b69d358dcf775",
-      "size": 748982,
+      "hash": "6c9e5cb1f8b196dd88c12581f0a9d10e",
+      "size": 114975,
       "type": "asset"
     },
     {
@@ -1311,6 +1395,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/discipline-bonus-icon.png",
+      "hash": "f14c171a3944f3f664d6c26e5a129858",
+      "size": 538585,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/dmg-bonus-icon.png",
       "hash": "083edabaeed2f0e842ed15591b4364d4",
       "size": 439237,
@@ -1320,6 +1410,12 @@
       "path": "img/icons/dmg-passive-icon.png",
       "hash": "b26d414b9526c64f116b2fca9f57d93a",
       "size": 147652,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/dmg-reduction-icon.png",
+      "hash": "221c0c24722eec0a0d28b26c2191128e",
+      "size": 342895,
       "type": "asset"
     },
     {
@@ -1348,8 +1444,8 @@
     },
     {
       "path": "img/icons/endstory-title-icon.png",
-      "hash": "89b69012c0160c119a1779efe4181de7",
-      "size": 1507665,
+      "hash": "79c3e83e7241ad29b867399a55065b5a",
+      "size": 206387,
       "type": "asset"
     },
     {
@@ -1362,6 +1458,12 @@
       "path": "img/icons/equip-potion-icon.png",
       "hash": "b6c73c0db0043a38921b914fd2c9a9a3",
       "size": 575960,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/executioner-icon.png",
+      "hash": "a09ff2d65dd37ad166d8bbfeae2530c0",
+      "size": 277657,
       "type": "asset"
     },
     {
@@ -1452,6 +1554,12 @@
       "path": "img/icons/explore-arrow-right-icon.png",
       "hash": "f4c657b9a0b9bb5846859f24a237312c",
       "size": 50625,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/extended-windup-skill-icon.png",
+      "hash": "dc6e4a8ae45cba2010e021ea8892d9fb",
+      "size": 102173,
       "type": "asset"
     },
     {
@@ -1563,6 +1671,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/guard-cost-icon.png",
+      "hash": "c0493b3a25d446c6dce574d427901d72",
+      "size": 496709,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/guard-windup-icon.png",
       "hash": "994dfdc9c982f0510f38e2a1b10d6502",
       "size": 377578,
@@ -1593,6 +1707,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/impale-icon.png",
+      "hash": "eca96506a803212025f6221635c519ac",
+      "size": 265386,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/inventory-icon.png",
       "hash": "b63d12a702b581f3b36ab3cd453c28e7",
       "size": 157094,
@@ -1600,8 +1720,8 @@
     },
     {
       "path": "img/icons/iron-will-icon.png",
-      "hash": "71268425501b80a259da40f80b5380fc",
-      "size": 3092917,
+      "hash": "8957f1015a4b16b4fc1209f6d330097a",
+      "size": 405411,
       "type": "asset"
     },
     {
@@ -1624,8 +1744,8 @@
     },
     {
       "path": "img/icons/last-bastion-icon.png",
-      "hash": "a59e84508c01c4f4033df61a669505fe",
-      "size": 3194750,
+      "hash": "a5e601f6293be99b08560046a07f061d",
+      "size": 437764,
       "type": "asset"
     },
     {
@@ -1644,6 +1764,12 @@
       "path": "img/icons/longevity-skill-icon.png",
       "hash": "a400a8e743dba29b788bbcaf41b20eb4",
       "size": 143941,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/mark-icon.png",
+      "hash": "5d613461f0ef032af4383befc1acf042",
+      "size": 228451,
       "type": "asset"
     },
     {
@@ -1773,6 +1899,24 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/opening-strike-icon.png",
+      "hash": "dd9980b69223553df2acf086a5394660",
+      "size": 256693,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/parry-master-bonus-icon.png",
+      "hash": "fb002f5ce7a7d35292e65e432ebae474",
+      "size": 191679,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/parry-master-icon.png",
+      "hash": "9505353d256891f7bc69b2c93c4e5fb7",
+      "size": 296995,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/perfect-block-skill-icon.png",
       "hash": "eb4783b7ab78a5313a9d79d63287a802",
       "size": 239036,
@@ -1791,6 +1935,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/perfect-execution-icon.png",
+      "hash": "a5669e9d862959b4fd22ece16b656f70",
+      "size": 264718,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/perfect-window-icon.png",
       "hash": "43f809fdc3583f886df9df84e2ec2b0b",
       "size": 355319,
@@ -1803,15 +1953,45 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/piercing-thrust-icon.png",
+      "hash": "089800825e7990639233d702900624aa",
+      "size": 287455,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/poise-mini-icon.png",
       "hash": "be7e81a32e6c51d750dcbadeb8eb82e6",
       "size": 149457,
       "type": "asset"
     },
     {
+      "path": "img/icons/poison-icon.png",
+      "hash": "f6f6509ed2e35f5ce549e3c62404c089",
+      "size": 224065,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/powerful-attack-skill-icon.png",
       "hash": "adbc217f92d2476e01cfebabfdf2b02c",
       "size": 157442,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/precision-bonus-icon.png",
+      "hash": "cdd0951c735c4c6042f75e7146b06143",
+      "size": 320492,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/precision-buff-skill-icon.png",
+      "hash": "e0b45cc1231db6223b46cfc1e3d919d4",
+      "size": 160947,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/precision-icon.png",
+      "hash": "4d0eee19455292ac588e5818c0608ad6",
+      "size": 248474,
       "type": "asset"
     },
     {
@@ -1822,8 +2002,14 @@
     },
     {
       "path": "img/icons/provocation-icon.png",
-      "hash": "d2f1b345a7bb5e498151875c51417630",
-      "size": 2421458,
+      "hash": "d69cd97cb88aac779c090cd00a40b11e",
+      "size": 321307,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/pushback-skill-icon.png",
+      "hash": "8659545ae4c6c8d9ea4b1e3d877e1d8b",
+      "size": 131503,
       "type": "asset"
     },
     {
@@ -1836,6 +2022,12 @@
       "path": "img/icons/quest-book-icon.png",
       "hash": "599588f717130392a172587ef77e7a27",
       "size": 354238,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/reduce-cooldown-skill-icon.png",
+      "hash": "d8556c2daecc06574245d2761879af04",
+      "size": 162418,
       "type": "asset"
     },
     {
@@ -1860,6 +2052,12 @@
       "path": "img/icons/right-hand-placeholder.png",
       "hash": "ce0eb166cfbe088eb6dc820b473c2624",
       "size": 148377,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/riposte-icon.png",
+      "hash": "9b061621dbaf0e1602d5ab82764cfc72",
+      "size": 282473,
       "type": "asset"
     },
     {
@@ -1900,20 +2098,26 @@
     },
     {
       "path": "img/icons/shield-bash-icon.png",
-      "hash": "8c59c37d65b0141e4141101095ea639a",
-      "size": 2552566,
+      "hash": "0c142316d086954a0e5cf581419168bb",
+      "size": 345289,
       "type": "asset"
     },
     {
       "path": "img/icons/shield-bash-icon2.png",
-      "hash": "82ba5edb564ffb22a3f1aee2a305e3ee",
-      "size": 3250443,
+      "hash": "b490a3a6b74acd8a2905e37c9d057a34",
+      "size": 438783,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/shield-cooldown-skill-icon.png",
+      "hash": "5d798825caea7636707d9e20e10d3f99",
+      "size": 178884,
       "type": "asset"
     },
     {
       "path": "img/icons/shield-wall-icon.png",
-      "hash": "772348aca020b3dc40ce8f5f2e90bd24",
-      "size": 2478865,
+      "hash": "35443e1c4f9ec6c574a9b6a70630a65a",
+      "size": 360166,
       "type": "asset"
     },
     {
@@ -1971,6 +2175,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/spear-discipline-icon.png",
+      "hash": "ce143e21c5d55cbf70bc17debf0ae77d",
+      "size": 273894,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/stamina-bonus-skill-icon.png",
       "hash": "bd225ec5bd0978da0bf4aed942ae5160",
       "size": 209594,
@@ -2007,6 +2217,18 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/sweep-bonus-icon.png",
+      "hash": "ff9aa2e5dff91196967e20df48c6c564",
+      "size": 145408,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/sweep-icon.png",
+      "hash": "0a21b8807bd78dd8678741045942e4ea",
+      "size": 246893,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/timed-mini-icon.png",
       "hash": "d92fe4b508af0f7f1dad4d3e79295b95",
       "size": 129971,
@@ -2031,6 +2253,12 @@
       "type": "asset"
     },
     {
+      "path": "img/icons/twin-slash-icon.png",
+      "hash": "64c876fe47daea0615e45fe3567aee44",
+      "size": 305192,
+      "type": "asset"
+    },
+    {
       "path": "img/icons/void-instability-icon.png",
       "hash": "a70c8b2dbccd0d5802f601f066f3739e",
       "size": 107527,
@@ -2052,6 +2280,24 @@
       "path": "img/icons/warrior-shout-skill-icon.png",
       "hash": "40c16b6bbd1806834f13cd7b7bf9b95f",
       "size": 150279,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/weak-point-bonus-icon.png",
+      "hash": "d80279c5c9453af4d3d043575b8cdff6",
+      "size": 328058,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/weak-point-icon.png",
+      "hash": "02ded66d9e7b899f4fee5db5fb00896c",
+      "size": 282602,
+      "type": "asset"
+    },
+    {
+      "path": "img/icons/whirlwind-icon.png",
+      "hash": "447ace1ce053d3fca18aea76339aa093",
+      "size": 276994,
       "type": "asset"
     },
     {
@@ -2769,15 +3015,69 @@
       "type": "asset"
     },
     {
+      "path": "img/vfx/Untitled6_20260824141601.png",
+      "hash": "bd9b5a8fa8e762a62d177bb7cf19e164",
+      "size": 99808,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/absolute-control-burst.png",
+      "hash": "1a25a282c7a948aa56a8415260176221",
+      "size": 139098,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/absolute-control-ring.png",
+      "hash": "a21bbb6c6e5bfa70331edd021f075991",
+      "size": 114757,
+      "type": "asset"
+    },
+    {
       "path": "img/vfx/bleed.png",
-      "hash": "ee3d05739af7f8fa28da8d837afcc6dc",
-      "size": 224375,
+      "hash": "ec2c926aced776bfc49f46cb2cd2a1ec",
+      "size": 43939,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/blood-frenzy.png",
+      "hash": "02d61701c6c4cc605f06b860d707e1ca",
+      "size": 85415,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/blood-pact.png",
+      "hash": "74cce7e2388bdef4f5753dee4366dcc3",
+      "size": 189392,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/blood-reaver.png",
+      "hash": "d568abccbef872b66f1f66e0effc5a31",
+      "size": 82386,
       "type": "asset"
     },
     {
       "path": "img/vfx/charge.png",
-      "hash": "a28676a52c1d304dedeb5dccf2a365a2",
-      "size": 360647,
+      "hash": "d4c9790a6d6693f7b9cf9d70ef5c6168",
+      "size": 60623,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/control-break.png",
+      "hash": "a81296e73e1cca269354abbbc22042d5",
+      "size": 77017,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/control-impact.png",
+      "hash": "bb0f96a26fcc3b943437b2c782c9f635",
+      "size": 54349,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/counter-strike.png",
+      "hash": "4e5fc9a6982c954bb049d799879dbaac",
+      "size": 49107,
       "type": "asset"
     },
     {
@@ -2793,6 +3093,12 @@
       "type": "asset"
     },
     {
+      "path": "img/vfx/executioner.png",
+      "hash": "a6199ddc46193774438f6a92dba959fd",
+      "size": 62646,
+      "type": "asset"
+    },
+    {
       "path": "img/vfx/hit.png",
       "hash": "b2b672cbf23834b932544c04fa454c23",
       "size": 93602,
@@ -2800,14 +3106,26 @@
     },
     {
       "path": "img/vfx/impact-core.png",
-      "hash": "b6ef99126365b8a686b566869bef2c75",
-      "size": 746963,
+      "hash": "83377ae78b488402067d7ff0a731c7b7",
+      "size": 116015,
       "type": "asset"
     },
     {
       "path": "img/vfx/impact-jump.png",
-      "hash": "86e6094325c5fdad7e40c64d1d9687e5",
-      "size": 647196,
+      "hash": "ec7b74de1030c0d11a747c12f1ee37e6",
+      "size": 110016,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/impale.png",
+      "hash": "b4bf37c37471e0621f86378dd1ec1d8c",
+      "size": 94267,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/iron-will.png",
+      "hash": "40d19519f64c9e46f2797834b3f693a0",
+      "size": 158077,
       "type": "asset"
     },
     {
@@ -2817,15 +3135,141 @@
       "type": "asset"
     },
     {
+      "path": "img/vfx/last-bastion.png",
+      "hash": "87c2e89cb3d85f3d779ff049b889e9fc",
+      "size": 224821,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/opening-strike.png",
+      "hash": "e9f4928bcbc81cf26268c98a8660e5e8",
+      "size": 59505,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/parry-master.png",
+      "hash": "ba8133d0d79c3ae239c73572d7e2f294",
+      "size": 53959,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/perfect-execution.png",
+      "hash": "e8fee1755152fe632ff03cb19db914f3",
+      "size": 74451,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/precision.png",
+      "hash": "722dd502733501e048d4c4fca04ef66d",
+      "size": 66863,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/provocation.png",
+      "hash": "f0e783852fe9715237515ae4221e572f",
+      "size": 61788,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/riposte.png",
+      "hash": "f098cfe44361fe2d3a151e8c1e57d15a",
+      "size": 23496,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/shield-bash-impact.png",
+      "hash": "743ef362454a585849b12117b51ee3e1",
+      "size": 76194,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/shield-bash-impact2.png",
+      "hash": "b5554ee266b17629debf93b22751b87f",
+      "size": 74186,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/shield-bash-shockwave.png",
+      "hash": "23f83b69c53527087ad0f7462a2b0182",
+      "size": 89859,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/shield-bash-shockwave2.png",
+      "hash": "7522e75fc9378e184f6add043a0683ff",
+      "size": 87606,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/shield-wall.png",
+      "hash": "0157b8d36c146ed572c93a0bf3349b70",
+      "size": 160547,
+      "type": "asset"
+    },
+    {
       "path": "img/vfx/shockwave.png",
-      "hash": "68c1cdfd1a026cd85a4d5fdad6405115",
-      "size": 620275,
+      "hash": "c1f14528e4e614899e2760b1a9e60687",
+      "size": 107065,
       "type": "asset"
     },
     {
       "path": "img/vfx/slash.png",
       "hash": "3ee7d3164c1db8fca8b47ddefcf8065c",
       "size": 185256,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/slow.png",
+      "hash": "fc351fbdd11451276e4b27e139e1accd",
+      "size": 63048,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/spear-control-wave.png",
+      "hash": "899115e98d26ac8acafe97af1257de16",
+      "size": 32387,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/spear-discipline.png",
+      "hash": "d76c51de90671f732853646f9ab392df",
+      "size": 62594,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/spear-sweep.png",
+      "hash": "7c38d722d229eaee80ea88deddb2e3c5",
+      "size": 30012,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/spear-thrust.png",
+      "hash": "1d528e1882ca9272ce6cf3aad0f679b4",
+      "size": 17300,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/stun.png",
+      "hash": "1b8ca7eb9a84afcc797dac5085ac7da8",
+      "size": 25708,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/weak-point.png",
+      "hash": "a242661a6169483d47057f198be9acc3",
+      "size": 33025,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/whirlwind-hit.png",
+      "hash": "41a68c898000acb72634f85e42b5eb09",
+      "size": 18924,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/whirlwind.png",
+      "hash": "44504cbded9e2d5eba0fde76a5612bcc",
+      "size": 46360,
       "type": "asset"
     },
     {
@@ -3484,25 +3928,25 @@
     },
     {
       "path": "live/css/battle.css",
-      "hash": "a5ccedabbe73bed04478a260b1f8afdc",
-      "size": 59896,
+      "hash": "c54a2701d7642776c2fb48e8b54be2ef",
+      "size": 64417,
       "type": "code"
     },
     {
       "path": "live/css/character.css",
-      "hash": "55dc26afd01d5b37b4a6e043a77cb7cd",
-      "size": 45514,
+      "hash": "9e0df070df427432c86acf90ee6a1ee9",
+      "size": 54422,
       "type": "code"
     },
     {
       "path": "live/css/explore.css",
-      "hash": "6ac585b00af7d13f4dfa3ded23facbec",
-      "size": 58102,
+      "hash": "fd0522791cb2927d51a303bf12fde71d",
+      "size": 66701,
       "type": "code"
     },
     {
       "path": "live/css/inventory.css",
-      "hash": "90288dbe7f38791d3fbb5f07f4df2b48",
+      "hash": "792cbc6a2a4fe2b34b45399ab9d30edf",
       "size": 44024,
       "type": "code"
     },
@@ -3514,8 +3958,8 @@
     },
     {
       "path": "live/css/skills.css",
-      "hash": "cb07474c81f9723292b47b36a7b69402",
-      "size": 31897,
+      "hash": "b3e38fa9063a8d819bd55ec35963cfa8",
+      "size": 32596,
       "type": "code"
     },
     {
@@ -3526,56 +3970,62 @@
     },
     {
       "path": "live/js/battle.js",
-      "hash": "1019ec4c4c4e667024d91a3cc9ea121b",
-      "size": 50604,
+      "hash": "036633c6c65da4d869939b8cd138d2c4",
+      "size": 51439,
       "type": "code"
     },
     {
       "path": "live/js/character.js",
-      "hash": "f1636020a333efa82f35bdd75cf68c82",
-      "size": 40178,
+      "hash": "abd755eb1b22ca05a3332e1db73a2e59",
+      "size": 40254,
       "type": "code"
     },
     {
       "path": "live/js/combat-animations.js",
-      "hash": "2c00e849229488099d877adef1da7cbf",
-      "size": 47693,
+      "hash": "63540feeb4fd6d752226c5a0fd42fedb",
+      "size": 54943,
       "type": "code"
     },
     {
       "path": "live/js/combat-resolve.js",
-      "hash": "b85e6deab1458e1b20de6ed0ce7795fd",
-      "size": 42283,
+      "hash": "3669e5171e85ed65bcbb2ecf1af833c4",
+      "size": 46126,
       "type": "code"
     },
     {
       "path": "live/js/combat-style.js",
-      "hash": "b80c2beebc64ec39ae8282540128cb6f",
-      "size": 32923,
+      "hash": "82d6a830c2501b7c00073b5be82d40d1",
+      "size": 46241,
       "type": "code"
     },
     {
       "path": "live/js/combat-utility.js",
-      "hash": "0fdb1a4ae39111e7d26ad06e58d109cd",
-      "size": 42859,
+      "hash": "169bba8a8116c67aa34c2bff1bad4a6e",
+      "size": 46120,
       "type": "code"
     },
     {
       "path": "live/js/combat.js",
-      "hash": "d1a50ff2202c0acf06fd238314ec326d",
-      "size": 64934,
+      "hash": "3a57203741da8881903050fb48f4e49c",
+      "size": 70125,
       "type": "code"
     },
     {
       "path": "live/js/enemy-database.js",
-      "hash": "da2a512bceca76caa17cb9368f3709f6",
-      "size": 7430,
+      "hash": "61d3ddd32e17430083578b87541036b6",
+      "size": 22395,
+      "type": "code"
+    },
+    {
+      "path": "live/js/enemy-skills.js",
+      "hash": "bf9008719697e54aa80b40eec07921ca",
+      "size": 11132,
       "type": "code"
     },
     {
       "path": "live/js/enemy.js",
-      "hash": "6451c268002308dee0293ae44df38734",
-      "size": 55606,
+      "hash": "6b1fcbc410419e47b0161831959ca72e",
+      "size": 68883,
       "type": "code"
     },
     {
@@ -3591,21 +4041,27 @@
       "type": "code"
     },
     {
+      "path": "live/js/game-guide.js",
+      "hash": "61f8123890d00ba119039e4a878b8b7c",
+      "size": 72187,
+      "type": "code"
+    },
+    {
       "path": "live/js/inventory.js",
-      "hash": "52b6d34de7f12445e52c89e27617e703",
-      "size": 50268,
+      "hash": "3f36bd37edaa8753791af4ee8d6697e9",
+      "size": 50272,
       "type": "code"
     },
     {
       "path": "live/js/item-utility.js",
-      "hash": "a68e90ab8d36de29344dacdd177a6b14",
-      "size": 42432,
+      "hash": "62ea6c5a244fb045ea71de030ac5f39f",
+      "size": 42452,
       "type": "code"
     },
     {
       "path": "live/js/item.js",
-      "hash": "e03101de5892c9b1ffaff7d44ded4336",
-      "size": 49943,
+      "hash": "ca7373c7c6c163e5ae68caf24c2be941",
+      "size": 49913,
       "type": "code"
     },
     {
@@ -3615,15 +4071,21 @@
       "type": "code"
     },
     {
+      "path": "live/js/localization-guide.js",
+      "hash": "1857dba0f92f3833d4c6421fb46790ed",
+      "size": 71830,
+      "type": "code"
+    },
+    {
       "path": "live/js/localization-items.js",
-      "hash": "accebe44c60b80fb4da57a4f23c38f6a",
-      "size": 45388,
+      "hash": "d4d8f4d98f58ee3173bdc20e68628c3d",
+      "size": 45381,
       "type": "code"
     },
     {
       "path": "live/js/localization-locations.js",
-      "hash": "6843ff11f9e6f2ecd9e6f15ced12005e",
-      "size": 6153,
+      "hash": "e04cd4152e1b64d5767f39d1fc5bc048",
+      "size": 6787,
       "type": "code"
     },
     {
@@ -3634,8 +4096,8 @@
     },
     {
       "path": "live/js/localization-skills.js",
-      "hash": "4b2f2f519601ff349739fcf5a708dfe9",
-      "size": 12462,
+      "hash": "01c67c99c9e0ada19e44edc29c9703f2",
+      "size": 25464,
       "type": "code"
     },
     {
@@ -3646,8 +4108,8 @@
     },
     {
       "path": "live/js/location.js",
-      "hash": "448d846ca86ad9516a18c838701c2dde",
-      "size": 49674,
+      "hash": "4e46610b834e1f4563ab605d10d26335",
+      "size": 49678,
       "type": "code"
     },
     {
@@ -3658,50 +4120,50 @@
     },
     {
       "path": "live/js/quests-assets.js",
-      "hash": "e8167bed12d4fe3e3e3be031f236fe3f",
-      "size": 11660,
+      "hash": "8fe9c9b3fa2c7f4d095ccaaea7707a77",
+      "size": 12167,
       "type": "code"
     },
     {
       "path": "live/js/quests-database.js",
-      "hash": "48b19483f9351104e97fe4b85865646d",
+      "hash": "29e8cdfb83ee019cdbeb4791068487e4",
       "size": 20003,
       "type": "code"
     },
     {
       "path": "live/js/quests.js",
-      "hash": "3f63b2b5899e39f6097e2630f4b97d90",
-      "size": 38044,
+      "hash": "2c65dc69b661bc21829bf0b3d702d17b",
+      "size": 38051,
       "type": "code"
     },
     {
       "path": "live/js/shrine-chest-database.js",
-      "hash": "e8429bb3935b39a99834fb61de4638df",
-      "size": 5058,
+      "hash": "0d2f5128789918ecaca488b19ffd6d9d",
+      "size": 5064,
       "type": "code"
     },
     {
       "path": "live/js/shrine-chest.js",
-      "hash": "aab6d26a56693b210cda8e0f729330fc",
-      "size": 31247,
+      "hash": "acd81d28d2a058077a93ff4c97673615",
+      "size": 31293,
       "type": "code"
     },
     {
       "path": "live/js/skills-combat.js",
-      "hash": "3c4782e426132ee7753b9ba1f3e9180f",
-      "size": 53996,
+      "hash": "dfbeabfc0bf6de43181f65d19fb2ca0e",
+      "size": 79052,
       "type": "code"
     },
     {
       "path": "live/js/skills-database.js",
-      "hash": "feccdc1539d48da91094bd073ba31115",
-      "size": 39603,
+      "hash": "079b98abefc2066ce7bcd4095860e1c8",
+      "size": 41526,
       "type": "code"
     },
     {
       "path": "live/js/skills.js",
-      "hash": "2b05e11ef8500314d85e3e7f6f603f13",
-      "size": 50585,
+      "hash": "da92193814e4d89eb8ac0d229418445b",
+      "size": 58326,
       "type": "code"
     },
     {
@@ -3712,20 +4174,20 @@
     },
     {
       "path": "live/js/store.js",
-      "hash": "b86b09fa54e0345aff75049147f6d503",
-      "size": 38795,
+      "hash": "86485703d5593cda72bcc829a7ac7578",
+      "size": 38994,
       "type": "code"
     },
     {
       "path": "live/js/views/battleView.js",
-      "hash": "0b2cc35d6fece9486bb3b1043c35e9dc",
-      "size": 27391,
+      "hash": "56f6e03ff68a51937236761c003ec2fe",
+      "size": 27580,
       "type": "code"
     },
     {
       "path": "live/js/views/characterView.js",
-      "hash": "634175c5102f447e31d7f879a9a2b99d",
-      "size": 10814,
+      "hash": "88904c8b0b53acf348cfce62f6a26d6e",
+      "size": 11798,
       "type": "code"
     },
     {
@@ -3736,14 +4198,14 @@
     },
     {
       "path": "live/js/views/mapView.js",
-      "hash": "a956349218096000b55e0ad498aef904",
-      "size": 24609,
+      "hash": "9721f5fc83c79e49dd5397faaafd56bd",
+      "size": 24968,
       "type": "code"
     },
     {
       "path": "live/js/views/skillsView.js",
-      "hash": "085a414bc4c9269bd5333fef9ad250db",
-      "size": 15534,
+      "hash": "95e5e2e3643fed4f450896a99484d8fb",
+      "size": 16818,
       "type": "code"
     },
     {

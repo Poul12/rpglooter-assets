@@ -153,6 +153,19 @@ function triggerInterrupt(enemy, penaltyMs = 800) {
       pushbackBonus = gameState.char.combatAffixes[`pushback`].value;
   }
 
+  const style = getCurrentWeaponStyle();
+  if(style === `warden`) {
+    switch(enemy?.intent?.type) {
+      case `guard`:
+        addWeaponMasteryExp(`warden`, 2, `interrupt-guard`);
+        break;
+      case `charge`:
+        addWeaponMasteryExp(`warden`, 5, `interrupt-charge`);
+        break;
+    }
+  }          
+ 
+  
   enemy.attackState.remaining += penaltyMs * (1 + (pushbackBonus / 100));
   //console.log(`break poise pushbackBonus penaltyMs`, penaltyMs * (1 + (pushbackBonus / 100)));
 
@@ -168,7 +181,12 @@ function doubleaxeOnHit(enemy, player) {
   
   gameState.combat.activeRingMode = "bleed";
   
-  enemy.bleedStacks++;
+  if(enemy.perfectBleed.stacks >= 1 && enemy.bleedStacks === 0) {
+    enemy.bleedStacks = 3;
+  } else {
+    enemy.bleedStacks++;
+  }
+  
   enemy.lastBleedHit = getGameTime();
 
   if(gameState.world.inCombat) updateBleedRing(enemy);
@@ -196,9 +214,19 @@ function triggerBleedBurst(enemy, player, perfect = false) {
   
   //console.log(`bleedDurationBonus`, bleedDurationBonus);
   
-  let baseDmg = 0.15 * (1 + strScale.effectPower / 100); // 🔥 DUŻO większe niż normal bleed
-  let duration = 4 + strScale.durationBonus;
+  let bonus = 1;
+  if(!perfect) {
+    bonus = 1 + (gameState.char.bonus.blockReductionBonus / 100);
+  }
+  
+ // console.error(`bonus`, bonus);
 
+  let baseDmg = 0.15 * (1 + strScale.effectPower / 100) * bonus * enemy.perfectBleed.stacks;
+  let duration = 4 + strScale.durationBonus * bonus;
+  
+  gameState.combat.bleedBuff.atkSpd.isActive = true;
+  gameState.combat.bleedBuff.atkSpd.value = 0.03 * enemy.perfectBleed.stacks;
+  
   //console.log(`duration`, duration);
   
   if(perfect && !enemy.isGuarding) {
@@ -210,29 +238,122 @@ function triggerBleedBurst(enemy, player, perfect = false) {
   
   triggerBleedVFX();
 
-  resetBleed(enemy);
+  resetBleed(enemy, false);
   resetBleedUI();
 }
 
-function resetBleed(enemy) {
+function extendBleedStack(enemy, perfect = false) {
+  
+  if(perfect){
+    enemy.perfectBleed.stacks = Math.min(5, (enemy.perfectBleed.stacks || 0) + 1);
+    addWeaponMasteryExp(`berserker`, 6, `bleed-perfect-stack`);
+    gameState.combat.flags.isPerfectDmgBonus = true;
+    
+    if(gameState.char.bonus.perfectChainBonus) {
+      gameState.combat.perfectChainStacks++;
+      gameState.combat.perfectBonusDmgNextHit = true;
+    }
+
+  }
+  
+  if(enemy.perfectBleed.stacks >= 5) {
+    setSkillDisabled("executioner", false);
+    showOutcome("perfect", `${t("bleed_perfect_outcome")}`);
+    addWeaponMasteryExp(`berserker`, 20, `executioner`);
+  }
+  
+  const segmentsContainer = document.getElementById("combat-control-meter");
+  const segments = document.querySelectorAll("#combat-control-meter .segment");
+
+  segmentsContainer.classList.remove(`hidden`);
+  
+  requestAnimationFrame(() => {
+    segmentsContainer.classList.add(`show`);
+  });
+  
+  segments.forEach((segment, index)=>{
+    segment.classList.toggle("active-berserker", index < enemy.perfectBleed.stacks);
+  });
+
+  
+}
+
+function reduceBleedStack(enemy) {
+  
+  enemy.perfectBleed.stacks = Math.max(0, enemy.perfectBleed.stacks - 1);
+  
+  if(enemy.perfectBleed.stacks <= 0) {
+    gameState.combat.bleedBuff.atkSpd.isActive = false;
+    gameState.combat.perfectChainStacks = 0;
+  }
+  //console.log(`bleed stacks`, enemy.perfectBleed.stacks);
+  const segmentsContainer = document.getElementById("combat-control-meter");
+  
+  const segments = document.querySelectorAll("#combat-control-meter .segment");
+
+  segments.forEach((segment, index)=>{
+      segment.classList.toggle("active-berserker", index < enemy.perfectBleed.stacks);
+    });
+
+  if(!enemy.perfectBleed.stacks) {
+    segmentsContainer.classList.add(`hidden`);
+  
+    requestAnimationFrame(() => {
+      segmentsContainer.classList.remove(`show`);
+    });
+  }
+
+  
+}
+
+
+function resetBleed(enemy, perfectStacks = true) {
   //if (gameState.combat.activeRingMode !== `bleed`) return;
   
   enemy.bleedStacks = 0;
   enemy.bleedReady = false;
   gameState.combat.bleedTimingActive = false;
   
+  gameState.combat.bleedBuff.atkSpd.isActive = false;
+  
+  if(perfectStacks) { 
+    enemy.perfectBleed.stacks = 0;
+    
+    gameState.combat.perfectChainStacks = 0;
+    
+    const segmentsContainer = document.getElementById("combat-control-meter");
+    
+    const segments = document.querySelectorAll("#combat-control-meter .segment");
+
+    segments.forEach((segment, index)=>{
+      segment.classList.toggle("active-berserker", index < enemy.perfectBleed.stacks);
+    });
+    
+    segmentsContainer.classList.add(`hidden`);
+  
+    requestAnimationFrame(() => {
+      segmentsContainer.classList.remove(`show`);
+    });
+    
+    setSkillDisabled("executioner", true);
+  }
+  
   updateBleedRing(enemy);
   setBleedReadyUI(false);
+  
+  enemy.bleedLastResult = null;
 }
 
 function getBleedWindows(player) {
   const BASE_TOTAL = 260; // większe niż block → łatwiejsze
-  const PERFECT_RATIO = 0.22; // większe okno
+  const PERFECT_RATIO = 0.18; // większe okno
 
   const agiBonus = 1 + player.agi * 0.0015; // delikatniejszy scaling niż block
 
+  const bonus = 1 + (gameState.char.bonus.perfectWindowBonus / 100);
+  
   const total = BASE_TOTAL;
-  const perfect = total * PERFECT_RATIO * agiBonus;
+  const perfect = total * PERFECT_RATIO * agiBonus * bonus;
   const normal = total - perfect;
 
   return {
@@ -269,30 +390,41 @@ function handleBleedAttack(enemy, player) {
   const now = performance.now();
 
   if (result === "perfect") {
-    triggerBleedBurst(enemy, player, true);
+    extendBleedStack(enemy, true);
+    
     playSound(`bleed_boom`, 0.5);
+    
+    triggerBleedBurst(enemy, player, true);
     triggerCriticalShake();
-    showOutcome("perfect", `${t("bleed_perfect_outcome")}`);
+    showOutcome("perfect", `${t("bleed_rage_outcome")} x${enemy.perfectBleed.stacks}`);
   } else if (result === "normal") {
     showOutcome("normal", `${t("bleed_outcome")}`);
     triggerBleedBurst(enemy, player, false);
   } else {
     showOutcome("miss", `${t("bleed_miss_outcome")}`);
+    reduceBleedStack(enemy);
     enemy.bleedStacks = 1; // kara
     enemy.bleedReady = false;
     updateBleedRing(enemy);
   }
 
+  if (gameState.combat.flags.isCritical) {
+    enemy.bleedLastResult = result;
+    performEnemyFinisherAttack(enemy, gameState.world.selectedSlotIndex);
+  }
+
+    
   stopBleedTimingUI();
   
   const atkSpeed = getPlayerAttackSpeed();
-  const cooldownDuration = calculateCooldown(atkSpeed);
+  const cooldownDuration = calculatePlayerCooldown(atkSpeed);
 
   startAttackCooldown(cooldownDuration);
   playerAttackCooldown.playerCooldownEnd = now + cooldownDuration * 1000;
   
   gameState.combat.bleedTimingActive = false;
   enemy.hitAfterResolve = true;
+  
   //enemy.bleedReady = false;
 }
 
@@ -376,7 +508,7 @@ function resolveArmorBreak(enemy) {
   
    // 🔥 TU ODpalasz cooldown (bo to jest finalny hit)
   const atkSpeed = getPlayerAttackSpeed();
-  const cooldownDuration = calculateCooldown(atkSpeed);
+  const cooldownDuration = calculatePlayerCooldown(atkSpeed);
 
   startAttackCooldown(cooldownDuration);
   playerAttackCooldown.playerCooldownEnd = now + cooldownDuration * 1000;
@@ -404,9 +536,9 @@ function resetArmorBreak(enemy) {
 
 
 function spearOnHit(enemy, player) {
-  const slow = 0.07 + player.str * 0.00015;
+  const slow = 0.05 + player.str * 0.00015;
   const windupBonus = 120 + player.str * 0.5;
-  const pushback = 300 + player.str * 1;
+  const pushback = 250 + player.str * 1;
 
  // if (!enemy.spear.stacks) enemy.spear.stacks = 0;
   
@@ -488,19 +620,21 @@ function applySpearDebuff(enemy, { slow, windupBonus, pushback, duration }) {
     startSpearControlUI(player); 
   }
   
-  else if (enemy.spearReady) {
+  else if (enemy.spearReady || gameState.combat.flags.isCritical) {
     resolveSpearControl(enemy);
   }
 }
 
 function getSpearWindows(player) {
   const BASE_TOTAL = 200; // większe niż block → łatwiejsze
-  const PERFECT_RATIO = 0.2; // większe okno
+  const PERFECT_RATIO = 0.18; // większe okno
 
   const agiBonus = 1 + player.agi * 0.0015; // delikatniejszy scaling niż block
 
+  const bonus = 1 + (gameState.char.bonus.perfectWindowBonus / 100);
+  
   const total = BASE_TOTAL;
-  const perfect = total * PERFECT_RATIO * agiBonus;
+  const perfect = total * PERFECT_RATIO * agiBonus * bonus;
   const normal = total - perfect;
 
   return {
@@ -515,7 +649,13 @@ function resolveSpearControl(enemy) {
   const now = getGameTime();
 
   if (result === "perfect") {
-    extendSpearControl(enemy, 2000, true);
+    let stack = 1;
+    if(gameState.combat.spearDiscipline.isActive) {
+      stack = 2;
+      addWeaponMasteryExp(`warden`, 3, `discipline-perfect-2stack`);
+    }
+    
+    extendSpearControl(enemy, 2000, true, stack);
     tryInterruptEnemy(enemy, `perfect-spear`);
     playSound(`spear_control`, 0.4);
     
@@ -582,19 +722,26 @@ function resolveSpearControl(enemy) {
     //const enemySlot = document.getElementById(`enemy-slot-${gameState.world.selectedSlotIndex}`);
     //slowAnimation(enemySlot, enemy, 2000);
     
-    //showOutcome("perfect", `${enemy.spear.slow}x ${t("control_outcome")}!`);
+    showOutcome("perfect", `${enemy.spear.slow}x ${t("control_outcome")}!`);
     showOutcome("perfect", `${t("control_outcome")}!`);
 
   } else if (result === "normal") {
     extendSpearControl(enemy, 1000);
     showOutcome("normal", `${t("keep_outcome")}!`);
+    addWeaponMasteryExp(`warden`, 1, `normal-control`);
   } else {
     reduceSpearControl(enemy);
     updateSpearRing(enemy);
     showOutcome("miss", `${t("lost_rythm_outcome")}!`);
   }
   
-  
+  if (gameState.combat.flags.isCritical) {
+    enemy.spearLastResult = result;
+    performEnemyFinisherAttack(enemy, gameState.world.selectedSlotIndex);
+    resetSpear(enemy);
+    resetSpearUI(); 
+    stopSpearControlUI();
+  }
   
   if(enemy.spear.stacks === 0) {
     resetSpear(enemy);
@@ -605,14 +752,52 @@ function resolveSpearControl(enemy) {
   //startAttackCooldown(calculateCooldown(getPlayerAttackSpeed()));
 }
 
-function extendSpearControl(enemy, duration, perfect = false) {
+function extendSpearControl(enemy, duration, perfect = false, stack = 1) {
   if (!enemy.spear) return;
 
-  enemy.spear.expiresAt += duration;
-  if(perfect) {
-    enemy.spear.stackControl = Math.min(5, (enemy.spear.stackControl || 0) + 1);
-    //else if() enemy.spear.stackControl = 0;
+  let bonus = 1;
+  if(!perfect) {
+    bonus = 1 + (gameState.char.bonus.blockReductionBonus / 100);
+  }
   
+  //console.error(`bonus`, bonus);
+  
+  enemy.spear.expiresAt += duration * bonus;
+  
+  if(perfect) {
+    enemy.spear.stackControl = Math.min(5, (enemy.spear.stackControl || 0) + stack);
+    //else if() enemy.spear.stackControl = 0;
+    
+    gameState.combat.flags.isPerfectDmgBonus = true;
+    
+    if(gameState.char.bonus.perfectChainBonus) {
+      gameState.combat.perfectChainStacks++;
+      gameState.combat.perfectBonusDmgNextHit = true;
+    }
+    
+    setSkillDisabled("piercing-thrust", false);
+    setSkillDisabled("sweep", false);
+   
+    if(enemy.spear.stackControl >= 5) {
+      setSkillDisabled("impale", false);
+      setSkillDisabled("control-shatter", false);
+      setSkillDisabled("absolute-control", false);
+    }
+    
+    if(gameState.combat.absoluteControl.isActive) {
+      const now = getGameTime();
+
+      addWeaponMasteryExp(`warden`, 3, `absolute-perfect-stack`);
+      
+      gameState.combat.absoluteControl.expiresAt = Math.min(
+        gameState.combat.absoluteControl.expiresAt + 1500,
+        now + 8000
+      );
+    }
+    
+    
+    addWeaponMasteryExp(`warden`, 3, `spear-control`);
+    
     const segmentsContainer = document.getElementById("combat-control-meter");
     const segments = document.querySelectorAll("#combat-control-meter .segment");
 
@@ -631,17 +816,38 @@ function extendSpearControl(enemy, duration, perfect = false) {
 
 function reduceSpearControl(enemy) {
   if (!enemy.spear) return;
-
-  enemy.spear.stacks = Math.max(0, enemy.spear.stacks - 1);
-  enemy.spear.stackControl = 0;
+  if(gameState.combat.absoluteControl.isActive) return;
   
-  const segmentsContainer = document.getElementById("combat-control-meter");
-  segmentsContainer.classList.add(`hidden`);
+  const segments = document.querySelectorAll("#combat-control-meter .segment");
+
+  if(gameState.combat.spearDiscipline.isActive){
+    enemy.spear.stackControl = Math.max(0, enemy.spear.stackControl - 1);
     
-  requestAnimationFrame(() => {
-    segmentsContainer.classList.remove(`show`);
-  });
- 
+    segments.forEach((segment, index)=>{
+      segment.classList.toggle("active", index < enemy.spear.stackControl);
+    });
+
+  } else {
+    enemy.spear.stacks = Math.max(0, enemy.spear.stacks - 1);
+    enemy.spear.stackControl = 0;
+    
+    gameState.combat.perfectChainStacks = 0;
+    
+    const segmentsContainer = document.getElementById("combat-control-meter");
+    segmentsContainer.classList.add(`hidden`);
+    
+    requestAnimationFrame(() => {
+      segmentsContainer.classList.remove(`show`);
+    });
+
+  }
+  
+  setSkillDisabled("piercing-thrust", true);
+  setSkillDisabled("sweep", true);
+  setSkillDisabled("impale", true);
+  setSkillDisabled("control-shatter", false);
+  setSkillDisabled("absolute-control", false);
+  
   
    if(gameState.char.combatAffixes[`dmg_per_control_stack`] && gameState.combat.controlBonus.dmgBonus.isActive) {
       //decreaseBonusDmgBuff(gameState.combat.controlBonus.dmgBonus.accumulate);
@@ -670,18 +876,33 @@ function reduceSpearControl(enemy) {
     
 }
 
-function resetSpear(enemy) {
+function resetSpear(enemy, resetStacks = true) {
   if (gameState.combat.activeRingMode !== `spear`) return;
   
   if(enemy.spear?.stacks) {
-    enemy.spear.stacks = 0;
+    if(resetStacks) enemy.spear.stacks = 0;
   }  
   
   if(enemy.spear?.stackControl) {
     enemy.spear.stackControl = 0;
     
+    gameState.combat.perfectChainStacks = 0;
+    
+    setSkillDisabled("piercing-thrust", true);
+    setSkillDisabled("sweep", true);
+    setSkillDisabled("impale", true);
+    setSkillDisabled("control-shatter", true);
+    setSkillDisabled("absolute-control", true);
+  
+    
     const segmentsContainer = document.getElementById("combat-control-meter");
     segmentsContainer.classList.add(`hidden`);
+    
+    const segments = document.querySelectorAll("#combat-control-meter .segment");
+
+    segments.forEach((segment, index)=>{
+      segment.classList.toggle("active", index < enemy.spear.stackControl);
+    });
     
     requestAnimationFrame(() => {
       segmentsContainer.classList.remove(`show`);
@@ -713,9 +934,115 @@ function resetSpear(enemy) {
   
   enemy.spearReady = false;
 
+  enemy.spearLastResult = null;
+  
   updateSpearRing(enemy);
   setSpearReadyUI(false);
 }
+
+function extendPerfectBlockChain(playerBlock) {
+  //if (!playerBlock.active) return;
+
+  const perfectChainBlock = gameState.combat.perfectChainBlock;
+  
+  if(playerBlock.lastResult === `perfect`) {
+    playerBlock.stackChain = Math.min(5, (playerBlock.stackChain || 0) + 1);
+ 
+    perfectChainBlock.perfectWindow = 10 * playerBlock.stackChain;
+    perfectChainBlock.crit = 2 * playerBlock.stackChain;
+    perfectChainBlock.critDmg = 5 * playerBlock.stackChain;
+    
+    showOutcome("perfect", `${t("perfect_outcome")} x${playerBlock.stackChain}`);
+    
+    addWeaponMasteryExp(`duelist`, 5 + (playerBlock.stackChain * 2), `perfect-block`);
+ 
+    setSkillDisabled(`precision`, false);
+    
+    if(playerBlock.stackChain === 5) {
+      setSkillDisabled(`perfect-execution`, false);
+    }
+    
+    const segmentsContainer = document.getElementById("combat-control-meter");
+    const segments = document.querySelectorAll("#combat-control-meter .segment");
+
+    segmentsContainer.classList.remove(`hidden`);
+  
+    requestAnimationFrame(() => {
+      segmentsContainer.classList.add(`show`);
+    });
+  
+    segments.forEach((segment, index)=>{
+      segment.classList.toggle("active-duelist", index < playerBlock.stackChain);
+    });
+  }
+  
+}
+
+function reducePerfectBlockChain(playerBlock) {
+  //if (!playerBlock.active) return;
+  
+  const perfectChainBlock = gameState.combat.perfectChainBlock;
+  
+  playerBlock.stackChain = Math.max(0, playerBlock.stackChain - 1);
+  
+  perfectChainBlock.perfectWindow = 10 * playerBlock.stackChain;
+  perfectChainBlock.crit = 2 * playerBlock.stackChain;
+  perfectChainBlock.critDmg = 5 * playerBlock.stackChain;
+    
+  if(playerBlock.stackChain) {
+    showOutcome("perfect", `${t("perfect_outcome")} x${playerBlock.stackChain}`);
+  }
+  
+  if(!playerBlock.stackChain) {
+    setSkillDisabled(`precision`, true);
+    
+    gameState.combat.perfectChainStacks = 0;
+  }
+  
+  const segmentsContainer = document.getElementById("combat-control-meter");
+  
+  const segments = document.querySelectorAll("#combat-control-meter .segment");
+
+  segments.forEach((segment, index)=>{
+      segment.classList.toggle("active-duelist", index < playerBlock.stackChain);
+    });
+
+  if(!playerBlock.stackChain) {
+    segmentsContainer.classList.add(`hidden`);
+  
+    requestAnimationFrame(() => {
+      segmentsContainer.classList.remove(`show`);
+    });
+  }
+}
+
+function resetPerfectBlockChain() {
+  const playerBlock = gameState.combat.playerBlock;
+
+  if(playerBlock?.stackChain) {
+    playerBlock.stackChain = 0;
+    
+    gameState.combat.perfectChainStacks = 0;
+    
+    setSkillDisabled(`precision`, true);
+    
+    const segmentsContainer = document.getElementById("combat-control-meter");
+    segmentsContainer.classList.add(`hidden`);
+    
+    const segments = document.querySelectorAll("#combat-control-meter .segment");
+
+    segments.forEach((segment, index)=>{
+      segment.classList.toggle("active-duelist", index < playerBlock.stackChain);
+    });
+    
+    requestAnimationFrame(() => {
+      segmentsContainer.classList.remove(`show`);
+    });
+    
+  }
+
+}
+
 
 function daggerOnHit(enemy, player) {
   const strScale = getStrScaling(player);
@@ -1124,5 +1451,157 @@ function getLoH() {
   return lohValue;
 }
 
+function updateAbsoluteControl() {
+  const absoluteControl = gameState.combat.absoluteControl;
+
+  if (!absoluteControl.isActive) return;
+
+  const now = getGameTime();
+
+  if (now >= absoluteControl.expiresAt) {
+    absoluteControl.isActive = false;
+    absoluteControl.expiresAt = 0;
+
+    const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
+
+    updateStatusPlayerUI(enemy);
+    resetSpear(enemy, false);
+   // stopSpearControlUI();
+    
+  }
+}
+
+function setMasteryLevelUp(amount) {
+  const style = getCurrentWeaponStyle();
+
+  addWeaponMasteryExp(style, amount, `test`);
+}
+
+function addWeaponMasteryExp(style, amount, source = null){
+  const mastery = gameState.char.weaponMastery[style];
+
+  mastery.exp += amount;
+  
+  while(mastery.exp >= mastery.expToNext){
+    mastery.exp -= mastery.expToNext;
+
+    mastery.level++;
+    mastery.skillPoints++;
+
+    mastery.expToNext = getWeaponMasteryExpRequirement(mastery.level);
+
+    //showFloatingText(`${style} Mastery Lv.${mastery.level}`);
+    document.getElementById("weapon-mastery").textContent = mastery.level;
+
+    //console.log(`${style} Mastery Lv.${mastery.level}`);
+  }
+
+  //console.log(`${style} Mastery Lv.${mastery.level}, Exp: ${mastery.exp}, amount, source`, amount, source);
+
+  const percent = Math.min(125, Math.round(100 * mastery.exp / mastery.expToNext));
+  document.getElementById("mastery-bar").style.width = percent + "%";
+  document.getElementById("mastery-label").textContent = `${mastery.exp} / ${mastery.expToNext}`;
+
+  
+  saveGame();
+}
+
+function getWeaponMasteryExpRequirement(level){
+  return Math.floor(100 + level * 40);
+  //return Math.floor(100 * Math.pow(1.18, level-1));
+}
 
 
+
+const MASTERY_COLORS = {
+
+    bulwark:{
+        c1:"#2b6cff",
+        c2:"#5f97ff",
+        c3:"#b7d3ff",
+        glow:"rgba(70,120,255,.55)",
+        title: "bulwark_mastery"
+    },
+
+    warden:{
+        c1:"#00bfa5",
+        c2:"#36d6bf",
+        c3:"#98fff2",
+        glow:"rgba(0,191,165,.55)",
+        title: "warden_mastery"
+    },
+
+    executioner:{
+        c1:"#7b1fff",
+        c2:"#9d49ff",
+        c3:"#d1a8ff",
+        glow:"rgba(123,31,255,.55)",
+        title: "executioner_mastery"
+    },
+
+    juggernaut:{
+        c1:"#ff8c00",
+        c2:"#ffb347",
+        c3:"#ffd68a",
+        glow:"rgba(255,140,0,.55)",
+        title: "juggernaut_mastery"
+    },
+
+    berserker:{
+        c1:"#d32f2f",
+        c2:"#ef5350",
+        c3:"#ffb3b3",
+        glow:"rgba(211,47,47,.55)",
+        title: "berserker_mastery"
+    },
+
+    duelist:{
+        c1:"#8e9aa8",
+        c2:"#b0bec5",
+        c3:"#eceff1",
+        glow:"rgba(176,190,197,.55)",
+        title: "duelist_mastery"
+    }
+
+};
+
+function setMasteryStyle(style, skill = false){
+
+    const colors = MASTERY_COLORS[style];
+
+    //console.log(`style: `, style);
+  
+    let bar = document.getElementById("mastery-bar");
+    if(skill) {
+      bar = document.getElementById("mastery-skill-bar");
+    }
+  
+    bar.style.setProperty("--c1",colors?.c1);
+    bar.style.setProperty("--c2",colors?.c2);
+    bar.style.setProperty("--c3",colors?.c3);
+    bar.style.setProperty("--glow",colors?.glow);
+
+}
+
+function showMasteryTitle(style){
+  const colors = MASTERY_COLORS[style];
+
+  const el = document.getElementById("mastery-title");
+  const label = document.getElementById("mastery-label");
+
+  el.textContent = t(colors?.title);
+
+  el.style.opacity = 1;
+  el.style.transform = "translateX(-50%) translateY(0px)";
+
+  label.style.opacity = 0;
+
+  clearTimeout(el.timer);
+
+  el.timer = setTimeout(()=>{
+    el.style.opacity = 0;
+    el.style.transform = "translateX(-50%) translateY(-8px)";
+    label.style.opacity = 1;
+  },1200);
+
+}

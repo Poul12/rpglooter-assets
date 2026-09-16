@@ -115,8 +115,10 @@ function areAllEnemiesDefeated(step = null) {
   if (!step) step = world.locationSteps[world.currentStepIndex];
   if (!step || !Array.isArray(step.exploreOptions)) return false;
 
+  //console.log(`areAllEnemiesDefeated`, step);
+  
   return step.exploreOptions
-    .filter(opt => opt.type === "enemy" || opt.type === "mini_boss" || opt.type === "boss")
+    .filter(opt => opt.type === "enemy" || opt.type === "mini_boss" || opt.type === "boss" || opt.type === "elite" || opt.type === "story_event" || opt.type === "story_enemy")
     .every(opt => opt.used);
 }
 
@@ -397,6 +399,7 @@ function renderActionButtons(opt, div, i) {
                   actionBtn.innerText = `Czujny (${remaining}s)`;
               } else {
                  clearInterval(interval);
+                 skillsOn();
                  actionBtn.disabled = false;
                  opt.used = false;
                  div.classList.remove("used");
@@ -451,7 +454,13 @@ function renderOptions() {
         const dx = centerX - (rect.left + rect.width / 2);
         //const dy = centerY - (rect.top + rect.height / 2);
   
-        slotToKeep.style.transform = `translate(${dx + 105}px, 5%) scale(1.1)`;
+        if(opt.enemyData.type !== `mini_boss`) {
+          slotToKeep.style.transform = `translate(${dx + 105}px, 5%) scale(1.1)`;
+        } else {
+          slotToKeep.style.transform = `translate(${dx + 60}px, 5%) scale(1.1)`;
+        }
+
+           
       });
       
       return;
@@ -776,8 +785,15 @@ function renderOptions() {
     
       document.querySelector(`.slot-row`).style.alignItems = `center`;
       document.querySelector(`.slot-row`).style.justifyContent = `center`;
-      div.style.width = "200px";
+      div.style.width = "180px";
     
+      if(opt.enemyData.beforeDeath) {
+        const enemy = opt.enemyData;
+        enemy.beforeDeath = false;
+        enemy.isDead = true;
+        deathAnimation(img); 
+      }
+      
       div.appendChild(slotBg);
       div.appendChild(shadow);
       div.appendChild(img);
@@ -787,9 +803,9 @@ function renderOptions() {
       const healthBar = document.createElement("div");
       const currentHpText = Math.max(0, opt.enemyData.currentHp);
       healthBar.className = "enemy-health-bar";
-      healthBar.style.height = "15px";
-      healthBar.style.left = "8px";
-      healthBar.style.width= "90%";
+      healthBar.style.height = "16px";
+      healthBar.style.left = "0px";
+      healthBar.style.width= "98%";
       /*healthBar.innerHTML = `
         <div class="enemy-health-fill" style="width:${healthPercent}%;"></div>
         <div class="enemy-health-text">${formatNumber(currentHpText)}/${formatNumber(opt.enemyData.maxHp)}</div>
@@ -813,13 +829,22 @@ function renderOptions() {
       
       const cooldownBar = document.createElement("div");
       cooldownBar.className = "enemy-cooldown-bar";
-      cooldownBar.style.height = "15px";
-      cooldownBar.style.left = "9px";
-      cooldownBar.style.width= "90%";
+      cooldownBar.style.height = "16px";
+      cooldownBar.style.left = "-1px";
+      cooldownBar.style.width= "100%";
       cooldownBar.innerHTML = `
         <div class="enemy-cooldown-fill" id="enemy-cooldown-fill-${i}" ></div>
       `;
       
+      const windupBar = document.createElement("div");
+      windupBar.id = `enemy-windup-bar-${i}`;
+      windupBar.className = `enemy-windup-bar`;
+      windupBar.innerHTML = `
+        <div class="windup-fill" id="enemy-windup-fill-${i}" ></div>
+      `;
+      
+      div.appendChild(windupBar);
+    
       div.appendChild(cooldownBar);
         
       renderActionButtons(opt, div, i);
@@ -1256,7 +1281,7 @@ function hideLootBtn() {
 
 function smoothScrollToElement(element, duration = 1000) {
   const container = document.getElementById("battle-view");
-  console.log(`focus on dlg`);
+ // console.log(`focus on dlg`);
    
   const start = window.scrollY;
   const target =
@@ -1280,14 +1305,14 @@ function smoothScrollToElement(element, duration = 1000) {
       start + distance * eased
     );
    
-    console.log(`focus on dlg`, start, progress, distance);
+    //console.log(`focus on dlg`, start, progress, distance);
 
-    console.log(`scrollTop`, document.getElementById("battle-view").scrollTop);
+  //  console.log(`scrollTop`, document.getElementById("battle-view").scrollTop);
     
-    console.log(`scrollHeight vs clientHeight`,
+    /*console.log(`scrollHeight vs clientHeight`,
       document.getElementById("battle-view").scrollHeight,
       document.getElementById("battle-view").clientHeight
-    );
+    );*/
     
    /* document.querySelectorAll("*")
   .forEach(el => {

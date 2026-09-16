@@ -147,6 +147,202 @@ box-shadow:
 }
 
 
+/* =========================================================
+   WSPÓLNA BAZA
+========================================================= */
+
+.character-discipline-badge,
+.character-name-badge {
+  position: absolute;
+  top: 14px;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  /*gap: 4px;*/
+
+  min-height: 18px;
+  padding: 3px 5px;
+
+  /*color: #f4e6c8;*/
+
+  font-family: "Cinzel", "Georgia", serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  line-height: 1.1;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(245, 235, 211, 0.96),
+      rgba(190, 174, 143, 0.96)
+    );
+
+  border: 1px solid rgba(255, 248, 226, 0.9);
+  border-radius: 4px;
+
+  box-shadow:
+  /* ciemna krawędź wewnątrz — góra/lewa */
+  inset 2px 2px 4px rgba(75, 57, 32, 0.55),
+
+  /* jasna krawędź wewnątrz — dół/prawa */
+  inset -2px -2px 4px rgba(255, 250, 231, 0.9),
+
+  /* delikatne pogłębienie środka */
+  inset 0 0 8px rgba(110, 88, 53, 0.18);
+  
+  color: #352716;
+  text-shadow: 0 1px 1px rgba(255, 245, 220, 0.45);  
+  
+  /*color: #49371f;*/
+  /*color: #3f301d;*/
+  
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+
+
+/* Jasny refleks u góry */
+
+.character-discipline-badge::before,
+.character-name-badge::before {
+  top: 2px;
+}
+
+
+/* Ciemna linia wewnątrz u dołu */
+
+.character-discipline-badge::after,
+.character-name-badge::after {
+  bottom: 2px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(105, 82, 48, 0.55),
+    transparent
+  );
+}
+
+
+
+/* =========================================================
+   DYSCYPLINA — LEWY GÓRNY RÓG
+========================================================= */
+
+.character-discipline-badge {
+  left: 30px;
+
+  min-width: 70px;
+  
+  border-left-color: rgba(224, 181, 99, 0.65);
+}
+
+
+/*.character-discipline-badge .discipline-name {
+  color: #e8c47b;
+}*/
+
+/*.character-discipline-badge .discipline-name,
+.character-name-badge {
+  color: #49371f;
+}*/
+
+/* Złota linia wychodząca od ikony */
+
+/*.character-discipline-badge {
+  overflow: visible;
+}*/
+
+/*.character-discipline-badge .discipline-name::after {
+  content: "";
+
+  display: block;
+
+  width: 100%;
+  height: 1px;
+
+  margin-top: 4px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(224, 181, 99, 0.8),
+    rgba(224, 181, 99, 0.08)
+  );
+}*/
+
+
+/* =========================================================
+   IMIĘ BOHATERA — PRAWY GÓRNY RÓG
+========================================================= */
+
+.character-name-badge {
+  right: 15px;
+
+  overflow: hidden;
+
+  min-width: 80px;
+  
+  /*color: #e8c47b;*/
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  
+  border-right-color: rgba(224, 181, 99, 0.65);
+}
+
+
+
+/* =========================================================
+   DELIKATNY REFLEKS NA GÓRNEJ KRAWĘDZI
+========================================================= */
+
+.character-discipline-badge,
+.character-name-badge {
+  isolation: isolate;
+}
+
+.character-discipline-badge > *,
+.character-name-badge > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+/*@media (max-width: 480px) {
+  .character-discipline-badge,
+  .character-name-badge {
+    top: 8px;
+
+    min-height: 27px;
+    padding: 5px 8px;
+
+    font-size: 0.62rem;
+  }
+
+  .character-discipline-badge {
+    left: 8px;
+  }
+
+  .character-name-badge {
+    right: 8px;
+    max-width: 44%;
+  }
+
+  .discipline-icon {
+    font-size: 0.8rem;
+  }
+}*/
+
+
 #combat-affixes-scroll{
   flex:1;
   overflow-y:auto;
@@ -408,6 +604,373 @@ box-shadow:
   font-size:11px;
   padding:2px 0;
 }
+
+.guide {
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+
+/* =========================
+   TABY
+   ========================= */
+
+.guide-header {
+  position: relative;
+
+  border-bottom: 1px solid rgba(180, 160, 120, 0.18);
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.025),
+      rgba(0,0,0,0.08)
+    );
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: none;
+}
+
+.guide-header::-webkit-scrollbar {
+  display: none;
+}
+
+.guide-tabs {
+  display: flex;
+
+  width: max-content;
+
+  gap: 0;
+
+  padding: 5px 4px 0;
+}
+
+.guide-tab {
+  position: relative;
+
+  height: 32px;
+
+  padding: 0 9px;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  border: none;
+  background: transparent;
+
+  color: #B8C8BA;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  letter-spacing: 0.8px;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+/*.guide-tab:hover {
+  color: #bbb;
+}*/
+
+.guide-tab.active {
+  color: #F0D59A;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(180,160,120,0.08),
+      transparent
+    );
+}
+
+.guide-tab.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 12px;
+  right: 12px;
+  bottom: -1px;
+
+  height: 2px;
+
+  background: #b99b68;
+
+  box-shadow:
+    0 0 5px rgba(185,155,104,0.35);
+}
+
+.guide-tab-icon {
+  font-size: 14px;
+}
+
+
+/* =========================
+   CONTENT
+   ========================= */
+
+.guide-scroll{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  margin-top: 6px;
+  min-height: 0;
+  height: 450px;
+  max-height: 450px;
+  scrollbar-gutter: stable;
+  padding-right:4px;
+}
+
+.guide-scroll::-webkit-scrollbar-thumb{
+  background:
+    linear-gradient(
+      #b08b52,
+      #7d5f34
+    );
+  border-radius:20px;
+  border:1px solid #46341c;
+}
+
+.guide-scroll::-webkit-scrollbar-track{
+  background:
+    rgba(0,0,0,.25);
+  border-radius:20px;
+}
+
+.guide-scroll::-webkit-scrollbar{
+  width:8px;
+}
+
+.guide-scroll::-webkit-scrollbar-thumb:hover{
+  background:#9b7d49;
+}
+
+/*.guide-scroll {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 5px 12px 15px;
+
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  background: rgba(255, 0, 0, 0.1);
+}*/
+
+
+.guide-content {
+  width: 100%;
+}
+
+
+.guide-title {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 8px 0 18px;
+
+  color: #F3EAD5;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+}
+
+.guide-title::after {
+  content: "";
+
+  flex: 1;
+
+  height: 1px;
+
+  margin-left: 4px;
+
+  background:
+    linear-gradient(
+      to right,
+      rgba(185,155,104,0.35),
+      transparent
+    );
+}
+
+.guide-title-icon {
+  color: #c0a16c;
+
+  font-size: 17px;
+
+  filter:
+    drop-shadow(0 0 4px rgba(190,160,100,0.25));
+}
+
+.guide-body {
+  color: #D9E4D8;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.65;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+.guide-body p {
+  color: #D0DDD0;
+  margin: 0 0 13px;
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.guide-body h3 {
+  margin: 20px 0 7px;
+
+  color: #F0E8D2;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* =========================
+   STATUSY
+   ========================= */
+
+.guide-status {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin: 8px 0;
+
+  padding: 7px 8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.025),
+      transparent
+    );
+
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.guide-status img {
+  width: 32px;
+  height: 32px;
+
+  object-fit: contain;
+
+  flex-shrink: 0;
+  
+  filter:
+    drop-shadow(0 2px 2px rgba(0, 0, 0, 0.8))
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.12));
+}
+
+.guide-status strong {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #E8EBDD;
+
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.guide-status span {
+  display: block;
+
+  color: #B9C8BA;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.guide-tip {
+  position: relative;
+
+  margin: 11px 0;
+
+  padding: 8px 9px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(100, 140, 105, 0.16),
+      rgba(5, 15, 5, 0.22)
+    );
+
+  border-left: 2px solid rgba(214, 182, 111, 0.65);
+
+  box-shadow:
+    inset 0 0 18px rgba(0,0,0,0.18);
+}
+
+.guide-tip img {
+  width: 32px;
+  height: 32px;
+
+  object-fit: contain;
+
+  flex-shrink: 0;
+  
+  filter:
+    drop-shadow(0 2px 2px rgba(0, 0, 0, 0.8))
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.12));
+}
+
+
+
+.guide-tip-title {
+  margin-bottom: 5px;
+
+  color: #E0C17A;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+.guide-tip-text {
+  color: #C8D5C9;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.guide-tip {
+  }
+
+
 
 #equipment-slots {
   position: absolute;
@@ -734,7 +1297,7 @@ box-shadow:
 }*/
 
 
-:root {
+/*:root {
   --color-common: #c8c8c8;
   --color-magic: #3c64d0;
   --color-unique: #d4a017;
@@ -746,6 +1309,28 @@ box-shadow:
   --color-turtle: green;
   --color-timed: blue;
   --color-other: black;
+}*/
+
+:root {
+  --color-common: #a9adb2;
+
+  --color-magic: #5270b5;
+
+  --color-unique: #b08a32;
+
+  --color-epic: #78458e;
+
+  --color-legendary: #b85b25;
+
+  --color-set: #557b55;
+
+  --color-special: #9b3d3d;
+
+  --color-poise: #9b3d3d;
+  --color-turtle: #557b55;
+  --color-timed: #5270b5;
+
+  --color-other: #777;
 }
 
 
@@ -2021,7 +2606,7 @@ box-shadow:
 .character-top-ui{
   position:absolute;
 
-  top:45px;
+  top:10px;
   left:0;
   right:0;
 
@@ -2032,6 +2617,23 @@ box-shadow:
   gap: 5px;
   z-index:50;
 }
+
+.character-bottom-ui{
+  position:absolute;
+
+  bottom:10px;
+  left:0;
+  right:0;
+
+  display:flex;
+  justify-content:center;
+
+  padding:4px;
+  gap: 5px;
+  z-index:50;
+}
+
+
 
 #attr-btn,
 #stats-btn,

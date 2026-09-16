@@ -471,6 +471,11 @@
     opacity 0.95s ease,
 }
 
+#player-combat-slot.boss-fight {
+  left: -5%;
+}
+
+
 #player-combat-slot.fade-in {
   animation: playerSlotEnter 950ms ease-out forwards;
 }
@@ -606,6 +611,177 @@
 
 }
 
+.player-avatar.whirlwind-swing {
+    animation: whirlwind-spin 700ms linear infinite;
+}
+
+.player-avatar.whirlwind-swinga {
+    animation: whirlwind-spin 600ms linear;
+}
+
+@keyframes whirlwind-spin {
+
+    0% {
+        transform:
+            translateX(-50%)
+            rotate(0deg)
+            scaleX(1);
+    }
+
+    12% {
+        transform:
+            translateX(-50%)
+            rotate(-8deg)
+            scaleX(0.9);
+    }
+
+    25% {
+        transform:
+            translateX(-50%)
+            rotate(-4deg)
+            scaleX(0.45);
+    }
+
+    35% {
+        transform:
+            translateX(-50%)
+            rotate(0deg)
+            scaleX(0.05);
+    }
+
+    45% {
+        transform:
+            translateX(-50%)
+            rotate(5deg)
+            scaleX(-0.45);
+    }
+
+    55% {
+        transform:
+            translateX(-50%)
+            rotate(8deg)
+            scaleX(-0.9);
+    }
+
+    65% {
+        transform:
+            translateX(-50%)
+            rotate(3deg)
+            scaleX(-1);
+    }
+
+    75% {
+        transform:
+            translateX(-50%)
+            rotate(-4deg)
+            scaleX(-0.45);
+    }
+
+    85% {
+        transform:
+            translateX(-50%)
+            rotate(-8deg)
+            scaleX(0.05);
+    }
+
+    95% {
+        transform:
+            translateX(-50%)
+            rotate(-3deg)
+            scaleX(0.65);
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            rotate(0deg)
+            scaleX(1);
+    }
+}
+
+@keyframes whirlwind-spin {
+
+    0% {
+        transform:
+            translateX(-50%)
+            translate(0, 0)
+            rotate(0deg)
+            scaleX(1);
+    }
+
+    18% {
+        transform:
+            translateX(-50%)
+            translate(-2px, 0)
+            rotate(-10deg)
+            scaleX(0.92);
+    }
+
+    35% {
+        transform:
+            translateX(-50%)
+            translate(0, 0)
+            rotate(-3deg)
+            scaleX(0.35);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            translate(2px, 0)
+            rotate(8deg)
+            scaleX(-1);
+    }
+
+    65% {
+        transform:
+            translateX(-50%)
+            translate(0, 0)
+            rotate(3deg)
+            scaleX(-0.35);
+    }
+
+    82% {
+        transform:
+            translateX(-50%)
+            translate(-2px, 0)
+            rotate(-8deg)
+            scaleX(0.92);
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            translate(0, 0)
+            rotate(0deg)
+            scaleX(1);
+    }
+}
+
+.whirlwind-vfx.active {
+    opacity: 1;
+    animation: whirlwind-vfx-pulse 600ms ease-in-out infinite;
+    /*transform-origin: center;*/
+    will-change: transform, opacity;
+}
+
+@keyframes whirlwind-vfx-pulse {
+
+    0% {
+        transform: scale(0.96);
+        opacity: 0.30;
+    }
+
+    50% {
+        transform: scale(1.02);
+        opacity: 0.50;
+    }
+
+    100% {
+        transform: scale(0.96);
+        opacity: 0.30;
+    }
+}
 
 #player-body {
   z-index: 1;
@@ -713,6 +889,8 @@
   z-index: 13;
   /*transform: scaleX(1);*/
 }
+
+
 
 /*.vs-symbol{
     position:absolute;
@@ -870,6 +1048,53 @@
         inset 0 1px 1px rgba(255,255,255,.45);
 }
 
+.control-bar .segment.active-duelist{
+    background:linear-gradient(
+        to bottom,
+        #fff5d6 0%,
+        #ffd86a 40%,
+        #d18b00 100%
+    );
+
+    border-color:#fff1b3;
+
+    box-shadow:
+        0 0 8px rgba(255,220,120,.8),
+        0 0 16px rgba(255,170,0,.45),
+        inset 0 1px 1px rgba(255,255,255,.6);
+}
+
+.control-bar .segment.active-berserker{
+    background:linear-gradient(
+        to bottom,
+        #ff4d4d 0%,
+        #b51212 45%,
+        #5c0808 100%
+    );
+
+    border-color:#ff7777;
+
+    box-shadow:
+        0 0 8px rgba(255,50,50,.75),
+        0 0 18px rgba(150,0,0,.6),
+        inset 0 1px 1px rgba(255,190,190,.5);
+}
+
+/*.control-bar .segment.active-duelist{
+    background:linear-gradient(
+        to bottom,
+        #ffe7a3 0%,
+        #ffb347 35%,
+        #c62828 100%
+    );
+
+    border-color:#ffd67a;
+
+    box-shadow:
+        0 0 8px rgba(255,180,70,.75),
+        0 0 18px rgba(200,40,40,.45),
+        inset 0 1px 1px rgba(255,255,255,.55);
+}*/
 
 .loot-message {
   margin-bottom: 10px;
@@ -1675,15 +1900,45 @@
   font-weight: 900;  
   text-align: center;
   justify-content: center;
-  /*text-shadow:
-    0 0 6px rgba(255, 60, 60, 0.9),
-    0 0 12px rgba(255, 100, 100, 0.6),
-    0 0 20px rgba(255, 0, 0, 0.4);*/
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
   animation: critPop 1.8s ease-out forwards;
   z-index: 100;
 }
 
+.damage-float.burn {
+  color: #ffc928;
+  font-size: 11px;
+  left: 17px;
+  top: 50px;
+  font-weight: 900;
+  text-align: center;
+  justify-content: center;
+
+  text-shadow:
+    0 0 4px rgba(255, 170, 0, 0.8),
+    0 3px 6px rgba(0, 0, 0, 0.9);
+
+  animation: critPop 1.8s ease-out forwards;
+  z-index: 100;
+}
+
+.damage-float.poison {
+  color: #8cff3f;
+  font-size: 11px;
+  left: 17px;
+  top: 50px;
+  font-weight: 900;
+  text-align: center;
+  justify-content: center;
+
+  text-shadow:
+    0 0 4px rgba(80, 255, 40, 0.85),
+    0 0 8px rgba(40, 200, 30, 0.45),
+    0 3px 6px rgba(0, 0, 0, 0.9);
+
+  animation: critPop 1.8s ease-out forwards;
+  z-index: 100;
+}
 
 @keyframes critPop {
   /* start – pojawia się */
@@ -1964,7 +2219,8 @@ body.critical-shake {
     transform:
       translateX(0)
       rotate(0deg)
-      scale(1);
+      scale(1)
+      scaleX(-1);
 
     filter:
       brightness(1)
@@ -1977,7 +2233,7 @@ body.critical-shake {
     transform:
       translateX(-10px)
       rotate(-10deg)
-      scaleX(1.04)
+      scaleX(-1.04)
       scaleY(0.92);
 
     filter:
@@ -1993,7 +2249,7 @@ body.critical-shake {
     transform:
       translateX(2px)
       rotate(-20deg)
-      scaleX(1.32)
+      scaleX(-1.32)
       scaleY(0.42);
 
     filter:

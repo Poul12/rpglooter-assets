@@ -16,10 +16,10 @@ function getRandomWeaponSubtype() {
   if (roll < 0.4) return 'mace';
   if (roll < 0.5) return 'axe';
   if (roll < 0.6) return 'long_sword';
-  if (roll < 0.75) return 'great_sword';
+  //if (roll < 0.75) return 'great_sword';
   if (roll < 0.85) return 'double_axe';
   if (roll < 0.95) return 'spear';
-  return 'hammer';
+  //return 'hammer';
 }
 
    function getRandomShieldSubtype() {
@@ -67,8 +67,7 @@ function getRandomWeaponSubtype() {
      const roll = Math.random() * 100;
      if (roll < 60) return characterLevel;        
      if (roll < 85) return characterLevel + 1;    
-     if (roll < 96) return characterLevel + 2;    
-     return characterLevel + 3;                   
+     return characterLevel + 2;                   
    }
 
 
@@ -1114,8 +1113,8 @@ function getRandomRarity({
 
     // 2) LIMITY POZIOMOWE – BLOKUJ EPIC/LEGEND DO OKREŚLONYCH LVL
     if (!ignoreLevelRequirement) {
-      if ((r === 'epic' && charLevel < 10) || 
-          (r === 'legendary' && charLevel < 20)) {
+      if ((r === 'epic' && charLevel < 999999) || //10
+          (r === 'legendary' && charLevel < 999999)) { //20
         adjusted[r] = 0;
         continue;
       }
@@ -1266,7 +1265,7 @@ function generateItem(opts = {}) {
    
   let baseName =
     forceSubtype ||
-    (typ === 'weapon'   ? getRandomWeaponSubtype() :
+    (typ === 'weapon' ? getRandomWeaponSubtype() :
      typ === 'armor' ? getRandomArmorSubtype() :
      typ === 'shield' ? getRandomShieldSubtype() :
      typ === 'helmet' ? getRandomHelmetSubtype() :
@@ -1385,7 +1384,7 @@ function generateItem(opts = {}) {
         isVaryArmor = true;
   
         const { profile: helmetProfile } = pickSlotProfile(helmetProfiles);
-        console.warn(`profile.name`, helmetProfile.name);
+        //console.warn(`profile.name`, helmetProfile.name);
  
         baseName = helmetProfile.name;
 

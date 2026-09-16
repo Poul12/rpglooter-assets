@@ -1547,7 +1547,7 @@ Object.assign(LANG.en, {
   
   item_implicit_title: "IMPLICIT",
   bonuses_title: "AFFIXES",
-  weapon_style_title: "COMBAT STYLE", 
+  weapon_style_title: "WEAPON STYLE", 
   exclusive_title: "EXCLUSIVE",
   combat_affixes_title: "COMBAT AFFIXES",
   
@@ -1748,9 +1748,9 @@ Object.assign(LANG.pl, {
   
   item_implicit_title: "CECHA PRZEDMIOTU",
   bonuses_title: "BONUSY",
-  weapon_style_title: "STYL WALKI",
+  weapon_style_title: "STYL BRONI",
   exclusive_title: "EKSKLUZYWNE",
-  combat_affixes_title: "BONUSY STYLÓW WALKI",
+  combat_affixes_title: "BONUSY BOJOWE",
 
   
   style_sword_name: "RYTM",

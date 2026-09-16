@@ -40,7 +40,6 @@ function getBattleTemplate() {
       </button>
   
     </div>
-
   
       <div id="enemy-combat-feedback">
   
@@ -266,6 +265,11 @@ function getBattleTemplate() {
 
         <div id="player-effects"></div>
 
+        <div class="whirlwind-vfx hidden">
+          <img class="whirlwind-ring ring-1" id="ring1">
+          <img class="whirlwind-ring ring-2" id="ring2">
+        </div>
+  
         <div id="player-status-container"></div>
 
         <div id="player-damage-float-container"></div> 
@@ -405,11 +409,11 @@ function getBattleTemplate() {
 
       <!-- TYTUŁ -->
       <h2 class="endstory-title">
-        Thank You For Playing
+        ${t("end_story_title")}
       </h2>
 
       <div class="endstory-subtitle">
-        You have completed the current Story Campaign.
+        ${t("end_story_subtitle")}
       </div>
 
       <div class="levelup-separator"></div>
@@ -418,16 +422,15 @@ function getBattleTemplate() {
       <div class="endstory-unlock-box">
 
         <div class="unlock-header">
-          NEW MODE UNLOCKED
+          ${t("new_mode_unlocked")}
         </div>
 
         <div class="unlock-mode">
-          Adventure Mode
+          ${t("adventure_mode")}
         </div>
 
         <div class="unlock-desc">
-          Venture beyond the known paths, face endless dangers
-          and uncover rewards hidden throughout Rivenfell.
+          ${t("adventure_mode_desc")}
         </div>
 
       </div>
@@ -544,6 +547,8 @@ async function renderFirstBattleView() {
     await assetManager.preloadAssets(ENEMY_ASSETS);
     await assetManager.preloadAssets(STORY_ASSETS);
 
+    //loadPlayerSkills();
+    
     initBattleView();
 
     await waitForImages(app);
@@ -615,6 +620,8 @@ function initBattleView() {
   //shopMenuBtn = document.getElementById('shop-menu-btn');
   //console.log("battle init");
 
+  loadPlayerSkills();
+  
   const container = document.getElementById("explore-options");
   container.addEventListener("click", handleBattleOptionClick);
   
@@ -624,7 +631,7 @@ function initBattleView() {
   
   loadCombatAssets();
     
-  syncPlayerSkillsToSkills();
+ // syncPlayerSkillsToSkills();
     
   renderCombat();
     
@@ -852,6 +859,8 @@ function handleAttackClick(e) {
   if (!e) return;
   
   if (!gameState.world.inCombat) return;
+  
+  if(!gameState.combat.isStart) return;
   
   if (typeof handleAttack === 'function') {
     handleAttack();

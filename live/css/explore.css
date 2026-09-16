@@ -323,6 +323,20 @@ body.no-scroll {
         0 0 10px rgba(255,70,70,.8);
 }
 
+/* Enemy Skill */
+
+.enemy-windup-bar.skill-windup .windup-fill{
+    background:linear-gradient(
+        to right,
+        #8e44ad,
+        #c56cff
+    );
+
+    box-shadow:
+        0 0 10px rgba(190,90,255,.85),
+        0 0 18px rgba(140,50,220,.45);
+}
+
 /* Guard */
 
 .enemy-windup-bar.guard .windup-fill{
@@ -428,6 +442,20 @@ body.no-scroll {
   }
 }
 
+.enemy-status.dmg-buff {
+  display: flex;
+  align-items: center;
+}
+
+.enemy-status.dmg-buff img {
+  width: 23px;
+  height: 23px;
+  /*filter:
+    drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
+}
+
+
 .enemy-status.bleed {
   display: flex;
   align-items: center;
@@ -436,9 +464,9 @@ body.no-scroll {
 .enemy-status.bleed img {
   width: 23px;
   height: 23px;
-  filter:
+ /* filter:
     drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
-    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
 }
 
 .enemy-status.bleed .stacks {
@@ -455,10 +483,25 @@ body.no-scroll {
 .enemy-status.armor-break img {
   width: 21px;
   height: 21px;
-  filter:
+ /* filter:
     drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
-    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));*/
 }
+
+.enemy-status.dmg-reduction {
+  display: flex;
+  align-items: center;
+ }
+
+.enemy-status.dmg-reduction img {
+  width: 21px;
+  height: 21px;
+ /* filter:
+    drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));*/
+}
+
+
 
 .enemy-status.vulnerable {
   display: flex;
@@ -468,9 +511,9 @@ body.no-scroll {
 .enemy-status.vulnerable img {
   width: 21px;
   height: 21px;
-  filter:
+  /*filter:
     drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
-    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
 }
 
 
@@ -483,17 +526,17 @@ body.no-scroll {
 .enemy-status.windup img {
   width: 21px;
   height: 21px;
-  filter:
+/*  filter:
     drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
-    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));*/
 }
 
 .enemy-status.windup-brute img {
   width: 21px;
   height: 21px;
-  filter:
+  /*filter:
     drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
-    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
 }
 
 .enemy-status.slow {
@@ -504,9 +547,9 @@ body.no-scroll {
 .enemy-status.slow img {
   width: 21px;
   height: 21px;
-  filter:
+  /*filter:
     drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
-    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));*/
 }
 
 .enemy-status.stun {
@@ -517,9 +560,22 @@ body.no-scroll {
 .enemy-status.stun img {
   width: 21px;
   height: 21px;
-  filter:
+  /*filter:
     drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
-    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
+}
+
+.enemy-status.atkspd {
+  display: flex;
+  align-items: center;
+ }
+
+.enemy-status.atkspd img {
+  width: 21px;
+  height: 21px;
+  /*filter:
+    drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));*/
 }
 
 .enemy-status.control {
@@ -530,9 +586,22 @@ body.no-scroll {
 .enemy-status.control img {
   width: 21px;
   height: 21px;
-  filter:
+  /*filter:
     drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
-    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));*/
+}
+
+.enemy-status.weak-point {
+  display: flex;
+  align-items: center;
+ }
+
+.enemy-status.weak-point img {
+  width: 19px;
+  height: 19px;
+ /* filter:
+  drop-shadow(0 0 4px rgba(255, 180, 40, 0.95))
+  drop-shadow(0 0 10px rgba(255, 110, 0, 0.7));*/
 }
 
 
@@ -555,6 +624,78 @@ body.no-scroll {
   animation: statusPop 0.2s ease-out;
 }
 
+.player-status.bleed {
+  display: flex;
+  align-items: center;
+}
+
+.player-status.bleed img {
+  width: 23px;
+  height: 23px;
+ /* filter:
+    drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
+}
+
+.player-status.bleed .stacks {
+  font-size: 13px;
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+.player-status.mark {
+  display: flex;
+  align-items: center;
+}
+
+.player-status.mark img {
+  width: 23px;
+  height: 23px;
+  /*filter:
+    drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
+}
+
+.player-status.poison {
+  display: flex;
+  align-items: center;
+}
+
+.player-status.poison img {
+  width: 21px;
+  height: 21px;
+ /* filter:
+    drop-shadow(0 0 3px rgba(80, 255, 80, 0.75))
+    drop-shadow(0 0 5px rgba(40, 220, 40, 0.5));*/
+}
+
+.player-status.slow {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.slow img {
+  width: 21px;
+  height: 21px;
+  /*filter:
+    drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));*/
+}
+
+.player-status.stun {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.stun img {
+  width: 21px;
+  height: 21px;
+ /* filter:
+    drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
+}
+
+
 .player-status.crit {
   display: flex;
   align-items: center;
@@ -563,9 +704,49 @@ body.no-scroll {
 .player-status.crit img {
   width: 19px;
   height: 19px;
-  filter:
-  drop-shadow(0 0 4px rgba(255, 180, 40, 0.95))
-  drop-shadow(0 0 10px rgba(255, 110, 0, 0.7));
+ /* filter:
+    drop-shadow(0 0 4px rgba(255, 180, 40, 0.95))
+    drop-shadow(0 0 10px rgba(255, 110, 0, 0.7));*/
+}
+
+.player-status.blood-reaver {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.blood-reaver img {
+  width: 19px;
+  height: 19px;
+ /* filter:
+    drop-shadow(0 0 3px rgba(255, 0, 0, 0.6))
+    drop-shadow(0 0 5px rgba(255, 0, 0, 0.4));*/
+}
+
+
+.player-status.precision {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.precision img {
+  width: 21px;
+  height: 21px;
+/*  filter:
+    drop-shadow(0 0 4px rgba(255, 180, 40, 0.95))
+    drop-shadow(0 0 10px rgba(255, 110, 0, 0.7));*/
+}
+
+.player-status.parry-master {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.parry-master img {
+  width: 21px;
+  height: 21px;
+ /* filter:
+    drop-shadow(0 0 4px rgba(255, 215, 80, 0.95))
+    drop-shadow(0 0 8px rgba(255, 180, 40, 0.7));*/
 }
 
 .player-status.bastion {
@@ -576,10 +757,64 @@ body.no-scroll {
 .player-status.bastion img {
   width: 21px;
   height: 21px;
-  filter:
+ /* filter:
     drop-shadow(0 0 4px rgba(255, 215, 80, 0.95))
-    drop-shadow(0 0 8px rgba(255, 180, 40, 0.7));
+    drop-shadow(0 0 8px rgba(255, 180, 40, 0.7));*/
 }
+
+.player-status.burn {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.burn img {
+  width: 19px;
+  height: 19px;
+  /*filter:
+    drop-shadow(0 0 4px rgba(255, 215, 80, 0.95))
+    drop-shadow(0 0 8px rgba(255, 180, 40, 0.7));*/
+}
+
+.player-status.absolute {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.absolute img {
+  width: 21px;
+  height: 21px;
+  /*filter:
+    drop-shadow(0 0 4px rgba(255, 215, 80, 0.95))
+    drop-shadow(0 0 8px rgba(255, 180, 40, 0.7));*/
+}
+
+.player-status.sweep {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.discipline {
+  display: flex;
+  align-items: center;
+ }
+
+.player-status.discipline img {
+  width: 21px;
+  height: 21px;
+  /*filter:
+    drop-shadow(0 0 4px rgba(255, 215, 80, 0.95))
+    drop-shadow(0 0 8px rgba(255, 180, 40, 0.7));*/
+}
+
+
+.player-status.sweep img {
+  width: 21px;
+  height: 21px;
+ /* filter:
+    drop-shadow(0 0 4px rgba(255, 215, 80, 0.95))
+    drop-shadow(0 0 8px rgba(255, 180, 40, 0.7));*/
+}
+
 
 .player-status.atkspd {
   display: flex;
@@ -589,9 +824,9 @@ body.no-scroll {
 .player-status.atkspd img {
   width: 21px;
   height: 21px;
-  filter:
+  /*filter:
     drop-shadow(0 0 4px rgba(120, 180, 255, 0.9))
-    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));
+    drop-shadow(0 0 8px rgba(80, 140, 255, 0.6));*/
 }
 
 .player-status.exhausted {
@@ -602,9 +837,9 @@ body.no-scroll {
 .player-status.exhausted img {
   width: 21px;
   height: 21px;
-  filter:
+ /* filter:
     drop-shadow(0 0 4px rgba(190, 140, 70, 0.85))
-    drop-shadow(0 0 8px rgba(110, 70, 30, 0.65));
+    drop-shadow(0 0 8px rgba(110, 70, 30, 0.65));*/
 }
 
 
@@ -623,7 +858,9 @@ body.no-scroll {
   --scale-end: 1;
   --stretch-x: 1;
   --stretch-y: 1;
-  --rotate: 0deg;
+  --rotate-start: 0deg;
+  --rotate-mid: 0deg;
+  --rotate-end: 0deg;
   --opacity-start: 0;
   --opacity-mid: 1;
   --opacity-end: 0;
@@ -638,20 +875,262 @@ body.no-scroll {
 @keyframes hitEffectDynamic {
   0% {
     opacity: var(--opacity-start);
-    transform: scale(var(--scale-start)) rotate(var(--rotate));
+    transform: scale(var(--scale-start)) rotate(var(--rotate-start));
   }
-  30% {
+  40% {
     opacity: var(--opacity-mid);
     transform: scale(calc(var(--scale-end) * var(--stretch-x)))
-               rotate(var(--rotate));
+               rotate(var(--rotate-mid));
   }
   100% {
     opacity: var(--opacity-end);
     transform: scale(calc(var(--scale-end)))
-               rotate(var(--rotate));
+               rotate(var(--rotate-end));
   }
 }
 
+.combat-vfx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.stun-vfx {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+        opacity 120ms ease,
+        transform 120ms ease;
+}
+
+.stun-vfx.player {
+  opacity: 1;
+  transform: scale(1);
+  animation: player-stun-effect 900ms ease-in-out forwards;
+}
+
+.whirlwind-vfx {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    opacity: 0;
+    transition:
+        opacity 120ms ease,
+        transform 120ms ease;
+}
+
+.whirlwind-vfx.active {
+    opacity: 1;
+    animation: whirlwind-vfx-pulse 600ms ease-in-out infinite;
+    transform-origin: center center;
+    will-change: transform, opacity;
+}
+
+@keyframes whirlwind-vfx-pulse {
+
+    0% {
+        transform: translate(25%, 25%) scale(0.92);
+        opacity: 0.55;
+    }
+
+    50% {
+        transform: translate(25%, 25%) scale(1.1);
+        opacity: 0.85;
+    }
+
+    100% {
+        transform: translate(25%, 25%) scale(0.92);
+        opacity: 0.55;
+    }
+}
+
+
+.stun-vfx.active {
+  opacity: 1;
+  transform: scale(1);
+  animation: stun-effect 900ms ease-in-out forwards;
+}
+
+@keyframes stun-effect {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.7) rotate(-10deg);
+    }
+
+    15% {
+        opacity: 0.85;
+        transform: scale(1.05) rotate(5deg);
+    }
+
+    40% {
+        opacity: 0.85;
+        transform: scale(1) rotate(-4deg);
+    }
+
+    65% {
+        opacity: 0.85;
+        transform: scale(1.03) rotate(3deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.95) rotate(0);
+    }
+}
+
+@keyframes player-stun-effect {
+
+    0% {
+        opacity: 0;
+        transform: translate(-5%, -10%) scale(0.7) rotate(-10deg);
+    }
+
+    15% {
+        opacity: 0.85;
+        transform: translate(-5%, -10%) scale(1.05) rotate(5deg);
+    }
+
+    40% {
+        opacity: 0.85;
+        transform: translate(-5%, -10%) scale(1) rotate(-4deg);
+    }
+
+    65% {
+        opacity: 0.85;
+        transform: translate(-5%, -10%) scale(1.03) rotate(3deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-5%, -10%) scale(0.95) rotate(0);
+    }
+}
+
+
+.slow-vfx {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    opacity: 0;
+    transform: scale(1);
+}
+
+.slow-vfx.active {
+    animation: slow-space 3000ms ease-in-out infinite;
+}
+
+.slow-vfx.player {
+    animation: player-slow-space 3000ms ease-in-out infinite;
+}
+
+@keyframes slow-space {
+
+    0% {
+        opacity: 0.15;
+        transform: scale(1) translateX(-1px);
+    }
+
+    25% {
+        opacity: 0.4;
+        transform: scale(1) translateX(1px);
+    }
+
+    50% {
+        opacity: 0.45;
+        transform: scale(1) translateX(-1px);
+    }
+
+    75% {
+        opacity: 0.4;
+        transform: scale(1) translateX(1px);
+    }
+
+    100% {
+        opacity: 0.15;
+        transform: scale(1) translateX(-1px);
+    }
+}
+
+@keyframes player-slow-space {
+
+    0% {
+        opacity: 0.15;
+        transform: scale(1) translate(-6%, -10%);
+    }
+
+    25% {
+        opacity: 0.4;
+        transform: scale(1) translate(-5%, -10%);
+    }
+
+    50% {
+        opacity: 0.45;
+        transform: scale(1) translate(-6%, -10%);
+    }
+
+    75% {
+        opacity: 0.4;
+        transform: scale(1) translate(-5%, -10%);
+    }
+
+    100% {
+        opacity: 0.15;
+        transform: scale(1) translate(-6%, -10%);
+    }
+}
+
+
+.whirlwind-vfx {
+    position: absolute;
+    inset: -25%;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.whirlwind-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.ring-1 {
+    animation: whirlwind-spin-1 550ms linear infinite;
+}
+
+.ring-2 {
+    animation: whirlwind-spin-2 900ms linear infinite reverse;
+}
+
+@keyframes whirlwind-spin-1 {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes whirlwind-spin-2 {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
 
 .loot-item {
   background-color: #fff;
@@ -2188,8 +2667,8 @@ box-shadow:
 
 #focus-holder{
   position:absolute;
-  right:4vw;
-  top:12%;
+  right:1.5vw;
+  top:17%;
   transform:translateY(-50%);
 }
 

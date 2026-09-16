@@ -144,8 +144,6 @@ function openQuestDescription(quest) {
 
 function openQuestsPopup() {
   const popup = document.getElementById("quest-popup");
-  const contentBg = document.getElementById("popup-content");
-  const content = document.getElementById("quests-popup-content");
   //const content = document.querySelector("#quest-popup #quests-popup-content");
 
   setPopupBackground3(`#quest-popup .popup-content`, `legendary`);
@@ -165,8 +163,12 @@ function openQuestsPopup() {
   playSound("open", 0.4);
 
   popup.classList.remove("hidden");
-    
-  function renderQuestList(actNumber) {
+}
+
+function renderQuestList(actNumber) {
+     const contentBg = document.getElementById("popup-content");
+     const content = document.getElementById("quests-popup-content");
+  
      if(actNumber !== 1) return;
      // console.error("enter render quest list");  
      const quests = Object.values(gameState.world.battleState.quests || {})
@@ -303,7 +305,7 @@ function openQuestsPopup() {
          
       //attachQuestExpandEvents();
   }
-}
+
 
 function closeQuestsPopup() {
   const popup = document.getElementById("quest-popup");
@@ -1127,7 +1129,7 @@ function updateQuestShortInfo() {
 
   // Jeśli quest jest typu "zabij X"
   if (questData.objectiveTarget) {
-    infoBox.textContent = `${questData.objectiveTarget}: ${activeQuest.targetCount}/${questData.targetCount}`;
+    infoBox.textContent = `${t(questData.objectiveTarget)}: ${activeQuest.targetCount}/${questData.targetCount}`;
     return;
   }
 

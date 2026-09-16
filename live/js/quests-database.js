@@ -381,7 +381,7 @@ const QUEST_DATA = {
     title: "quest_kill_wolfs_title",
     type: "side_quest",
     objective: "quest_kill_wolfs_objective",
-    objectiveTarget: "Wilk Szary",
+    objectiveTarget: "enemy_wolf",
     targetCount: 5,
     objectiveAfterEvent: "quest_kill_wolfs_objective_after_event",
     reward: { exp: 200, gold: 160 },

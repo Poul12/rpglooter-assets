@@ -112,10 +112,10 @@ function getRandomChest() {
 
 // ile złota może wypaść z danej skrzyni
 const chestGoldRange = {
-  wood:   [5, 15],
-  iron:   [10, 25],
-  silver: [20, 40],
-  gold:   [40, 80],
+  wood:   [20, 35],
+  iron:   [50, 70],
+  silver: [200, 350],
+  gold:   [500, 800],
 };
 
 function getGoldBoost() {
@@ -153,7 +153,7 @@ const enemyGoldMultipliers = {
 
 // skalowanie z poziomem wroga (np. +10% za każdy poziom)
 function getLevelGoldMultiplier(level) {
-  return 1 + (level - 1) * 0.1; // 1.0 na lvl 1, 1.1 na lvl 2 itd.
+  return 1 + (level - 1) * 0.25; // 1.0 na lvl 1, 1.1 na lvl 2 itd.
 }
 
 function getGoldForEnemy(enemy) {

@@ -69,7 +69,9 @@ function performAttack(
   const expeditionLevelStats = gameState.expedition.modes[gameState.world.expeditionMode].level;
   const expeditionRunStats = gameState.expedition.modes[gameState.world.expeditionMode].run;
   
-  playPlayerAnimation("attack");
+  if(!whirlwindState.isActive) { 
+      playPlayerAnimation("attack");
+  }
   
   //console.log(`base dmg`, attacker.dmg);
   //console.log(`performAttack defender`, defender.name);
@@ -78,9 +80,11 @@ function performAttack(
   
   let weaponDamage = attacker.baseDamage.weapon + rawDmg;
   
+ // console.error(`weaponDamage before baseMultiplier`, weaponDamage, baseMultiplier);
+
   weaponDamage *= baseMultiplier ?? 1;
   
-  //console.error(`weaponDamage`, weaponDamage);
+ // console.error(`weaponDamage after baseMultiplier`, weaponDamage);
 
   const baseDamage = weaponDamage + 
                      attacker.baseDamage.stats +
@@ -94,7 +98,7 @@ function performAttack(
     //baseDamage *= currentBuff.dmg;
   }
   
-  console.error(`baseDamage`, baseDamage);
+  //console.error(`baseDamage`, baseDamage);
   
   //let baseDmg = rollDamage(attacker.dmg);
   let baseDmg = rollDamage(baseDamage);
@@ -121,7 +125,7 @@ function performAttack(
   
   if(gameState.combat.lastBastion.nextAttack && gameState.combat.lastBastion.isActive) {
     dmgWithElemental *= gameState.combat.lastBastion.nextAttack;
-    console.log(`last bastion next attack`, gameState.combat.lastBastion.nextAttack);
+    //console.log(`last bastion next attack`, gameState.combat.lastBastion.nextAttack);
 
     gameState.combat.lastBastion.nextAttack = 0;
   }
@@ -211,16 +215,18 @@ function performAttack(
     //finalDamage *= 1 + bonus;
     totalMultiplier *= 1 + bonus;
     gameState.combat.flags.isPerfectDmgBonus = false;
-    showReward(`+${(bonus * 100).toFixed(0)}% ${t("perfect_riposte_reward")}`);
+    //console.error(`gameState.char.bonus.perfectDmgBonus, totalMultiplier`, bonus, totalMultiplier);
+    //showReward(`+${(bonus * 100).toFixed(0)}% ${t("perfect_riposte_reward")}`);
   }
   
-  if(gameState.combat.perfectChainStacks) {
+  if(gameState.combat.perfectChainStacks && gameState.combat.perfectBonusDmgNextHit) {
     const bonus = gameState.char.bonus.perfectChainBonus / 100;
     //finalDamage *= 1 + (bonus * gameState.combat.perfectChainStacks);
     totalMultiplier *= 1 + (bonus * gameState.combat.perfectChainStacks);
 
-    //console.error(`finalDamage after chain stack`, finalDamage, gameState.combat.perfectChainStacks);
-    gameState.combat.perfectChainStacks = 0;
+    //console.error(`finalDamage after perfect chain stack`, finalDamage, bonus, gameState.combat.perfectChainStacks);
+    
+    gameState.combat.perfectBonusDmgNextHit = false;
   }
   
   if(gameState.combat.flags.isLowHp && gameState.char?.combatAffixes[`dmg_below_hp`]) {
@@ -315,7 +321,7 @@ function performAttack(
   
   finalDamage *= totalMultiplier;
   
-  console.error(`finalDamage`, finalDamage);
+ // console.error(`finalDamage`, finalDamage);
   
     
   if(source === `game`) {
@@ -336,9 +342,10 @@ function performAttack(
 
   gameState.combat.criticalLastStand = null;
   
+  
   let lohMultiplier = 1;
   // life on hit
-  if (attacker.lifeOnHit) {
+  if (attacker.lifeOnHit && !gameState.combat.flags.isCritical) {
     if(gameState.combat.lowHpBonus.doubleLoHActive) {
        lohMultiplier *= 2;
     }
@@ -346,7 +353,7 @@ function performAttack(
     if (isDefShield && gameState.char.combatAffixes[`loh_while_blocking`]) {
       const value = gameState.char.combatAffixes[`loh_while_blocking`].value;
       lohMultiplier *= (1 + (value / 100));
-      console.error(`lohMultiplier while blocking`, lohMultiplier);
+      //console.error(`lohMultiplier while blocking`, lohMultiplier);
     }
     
     
@@ -460,7 +467,7 @@ function showReward(text, duration = 1600) {
 
 function showOutcome(type, text, duration = 1700) {
   const el = document.getElementById("combat-outcome");
-
+  
   //onBlockOutcome(type);
   el.className = `combat-msg outcome ${type}`;
   el.querySelector(".main").innerHTML = text;
@@ -474,7 +481,7 @@ function showOutcome(type, text, duration = 1700) {
 
 function showEnemyOutcome(type, text, duration = 1700) {
   const el = document.getElementById("enemy-combat-outcome");
-
+  
   //onBlockOutcome(type);
   el.className = `combat-msg enemy-feedback outcome ${type}`;
   el.querySelector(".main").textContent = text;
@@ -515,6 +522,43 @@ function showEnemyDamage({ damage, isCrit, multiplier, isBleed = false }) {
   setTimeout(() => el.remove(), 1500);
 }
 
+function showPlayerDamage({ damage, isCrit, multiplier, isBleed = false, isBurn = false, isPoison = false}) {
+  const container = document.getElementById(`player-damage-float-container`);
+
+  const el = document.createElement("div");
+  el.classList.add("damage-float");
+
+  if(isBleed) {
+    el.classList.add("crit");
+  }
+  
+  if(isBurn) {
+    el.classList.add("burn");
+  }
+  
+  if(isPoison) {
+    el.classList.add("poison");
+  }
+  
+  
+  if (isCrit) {
+    showOutcome("miss", `${t("crit_outcome")}`);
+    //showReward(`${damage} x${multiplier.toFixed(1)}`, 2300);
+ 
+    el.classList.add("crit");
+    el.textContent = `-${damage.toFixed(0)} x${multiplier.toFixed(1)}`;
+  } else {
+    el.textContent = `-${damage.toFixed(0)}`;
+  }
+
+  if(container) container.appendChild(el);
+
+  // animacja + cleanup
+  setTimeout(() => el.remove(), 1500);
+}
+
+
+
 /*function turnOffShieldMode() {
   const blockButton = document.getElementById("attack-left");
   //const blockButton = document.getElementById("attack-left").querySelector(".attack-button");
@@ -540,8 +584,12 @@ function turnOffShieldMode() {
   playerBlock.active = false;
   //playerBlock.mode = null;
   playerBlock.cooldownUntil = 0;
+  playerBlock.lastResult = null;
+  
+  isBlocking = false;
   
   if(playerBlock.mode == `timed`) {
+    //console.error(`STOP TIMED BLOCK! (combat-resolve)`);
     stopTimedBlockUI();
   }
   
@@ -550,6 +598,9 @@ function turnOffShieldMode() {
   }*/
   
   clearAllDiffs(`def`);
+  showPercentDebuff(`dmg`, 0); 
+  
+  skillsOn();
   
   // UI
   blockButton.classList.remove("turtle");
@@ -695,7 +746,7 @@ async function winCombat() {
       //console.log(`nothing is counting`);
     }else {
       quest.targetCount++;
-      quest.objective = `${matchingQuest.objective} (${quest.targetCount}/${matchingQuest.targetCount})`;
+      quest.objective = `${t(matchingQuest.objective)} (${quest.targetCount}/${matchingQuest.targetCount})`;
       //console.error(`targetCount`, quest.targetCount);
       //console.error(`matchingQuest.state1`, quest.state);
       quest.questNotifications = true;
@@ -734,6 +785,8 @@ async function winCombat() {
     
   }
   
+  gameState.combat.isStart = false;
+  
   //console.log("currentStepIndex winCombat", currentStepIndex);
   world.exploreOptions[world.selectedSlotIndex].isAttacked = false;
 
@@ -758,17 +811,24 @@ async function winCombat() {
   enemy.poise = 100;
   
   resetArmorBreak(enemy);
-  
+  resetPerfectBlockChain();
   resetSpear(enemy);
   resetSpearUI();  
   stopSpearControlUI();
   //delete enemy.spear;
   
-  resetBleed(enemy);
+  resetBleed(enemy, true);
   
   stopBleedTimingUI();
   
+  stopWhirlwind();  
+  
+  clearAllPlayerDots(enemy);
+  
   gameState.combat.bleedTimingActive = false;
+  
+  gameState.combat.flags.isPerfectDmgBonus = false;
+  gameState.combat.perfectBonusDmgNextHit = false;
   
   combat.stats.combo = 0;
   combat.stats.nextHitMultiplier = 0;
@@ -818,6 +878,13 @@ async function winCombat() {
     armorBreak: 0,
   };
   
+  const perfectChainBlock = gameState.combat.perfectChainBlock;
+  perfectChainBlock.perfectWindow = 0;
+  perfectChainBlock.crit = 0;
+  perfectChainBlock.critDmg = 0;
+  
+  gameState.combat.openingStrike.windUpMultiplier = 1;
+  
   gameState.combat.poiseBonus.dmgBonus.nextHit = false;
   
   gameState.combat.lowHpBonus.lowHpDmgActive = false;
@@ -852,6 +919,9 @@ async function winCombat() {
   gameState.combat.lastBastion.nextAttack = 0;
   gameState.combat.lastBastion.attackValue = 0;
   
+  gameState.combat.playerMark.isActive = false;
+  gameState.combat.enemyAtkspdBuff.isActive = false;
+  
   gameState.combat.activeRingMode = ``;
   
   resetGuardRing();
@@ -874,12 +944,11 @@ async function winCombat() {
   finishCombatWithDebuff();
   combat.flags.previewStats = false;
   
-  turnOffShieldMode();
   
   world.locationSteps[world.currentStepIndex].exploreOptions = world.exploreOptions; // ZAPISZ STAN KROKU
   unlockActions();
   showNavigateButtons();
-  showOtherNonCombatElements();
+  showOtherNonCombatElements(enemy);
   if (world.bossDefeatedState.isBossDefeated) {
     hideGoBackButton();
   }
@@ -917,6 +986,21 @@ async function winCombat() {
   addLootToStep(enemy, world.currentStepIndex, message);
   renderLoots(world.selectedSlotIndex);
 
+  turnOffShieldMode();
+  
+  gameState.combat.activeBonus.defSources = {
+    exhausted: 0,
+    guard: 0,
+    perfectBlock: 0,
+    defensiveStance: 0,
+    perSecBlock: 0,
+    lowHp: 0,
+    armorBreak: 0,
+  };
+  
+  gameState.combat.activeBonus.def = 0;
+  clearAllDiffs(`def`);
+  
   world.selectedSlotIndex = null;
   
   renderStats();
@@ -938,6 +1022,8 @@ async function loseCombat() {
   bar.classList.add("hidden");
   
   world.exploreOptions[world.selectedSlotIndex].isAttacked = false;
+  
+  gameState.combat.isStart = false;
   
   renderOptions();
   
@@ -965,17 +1051,24 @@ async function loseCombat() {
   enemy.poise = 100;
   
   resetArmorBreak(enemy);
-
+  resetPerfectBlockChain();
   resetSpear(enemy);
   resetSpearUI();
   stopSpearControlUI();
   //delete enemy.spear;
   
-  resetBleed(enemy);
+  resetBleed(enemy, true);
   
   stopBleedTimingUI();
   
+  stopWhirlwind();  
+  
+  clearAllPlayerDots(enemy);
+  
   gameState.combat.bleedTimingActive = false;
+  
+  gameState.combat.flags.isPerfectDmgBonus = false;
+  gameState.combat.perfectBonusDmgNextHit = false
   
   combat.stats.combo = 0;
   combat.stats.nextHitMultiplier = 0;
@@ -1025,6 +1118,12 @@ async function loseCombat() {
     armorBreak: 0,
   };
  
+  const perfectChainBlock = gameState.combat.perfectChainBlock;
+  perfectChainBlock.perfectWindow = 0;
+  perfectChainBlock.crit = 0;
+  perfectChainBlock.critDmg = 0;
+  
+  gameState.combat.openingStrike.windUpMultiplier = 1;
   
   gameState.combat.poiseBonus.dmgBonus.nextHit = false;
   
@@ -1058,6 +1157,9 @@ async function loseCombat() {
   gameState.combat.lastBastion.nextAttack = 0;
   gameState.combat.lastBastion.attackValue = 0;
   
+  gameState.combat.playerMark.isActive = false;
+  gameState.combat.enemyAtkspdBuff.isActive = false;
+  
   gameState.combat.armorBreakBonus.refreshBonus.isReady = false;
   
   gameState.combat.activeRingMode = ``;
@@ -1074,8 +1176,6 @@ async function loseCombat() {
   stats.style.opacity = `0`;
   
   setMenuDisabled(false);
-  
-  turnOffShieldMode(); 
   
   await wait(950);
   
@@ -1102,8 +1202,23 @@ async function loseCombat() {
   
   unlockActions();
   showNavigateButtons();
-  showOtherNonCombatElements();
+  showOtherNonCombatElements(enemy);
   //renderOptions();
+  
+  turnOffShieldMode();
+  
+  gameState.combat.activeBonus.defSources = {
+    exhausted: 0,
+    guard: 0,
+    perfectBlock: 0,
+    defensiveStance: 0,
+    perSecBlock: 0,
+    lowHp: 0,
+    armorBreak: 0,
+  };
+
+  gameState.combat.activeBonus.def = 0;
+  clearAllDiffs(`def`);
   
   renderLoots(world.selectedSlotIndex);
   
@@ -1201,6 +1316,8 @@ async function onFleeSuccess(player, enemy, slotIndex, msg = false){
 
   world.exploreOptions[slotIndex].isAttacked = false;
   
+  gameState.combat.isStart = false;
+  
   //await wait(250);
   renderOptions();
   
@@ -1223,15 +1340,22 @@ async function onFleeSuccess(player, enemy, slotIndex, msg = false){
   enemy.poise = 100;
   
   resetArmorBreak(enemy);
-
+  resetPerfectBlockChain();
   resetSpear(enemy);
   resetSpearUI();  
   stopSpearControlUI();
   //delete enemy.spear;
   
-  resetBleed(enemy);
+  resetBleed(enemy, true);
+  
+  stopWhirlwind();
+  
+  clearAllPlayerDots(enemy);
   
   gameState.combat.bleedTimingActive = false;
+  
+  gameState.combat.flags.isPerfectDmgBonus = false;
+  gameState.combat.perfectBonusDmgNextHit = false;
   
   combat.stats.combo = 0;
   combat.stats.nextHitMultiplier = 0;
@@ -1281,6 +1405,12 @@ async function onFleeSuccess(player, enemy, slotIndex, msg = false){
     armorBreak: 0,
   };
  
+  const perfectChainBlock = gameState.combat.perfectChainBlock;
+  perfectChainBlock.perfectWindow = 0;
+  perfectChainBlock.crit = 0;
+  perfectChainBlock.critDmg = 0;
+
+  gameState.combat.openingStrike.windUpMultiplier = 1;
   
   gameState.combat.poiseBonus.dmgBonus.nextHit = false;
   
@@ -1314,6 +1444,9 @@ async function onFleeSuccess(player, enemy, slotIndex, msg = false){
   gameState.combat.lastBastion.nextAttack = 0;
   gameState.combat.lastBastion.attackValue = 0;
   
+  gameState.combat.playerMark.isActive = false;
+  gameState.combat.enemyAtkspdBuff.isActive = false;
+  
   gameState.combat.armorBreakBonus.refreshBonus.isReady = false;
   
   gameState.combat.activeRingMode = ``;
@@ -1327,8 +1460,6 @@ async function onFleeSuccess(player, enemy, slotIndex, msg = false){
   syncStepEnemies(world.currentStepIndex);
   
   spendEnergy(`flee`);
-  
-  turnOffShieldMode();
   
   /*const enSlot = document.querySelectorAll('.explore-slot')[world.selectedSlotIndex];
   enSlot.classList.remove("combat-focus");*/
@@ -1381,8 +1512,23 @@ async function onFleeSuccess(player, enemy, slotIndex, msg = false){
   setMenuDisabled(false);
   unlockActions();
   showNavigateButtons();
-  showOtherNonCombatElements();
+  showOtherNonCombatElements(enemy);
   renderLoots(world.selectedSlotIndex);
+  
+  turnOffShieldMode();
+  
+  gameState.combat.activeBonus.defSources = {
+    exhausted: 0,
+    guard: 0,
+    perfectBlock: 0,
+    defensiveStance: 0,
+    perSecBlock: 0,
+    lowHp: 0,
+    armorBreak: 0,
+  };
+  
+  gameState.combat.activeBonus.def = 0;
+  clearAllDiffs(`def`);
   
   unlockCombatScroll();
   
@@ -1531,7 +1677,7 @@ async function flee(i) {
   //focusOnSlots();
   unlockActions();
   showNavigateButtons();
-  showOtherNonCombatElements();
+  showOtherNonCombatElements(enemy);
   
   renderStats();
   //setDebuffPercentHp();

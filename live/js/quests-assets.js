@@ -19,7 +19,7 @@ const STORY_EVENT_ENEMIES = {
     sprite: "runestone-guardian.png",
     level: 32,
     maxHp: 2500,
-    dmg: 130,
+    dmg: 110,
     def: 1600,
     atkSpd: 0.30,
     baseExp: 6,
@@ -38,7 +38,13 @@ const STORY_EVENT_ENEMIES = {
     atkSpd: 0.47,
     baseExp: 23,
     type: "normal",
-    questId: "lost_feather"
+    questId: "lost_feather",
+    skills: [
+      {
+         id: "backstab",
+         level: 1
+      },
+    ]
   },
 
   "lost_boxes": {
@@ -46,26 +52,55 @@ const STORY_EVENT_ENEMIES = {
     name: "Herszt Złodziei",
     sprite: "thief-cheftain.png",
     level: 7,
-    maxHp: 880,
-    dmg: 58,
-    def: 669,
+    maxHp: 780,
+    dmg: 47,
+    def: 569,
     atkSpd: 0.4,
     baseExp: 20,
     type: "elite",
-    questId: "lost_boxes"
+    questId: "lost_boxes",
+    skills: [
+      {
+         id: "dirty-tricks",
+         level: 4
+      },
+      {
+         id: "shadow-strike",
+         level: 4
+      },
+      {
+         id: "smoke-bomb",
+         level: 4
+      },
+    ],
   },
   "poisoned_water": {
     id: "bandit_cheftain",
     name: "Przywódca Bandytów",
     sprite: "bandit-cheftain.png",
     level: 9,
-    maxHp: 1570,
-    dmg: 95,
+    maxHp: 1470,
+    dmg: 78,
     def: 1245,
     atkSpd: 0.42,
     baseExp: 33,
     type: "elite",
-    questId: "poisoned_water"
+    questId: "poisoned_water",
+    skills: [
+      {
+         id: "brutal-strike",
+         level: 4
+      },
+      {
+         id: "leg-sweep",
+         level: 5
+      },
+      {
+         id: "rallying-cry",
+         level: 6
+      },
+    ],
+
   },
   "alpha_shadow": {
     id: "alpha_wolf",

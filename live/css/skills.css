@@ -37,7 +37,8 @@
   object-fit: cover;      /* zamiast contain */
   border-radius: 50%;     /* dopasowuje się do okrągłego slotu */
   display: block;         /* usuwa przestrzeń „inline” */
-
+  top: -50px;
+  left: -50px;
   
   /*width: 36px;
   height: 36px;
@@ -375,6 +376,50 @@
   border: 2px solid rgba(100, 160, 255, 0.9);
   box-shadow: 0 4px 7px rgba(100, 160, 255, 0.8);
 }
+
+
+.mastery-row{
+  margin-top:10px;
+}
+
+.mastery-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:4px;
+  font-size:14px;
+  font-weight:700;
+  color:#d9d9d9;
+}
+
+.mastery-progress{
+  position:relative;
+  height:12px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#1a1a1a;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/*#mastery-bar{
+  position:relative;
+  width:0%;
+  height:100%;
+  border-radius:inherit;
+}*/
+
+#mastery-skill-label{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-size:12px;
+  font-weight:bold;
+  color:white;
+  text-shadow:0 1px 3px black;
+  white-space:nowrap;
+}
+
 
 /*#skill-popup-content {
   position: relative;

@@ -5,8 +5,6 @@ function getCharacterTemplate() {
 <div class="page-background" id="page-bg">
   <!-- cała zawartość strony -->
    
-  <div style="font-size: 24px; text-align:center; margin-top: 10px">${t("char_class_title")}</div>
-   <div style="font-size: 14px">${t("char_class_level")} <span id="level">1</span></div>
   <br><br><br><br>
   
     <div class="character-wrapper">
@@ -15,7 +13,18 @@ function getCharacterTemplate() {
      <div id="equipment-slots"></div>
       
   
-    
+
+  <!-- LEWY GÓRNY RÓG -->
+  <div class="character-discipline-badge">
+    <span class="discipline-name" id="discipline-name">Unknown</span>
+  </div>
+
+  <!-- PRAWY GÓRNY RÓG -->
+  <div class="character-name-badge">
+    ${gameState.char.playerName || "Bohater"}
+  </div>
+
+
   
     <!-- <div class="shield-mode-toggle hidden">
        <label class="shield-toggle">
@@ -184,8 +193,26 @@ function getCharacterTemplate() {
 </div>
   
   
- <div class="character-top-ui"> 
+<div id="guide-popup" class="npc-popup hidden">
 
+  <div class="popup-content">
+   
+    <div id="guide-popup-content"></div>
+  
+    <div class="close-btn-wrapper" id="affixes-close-wrapper">
+      <button class="close-button" onclick="closeGuidePopup()"></button>
+
+      <img data-src="img/buttons/close-btn.png" class="close-btn-frame">
+    </div>
+  
+  </div>
+
+</div>
+
+  
+  
+ <div class="character-top-ui"> 
+  
      <button class="item-button" id="attr-btn" onclick="showAttributesPopup()">${t("attributes_btn")}</button>
   
      <button class="item-button" id="stats-btn" onclick="showStatsPopup()">${t("stats_btn")}</button>
@@ -194,6 +221,14 @@ function getCharacterTemplate() {
 
   </div>
 
+  
+  <div class="character-bottom-ui"> 
+
+     <button class="item-button" id="guide-btn" onclick="renderGuide()">${t("guide_btn")}</button>
+
+  </div>
+  
+  
   
 <div id="stat-tooltip" class="stat-tooltip hidden">
   <div class="stat-tooltip-title"></div>
@@ -221,7 +256,9 @@ async function renderCharacterView() {
     app.innerHTML = await getCharacterTemplate();
     
     //await assetManager.preloadAssets(ITEMS_ASSETS);
-
+    
+    await assetManager.preloadAssets(COMBAT_ASSETS);
+ 
     //await nextFrame();
     //await nextFrame();
     
@@ -257,11 +294,13 @@ function initCharacterView() {
   const attrBtn = document.getElementById("attr-btn");
   const statsBtn = document.getElementById("stats-btn");
   const affixesBtn = document.getElementById("affixes-btn");
+  const guideBtn = document.getElementById("guide-btn");
 
   setGlobalButtonTexture(attrBtn);
   setGlobalButtonTexture(statsBtn);
   setGlobalButtonTexture(affixesBtn);
-
+  setGlobalButtonTexture(guideBtn);
+  
   renderEquipment();
   updateCharacterView();
     
@@ -269,6 +308,8 @@ function initCharacterView() {
     
   initBlockModeToggle();
 
+  setDisciplineName();
+  
   saveGame();
     
   updateCharMenuIcon();
@@ -276,6 +317,13 @@ function initCharacterView() {
     
   //console.error(`inventory.length end`, gameState.inventory.length);
   //console.error(`char.equipment.length end`, char.equipment.length);
+}
+
+function setDisciplineName() {
+  const disciplineName = document.getElementById("discipline-name");
+  const style = getCurrentWeaponStyle();
+
+  disciplineName.textContent = style;
 }
 
 function initializeCharacterImages() {
@@ -308,7 +356,7 @@ function initBlockModeToggle() {
   checkbox.checked = gameState.char?.blockMode === "timed";
 
   blockModeHandler = () => {
-    setBlockMode(checkbox.checked ? "timed" : "defensive");
+    setBlockMode(checkbox.checked ? "timed" : "defensive", true);
   };
   
  // console.log(`blockMode end`, gameState.char.blockMode);

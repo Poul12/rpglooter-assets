@@ -41,6 +41,8 @@ const COMBAT_ARCHETYPES = [
   "special",
 ];
 
+
+
  function renderEquipment() {
   const container = document.getElementById("equipment-slots");
   if(!container) return;
@@ -524,7 +526,7 @@ function getCombatIcon(type) {
   //document.getElementById("gold").textContent = formatNumber(goldEl);
   setStatValue("gold", goldEl);
    
-  document.getElementById("level").innerText = char.level;
+  //document.getElementById("level").innerText = char.level;
    
      const percent = Math.min(125, Math.round(100 * char.experience / char.expToNextLevel));
     document.getElementById("exp-bar").style.width = percent + "%";
@@ -564,7 +566,7 @@ function getCombatIcon(type) {
    applyCharacterStats();
  }
 
-function setBlockMode(mode) {
+function setBlockMode(mode, initView = false) {
   
   if (gameState.char.inCombat) {
     console.warn("Nie można zmieniać trybu bloku w trakcie walki");
@@ -580,6 +582,10 @@ function setBlockMode(mode) {
   }
   
   playSound("open-slot", 0.4);
+  
+  if(initView) {
+    setDisciplineName();
+  }    
   
  // console.log("Zmieniono tryb bloku:", mode);
   saveGame();
@@ -1199,22 +1205,22 @@ energystat: {
 
     <li>
       ${t("tooltip_energy_fight")}
-      <span style="color: #e6a23c;">7 ${t("tooltip_energy_unit")}</span>
+      <span style="color: #e6a23c;">10 ${t("tooltip_energy_unit")}</span>
     </li>
 
     <li>
       ${t("tooltip_energy_chest")}
-      <span style="color: #e6a23c;">5 ${t("tooltip_energy_unit")}</span>
+      <span style="color: #e6a23c;">8 ${t("tooltip_energy_unit")}</span>
     </li>
 
     <li>
       ${t("tooltip_energy_shrine")}
-      <span style="color: #e6a23c;">3 ${t("tooltip_energy_unit")}</span>
+      <span style="color: #e6a23c;">6 ${t("tooltip_energy_unit")}</span>
     </li>
 
     <li>
       ${t("tooltip_energy_step")}
-      <span style="color: #e6a23c;">4 ${t("tooltip_energy_unit")}</span>
+      <span style="color: #e6a23c;">6 ${t("tooltip_energy_unit")}</span>
     </li>
 
     <b>${t("tooltip_base_regeneration")}:</b>

@@ -1354,7 +1354,7 @@ box-shadow:
 .compare-popup-actions{
   position:absolute;
   /*inset:0;*/
-  bottom: 8vh;/* 75px  */
+  bottom: 4vh;/* 75px  */
   /*pointer-events:none;*/
 }
 
@@ -1453,7 +1453,7 @@ box-shadow:
 
   height: auto; 
   min-height: 290px;
-  max-height: 550px;
+  max-height: 600px;
   transition: transform 0.4s ease;
   display: flex;
   flex-direction: column;

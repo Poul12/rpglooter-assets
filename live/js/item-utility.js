@@ -148,11 +148,11 @@ function getItemName(item) {
 const ITEM_SUBTYPES = {
   short_sword: { type: "weapon", sprite: "short-sword" },
   long_sword: { type: "weapon", sprite: "long-sword" },
-  great_sword: { type: "weapon", sprite: "great-sword" },
+  //great_sword: { type: "weapon", sprite: "great-sword" },
   axe: { type: "weapon", sprite: "axe" },
   double_axe: { type: "weapon", sprite: "double-axe" },
   mace: { type: "weapon", sprite: "mace" },
-  hammer: { type: "weapon", sprite: "hammer" },
+ // hammer: { type: "weapon", sprite: "hammer" },
   spear: { type: "weapon", sprite: "spear" },
 
   round_shield: { type: "shield", sprite: "round-shield" },
@@ -326,13 +326,13 @@ const WEAPON_STYLES = {
   /* 2H */
   /* ===================== */
   
-  hammer: {
+ /* hammer: {
     type: "hammer",
     icon: "🔨",
     name: "style_hammer_name",
     desc: "style_hammer_desc",
     mech: "style_hammer_mech"
-  },
+  },*/
 
   spear: {
     type: "spear",
@@ -342,13 +342,13 @@ const WEAPON_STYLES = {
     mech: "style_spear_mech"
   },
 
-  greatsword: {
+ /* greatsword: {
     type: "greatsword",
     icon: "❄️",
     name: "style_greatsword_name",
     desc: "style_greatsword_desc",
     mech: "style_greatsword_mech"
-  }
+  }*/
 };
 
 
@@ -1030,11 +1030,11 @@ const LEGENDARY_NAMES = {
     "legend_axe_viking_wrath"
   ],
 
-  hammer: [
+  /*hammer: [
     "legend_hammer_titanbane",
     "legend_hammer_final_judgement",
     "legend_hammer_stone_fury"
-  ],
+  ],*/
 
   mace: [
     "legend_mace_betrayal_bone",
@@ -1170,11 +1170,11 @@ function getLegendaryId(subtype) {
 const spriteMap = {
   'short_sword': 'short-sword',
   'long_sword': 'long-sword',
-  'great_sword': 'great-sword',
+ // 'great_sword': 'great-sword',
   'double_axe': 'double-axe',
   'spear': 'spear',
   'axe': 'axe',
-  'hammer': 'hammer',
+  //'hammer': 'hammer',
   'mace': 'mace',
   'round_shield': 'round-shield',
   'buckler': 'buckler',

@@ -629,6 +629,7 @@ function spawnLootOnSlot(slotIndex, lootItems, delay = 500) {
         item.baseName === `round_shield`||
         item.baseName === `plate_armor` ||
         item.baseName === `leather_armor` ||
+        item.baseName === `leather_gloves` ||
         item.baseName === `runic_stone`;
       
       

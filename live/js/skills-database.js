@@ -19,7 +19,7 @@ const SKILLS_DATABASE = {
     children: ["shield-wall"],
     description: "shield_bash_skill_desc",
     baseCooldown: 6,
-    staminaCost: 20,
+    staminaCost: 25,
     effects: [
       {
         type: "damage",
@@ -44,24 +44,24 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 4,
+    requiredLevel: 3,
     usableWhileBlocking: "blocking",
     parent: "shield-bash",
-    children: ["counter-strike", "iron-will"],
+    children: ["counter-strike"],
     description: "shield_wall_skill_desc",
-    baseCooldown: 8,
+    baseCooldown: 10,
     guardCost: 2,
     effects: [
       {
         type: "def-buff",
-        baseValue: 25,
+        baseValue: 30,
         scalingPerLevel: 2,
         target: "self"
       },
       {
         type: "def-buff-duration",
-        baseValue: 5,
-        scalingPerLevel: 0.2,
+        baseValue: 6,
+        scalingPerLevel: 0.3,
         target: "enemy"
       }
    
@@ -76,12 +76,12 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 6,
+    requiredLevel: 5,
     usableWhileBlocking: "blocking",
     parent: "shield-wall",
-    children: ["provocation"],
+    children: ["provocation", "iron-will"],
     description: "counter_strike_skill_desc",
-    baseCooldown: 10,
+    baseCooldown: 12,
     guardCost: 2,
     effects: [
       {
@@ -95,7 +95,14 @@ const SKILLS_DATABASE = {
         baseValue: 10,
         scalingPerLevel: 2,
         target: "enemy"
-      }
+      },
+      {
+        type: "counter-duration",
+        baseValue: 8,
+        scalingPerLevel: 0.1,
+        target: "enemy"
+      },
+
     ],
     icon: "img/icons/counter-strike-icon.png"
   },
@@ -107,10 +114,10 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 6,
+    requiredLevel: 8,
     usableWhileBlocking: "blocking",
-    parent: "shield-wall",
-    children: [],
+    parent: "counter-strike",
+    children: ["last-bastion"],
     description: "iron_will_skill_desc",
     baseCooldown: 15,
     staminaCost: 35,
@@ -120,7 +127,13 @@ const SKILLS_DATABASE = {
         baseValue: 0,
         scalingPerLevel: 0,
         target: "self"
-      }
+      },
+      {
+        type: "blocking-cost",
+        baseValue: 10,
+        scalingPerLevel: 2,
+        target: "self"
+      },
     ],
     icon: "img/icons/iron-will-icon.png"
   },
@@ -132,7 +145,7 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 8,
+    requiredLevel: 11,
     usableWhileBlocking: "normal",
     parent: "counter-strike",
     children: ["last-bastion"],
@@ -145,7 +158,13 @@ const SKILLS_DATABASE = {
         baseValue: 0,
         scalingPerLevel: 0,
         target: "enemy"
-      }
+      },
+      {
+        type: "vulnerable-duration",
+        baseValue: 2,
+        scalingPerLevel: 0.1,
+        target: "enemy"
+      },
     ],
     icon: "img/icons/provocation-icon.png"
   },
@@ -156,7 +175,7 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 10,
+    requiredLevel: 14,
     usableWhileBlocking: "blocking",
     parent: "provocation",
     children: [],
@@ -202,8 +221,8 @@ const SKILLS_DATABASE = {
     parent: null,
     children: ["opening-strike"],
     description: "riposte_skill_desc",
-    baseCooldown: 5,
-    staminaCost: 20,
+    baseCooldown: 1,
+    staminaCost: 25,
     effects: [
       {
         type: "damage",
@@ -211,12 +230,6 @@ const SKILLS_DATABASE = {
         scalingPerLevel: 10,
         target: "enemy"
       },
-      {
-        type: "crit",
-        baseValue: 20,
-        scalingPerLevel: 1,
-        target: "self"
-      }
     ],
     icon: "img/icons/riposte-icon.png"
   },
@@ -232,13 +245,13 @@ const SKILLS_DATABASE = {
     parent: "riposte",
     children: ["precision", "parry-master"],
     description: "opening_strike_skill_desc",
-    baseCooldown: 8,
+    baseCooldown: 10,
     staminaCost: 25,
     effects: [
       {
-        type: "bonus-damage",
-        baseValue: 35,
-        scalingPerLevel: 2,
+        type: "open-windup",
+        baseValue: 25,
+        scalingPerLevel: 3,
         target: "enemy"
       }
     ],
@@ -256,15 +269,22 @@ const SKILLS_DATABASE = {
     parent: "opening-strike",
     children: ["weak-point"],
     description: "precision_skill_desc",
-    baseCooldown: 15,
+    baseCooldown: 12,
     staminaCost: 30,
     effects: [
       {
-        type: "crit-chance",
-        baseValue: 15,
+        type: "precision-buff",
+        baseValue: 10,
         scalingPerLevel: 1,
         target: "self"
-      }
+      },
+      {
+        type: "precision-duration",
+        baseValue: 5,
+        scalingPerLevel: 0.2,
+        target: "enemy"
+      },
+ 
     ],
     icon: "img/icons/precision-icon.png"
   },
@@ -276,19 +296,25 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 6,
+    requiredLevel: 9,
     parent: "opening-strike",
-    children: [],
+    children: ["perfect-execution"],
     description: "parry_master_skill_desc",
-    baseCooldown: 20,
+    baseCooldown: 15,
     staminaCost: 35,
     effects: [
       {
-        type: "cooldown-reset",
-        baseValue: 1,
-        scalingPerLevel: 0,
+        type: "reduce-cooldown",
+        baseValue: 6,
+        scalingPerLevel: 0.3,
         target: "self"
-      }
+      },
+      {
+        type: "reduce-shield-cooldown",
+        baseValue: 20,
+        scalingPerLevel: 0.2,
+        target: "self"
+      },
     ],
     icon: "img/icons/parry-master-icon.png"
   },
@@ -300,7 +326,7 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 8,
+    requiredLevel: 12,
     parent: "precision",
     children: ["perfect-execution"],
     description: "weak_point_skill_desc",
@@ -308,11 +334,24 @@ const SKILLS_DATABASE = {
     staminaCost: 30,
     effects: [
       {
-        type: "vulnerable",
-        baseValue: 3,
+        type: "crit-buff",
+        baseValue: 15,
+        scalingPerLevel: 0.5,
+        target: "enemy"
+      },
+      {
+        type: "crit-dmg-buff",
+        baseValue: 30,
+        scalingPerLevel: 2,
+        target: "enemy"
+      },
+      {
+        type: "vulnerable-duration",
+        baseValue: 5,
         scalingPerLevel: 0.2,
         target: "enemy"
       }
+ 
     ],
     icon: "img/icons/weak-point-icon.png"
   },
@@ -324,19 +363,19 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 10,
+    requiredLevel: 15,
     parent: "weak-point",
     children: [],
     description: "perfect_execution_skill_desc",
-    baseCooldown: 30,
+    baseCooldown: 1,
     staminaCost: 50,
     effects: [
       {
-        type: "critical-damage",
-        baseValue: 100,
-        scalingPerLevel: 5,
+        type: "damage",
+        baseValue: 330,
+        scalingPerLevel: 20,
         target: "enemy"
-      }
+      },
     ],
     icon: "img/icons/perfect-execution-icon.png"
   },
@@ -354,14 +393,14 @@ const SKILLS_DATABASE = {
     maxLevel: 10,
     requiredLevel: 1,
     parent: null,
-    children: ["defensive-reach"],
+    children: ["sweep"],
     description: "piercing_thrust_skill_desc",
-    baseCooldown: 4,
-    staminaCost: 15,
+    baseCooldown: 10,
+    staminaCost: 25,
     effects: [
       {
         type: "damage",
-        baseValue: 110,
+        baseValue: 130,
         scalingPerLevel: 8,
         target: "enemy"
       },
@@ -370,103 +409,125 @@ const SKILLS_DATABASE = {
         baseValue: 1,
         scalingPerLevel: 0,
         target: "enemy"
-      }
+      },
+      {
+        type: "pushback",
+        baseValue: 20,
+        scalingPerLevel: 2,
+        target: "enemy"
+      },
     ],
     icon: "img/icons/piercing-thrust-icon.png"
   },
-
-
-  "defensive-reach": {
-    name: "defensive_reach_skill_name",
-    type: "active",
-    unlocked: false,
-    level: 0,
-    maxLevel: 10,
-    requiredLevel: 4,
-    parent: "piercing-thrust",
-    children: ["sweep"],
-    description: "defensive_reach_skill_desc",
-    baseCooldown: 12,
-    staminaCost: 30,
-    effects: [
-      {
-        type: "spear-control-duration",
-        baseValue: 30,
-        scalingPerLevel: 2,
-        target: "self"
-      }
-    ],
-    icon: "img/icons/defensive-reach-icon.png"
-  },
-
-
+  
   "sweep": {
     name: "sweep_skill_name",
     type: "active",
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 6,
-    parent: "defensive-reach",
-    children: ["impale", "spear-discipline"],
+    requiredLevel: 3,
+    parent: "piercing-thrust",
+    children: ["impale", "control-shatter"],
     description: "sweep_skill_desc",
     baseCooldown: 10,
     staminaCost: 30,
     effects: [
+     {
+        type: "spear-control",
+        baseValue: 2,
+        scalingPerLevel: 0,
+        target: "enemy"
+      },
       {
-        type: "slow",
-        baseValue: 30,
+        type: "windup",
+        baseValue: 15,
         scalingPerLevel: 2,
         target: "enemy"
-      }
+      },
+      {
+        type: "sweep-duration",
+        baseValue: 4,
+        scalingPerLevel: 0.2,
+        target: "enemy"
+      },
+  
     ],
     icon: "img/icons/sweep-icon.png"
   },
-
-
+  
   "impale": {
     name: "impale_skill_name",
     type: "active",
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 8,
+    requiredLevel: 6,
     parent: "sweep",
-    children: ["absolute-control"],
+    children: ["spear-discipline"],
     description: "impale_skill_desc",
     baseCooldown: 15,
     staminaCost: 35,
     effects: [
       {
-        type: "armor-break",
-        baseValue: 30,
-        scalingPerLevel: 2,
+        type: "damage",
+        baseValue: 230,
+        scalingPerLevel: 15,
         target: "enemy"
-      }
+      },
     ],
     icon: "img/icons/impale-icon.png"
   },
 
-
-  "spear-discipline": {
-    name: "spear_discipline_skill_name",
+  "control-shatter": {
+    name: "control_shatter_skill_name",
     type: "active",
     unlocked: false,
     level: 0,
     maxLevel: 10,
     requiredLevel: 8,
     parent: "sweep",
-    children: [],
+    children: ["spear-discipline"],
+    description: "control_shatter_skill_desc",
+    baseCooldown: 12,
+    staminaCost: 30,
+    effects: [
+      {
+        type: "control-break",
+        baseValue: 0,
+        scalingPerLevel: 0,
+        target: "self"
+      }
+    ],
+    icon: "img/icons/control-break-icon.png"
+  },
+  
+  "spear-discipline": {
+    name: "spear_discipline_skill_name",
+    type: "active",
+    unlocked: false,
+    level: 0,
+    maxLevel: 10,
+    requiredLevel: 11,
+    parent: "control-shatter",
+    children: ["absolute-control"],
     description: "spear_discipline_skill_desc",
     baseCooldown: 20,
     staminaCost: 35,
     effects: [
       {
-        type: "spear-control-bonus",
-        baseValue: 20,
-        scalingPerLevel: 2,
+        type: "spear-discipline",
+        baseValue: 0,
+        scalingPerLevel: 0,
         target: "self"
-      }
+      },
+      {
+        type: "discipline-duration",
+        baseValue: 6,
+        scalingPerLevel: 0.2,
+        target: "self"
+      },
+  
     ],
     icon: "img/icons/spear-discipline-icon.png"
   },
@@ -478,19 +539,26 @@ const SKILLS_DATABASE = {
     unlocked: false,
     level: 0,
     maxLevel: 10,
-    requiredLevel: 10,
-    parent: "impale",
+    requiredLevel: 14,
+    parent: "spear-discipline",
     children: [],
     description: "absolute_control_skill_desc",
     baseCooldown: 30,
     staminaCost: 50,
     effects: [
       {
-        type: "spear-control-max",
-        baseValue: 5,
+        type: "absolute-control",
+        baseValue: 0,
         scalingPerLevel: 0,
         target: "enemy"
+      },
+      {
+        type: "absolute-duration",
+        baseValue: 5,
+        scalingPerLevel: 0.2,
+        target: "enemy"
       }
+ 
     ],
     icon: "img/icons/absolute-control-icon.png"
   },
@@ -681,21 +749,28 @@ const SKILLS_DATABASE = {
   parent: null,
   children: ["blood-frenzy"],
   description: "twin_slash_skill_desc",
-  baseCooldown: 5,
+  baseCooldown: 7,
   staminaCost: 20,
   effects: [
     {
       type: "damage",
       baseValue: 70,
-      scalingPerLevel: 7,
+      scalingPerLevel: 6,
       target: "enemy"
     },
     {
       type: "bleed",
-      baseValue: 8,
-      scalingPerLevel: 0.5,
+      baseValue: 7,
+      scalingPerLevel: 0.2,
+      target: "enemy"
+    },
+    {
+      type: "bleed-duration",
+      baseValue: 4.5,
+      scalingPerLevel: 0.2,
       target: "enemy"
     }
+
   ],
   icon: "img/icons/twin-slash-icon.png"
 },
@@ -707,19 +782,26 @@ const SKILLS_DATABASE = {
   unlocked: false,
   level: 0,
   maxLevel: 10,
-  requiredLevel: 4,
+  requiredLevel: 3,
   parent: "twin-slash",
   children: ["whirlwind", "blood-pact"],
   description: "blood_frenzy_skill_desc",
-  baseCooldown: 15,
+  baseCooldown: 16,
   staminaCost: 30,
   effects: [
     {
       type: "attack-speed",
-      baseValue: 25,
+      baseValue: 5,
       scalingPerLevel: 2,
       target: "self"
+    },
+    {
+      type: "frenzy-duration",
+      baseValue: 5,
+      scalingPerLevel: 0.2,
+      target: "self"
     }
+
   ],
   icon: "img/icons/blood-frenzy-icon.png"
 },
@@ -731,23 +813,23 @@ const SKILLS_DATABASE = {
   unlocked: false,
   level: 0,
   maxLevel: 10,
-  requiredLevel: 6,
+  requiredLevel: 5,
   parent: "blood-frenzy",
-  children: ["savage-momentum"],
+  children: ["blood-reaver"],
   description: "whirlwind_skill_desc",
   baseCooldown: 12,
   staminaCost: 35,
   effects: [
     {
-      type: "damage",
-      baseValue: 120,
-      scalingPerLevel: 8,
+      type: "whirlwind",
+      baseValue: 40,
+      scalingPerLevel: 5,
       target: "enemy"
     },
     {
       type: "bleed",
-      baseValue: 12,
-      scalingPerLevel: 1,
+      baseValue: 4,
+      scalingPerLevel: 0.1,
       target: "enemy"
     }
   ],
@@ -761,7 +843,7 @@ const SKILLS_DATABASE = {
   unlocked: false,
   level: 0,
   maxLevel: 10,
-  requiredLevel: 6,
+  requiredLevel: 8,
   parent: "blood-frenzy",
   children: ["executioner"],
   description: "blood_pact_skill_desc",
@@ -770,42 +852,54 @@ const SKILLS_DATABASE = {
   effects: [
     {
       type: "hp-cost",
-      baseValue: 10,
+      baseValue: 25,
       scalingPerLevel: 0,
       target: "self"
     },
     {
       type: "damage-buff",
-      baseValue: 40,
+      baseValue: 30,
       scalingPerLevel: 3,
       target: "self"
-    }
+    },
+    {
+      type: "crit-buff-pact",
+      baseValue: 15,
+      scalingPerLevel: 2,
+      target: "self"
+    },
   ],
   icon: "img/icons/blood-pact-icon.png"
 },
 
 
-"savage-momentum": {
-  name: "savage_momentum_skill_name",
+"blood-reaver": {
+  name: "blood_reaver_skill_name",
   type: "active",
   unlocked: false,
   level: 0,
   maxLevel: 10,
-  requiredLevel: 8,
+  requiredLevel: 12,
   parent: "whirlwind",
-  children: [],
-  description: "savage_momentum_skill_desc",
+  children: ["executioner"],
+  description: "blood_reaver_skill_desc",
   baseCooldown: 18,
   staminaCost: 35,
   effects: [
     {
-      type: "combo-damage",
-      baseValue: 15,
+      type: "heal-convert",
+      baseValue: 20,
       scalingPerLevel: 2,
       target: "self"
-    }
+    },
+    {
+      type: "reaver-duration",
+      baseValue: 6,
+      scalingPerLevel: 0.2,
+      target: "self"
+    },
   ],
-  icon: "img/icons/savage-momentum-icon.png"
+  icon: "img/icons/blood-reaver-icon.png"
 },
 
 
@@ -815,7 +909,7 @@ const SKILLS_DATABASE = {
   unlocked: false,
   level: 0,
   maxLevel: 10,
-  requiredLevel: 10,
+  requiredLevel: 15,
   parent: "blood-pact",
   children: [],
   description: "executioner_skill_desc",
@@ -823,9 +917,9 @@ const SKILLS_DATABASE = {
   staminaCost: 50,
   effects: [
     {
-      type: "bonus-vs-bleeding",
-      baseValue: 75,
-      scalingPerLevel: 5,
+      type: "damage",
+      baseValue: 300,
+      scalingPerLevel: 10,
       target: "enemy"
     }
   ],
@@ -1633,7 +1727,7 @@ const SKILLS_DATABASE = {
          {
            type: "perfect-window",
            baseValue: 15,
-           scalingPerLevel: 4,
+           scalingPerLevel: 5,
            target: "character"
          }
       ],
@@ -1655,7 +1749,7 @@ const SKILLS_DATABASE = {
       effects: [
          {
            type: "chain-dmg",
-           baseValue: 5,
+           baseValue: 10,
            scalingPerLevel: 1,
            target: "character"
          }
@@ -1678,16 +1772,16 @@ const SKILLS_DATABASE = {
       effects: [
          {
            type: "block-reduction",
-           baseValue: 5,
-           scalingPerLevel: 2,
+           baseValue: 15,
+           scalingPerLevel: 3,
            target: "character"
          },
-        {
+       /* {
            type: "block-cooldown",
            baseValue: 3.5,
            scalingPerLevel: -0.1,
            target: "character"
-        }
+        }*/
       ],
       icon: "img/icons/block-recovery-skill-icon.png"
     },
@@ -1698,7 +1792,7 @@ const SKILLS_DATABASE = {
 
 const WEAPON_SKILL_TREES = {
 
-  shieldBlock: {
+  bulwark: {
     className: "Bulwark",
     root: "shield-bash",
     skills: [
@@ -1711,7 +1805,7 @@ const WEAPON_SKILL_TREES = {
     ]
   },
 
-  shieldPerfect: {
+  duelist: {
     className: "Duelist",
     root: "riposte",
     skills: [
@@ -1724,20 +1818,20 @@ const WEAPON_SKILL_TREES = {
     ]
   },
 
-  spear: {
+  warden: {
     className: "Warden",
     root: "piercing-thrust",
     skills: [
       "piercing-thrust",
-      "defensive-reach",
       "sweep",
       "impale",
+      "control-shatter",
       "spear-discipline",
       "absolute-control"
     ]
   },
 
-  hammer: {
+  juggernaut: {
     className: "Juggernaut",
     root: "crushing-blow",
     skills: [
@@ -1750,7 +1844,7 @@ const WEAPON_SKILL_TREES = {
     ]
   },
 
-  doubleAxe: {
+  berserker: {
     className: "Berserker",
     root: "twin-slash",
     skills: [
@@ -1758,12 +1852,12 @@ const WEAPON_SKILL_TREES = {
       "blood-frenzy",
       "whirlwind",
       "blood-pact",
-      "savage-momentum",
+      "blood-reaver",
       "executioner"
     ]
   },
 
-  greatsword: {
+  executioner: {
     className: "Executioner",
     root: "cleave",
     skills: [

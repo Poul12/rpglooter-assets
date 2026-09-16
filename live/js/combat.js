@@ -129,7 +129,7 @@ function enterCombat() {
   gameState.resources.staminaState.inCombat = true;
 }
 
-function hideOtherNonCombatElements() {
+function hideOtherNonCombatElements(enemy) {
   const world = gameState.world;
   const progressBar = document.getElementById("progress-container");
   const arrows = document.querySelector(".arrows-center");
@@ -139,7 +139,10 @@ function hideOtherNonCombatElements() {
   const enemyInfo = document.querySelector(".enemy-info");
   const testBtn = document.getElementById("test-holder");
 
-  //enemyInfo.style.opacity = `0`;
+  if(enemy.type === `mini_boss`) {
+    enemyInfo.style.opacity = `0`;
+  }
+  
   //stats.style.opacity = `0`;
   progressBar.style.opacity = `0`;
   arrows.style.opacity = `0`;
@@ -155,9 +158,20 @@ function hideOtherNonCombatElements() {
 async function startCombat(i) {
   const world = gameState.world;
   const combat = gameState.combat;
+  const char = gameState.char;
   const perfectBar = document.querySelector(".perfect-block-bar");
   const bar = document.getElementById("poise-mode");
+  const masteryBar = document.getElementById("mastery-bar-container");
+  const expBar = document.getElementById("exp-bar-container");
+  const style = getCurrentWeaponStyle();
 
+  masteryBar.classList.remove(`hidden`);
+  //console.log(`masteryBar`, masteryBar);
+  expBar.classList.add(`hidden`);
+  
+  setMasteryStyle(style);
+  showMasteryTitle(style);
+  
   //window.scrollTo(0, 0);
    
  // console.log(`block mode`, combat.playerBlock.mode);
@@ -181,6 +195,14 @@ async function startCombat(i) {
   //console.log("enemy ", enemy.name);
   setMenuDisabled(true); // zablokuj menu
   
+  if(enemy?.skills) {
+    enemy.skillState = enemy?.skills.map(skill => ({
+      id: skill.id,
+      level: skill.level ?? 1,
+      expiresAt: 0
+    }));
+  }
+  
   resetSlotActionButton(i);
   
   //focusOnAttackDialogBox();
@@ -203,6 +225,11 @@ async function startCombat(i) {
     healthText: enSlot.querySelector('.enemy-health-text'),
     cooldownFill: document.getElementById(`enemy-cooldown-fill-${i}`)
   }
+  
+  const playerSlot = document.getElementById('player-combat-slot');
+  char.dom = {
+    slot: playerSlot,
+  };
   
   /*if(combat.flags.isLowHp && ) {
     combat.lowHpBonus.lowHpDmgActive = true;
@@ -277,17 +304,21 @@ async function startCombat(i) {
       }
     });
 
-  hideOtherNonCombatElements();
+  hideOtherNonCombatElements(enemy);
   
   await wait(250);
   
   renderOptions();
   
-  renderPlayerCombatSlot();
+  renderPlayerCombatSlot(enemy);
   
   await wait(950);
   
-  vsSymbolAnimationShow();
+  if(enemy.type !== `mini_boss`) {
+    vsSymbolAnimationShow();
+  }
+  
+  gameState.combat.isStart = true;
   
   //renderPlayerCombatSlot();
   
@@ -305,7 +336,7 @@ async function startCombat(i) {
   saveGame();
 }
 
-function renderPlayerCombatSlot(){
+function renderPlayerCombatSlot(enemy){
     const slot = document.getElementById("player-combat-slot");
 
     if(!gameState.world.inCombat){
@@ -313,11 +344,16 @@ function renderPlayerCombatSlot(){
     }
   
     slot.classList.remove("fade-out");
-  
+    slot.classList.remove("boss-fight");
+
     // wymuszenie restartu animacji
     void slot.offsetWidth;
 
     slot.classList.add("fade-in");
+    
+    if(enemy.type === `mini_boss`) {
+      slot.classList.add("boss-fight");
+    }
   
     const bg = document.getElementById("player-slot-bg");
 
@@ -779,6 +815,10 @@ function renderCombat(renderPotion = false) {
 function handleAttack() {
   if (!canPerformAction(`attack`)) return;
   
+  if (playerAttackCooldown.isStunActive) {
+    return;
+  }
+  
   console.time("attack");
   //console.error(`sprawdzam handleAttack`);
   const player = getPlayerStats();
@@ -831,12 +871,12 @@ function handleAttack() {
   
   //updateFatigue();
   const atkSpeed = getPlayerAttackSpeed();
-  let cooldownDuration = calculateCooldown(atkSpeed);
+  let cooldownDuration = calculatePlayerCooldown(atkSpeed);
 
   if (gameState.combat.playerBlock.active && gameState.combat.playerBlock.mode === "defensive") {
     const { atkSpd: penaltyAtkSpeed } = computeShieldPenalties(player.blockPower, atkSpeed);
     //cooldownDuration = penaltyCooldown;
-    cooldownDuration = calculateCooldown(penaltyAtkSpeed);
+    cooldownDuration = calculatePlayerCooldown(penaltyAtkSpeed);
     isDefShield = true;
     //console.error("Atak spowolniony przez Postawę Obronną, befor, after", cooldownDuration, atkSpeed, penaltyAtkSpeed);
     //console.error("getAttackSpeedPenaltyPercent", getAttackSpeedPenaltyPercent(calculateCooldown(atkSpeed), calculateCooldown(penaltyAtkSpeed)));
@@ -844,8 +884,16 @@ function handleAttack() {
   }
   
   if(gameState.resources.staminaState.current <= 0) {
-    cooldownDuration = calculateCooldown(atkSpeed * 0.7);
+    cooldownDuration = calculatePlayerCooldown(atkSpeed * 0.7);
   }
+  
+  if(gameState.combat.playerMark.isActive) {
+    const value = gameState.combat.playerMark.atkspd;
+    const atkspdDebuff = 1 - value;
+    cooldownDuration = calculatePlayerCooldown(atkSpeed * atkspdDebuff);
+    console.error(`atkspdDebuff while player is marker, cooldownDuration, atkspdDebuff`, cooldownDuration, atkspdDebuff);
+  }
+
   
   //console.error(`common break attack`);
 
@@ -900,7 +948,12 @@ function handleShieldAction() {
 
   // wybór trybu (np. z UI / ustawień gracza)
   if (combat.playerBlock.mode === "defensive") {
-    activateDefensiveStance();
+    if(combat.flags.isCritical) {
+      executeTimedBlock();
+    } else {
+      activateDefensiveStance();
+    }
+    
     //blockButton.classList.add(`active`);
     blockButton.classList.add(`turtle`);
    // console.error(`na cooldownie`);
@@ -922,6 +975,7 @@ function endTimedBlock(result, cooldown) {
   playerBlock.activeRemaining = 0;
   playerBlock.lastResult = result;
   playerBlock.cooldownUntil = getGameTime() + cooldown;
+  playerBlock.cooldown = cooldown;
   
   stopTimedBlockUI();
   
@@ -942,6 +996,8 @@ function updateBlockState() {
   ) {
     showOutcome("miss", `${t("miss_outcome")}`);
     endTimedBlock("miss", 3500);
+    
+    reducePerfectBlockChain(playerBlock);
     
     if(gameState.combat.perfectChainStacks) {
       gameState.combat.perfectChainStacks = 0;
@@ -1041,7 +1097,7 @@ function setupFleeButton() {
     () => { 
       attemptFlee();
       resumeAllSkillsCooldown();
-      resumeCombat(); 
+      resumeCombat();
       gameState.resources.staminaState.disabled = false; 
       saveGame(); 
     },
@@ -1052,6 +1108,7 @@ function setupFleeButton() {
       resumeTimedBlockUI();
       resumeBleedUI();
       resumeSpearUI();
+      dotIsPaused = false;
       gameState.resources.staminaState.disabled = false;
       saveGame(); 
     }
@@ -1112,8 +1169,10 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
       if(spendStamina(STAMINA_COST.DODGE * (1 - dodgeCostReduce))) {
         showOutcome("dodge", `${t("dodge_outcome")}`);
         
-        playPlayerAnimation("dodge");
-        
+        if(!whirlwindState.isActive) { 
+          playPlayerAnimation("dodge");
+        }
+    
         if(gameState.char.combatAffixes[`dodge_grant_crit`]) {
           const critChance = gameState.char.combatAffixes[`dodge_grant_crit`].value;
           gameState.combat.dodgeBonus.critBonus.expiresAt = getGameTime() + 4000;
@@ -1155,7 +1214,7 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
   }
   
   // 1️⃣ Armor (physical only)
-  console.log(`player def before`, player.def);
+  //console.log(`player def before`, player.def);
   
   let baseArmor = player.def;
   
@@ -1204,7 +1263,7 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
   }
 
   
-  console.log(`player def after`, baseArmor);
+ // console.log(`player def after`, baseArmor);
 
   let effectiveArmor = getArmorReduction(baseArmor, enemy.level);
   
@@ -1212,7 +1271,7 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
   
   effectiveArmor = getArmorWithStacks(effectiveArmor, player.stackDefense?.stack / 100);
   
-  console.error(`player.effectiveArmor`, effectiveArmor);
+  //console.error(`player.effectiveArmor`, effectiveArmor);
  
   const stackArmor = gameState.combat.armorStacks.stacks;
   
@@ -1256,9 +1315,19 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
 
   
   
+  
   //console.log(`enemy dmg after all reduction`, dmg);
   
   dmg = applyIronStanceReduction(dmg, player.dmgReduction?.cooldown * 1000);
+  
+  
+  if(gameState.combat.playerMark.isActive) {
+    const value = gameState.combat.playerMark.dmgTaken;
+    const increasedDamage = 1 + value;
+    dmg *= increasedDamage;
+    console.error(`increased dmg while player is marker, dmg, increasedDamage`, dmg, increasedDamage);
+  }
+
   
   //console.error(`applyIronStanceReduction`, dmg);
   
@@ -1279,6 +1348,7 @@ function calculateReducedPlayerDamage(playerDmg, player, enemy, scaling = 0.2) {
     //console.error(`enemy.armorBreak`, effectiveArmor);
   }
   
+  
   /*if (gameState.combat.stats.nextHitPenetration) {
     effectiveArmor *= (1 - gameState.combat.stats.nextHitPenetration);
     gameState.combat.stats.nextHitPenetration = 0;
@@ -1294,6 +1364,13 @@ function calculateReducedPlayerDamage(playerDmg, player, enemy, scaling = 0.2) {
   //console.log(`enemy.effectiveArmor`, effectiveArmor);
 
   let dmg = playerDmg * (1 - effectiveArmor);
+  
+  
+  if(gameState.combat.enemyDmgReduction.isActive) {
+    const reducedDmg = gameState.combat.enemyDmgReduction.value;
+    dmg *= 1 - (reducedDmg / 100);
+    console.log(`smoke bomb reducedDmg`, gameState.combat.enemyDmgReduction.value);
+  }
   
   //console.error(`player dmg after enemy def`, dmg);
   
@@ -1318,6 +1395,18 @@ function applyCritDamage(baseDamage, player, noCrit = false) {
   if(enemy.vulnerable){
     rawCritChance += 25;
   }
+  
+  if(gameState.combat.weakPoint.isActive) {
+    rawCritChance += gameState.combat.weakPoint.crit;
+  }
+  
+  if(gameState.combat.bloodPact.isActive) {
+    rawCritChance += gameState.combat.bloodPact.crit;
+  }
+ 
+  
+  const precisionCritFactor = 1 + (gameState.combat.perfectChainBlock.crit / 100);
+  rawCritChance *= precisionCritFactor;
   
   if(gameState.char.combatAffixes[`dodge_grant_crit`]) {
     const critBonus = gameState.char.combatAffixes[`dodge_grant_crit`].value;
@@ -1417,6 +1506,15 @@ function applyCritDamage(baseDamage, player, noCrit = false) {
         critMultiplier *= 1.25;
       }
       
+      if(gameState.combat.weakPoint.isActive) {
+        critMultiplier *= gameState.combat.weakPoint.critDmg;
+        
+        addWeaponMasteryExp(`duelist`, 5, `weak-point-crit`);
+      }
+      
+      const precisionCritDmgFactor = 1 + (gameState.combat.perfectChainBlock.critDmg / 100);
+      critMultiplier *= precisionCritDmgFactor;
+      
      // console.log(`critBonusPercent`, critBonusPercent, critMultiplier);
 
       onCrit();
@@ -1503,7 +1601,7 @@ function startBlock() {
   blockDrainInterval = setInterval(() => {
     if (!isBlocking) return;
     
-    //if(staminaState.disabled) return;
+    if(staminaState.disabled) return;
     
     if(gameState.char.combatAffixes[`def_per_sec_while_blocking`]) {
       const defBonus = gameState.char.combatAffixes[`def_per_sec_while_blocking`].value;// / 10;
@@ -1575,6 +1673,7 @@ function stopBlock() {
 }
 
 function drainStamina(delta) {
+    
     if (!isBlocking) return;
   
     let staminaState = gameState.resources.staminaState;
@@ -1598,9 +1697,9 @@ function drainStamina(delta) {
   
     //gameState.combat.counterStrike.isActive = true;
   
-    staminaState.current -= staminaState.blockDrainPerSecond * delta;// / 10;
+    staminaState.current -= staminaState.blockDrainPerSecond * delta * gameState.combat.ironWill.cost;// / 10;
 
-    console.log(`drain stamina`, gameState.combat.lastBastion.isActive);
+    //console.log(`drain stamina`, gameState.combat.lastBastion.isActive);
 
   
     if (staminaState.current <= 0) {
@@ -1705,7 +1804,7 @@ function deactivateDefensiveStance() {
   //console.error("Postawa Obronna WYŁĄCZONA");
 }
 
-const TIMED_DURATION = 550;
+const TIMED_DURATION = 600;
 const PERFECT_START = 200;//200
 const PERFECT_END = 320;//320
 const PERFECT_CENTER = TIMED_DURATION / 2; 
@@ -1747,7 +1846,16 @@ function executeTimedBlock() {
   } else {
     enemy.attackState.result = executeEnemyIntent(enemy);
     //console.error(`enemy state dmg multiplier`, enemy.attackState.result.dmgMultiplier);
-    performIntentAttack(enemy, gameState.world.selectedSlotIndex, {multiplier: enemy.attackState.result.dmgMultiplier});
+    
+    if (enemy.attackState.result.type === "skill") {
+        //console.error(`state.result.type (skill)`, state.result.type);
+        executeEnemySkill(
+          enemy,
+          enemy.intent.skillId
+        );
+      } else {
+        performIntentAttack(enemy, gameState.world.selectedSlotIndex, {multiplier: enemy.attackState.result.dmgMultiplier});
+      }
   }
   
   //blockButton.classList.add(`timed`);
@@ -1763,7 +1871,7 @@ function activateTimedBlock() {
   //console.error(`enter activate timed block`, gameState.combat.playerBlock.cooldownUntil > getGameTime());
   
   const player = gameState.char;
-
+  const totalDuration = TIMED_DURATION * gameState.combat.openingStrike.windUpMultiplier;
   let playerBlock = gameState.combat.playerBlock;
   
   const now = getGameTime();
@@ -1781,9 +1889,9 @@ function activateTimedBlock() {
   playerBlock.activePaused = false;*/
 
   playerBlock.startTime = now;
-  playerBlock.endTime = now + TIMED_DURATION;
+  playerBlock.endTime = now + totalDuration;
   playerBlock.lastResult = null;
-  playerBlock.activeRemaining = TIMED_DURATION;
+  playerBlock.activeRemaining = totalDuration;
   
   //playSound(`timed-block`, 0.4);
   
@@ -1817,7 +1925,7 @@ function resolveTimedBlock(damage, player, enemy) {
   gameState.combat.flags.isBlocked = true;
   
   //const errorMs = Math.abs(elapsed - PERFECT_CENTER);  
-  const offset = Math.abs(elapsed - PERFECT_CENTER);  
+  const offset = Math.abs(elapsed - (PERFECT_CENTER * gameState.combat.openingStrike.windUpMultiplier));  
   
   const { perfect, normal, miss } = getBlockWindows(player);
   
@@ -1829,6 +1937,8 @@ function resolveTimedBlock(damage, player, enemy) {
     let staminaState = gameState.resources.staminaState;
    // console.error(`refund`, refund);
     
+    //addWeaponMasteryExp(`duelist`, 10, `perfect-block`);
+     
     staminaState.current = Math.min(
         staminaState.max,
         staminaState.current + refund
@@ -1902,8 +2012,6 @@ function resolveTimedBlock(damage, player, enemy) {
         showReward(`-1 ${t("remove_fatique_stack")}`);
       } 
     }
-
-    
     
     const eq = gameState.char?.equipment || {};
     const weapon = eq[`weapon`];
@@ -1925,11 +2033,48 @@ function resolveTimedBlock(damage, player, enemy) {
     
     if(gameState.char.bonus.perfectChainBonus) {
       gameState.combat.perfectChainStacks++;
-      showReward(`${t("perfect_counterattack_reward")} x${gameState.combat.perfectChainStacks}`);
+      gameState.combat.perfectBonusDmgNextHit = true;
+      // showReward(`${t("perfect_counterattack_reward")} x${gameState.combat.perfectChainStacks}`);
     }
     
     endTimedBlock("perfect", perfectCooldown);
     showOutcome("perfect", `${t("perfect_outcome")}`);
+    
+    extendPerfectBlockChain(playerBlock);
+   
+    if (gameState.combat.parryMaster?.isActive) {
+      const stackChain = gameState.combat.playerBlock.stackChain;
+      const reduction = gameState.combat.parryMaster.reduce * stackChain;
+      const shieldReduction = gameState.combat.parryMaster.shieldReduce * stackChain;
+    
+      if(gameState.combat.precision.buffMultiplier > 1) {
+          reduction *= gameState.combat.precision.buffMultiplier;
+          addWeaponMasteryExp(`duelist`, 2, `reduce-cooldown-buff`);
+      }
+      
+      updateStatusPlayerUI(enemy);
+      
+     // console.log(`parry master perfect block`, reduction, stackChain);
+      
+      gainStamina(5 * stackChain);
+  
+      for (const skillId in skillCooldownState) {
+        if (skillId === "parry-master") continue;
+        
+        reduceSkillCooldown(skillId, reduction);
+        
+        addWeaponMasteryExp(`duelist`, 3, `parry-master`);
+
+        //reduceShieldCooldown(shieldReduction);
+        
+        gameState.combat.parryMaster.remainingMs = 4000;
+      }
+    }
+    
+    if(gameState.combat.openingStrike.windUpMultiplier > 1) {
+      addWeaponMasteryExp(`duelist`, 6, `opening-strike`);
+    }
+    
     //showReward(`100% Redukcji Obrażeń`);
     return 1.0; // 100% redukcji
   }
@@ -1941,10 +2086,15 @@ function resolveTimedBlock(damage, player, enemy) {
  
     let normalCooldown = 3500;
     
+    addWeaponMasteryExp(`duelist`, 4, `normal-block`);
+    
     if(gameState.char.bonus.blockReductionBonus) {
       const bonus = gameState.char.bonus.blockReductionBonus / 100;
       finalBlockReduction *= 1 + bonus;
-      normalCooldown = gameState.char.bonus.blockCooldownBonus * 1000;
+     // normalCooldown = gameState.char.bonus.blockCooldownBonus * 1000;
+      //console.error(`bonus`, bonus);
+
+      normalCooldown *= 1 - bonus;
     }
     
     //console.error(`NORMAL BLOCK COOLDOWN!`, normalCooldown);
@@ -1958,11 +2108,15 @@ function resolveTimedBlock(damage, player, enemy) {
       //showReward(`Perfekcyjny Kontratak x${gameState.combat.perfectChainStacks}`);
     }
     
+    reducePerfectBlockChain(playerBlock);
+
     showReward(`${(finalBlockReduction * 100).toFixed(0)}% ${t("dmg_reduction_reward")}`);
     return finalBlockReduction;
     //return 0.6; // 60% redukcji
   }
 
+  reducePerfectBlockChain(playerBlock);
+  
   playerBlock.lastResult = "miss";
   playerBlock.cooldownUntil = now + 3500;
   
@@ -1986,7 +2140,7 @@ function applyBlock(incomingDamage, player, enemy) {
   const damageReduction = getDefensiveBlockReduction(player.blockPower);
   const reduced = incomingDamage * (1 - damageReduction);
 
-  if (playerBlock.mode === "timed") {
+  if (playerBlock.mode === "timed" || (playerBlock.mode === "defensive" && gameState.combat.flags.isCritical)) {
     const damageMultiplierReduced = resolveTimedBlock(incomingDamage, player, enemy);
     
     //console.error(`dmg multiplier in normal block`, damageMultiplierReduced);
@@ -1996,12 +2150,17 @@ function applyBlock(incomingDamage, player, enemy) {
   return Math.floor(reduced);
 }
 
-function showOtherNonCombatElements() {
+function showOtherNonCombatElements(enemy) {
   const world = gameState.world;
   const progressBar = document.getElementById("progress-container");
   const arrows = document.querySelector(".arrows-center");
   const questBtn = document.getElementById("quest-button");
   const storeBtn = document.getElementById("store-button");
+  const enemyInfo = document.querySelector(".enemy-info");
+  
+  if(enemy.type === `mini_boss`) {
+    enemyInfo.style.opacity = `1`;
+  }
   
   progressBar.style.opacity = `1`;
   arrows.style.opacity =`1`;
@@ -2022,6 +2181,12 @@ function exitCombat() {
   
   hidePlayerAvatar();
   vsSymbolAnimationHide();
+  
+  const masteryBar = document.getElementById("mastery-bar-container");
+  const expBar = document.getElementById("exp-bar-container");
+
+  masteryBar.classList.add(`hidden`);
+  expBar.classList.remove(`hidden`);
 }
 
 

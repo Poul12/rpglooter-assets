@@ -99,8 +99,13 @@ Object.assign(LANG.en, {
 
   unknown_location: "Unknown Location",
 
+  end_story_title: "Thank You For Playing",
+  end_story_subtitle: "You have completed the current Story Campaign.",
+  new_mode_unlocked: "NEW MODE UNLOCKED",
+  adventure_mode: "Adventure Mode",
+  adventure_mode_desc: "Venture beyond the known paths, face endless dangers and uncover rewards hidden throughout Rivenfell.",
+
   
-    
 });
 
 
@@ -204,6 +209,12 @@ Object.assign(LANG.pl, {
   enemy_boss: "Olbrzym z Jaskini",
   
   unknown_location: "Nieznana Lokacja",
+
+  end_story_title: "Dziękuje za grę!",
+  end_story_subtitle: "Ukończyłeś Tryb Kampani.",
+  new_mode_unlocked: "ODBLOKOWANO NOWY TRYB",
+  adventure_mode: "Tryb Wyprawy",
+  adventure_mode_desc: "Wyrusz poza znane szlaki, staw czoła niezliczonym niebezpieczeństwom i odkryj nagrody ukryte w całym Rivenfell.",
 
   
     

@@ -64,7 +64,9 @@ function updateSkillButtonsFatigueState() {
     }
   });
   
-  skillsOn();
+  //setSkillDisabled(`precision`, true);
+
+  //skillsOn();
   //renderCombat();
 }
 
@@ -89,6 +91,25 @@ function updateSkillButtonsFatigueState() {
     });
 }*/
 
+const CONDITIONALLY_DISABLED_SKILLS = new Set([
+  "riposte",
+  "precision",
+  "perfect-execution",
+  "piercing-thrust",
+  "sweep",
+  "impale",
+  "control-shatter",
+  "absolute-control",
+  "blood-frenzy",
+  "blood-pact",
+  "blood-reaver",
+  "executioner",
+]);
+
+function isSkillDisabled(skillId) {
+  return CONDITIONALLY_DISABLED_SKILLS.has(skillId);
+}
+
 function skillsOff() {
     document.querySelectorAll(".skill-button").forEach(btn => {
         const skillId = btn.dataset.skill;
@@ -110,12 +131,21 @@ function skillsOn() {
         const skill = SKILLS_DATABASE[skillId];
 
         const mode = skill?.usableWhileBlocking ?? "normal";
-
+      
         if (mode === "normal" || mode === "both") {
             btn.classList.remove("disabled-skill");
         } else {
             btn.classList.add("disabled-skill");
         }
+      
+        /*if(skillId === `riposte` || skillId === `perfect-execution` || skillId === `piercing-thrust` || skillId === `sweep` || skillId === `impale` || skillId === `control-shatter` || skillId === `absolute-control` || skillId === `blood-frenzy`) {
+            btn.classList.add("disabled-skill");
+        }*/
+      
+        if (isSkillDisabled(skillId)) {
+          btn.classList.add("disabled-skill");
+        }
+      
     });
 }
 
@@ -181,6 +211,7 @@ function handleSkillClick(button) {
       guardStacks -= skill.guardCost;
       consumeGuardStacks(guardStacks);
       decreaseGuardStack();
+      //addWeaponMasteryExp(`bulwark`, 5);
     } else {
       showReward(`${t("low_guard_reward")}`);
       playSound(`error`);
@@ -219,14 +250,26 @@ function handleSkillClick(button) {
  // console.log("start skill cooldown");
 }
 
+function setSkillDisabled(skillId, disabled = true) {
+    const btn = document.querySelector(
+        `.skill-button[data-skill="${skillId}"]`
+    );
+
+    if (!btn) return;
+
+    btn.classList.toggle("disabled-skill", disabled);
+}
+
 function renderSkillButtons(playerLevel, start = 1, end = 6) {
   let output = "";
+  const weaponStyle = getCurrentWeaponStyle();
+ // console.log(`style at render: `, weaponStyle);
 
   for (let i = start; i <= end; i++) {
-    const skillId = gameState.combat.skills.assignedSkills[i];
+    //const skillId = gameState.combat.skills.assignedSkills[weaponStyle][i];
+    const skillId = gameState.combat.skills.assignedSkills?.[weaponStyle]?.[i] ?? null;
     //const skills = gameState.combat.skills.playerSkills;
-    const style = getCurrentWeaponStyle();
-    const skills = gameState.combat.skills.playerSkills.active[style];
+    const skills = gameState.combat.skills?.playerSkills?.active[weaponStyle];
     const skill = SKILLS_DATABASE[skillId];
 
     if (!skill) {
@@ -240,7 +283,8 @@ function renderSkillButtons(playerLevel, start = 1, end = 6) {
       continue;
     }
 
-    const hasRequiredLevel = playerLevel >= skill.requiredLevel;
+    const mastery = gameState.char.weaponMastery[weaponStyle];
+    const hasRequiredLevel = mastery.level >= skill.requiredLevel;
     const parentUnlocked = !skill.parent || (skills[skill.parent] && skills[skill.parent].unlocked);
     const isUnlocked = hasRequiredLevel && parentUnlocked;
     const usableMode = skill.usableWhileBlocking ?? "normal";   
@@ -273,12 +317,37 @@ function renderSkillButtons(playerLevel, start = 1, end = 6) {
       </div>
     `;
 
-    output += `
+   /* output += `
       <div class="skill-wrapper">
         <button 
           id="skill-${skillId}" data-action="skill"
           class="skill-button ${isUnlocked ? "" : "locked"}
-          ${(usableMode === "blocking") ? "disabled-skill" : ""}"
+          ${(usableMode === "blocking") ? "disabled-skill" : ""}
+          ${(skillId === "riposte") ? "disabled-skill" : ""}
+          ${(skillId === "precision") ? "disabled-skill" : ""}
+          ${(skillId === "perfect-execution") ? "disabled-skill" : ""}
+          ${(skillId === "piercing-thrust") ? "disabled-skill" : ""}
+          ${(skillId === "sweep") ? "disabled-skill" : ""}
+          ${(skillId === "impale") ? "disabled-skill" : ""}
+          ${(skillId === "control-shatter") ? "disabled-skill" : ""}
+          ${(skillId === "blood-frenzy") ? "disabled-skill" : ""}
+          ${(skillId === "absolute-control") ? "disabled-skill" : ""}"
+          ${isUnlocked ? `data-skill="${skillId}"` : "disabled"}
+          title="${titleText}"
+        >
+          ${isUnlocked ? cooldownOverlayHTML : "🔒"}
+        </button>
+      </div>
+    `;*/
+    
+    output += `
+      <div class="skill-wrapper">
+        <button 
+          id="skill-${skillId}" 
+          data-action="skill"
+          class="skill-button ${isUnlocked ? "" : "locked"}
+          ${(usableMode === "blocking") ? "disabled-skill" : ""}
+          ${isSkillDisabled(skillId) ? "disabled-skill" : ""}"
           ${isUnlocked ? `data-skill="${skillId}"` : "disabled"}
           title="${titleText}"
         >
@@ -288,9 +357,16 @@ function renderSkillButtons(playerLevel, start = 1, end = 6) {
     `;
     
   }
-    
+  
+  /*const stackChain = gameState.combat.playerBlock.stackChain;
+  
+  if(!stackChain) {
+    setSkillDisabled(`precision`, true);
+  }*/
+  
   return output;
 }
+
 
 function renderFocusSkillButton(playerLevel) {
   //const skills = gameState.combat.skills.playerSkills;
@@ -416,6 +492,7 @@ function startSkillCooldown(skillId, durationInSeconds) {
 }
 
 function animateSkillCooldown(skillId, fill, top, button, counter) {
+  
   const state = skillCooldownState[skillId];
   if (!state) return;
 
@@ -427,22 +504,9 @@ function animateSkillCooldown(skillId, fill, top, button, counter) {
     state.lastFrameTime = now; // aktualizujemy punkt odniesienia
 
     state.remainingMs = Math.max(state.remainingMs - delta, 0);
-    const progress = 1 - state.remainingMs / state.durationMs;
-    //fill.style.clipPath = `inset(0 ${100 - progress * 100}% 0 0)`;
-    //fill.style.transform = `scaleX(${progress})`;
-    const mask = fill.querySelector(".fill-mask");
-    if (!mask) {
-      console.error("BRAK fill-mask!", fill);
-      return;
-    }
-
-    //mask.style.transform = `scaleX(${progress})`;
-    mask.style.width = `${progress * 100}%`;
     
-    const value = Math.ceil(state.remainingMs / 1000);
-    counter.innerText = value;
-    counter.style.color = value <= 2 ? "#ff5555" : "#fff";
-
+    updateSkillCooldownVisual(skillId);
+    
     if (state.remainingMs > 0) {
       state.rafId = requestAnimationFrame(step);
     } else {
@@ -498,6 +562,118 @@ function resumeAllSkillsCooldown() {
     animateSkillCooldown(id, fill, top, button, counter);
   }
 }
+
+function updateSkillCooldownVisual(skillId) {
+  const state = skillCooldownState[skillId];
+  if (!state) return;
+
+  const fill = document.getElementById(`cd-fill-${skillId}`);
+  const button = document.getElementById(`skill-${skillId}`);
+
+  if (!fill || !button) return;
+
+  const mask = fill.querySelector(".fill-mask");
+  const counter = button.querySelector(".cooldown-counter");
+
+  if (!mask) return;
+
+  const progress = 1 - state.remainingMs / state.durationMs;
+
+  mask.style.width = `${Math.max(0, progress * 100)}%`;
+
+  if (counter) {
+    const value = Math.ceil(state.remainingMs / 1000);
+
+    counter.innerText = value;
+    counter.style.color =
+      value <= 2 ? "#ff5555" : "#fff";
+  }
+}
+
+function reduceSkillCooldown(skillId, reductionPercent) {
+  const state = skillCooldownState[skillId];
+
+  if (!state) return;
+
+  const reduction = Math.max(0, Math.min(reductionPercent, 100)) / 100;
+
+  state.remainingMs *= (1 - reduction);
+
+  //console.log(`state.remainingMs`, state.remainingMs);
+        
+  // natychmiastowa aktualizacja UI
+  updateSkillCooldownVisual(skillId);
+
+  // jeśli cooldown właśnie się skończył
+  if (state.remainingMs <= 0) {
+    const fill = document.getElementById(`cd-fill-${skillId}`);
+    const top = document.getElementById(`top-${skillId}`);
+    const button = document.getElementById(`skill-${skillId}`);
+    const counter = button?.querySelector(".cooldown-counter");
+
+    if (fill && top && button) {
+      finishSkillCooldown(
+        skillId,
+        fill,
+        top,
+        button,
+        counter
+      );
+    }
+  }
+}
+
+let parryMasterRafId = null;
+
+function startParryMasterTimer(enemy) {
+
+    if (parryMasterRafId) {
+        cancelAnimationFrame(parryMasterRafId);
+    }
+
+    let lastTime = getGameTime();
+
+    function step() {
+
+        const pm = gameState.combat.parryMaster;
+
+        if (!pm.isActive) {
+            parryMasterRafId = null;
+            return;
+        }
+
+        const now = getGameTime();
+        const delta = now - lastTime;
+        lastTime = now;
+
+        pm.remainingMs -= delta;
+
+        //console.log(`parry master pm.remainingMs, delta`, pm.remainingMs, delta);
+       
+        if (pm.remainingMs <= 0) {
+
+            pm.remainingMs = 0;
+            pm.isActive = false;
+
+            //console.log(`parry master end`);
+          
+            updateStatusPlayerUI(enemy);
+          
+            parryMasterRafId = null;
+
+            //onParryMasterEnd();
+
+            return;
+        }
+
+        parryMasterRafId =
+            requestAnimationFrame(step);
+    }
+
+    parryMasterRafId =
+        requestAnimationFrame(step);
+}
+
 
 // globalny obiekt stanu cooldownów
 /*const skillCooldownState = {}; // klucze: skillId (string/number)
@@ -715,25 +891,49 @@ function calculateEffectValue(effect, player, enemy) {
       // np. 150% obrażeń = 1.5 * atak gracza
       //console.error("calculate effect damage", effect.value);
       return effect.value / 100;// * player.dmg);
+    case "whirlwind":
+      return effect.value / 100;// * player.dmg);
     case "bleed":
       // np. 150% obrażeń = 1.5 * atak gracza
+      return effect.value / 100;// * player.dmg);
+    case "burn":
+      return effect.value / 100;// * player.dmg);
+    case "poison":
       return effect.value / 100;// * player.dmg);
     case "armor-break":
       // np. 150% obrażeń = 1.5 * atak gracza
       return effect.value / 100;// * player.dmg);
     case "counter-strike":
       return effect.value / 100;// * player.dmg);
+    case "open-windup":
+      return 1 + (effect.value / 100);// * player.dmg);
     case "buff-next-attack":
       return 1 + (effect.value / 100);// * player.dmg);
-    
-      /*case "heal":
-      // np. 120% leczenia = 1.2 * siła leczenia gracza
-      return Math.floor((effect.value / 100) * player.magic || player.attack);*/
+    case "precision-buff":
+      return effect.value / 100;// * player.dmg);
+    case "reduce-cooldown":
+      return effect.value;// * player.dmg);
+    case "reduce-shield-cooldown":
+      return effect.value;// * player.dmg);
+    case "damage-reduction-buff":
+      return effect.value;// * player.dmg);
+    case "crit-buff":
+      return effect.value;// * player.dmg);
+    case "crit-buff-pact":
+      return effect.value;// * player.dmg);
+    case "crit-dmg-buff":
+      return 1 + (effect.value / 100);// * player.dmg);
+    case "hp-cost":
+      return effect.value / 100;// * player.dmg);
+    case "heal-convert":
+      return effect.value / 100;
     case "stun":
       // Stun w sekundach — bez przeliczeń
       return effect.value;
-     case "slow":
+    case "slow":
       // Slow w procentach — bez przeliczeń
+      return effect.value;
+    case "spear-control":
       return effect.value;
     case "def-buff":
       // def buff w procentach — bez przeliczeń
@@ -741,9 +941,18 @@ function calculateEffectValue(effect, player, enemy) {
     case "slowmo":
       // Slow w procentach — bez przeliczeń
       return effect.value / 100;
-    case "lifeSteal":
-      // np. 30% kradzieży życia — zostawiamy, przeliczymy potem
-      return effect.value;
+    case "pushback":
+      return effect.value / 100;
+    case "windup":
+      return effect.value / 100;
+    case "mark":
+      return effect.value / 100;
+    case "blocking-cost":
+      return 1 - (effect.value / 100);
+    case "attack-speed":
+      return effect.value / 100;
+    case "life-steal":
+      return effect.value / 100;
     case "damage-buff":
      // console.log("damage-buff: %", effect.value);
       //console.log("player dmg ", player.dmg);
@@ -760,7 +969,25 @@ function calculateEffectValue(effect, player, enemy) {
       return effect.value;
     case "bleed-duration":
       return effect.value;
+    case "burn-duration":
+      return effect.value;
     case "def-buff-duration":
+      return effect.value;
+    case "precision-duration":
+      return effect.value;
+    case "vulnerable-duration":
+      return effect.value;
+    case "sweep-duration":
+      return effect.value;
+    case "discipline-duration":
+      return effect.value;
+    case "absolute-duration":
+      return effect.value;
+    case "frenzy-duration":
+      return effect.value;
+    case "reaver-duration":
+      return effect.value;
+    case "counter-duration":
       return effect.value;
 
     default:
@@ -860,7 +1087,7 @@ function applyBuff(stat, value) {
 
     case "def":
       //currentBuff.def = value;
-      console.error(`buff value def`, value);
+     // console.error(`buff value def`, value);
       updatePlayerDef(value, true);
       break;
 
@@ -932,6 +1159,82 @@ function restoreBuffsAfterReload() {
   }
 }
 
+const whirlwindState = {
+  isActive: false,
+  attackInterval: null,
+  bleedInterval: null,
+  timeout: null
+};
+
+function startWhirlwind(player, enemy, bleedDamage, bleedDuration, actualValue) {
+
+  stopWhirlwind();
+
+  whirlwindState.isActive = true;
+
+  const duration = 3000;
+  const interval = 600;
+  
+  whirlwindState.attackInterval = setInterval(() => {
+
+    if (!whirlwindState.isActive || !gameState.world.inCombat) {
+      stopWhirlwind();
+      return;
+    }
+
+    playEnemyHitAnimation(enemy, gameState.world.selectedSlotIndex);
+    
+    performAttack(
+      player,
+      enemy,
+      {
+        isSkillAttack: true,
+        baseMultiplier: actualValue
+      }
+    );
+
+    spawnEffect("whirlwind_hit", enemy.dom.slot);
+    
+  }, interval);
+  
+  playWhirlwindPlayerAnimation(duration);
+  playWhirlwindVFX(player.dom.slot, duration);
+  
+  whirlwindState.bleedInterval = setInterval(() => {
+
+    if (!whirlwindState.isActive || !gameState.world.inCombat) {
+      stopWhirlwind();
+      return;
+    }
+
+    applyBleed(enemy, bleedDamage, bleedDuration);
+
+  }, interval);
+  
+  whirlwindState.timeout = setTimeout(() => {
+    stopWhirlwind();
+  }, duration);
+}
+
+function stopWhirlwind() {
+  whirlwindState.isActive = false;
+
+  if (whirlwindState.attackInterval !== null) {
+    clearInterval(whirlwindState.attackInterval);
+    whirlwindState.attackInterval = null;
+  }
+
+  if (whirlwindState.bleedInterval !== null) {
+    clearInterval(whirlwindState.bleedInterval);
+    whirlwindState.bleedInterval = null;
+  }
+
+  if (whirlwindState.timeout !== null) {
+    clearTimeout(whirlwindState.timeout);
+    whirlwindState.timeout = null;
+  }
+}
+
 function useSkill(skillId, player, enemy) {
   const effects = getSkillEffectsAtLevel(skillId);
   //console.log("Skill effects: ", effects, skillId);
@@ -940,9 +1243,11 @@ function useSkill(skillId, player, enemy) {
   const getEffectByType = (effects, type) => effects.find(e => e.type === type);
   
   effects.forEach(effect => {
-    const actualValue = calculateEffectValue(effect, player, enemy);
+    let actualValue = calculateEffectValue(effect, player, enemy);
     let durationEffect = null;
     let buffDuration = 5;
+    let durationMs = 0;
+    const stackChain = gameState.combat.playerBlock.stackChain;
     
     switch (effect.type) {
       case "damage":
@@ -961,7 +1266,7 @@ function useSkill(skillId, player, enemy) {
             //console.error(`playSkill(heavyAttack)`, skillId);
             break;
           
-          case `double-attack`:
+          case `twin-slash`:
             playSkill(`doubleStrike`); 
             //console.error(`playSkill(doubleStrike)`, skillId);
             break;
@@ -978,7 +1283,8 @@ function useSkill(skillId, player, enemy) {
         }
  
         if(skillId !== "slash" && skillId !== "jump") {
-          playEnemyHitAnimation(enemy, gameState.world.selectedSlotIndex);
+          //playEnemyHitAnimation(enemy, gameState.world.selectedSlotIndex);
+          playEnemyAnimation("hit", gameState.world.selectedSlotIndex);
         }
       
         if (skillId === "slash" || skillId === "jump") {
@@ -1015,6 +1321,86 @@ function useSkill(skillId, player, enemy) {
           break;
         }
       
+        if(skillId === "riposte") {
+          gameState.combat.playerBlock.nextAttackGuaranteedCrit = true;   
+          gameState.combat.playerBlock.lastResult = null;
+          setSkillDisabled("riposte", true);
+          addWeaponMasteryExp(`duelist`, 6, `riposte`);
+          
+          spawnEffect("riposte", enemy.dom.slot);
+      
+          if(gameState.combat.precision.buffMultiplier > 1) {
+            //console.log(`precion riposte before`, actualValue);
+            actualValue *= gameState.combat.precision.buffMultiplier;
+            //console.log(`precion riposte after`, actualValue, gameState.combat.precision.buffMultiplier, stackChain);
+          } 
+        }
+      
+        if(skillId === "perfect-execution") {
+          gameState.combat.playerBlock.nextAttackGuaranteedCrit = true;
+          setSkillDisabled("perfect-execution", true);
+          
+          //console.log(`perfect execution actualValue`, actualValue);
+     
+          if(gameState.combat.precision.buffMultiplier > 1) {
+            actualValue *= gameState.combat.precision.buffMultiplier;
+          
+            addWeaponMasteryExp(`duelist`, 4, `perfect-execution-buff`);
+          } 
+  
+          addWeaponMasteryExp(`duelist`, 20, `perfect-execution`);
+   
+          gameState.combat.playerBlock.stackChain = 0;
+          
+          spawnEffect("perfect_execution", enemy.dom.slot);
+     
+          if(enemy.vulnerable) {
+            //console.log(`perfect execution actualValue before vulnerable`, actualValue);
+            actualValue *= 1.25;
+            //console.log(`perfect execution actualValue after vulnerable`, actualValue);
+            addWeaponMasteryExp(`duelist`, 8, `perfect-execution-vulnerable`);
+          } 
+          
+        }
+ 
+       if(skillId === "impale") {
+         gameState.combat.playerBlock.nextAttackGuaranteedCrit = true;
+         applyVulnerable(enemy, 2500);
+         
+         addWeaponMasteryExp(`warden`, 6, `impale`);
+         
+         spawnEffect("impale", enemy.dom.slot);
+   
+         resetSpear(enemy, false);
+         //stopSpearControlUI();
+       }
+      
+      
+      if(skillId === "executioner") {
+        gameState.combat.playerBlock.nextAttackGuaranteedCrit = true;
+       // console.log(`executioner step1`);
+        if(enemy?.bleed?.stacks.length) {
+          actualValue += 0.2 * enemy.bleed.stacks.length;
+          //console.log(`executioner step2`);
+        }
+        
+        let remainingBleedDmg = 0;
+        if(enemy?.bleed?.stacks) {
+          for (const stack of enemy.bleed.stacks) {
+            remainingBleedDmg += stack.damage * stack.duration;
+            //console.log(`executioner step3`);
+          }
+        }
+        dealBleedDamage(enemy, remainingBleedDmg, gameState.world.selectedSlotIndex);
+        //console.log(`executioner step4`);
+     
+        spawnEffect("executioner", enemy.dom.slot);
+      //  console.log(`executioner step5`);
+     
+        clearBleed(enemy);
+        resetBleed(enemy, true);
+      }
+      
         performAttack(
           player,
           enemy,
@@ -1024,8 +1410,15 @@ function useSkill(skillId, player, enemy) {
           }
         );
       
+             
+         
+        if(skillId === "shield-bash") {
+          addWeaponMasteryExp(`bulwark`, 2, `shield bash`);
+          spawnEffect("shield_bash", enemy.dom.slot);
+          //playEnemyAnimation("hit", gameState.world.selectedSlotIndex);
+        }
       
-        if(skillId === "double-attack") {
+        if(skillId === "twin-slash") {
           spawnEffect("double", enemy.dom.slot);
         }
       
@@ -1035,7 +1428,7 @@ function useSkill(skillId, player, enemy) {
           enemy.status.multiplier = 0.25;
         }
       
-        if (skillId === "double-attack") {
+        if (skillId === "twin-slash") {
           
           // drugi cios po 250ms
           setTimeout(() => {
@@ -1068,29 +1461,122 @@ function useSkill(skillId, player, enemy) {
         break;
       
       case "counter-strike":
+        durationEffect = getEffectByType(effects, "counter-duration");
+        buffDuration = durationEffect
+          ? calculateEffectValue(durationEffect, player, enemy)
+          : 5;
       
+        durationMs = buffDuration * 1000;
+  
         const staminaEffect = getEffectByType(effects, "stamina-recover");
         const staminaRecovered = calculateEffectValue(staminaEffect, player, enemy);
-        console.error(`staminaRecovered in useSkill`, staminaRecovered);
+       // console.error(`staminaRecovered in useSkill`, staminaRecovered);
         gameState.combat.counterStrike.isActive = true;
         gameState.combat.counterStrike.staminaRecover = staminaRecovered;
         gameState.combat.counterStrike.attackValue = actualValue;
         //gainStamina(staminaRecovered);
-   
+      
+        setTimeout(() => {
+          gameState.combat.counterStrike.isActive = false;
+          //updateStatusPlayerUI(enemy);
+        }, durationMs);
+      
+         
         break;
       
       case "bleed":
         const durationTime = getEffectByType(effects, "bleed-duration");
-        const bleedDuration = durationTime
+        let bleedDuration = durationTime
           ? calculateEffectValue(durationTime, player, enemy)
           : 5;
    
+        const whirlwind = getEffectByType(effects, "whirlwind");
+        let whirlwindDmg = whirlwind
+          ? calculateEffectValue(whirlwind, player, enemy)
+          : 50;
+      
         let bleedDamage = actualValue * (1 + player.str * 0.003);
       
-        applyBleed(enemy, bleedDamage, bleedDuration);
- 
+        if (skillId === "whirlwind") {
+          addWeaponMasteryExp(`berserker`, 3, `whirlwind`);
+
+          bleedDuration = 4;
+          //console.log(`start whirlwind`);
+          startWhirlwind(
+            player,
+            enemy,
+            bleedDamage,
+            bleedDuration,
+            whirlwindDmg
+          );
+
+          lockActions({ duration: 3000, reason: "skill", allow: ["flee"] });
+          
+        }
+      
+        if (skillId !== "whirlwind") {
+          applyBleed(enemy, bleedDamage, bleedDuration);
+        }
+      
         break;
  
+      case "attack-speed":
+        durationEffect = getEffectByType(effects, "frenzy-duration");
+        buffDuration = durationEffect
+          ? calculateEffectValue(durationEffect, player, enemy)
+          : 5;
+      
+        durationMs = buffDuration * 1000;
+  
+        gameState.combat.bloodFrenzy.isActive = true;
+        gameState.combat.bloodFrenzy.atkSpdBase = actualValue;
+      
+        updateStatusPlayerUI(enemy); 
+       
+        addWeaponMasteryExp(`berserker`, 3, `blood-frenzy`);
+      
+        spawnEffect("blood_frenzy", player.dom.slot);
+      
+        setTimeout(() => {
+          gameState.combat.bloodFrenzy.isActive = false;
+          gameState.combat.bloodFrenzy.atkSpd = 0;
+          updateStatusPlayerUI(enemy);
+        }, durationMs);
+     
+        break;
+      
+      case "hp-cost":
+      
+        if (player.hp / player.maxHp < 0.35) {
+          return;
+        }
+      
+        const hpCost = Math.floor(player.maxHp * actualValue);
+        let newHp = Math.max(1, player.hp - hpCost);
+      
+        updatePlayerHp(newHp);
+      
+        gameState.combat.bloodPact.isActive = true;
+      
+        addWeaponMasteryExp(`berserker`, 5, `blood-pact`);
+      
+        spawnEffect("blood_pact", player.dom.slot);
+      
+        const bleed = enemy?.bleed;
+
+        if(bleed) {
+          for (let i = bleed.stacks.length - 1; i >= 0; i--) {
+            bleed.stacks[i].duration += 5;
+          }
+        }
+      
+        setTimeout(() => {
+          gameState.combat.bloodPact.isActive = false;
+           
+        }, 5500);
+      
+        break;
+      
       case "armor-break":
         const durationArmorTime = getEffectByType(effects, "slow-duration");
         const armorDuration = durationArmorTime
@@ -1113,11 +1599,82 @@ function useSkill(skillId, player, enemy) {
       
         break;
       
-      case "heal":
-        player.hp += actualValue;
+      case "crit-buff-pact":
+      
+        gameState.combat.bloodPact.crit = actualValue;
+      
+        break;
+      
+      case "crit-buff":
+        durationEffect = getEffectByType(effects, "vulnerable-duration");
+        buffDuration = durationEffect
+          ? calculateEffectValue(durationEffect, player, enemy)
+          : 5;
+      
+        const critDmgBuffEffect = getEffectByType(effects, "crit-dmg-buff");
+        const critDmgValue = critDmgBuffEffect
+          ? calculateEffectValue(critDmgBuffEffect, player, enemy)
+          : 5;
+     
+        durationMs = buffDuration * 1000;
+      
+        if(gameState.combat.precision.buffMultiplier > 1) {
+          actualValue *= gameState.combat.precision.buffMultiplier;
+          critDmgValue *= gameState.combat.precision.buffMultiplier;
+      
+          addWeaponMasteryExp(`duelist`, 2, `weak-point-buff`);
+        } 
+  
+      
+        gameState.combat.weakPoint.isActive = true;
+        gameState.combat.weakPoint.crit = actualValue;
+        gameState.combat.weakPoint.critDmg = critDmgValue;
+      
+        updateStatusPlayerUI(enemy);
+      
+        spawnEffect("weak_point_apply", enemy.dom.slot);
+      
+        setTimeout(() => {
+          gameState.combat.weakPoint.isActive = false;
+          updateStatusPlayerUI(enemy);
+        }, durationMs);
+      
+        break;
+     
+      
+      case "heal-convert":
+        durationEffect = getEffectByType(effects, "reaver-duration");
+        buffDuration = durationEffect
+          ? calculateEffectValue(durationEffect, player, enemy)
+          : 5;
+      
+        durationMs = buffDuration * 1000;
+  
+        gameState.combat.bloodReaver.isActive = true;
+        gameState.combat.bloodReaver.heal = actualValue;
+      
+        updateStatusPlayerUI(enemy);
+      
+        addWeaponMasteryExp(`berserker`, 3, `blood-reaver`);
+      
+        spawnEffect("blood_reaver", player.dom.slot);
+      
+        setTimeout(() => {
+          gameState.combat.bloodReaver.isActive = false;
+          updateStatusPlayerUI(enemy);
+        }, durationMs);
+  
+      
         break;
       
       case "provocation-trigger":
+        const vulnerableBuffEffect = getEffectByType(effects, "vulnerable-duration");
+        const vulnerableDuration = vulnerableBuffEffect
+          ? calculateEffectValue(vulnerableBuffEffect, player, enemy)
+          : 5;
+     
+        durationMs = vulnerableDuration * 1000;
+      
         gameState.combat.provocation.isActive = true;
       
         enemy.isGuarding = false;
@@ -1125,40 +1682,241 @@ function useSkill(skillId, player, enemy) {
         enemy.isCharged = false;
         enemy.isCharging = false;
       
+        spawnEffect("provocation", player.dom.slot);
+      
         performEnemyAttack(enemy, gameState.world.selectedSlotIndex, { multiplier: 1 });
              
         const state = enemy.attackState;
       
         const windupBar = document.getElementById(`enemy-windup-bar-${state.slotIndex}`);
-        windupBar.classList.remove(`show`);
+        
+        if(windupBar) windupBar.classList.remove(`show`);
       
         state.phase = "cooldown";
         state.remaining = state.baseCooldown;
         updateCooldownBar(enemy, 0, state.slotIndex);
 
-        applyVulnerable(enemy, 2000);
+        applyVulnerable(enemy, durationMs);
       
         enemy.intent = null;
       
         updateStatusEnemyUI(enemy);
       
+        addWeaponMasteryExp(`bulwark`, 3, `provocation`);
+      
+        break;
+      
+      case "control-break":
+      
+        const interruptPower = 0.9 * enemy.attackState.baseCooldown;
+      
+        triggerInterrupt(enemy, interruptPower); 
+      
+        enemy.isCharging = false;
+        enemy.isCharged = false;
+        enemy.isGuarding = false;
+        enemy.guardCounter = false;
+        enemy.intent = null;
+      
+        gameState.combat.flags.windupEnd = true;
+        updateStatusEnemyUI(enemy);
+   
+        addWeaponMasteryExp(`warden`, 6, `control-break`);
+      
+        spawnEffect("control_break", enemy.dom.slot);
+      
+        resetSpear(enemy, false);
+        //stopSpearControlUI();
+       
+        break;
+      
+      case "spear-discipline":
+        durationEffect = getEffectByType(effects, "discipline-duration");
+        buffDuration = durationEffect
+          ? calculateEffectValue(durationEffect, player, enemy)
+          : 5;
+     
+        durationMs = buffDuration * 1000;
+  
+        gameState.combat.spearDiscipline.isActive = true;
+        updateStatusPlayerUI(enemy);
+      
+        addWeaponMasteryExp(`warden`, 2, `discipline`);
+
+        spawnEffect("spear_discipline_activate", player.dom.slot);
+   
+        setTimeout(() => {
+          gameState.combat.spearDiscipline.isActive = false;
+          updateStatusPlayerUI(enemy);
+        }, durationMs);
+     
+      
+        break;
+      
+      case "absolute-control":
+        durationEffect = getEffectByType(effects, "absolute-duration");
+        buffDuration = durationEffect
+          ? calculateEffectValue(durationEffect, player, enemy)
+          : 5;
+     
+        durationMs = buffDuration * 1000;
+        const now = getGameTime();
+
+        enemy.spear.expiresAt += durationMs;
+        gameState.combat.absoluteControl.isActive = true;
+        gameState.combat.absoluteControl.expiresAt = now + durationMs;
+      
+        addWeaponMasteryExp(`warden`, 5, `absolute-control`);
+
+        spawnEffect("absolute_control_activate", player.dom.slot);
+      
+        updateStatusPlayerUI(enemy);
+      
+        break;
+      
+      case "reduce-cooldown":
+        const reduceEffect = getEffectByType(effects, "reduce-shield-cooldown");
+        let reduceValue = reduceEffect
+          ? calculateEffectValue(reduceEffect, player, enemy)
+          : 50;
+     
+        if(gameState.combat.precision.buffMultiplier > 1) {
+          reduceValue *= gameState.combat.precision.buffMultiplier;
+          addWeaponMasteryExp(`duelist`, 2, `reduce-shield-cooldown-buff`);
+        }
+      
+        gameState.combat.parryMaster.isActive = true;
+        gameState.combat.parryMaster.reduce = actualValue;
+        gameState.combat.parryMaster.remainingMs = 4000;
+        gameState.combat.parryMaster.shieldReduce = reduceValue;
+       // console.log(`parry master start`, gameState.combat.parryMaster.remainingMs);
+        
+        updateStatusPlayerUI(enemy);
+      
+        startParryMasterTimer(enemy);
+        reduceShieldCooldown(reduceValue);
+        addWeaponMasteryExp(`duelist`, 2, `reduce-shield-cooldown`);
+
+        spawnEffect("parry_master_activate", player.dom.slot);
+      
+        break;
+      
+      case "precision-buff":
+        durationEffect = getEffectByType(effects, "precision-duration");
+        buffDuration = durationEffect
+          ? calculateEffectValue(durationEffect, player, enemy)
+          : 5;
+     
+        durationMs = buffDuration * 1000;
+      
+        gameState.combat.precision.buffMultiplier = 1 + (actualValue * stackChain);
+      
+        //console.log(`precion durationMs, buffMultiplier`, durationMs, gameState.combat.precision.buffMultiplier);
+      
+        spawnEffect("precision_activate", player.dom.slot);
+      
+        setTimeout(() => {
+          gameState.combat.precision.buffMultiplier = 1;
+        }, durationMs);
+      
+        break;
+
+      case "open-windup":
+        if(gameState.combat.precision.buffMultiplier > 1) {
+          actualValue *= gameState.combat.precision.buffMultiplier;
+          addWeaponMasteryExp(`duelist`, 2, `open-windup`);
+        } 
+  
+        gameState.combat.openingStrike.windUpMultiplier = actualValue;
+    
+        applyVulnerable(enemy, 2000);
+        
+        spawnEffect("opening_strike", enemy.dom.slot);
+      
+        break;
+      
+      case "spear-control":
+   
+        extendSpearControl(enemy, 2000, true, actualValue);
+      
+        addWeaponMasteryExp(`warden`, 2, `piercing-thrust`);
+  
+      
+        if (enemy.attackState?.phase === "cooldown" && skillId === "piercing-thrust") {
+          const pushbackEffect = getEffectByType(effects, "pushback");
+          let pushback = pushbackEffect
+            ? calculateEffectValue(pushbackEffect, player, enemy)
+            : 5;
+     
+          pushback *= enemy.attackState.baseCooldown;
+          enemy.attackState.remaining += pushback;
+          
+          spawnEffect("piercing_thrust", enemy.dom.slot);
+        }
+  
+        if (skillId === "sweep") {
+          const windupEffect = getEffectByType(effects, "windup");
+          let windup = windupEffect
+            ? calculateEffectValue(windupEffect, player, enemy)
+            : 5;
+          
+          durationEffect = getEffectByType(effects, "sweep-duration");
+          buffDuration = durationEffect
+            ? calculateEffectValue(durationEffect, player, enemy)
+            : 5;
+     
+          durationMs = buffDuration * 1000;
+
+          gameState.combat.sweep.isActive = true;
+          //updateStatusPlayerUI(enemy);
+          
+          windup *= enemy.attackState.windupDuration;
+          gameState.combat.sweep.windup = windup;
+          
+          if (enemy.attackState?.phase === "windup") {
+            enemy.attackState.remaining += windup;
+          }
+          
+          applyEnemySlow(enemy, 0.7, durationMs, gameState.world.selectedSlotIndex);
+     
+          addWeaponMasteryExp(`warden`, 3, `sweep`);
+          
+          spawnEffect("sweep", enemy.dom.slot);
+        }
+ 
+        setTimeout(() => {
+          gameState.combat.sweep.isActive = false;
+          gameState.combat.sweep.windup = 0;
+          //updateStatusPlayerUI(enemy);
+        }, durationMs);
       
         break;
       
       case "remove-debuff":
       
+        const costEffect = getEffectByType(effects, "blocking-cost");
+        let costValue = costEffect
+            ? calculateEffectValue(costEffect, player, enemy)
+            : 5;
+      
         gameState.combat.ironWill.isActive = true;
+        gameState.combat.ironWill.cost = costValue;
+      
         //updateStatusPlayerUI(enemy);
         showPercentDebuff(`dmg`, 0); 
         setTimeout(() => {
           gameState.combat.ironWill.isActive = false;
+          gameState.combat.ironWill.cost = 1;
           //updateStatusPlayerUI(enemy);
           const { attackPenalty: penaltyDmg } = computeShieldPenalties(player.blockPower);
           const minusValue = (0 - 1) + (1 - penaltyDmg);
           showPercentDebuff(`dmg`, minusValue * 100);
-        }, 4000);
+        }, 5000);
+      
+        addWeaponMasteryExp(`bulwark`, 3, `iron-will`);
         
-        
+        spawnEffect("iron_will_activate", player.dom.slot);
+      
         break;
       
       case "damage-buff": 
@@ -1167,7 +1925,13 @@ function useSkill(skillId, player, enemy) {
           ? calculateEffectValue(durationEffect, player, enemy)
           : 5;
       
-        playSkill(`warCry`); 
+        if(skillId === `warrior-shout`) {
+          playSkill(`warCry`); 
+        }
+      
+        if(skillId === `blood-pact`) {
+          buffDuration = 6;
+        }
       
         addTemporaryBuff({
           stat: "dmg",
@@ -1207,6 +1971,10 @@ function useSkill(skillId, player, enemy) {
       
         updateStatusPlayerUI(enemy); 
       
+        addWeaponMasteryExp(`bulwark`, 4, `last-bastion`);
+      
+        spawnEffect("last_bastion_activate", player.dom.slot);
+      
         setTimeout(() => {
           gameState.combat.lastBastion.isActive = false;
           gameState.combat.lastBastion.attackValue = 0;
@@ -1226,10 +1994,14 @@ function useSkill(skillId, player, enemy) {
           : 5;
       
         if(skillId === "shield-wall") {
+          addWeaponMasteryExp(`bulwark`, 3, `shield wall`);
           const staminaGained = gameState.resources.staminaState.max * 0.2;
           gainStamina(staminaGained);
+          
+          spawnEffect("shield_wall_activate", player.dom.slot);
         }
       
+            
         addTemporaryBuff({
           stat: "def",
           value: actualValue,
@@ -1273,7 +2045,7 @@ function useSkill(skillId, player, enemy) {
             enemy.status.slowDuration = slowDuration;
 
             const multiplier = enemy.status.slow / 100;
-            const durationMs = slowDuration * 1000;
+            durationMs = slowDuration * 1000;
             
             applyEnemySlow(enemy, multiplier, durationMs, gameState.world.selectedSlotIndex);
           }, 450);
@@ -1318,8 +2090,10 @@ function useSkill(skillId, player, enemy) {
     updateEnemyHealthBar(enemy, gameState.world.selectedSlotIndex);
   }
   
-  lockActions({ duration: 450, reason: "skill", allow: [] });
-
+  if(skillId !== `whirlwind`) {
+    lockActions({ duration: 450, reason: "skill", allow: [] });
+  }
+  
   //saveGame();
   //console.log("skill used");
 }
@@ -1334,6 +2108,8 @@ function applyBleed(enemy, damage, duration) {
     };
   }
 
+  //addWeaponMasteryExp(`berserker`, 1, `bleed`);
+  
   if(gameState.char.combatAffixes[`bleed_damage`]) {
     const value = gameState.char.combatAffixes[`bleed_damage`].value;
     damage *= 1 + (value / 100);
@@ -1349,6 +2125,11 @@ function applyBleed(enemy, damage, duration) {
   if(gameState.combat.blockingBonus.bleedBonus.isActive && gameState.char.combatAffixes[`bleed_duration_while_blocking`]) {
      duration += gameState.char.combatAffixes[`bleed_duration_while_blocking`].value || 0;
   }
+  
+  if(gameState.combat.bloodPact.isActive) {
+     duration += 5;
+  }
+  
   
   const newStack = {
     damage: bleedDamage,
@@ -1395,7 +2176,7 @@ function applyBleed(enemy, damage, duration) {
 
 function addBleedStack(enemy, newStack) {
 
-  if (enemy.bleed.stacks.length < 3) {
+  if (enemy.bleed.stacks.length < 5) {
     enemy.bleed.stacks.push(newStack);
     return;
   }
@@ -1431,7 +2212,7 @@ function addBleedStack(enemy, newStack) {
     // zwiększamy stacki
     enemy.bleed.stacks += 1;
   
-    console.log(`enemy.bleed.stacks adding`, enemy.bleed.stacks);
+    //console.log(`enemy.bleed.stacks adding`, enemy.bleed.stacks);
      
     if(gameState.char.combatAffixes[`bleed_stack_faster`]) {
       const value = gameState.char.combatAffixes[`bleed_stack_faster`].value;
@@ -1447,7 +2228,7 @@ function addBleedStack(enemy, newStack) {
     // opcjonalny cap (ważne dla balansu!)
     enemy.bleed.stacks = Math.min(enemy.bleed.stacks, 3);
  // }
-  console.log(`enemy.bleed.stacks added`, enemy.bleed.stacks);
+ // console.log(`enemy.bleed.stacks added`, enemy.bleed.stacks);
 
   if(gameState.char.combatAffixes[`bleed_duration`]) {
      duration += gameState.char.combatAffixes[`bleed_duration`].value || 0;
@@ -1572,7 +2353,8 @@ function applyEnemyStun(enemy, multiplier, durationMs, slotIndex) {
     // 🔑 Symulacja pauzy – ustaw prędkość praktycznie na 0
     setEnemyAttackSpeed(enemy, multiplier, slotIndex);
   } 
-  stunAnimation(enemySlot, enemy, durationMs);
+  //stunAnimation(enemySlot, enemy, durationMs);
+  playStunVFX(enemy.dom.slot, durationMs);
 }
 
 function stunAnimation(enemySlot, enemy, stunMs) {
@@ -1591,6 +2373,39 @@ function stunAnimation(enemySlot, enemy, stunMs) {
 
   enemy.animations = enemy.animations || {};
   enemy.animations.stun = stunAnim;
+}
+
+function playStunVFX(enemySlot, duration) {
+  const vfx = document.createElement("img");
+
+  const vfxUrl = assetManager.getResolvedAsset(`img/vfx/stun.png`);
+  
+  vfx.src = vfxUrl;
+  vfx.className = "combat-vfx stun-vfx";
+  vfx.style.animationDuration = `${duration}ms`;
+  
+  enemySlot.appendChild(vfx);
+
+  requestAnimationFrame(() => {
+    if(playerAttackCooldown.isStunActive) {
+      vfx.classList.add("player");
+    } else {
+      vfx.classList.add("active");
+    } 
+  });
+  
+  
+  //console.log(`stun animation`);
+  
+  setTimeout(() => {
+    vfx.classList.remove("active");
+    vfx.classList.remove("player");
+    
+    vfx.addEventListener("transitionend", () => {
+      vfx.remove();
+    }, { once: true });
+
+  }, duration);
 }
 
 /*function clearEnemyStun(enemy, slotIndex) {
@@ -1684,7 +2499,8 @@ function applyEnemySlow(enemy, multiplier, durationMs, slotIndex) {
 
   updateStatusEnemyUI(enemy);
   
-  slowAnimation(enemySlot, enemy, durationMs);
+  //slowAnimation(enemySlot, enemy, durationMs);
+  playSlowVFX(enemy.dom.slot, durationMs);
 }
 
 function slowAnimation(enemySlot, enemy, slowMs) {
@@ -1703,6 +2519,38 @@ function slowAnimation(enemySlot, enemy, slowMs) {
 
   enemy.animations = enemy.animations || {};
   enemy.animations.slow = slowAnim;
+}
+
+function playSlowVFX(enemySlot, duration) {
+  const vfx = document.createElement("img");
+
+  const vfxUrl = assetManager.getResolvedAsset(`img/vfx/slow.png`);
+  
+  vfx.src = vfxUrl;
+  vfx.className = "combat-vfx slow-vfx";
+  vfx.style.animationDuration = `${duration}ms`;
+  
+  enemySlot.appendChild(vfx);
+
+  requestAnimationFrame(() => {
+    if(playerAttackCooldown.slow.active) {
+      vfx.classList.add("player");
+    } else {
+      vfx.classList.add("active");
+    }
+  });
+  
+  //console.log(`stun animation`);
+  
+  setTimeout(() => {
+    vfx.classList.remove("active");
+    vfx.classList.remove("player");
+    
+    vfx.addEventListener("transitionend", () => {
+      vfx.remove();
+    }, { once: true });
+
+  }, duration);
 }
 
 

@@ -394,6 +394,22 @@ async function getMapTemplate() {
     <button onclick="gainExperience(1000000000000)">+1000000000000 EXP</button>
   </div>
   
+  <br><br>
+  Mastery EXP
+  <div>
+    <button onclick="setMasteryLevelUp(100)">+100 EXP</button>
+  </div>
+  <div>
+    <button onclick="setMasteryLevelUp(300)">+300 EXP</button>
+  </div>
+  <div>
+    <button onclick="setMasteryLevelUp(600)">+600 EXP</button>
+  </div>
+  <div>
+    <button onclick="setMasteryLevelUp(1000)">+1000 EXP</button>
+  </div>
+
+  <br><br>
 
 <div id="custom-alert-container"></div>
 
