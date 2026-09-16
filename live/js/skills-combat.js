@@ -450,7 +450,7 @@ function startSkillCooldown(skillId, durationInSeconds) {
   
   const mask = fill.querySelector(".fill-mask");
   if (!mask) {
-    console.error("BRAK fill-mask!", fill);
+    //console.error("BRAK fill-mask!", fill);
     return;
   }
 
@@ -522,7 +522,7 @@ function finishSkillCooldown(skillId, fill, top, button, counter) {
   //fill.style.transform = `scaleX(0)`;
   const mask = fill.querySelector(".fill-mask");
   if (!mask) {
-    console.error("BRAK fill-mask!", fill);
+   // console.error("BRAK fill-mask!", fill);
     return;
   }
   //mask.style.transform = "scaleX(0)";

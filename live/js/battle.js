@@ -382,7 +382,7 @@ function renderActionButtons(opt, div, i) {
     actionBtn.id = `reengage-btn-${i}`;
   
     const enemy = opt.enemyData;
-    const isRunestoneGuardian = enemy.name === "Strażnik Runicznego Kamienia" && enemy.currentHp <= 2000;
+    const isRunestoneGuardian = enemy.name === "runic_stone_guardian" && enemy.currentHp <= 2000;
   
     const now = Date.now();
       if (enemy.reengageLockedUntil && enemy.reengageLockedUntil > now) {
@@ -390,13 +390,13 @@ function renderActionButtons(opt, div, i) {
           actionBtn.disabled = true;
           div.classList.add("used");
           actionBtn.classList.remove("hidden");
-          actionBtn.innerText = `Czujny (${remaining}s)`;
+          actionBtn.innerText = `(${remaining}s)`;
 
           const interval = setInterval(() => {
               remaining--;
               updateSkillButtonsFatigueState();
               if (remaining > 0) {
-                  actionBtn.innerText = `Czujny (${remaining}s)`;
+                  actionBtn.innerText = `(${remaining}s)`;
               } else {
                  clearInterval(interval);
                  skillsOn();

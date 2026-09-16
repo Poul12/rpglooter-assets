@@ -172,7 +172,7 @@ function healPlayer(hpAmount, isPerfect = false){
 function ensureStepLoot(stepIndex) {
   const step = gameState.world.locationSteps[stepIndex];
   if (!step) {
-    console.warn("Brak stepu o indexie:", stepIndex);
+   // console.warn("Brak stepu o indexie:", stepIndex);
     return null;
   }
   if (!Array.isArray(step.lootItems)) step.lootItems = [];

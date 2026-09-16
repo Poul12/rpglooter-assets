@@ -1188,7 +1188,7 @@ function startEnemyFinisherWindup(enemy, slotIndex) {
 }
 
 function performEnemyFinisherAttack(enemy, slotIndex) {
-  console.error("FINISHER ATTACK");
+ // console.error("FINISHER ATTACK");
   const combat = gameState.combat;
   const player = getPlayerStats();
   

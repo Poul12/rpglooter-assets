@@ -18,7 +18,7 @@ async function dealDamageToEnemy(enemy, damage, isCrit = false, critMultiplier =
     });
   }
   
-  if(enemy.name === "Strażnik Runicznego Kamienia" && enemy.currentHp <= 2000) {
+  if(enemy.name === "runic_stone_guardian" && enemy.currentHp <= 2000) {
     exitCombat();
     hideFleeButton();
     winCombat();
@@ -442,7 +442,7 @@ function attack(isDefShield = false) {
   }  
   
   lockActions({ duration: 300, reason: "attack", allow: [`block`] });
-  console.timeEnd("attack");
+  //console.timeEnd("attack");
 }
 
 function showReward(text, duration = 1600) {

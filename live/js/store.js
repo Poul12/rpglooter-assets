@@ -618,7 +618,7 @@ function showItemPopupForSale(itemId) {
     item = gameState.inventory.find(i => i && i.id === itemId) || null;
   }
   if (!item) {
-    console.warn("Nie znaleziono itemu w ekwipunku:", itemId);
+  //  console.warn("Nie znaleziono itemu w ekwipunku:", itemId);
     return;
   }
   
@@ -694,7 +694,7 @@ function sellItem(itemId, slot) {
   
   //const slot = document.querySelector(`.slot.not-empty img[alt="${gameState.inventory[itemIndex].nazwa}"]`)?.closest(".slot");
   if (!slot) {
-    console.warn("Nie znaleziono slotu do animacji sprzedaży");
+   // console.warn("Nie znaleziono slotu do animacji sprzedaży");
     doSell(itemIndex);
     return;
   }

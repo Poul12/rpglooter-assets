@@ -15,7 +15,7 @@ const NORTH_MAP_XMARK = makeQuestNorthMapXMarkItem();
 const STORY_EVENT_ENEMIES = {
   "mystical_stone": {
     id: "runestone_guardian",
-    name: "Strażnik Runicznego Kamienia",
+    name: "runic_stone_guardian",
     sprite: "runestone-guardian.png",
     level: 32,
     maxHp: 2500,
@@ -29,7 +29,7 @@ const STORY_EVENT_ENEMIES = {
   },
   "lost_feather": {
     id: "thief",
-    name: "Złodziej",
+    name: "enemy_thief",
     sprite: "thief.png",
     level: 3,
     maxHp: 269,
@@ -49,7 +49,7 @@ const STORY_EVENT_ENEMIES = {
 
   "lost_boxes": {
     id: "thief_chieftain",
-    name: "Herszt Złodziei",
+    name: "thief_cheftain",
     sprite: "thief-cheftain.png",
     level: 7,
     maxHp: 780,
@@ -76,7 +76,7 @@ const STORY_EVENT_ENEMIES = {
   },
   "poisoned_water": {
     id: "bandit_cheftain",
-    name: "Przywódca Bandytów",
+    name: "bandit_cheftain",
     sprite: "bandit-cheftain.png",
     level: 9,
     maxHp: 1470,

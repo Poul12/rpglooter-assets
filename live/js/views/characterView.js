@@ -46,12 +46,12 @@ function getCharacterTemplate() {
   </div>
 </div>
   
-<div class="test-buttons">
+<!-- <div class="test-buttons">
   <button onclick="generateAndEquipSet('unique')">🟡 Zestaw Unikalny</button>
   <button onclick="generateAndEquipSet('epic')">🟣 Zestaw Epicki</button>
   <button onclick="generateAndEquipSet('legendary')">🟠 Zestaw Legendarny</button>
   <button onclick="generateAndEquipRandomSet('random')">🎲 Zestaw Losowy</button>
-</div>
+</div> -->
    
 <div id="stats-popup" class="popup hidden">
   <div class="stats-popup-content">

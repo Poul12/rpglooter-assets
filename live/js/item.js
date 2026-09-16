@@ -1744,6 +1744,7 @@ function addItemToInventory(item) {
       } else {
         const questData = QUEST_DATA[item.questId];
         const quest = gameState.world.battleState.quests?.[item.questId];
+        //console.log(`quest, quest id`,quest, item.questId);
         quest.objective = questData.objectiveAfterEvent;
         quest.questNotifications = true;
         saveGame();

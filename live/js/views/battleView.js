@@ -875,7 +875,7 @@ function handleShieldClick(e) {
   if (!gameState.world.inCombat) return;
 
   if (!playerHasShieldEquipped()) {
-      console.log("Brak tarczy w lewej ręce");
+      //console.log("Brak tarczy w lewej ręce");
       return;
   } 
     

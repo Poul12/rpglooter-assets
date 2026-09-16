@@ -432,7 +432,7 @@ function renderLayer(id, item){
 
     if(!item){
         img.style.display="none";
-        console.log(`return renderLayer`, item);
+      //  console.log(`return renderLayer`, item);
         return;
     }
     
@@ -571,7 +571,7 @@ function renderCombat(renderPotion = false) {
     dlg.innerHTML = `
       <div id="combat-enemy-section"></div>
 
-      <div id="test-holder">
+      <div id="test-holder" class="hidden">
         <button class="menu-item" onclick="toggleBypass()" id="bypass-btn" title="Test">T
           <!-- <img data-src="img/icons/menu-market-icon.png" alt="Zamknij" class="menu-icon" />-->
         </button>
@@ -819,7 +819,7 @@ function handleAttack() {
     return;
   }
   
-  console.time("attack");
+ // console.time("attack");
   //console.error(`sprawdzam handleAttack`);
   const player = getPlayerStats();
   const enemy = gameState.world.exploreOptions[gameState.world.selectedSlotIndex]?.enemyData;
@@ -891,7 +891,7 @@ function handleAttack() {
     const value = gameState.combat.playerMark.atkspd;
     const atkspdDebuff = 1 - value;
     cooldownDuration = calculatePlayerCooldown(atkSpeed * atkspdDebuff);
-    console.error(`atkspdDebuff while player is marker, cooldownDuration, atkspdDebuff`, cooldownDuration, atkspdDebuff);
+   // console.error(`atkspdDebuff while player is marker, cooldownDuration, atkspdDebuff`, cooldownDuration, atkspdDebuff);
   }
 
   
@@ -1075,7 +1075,7 @@ function setupFleeButton() {
   //console.log(`enter setupFleeButton`);
   // pobieramy już istniejący przycisk z HTML
   fleeBtn = document.getElementById(`slot-attack-button-${gameState.world.selectedSlotIndex}`);
-  if (!fleeBtn) return console.warn("Brak przycisku flee w HTML!");
+  if (!fleeBtn) return;// console.warn("Brak przycisku flee w HTML!");
 
   // ustaw ikonę
   if (!fleeBtn.querySelector("img")) {
@@ -1325,7 +1325,7 @@ function calculateReducedEnemyDamage(damage, enemy, player, scaling = 0.2) {
     const value = gameState.combat.playerMark.dmgTaken;
     const increasedDamage = 1 + value;
     dmg *= increasedDamage;
-    console.error(`increased dmg while player is marker, dmg, increasedDamage`, dmg, increasedDamage);
+   // console.error(`increased dmg while player is marker, dmg, increasedDamage`, dmg, increasedDamage);
   }
 
   
@@ -1369,7 +1369,7 @@ function calculateReducedPlayerDamage(playerDmg, player, enemy, scaling = 0.2) {
   if(gameState.combat.enemyDmgReduction.isActive) {
     const reducedDmg = gameState.combat.enemyDmgReduction.value;
     dmg *= 1 - (reducedDmg / 100);
-    console.log(`smoke bomb reducedDmg`, gameState.combat.enemyDmgReduction.value);
+    //console.log(`smoke bomb reducedDmg`, gameState.combat.enemyDmgReduction.value);
   }
   
   //console.error(`player dmg after enemy def`, dmg);

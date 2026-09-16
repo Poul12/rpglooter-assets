@@ -1071,8 +1071,8 @@ function rollOptions() {
   }
   
   if(!world.bypassEnemyCheck && !areAllLocationQuestsAccepted(world.currentLocation)) {
-    console.log(`not all quest accepted`);
-    return showInfoAlert(`⛔ Nie można przejść dalej – musisz zaakceptować wszystkie misje.`);
+    //console.log(`not all quest accepted`);
+    return showInfoAlert(t(`cannot_passed_quests`));
   }
   
   if (!world.bypassEnemyCheck && !areAllEnemiesDefeated(currentStep)) {
@@ -1080,8 +1080,8 @@ function rollOptions() {
     slotName.classList.remove("hidden");
     slotName.style.color = "red";
     slotName.innerHTML = "Pokonaj wszystkich wrogów!";*/
-    console.warn("⛔ Nie można przejść dalej – nie wszyscy wrogowie pokonani.");
-    showInfoAlert(`⛔ Nie można przejść dalej – nie wszyscy wrogowie pokonani.`);
+   // console.warn("⛔ Nie można przejść dalej – nie wszyscy wrogowie pokonani.");
+    showInfoAlert(t(`cannot_passed_enemies`));
     return;
   }
   
@@ -1625,12 +1625,12 @@ function goToNextLevel() {
    // console.log("hasMainQuestActive", hasMainQuestActive);
   
     if (!areAllEnemiesDefeated()) {
-      showInfoAlert("Musisz pokonać wszystkich wrogów przed przejściem do następnego poziomu!");
+      showInfoAlert(t("cannot_passed_enemies_before_next_level"));
       return;
     }
   
     if (hasMainQuestActive && !isMiniboss && !toBeContinued) {
-      return showInfoAlert("Musisz zakończyć aktywną misję, aby przejść dalej!");
+      return showInfoAlert(t("cannot_passed_active_quest"));
     }
   
     const quests = Object.values(world.battleState.quests || {});

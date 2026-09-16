@@ -367,11 +367,13 @@ async function getMapTemplate() {
      </div>
         
     </div>    
+  
    </div>
 
+ <!-- <br>
   <br>
   <br>
-  <br>
+  
   <div>
     <button onclick="gainExperience(500)">+500 EXP</button>
   </div>
@@ -407,9 +409,9 @@ async function getMapTemplate() {
   </div>
   <div>
     <button onclick="setMasteryLevelUp(1000)">+1000 EXP</button>
-  </div>
-
-  <br><br>
+  </div> 
+  
+  <br><br> -->
 
 <div id="custom-alert-container"></div>
 
@@ -427,7 +429,7 @@ async function getMapTemplate() {
       navigator.serviceWorker.register('/sw.js').catch(()=>{});
     }
   
-</script>
+</script> 
 
   
     

@@ -1306,7 +1306,7 @@ function slowPlayer(enemy, percent, durationMs) {
   /*playerAttackCooldown.slow.multiplier =
     1 + (percent / 100);*/
 
-  console.log(`slow durationMs`, durationMs);
+  //console.log(`slow durationMs`, durationMs);
   
   const fill = document.getElementById("player-cooldown-fill");
 

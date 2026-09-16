@@ -105,6 +105,17 @@ Object.assign(LANG.en, {
   adventure_mode: "Adventure Mode",
   adventure_mode_desc: "Venture beyond the known paths, face endless dangers and uncover rewards hidden throughout Rivenfell.",
 
+  runic_stone_guardian: "Runestone Guardian",
+  thief_cheftain: "Thief Cheftain",
+  bandit_cheftain: "Bandit Cheftain",
+
+  cannot_passed_quests: "You cannot proceed – you must accept all quests.",
+  cannot_passed_enemies: "You cannot proceed – not all enemies have been defeated.",
+  
+  cannot_passed_enemies_before_next_level: "You must defeat all enemies before moving on to the next level!",
+  cannot_passed_enemies_active_quest: "You must complete the active mission to proceed!",
+
+  
   
 });
 
@@ -216,6 +227,14 @@ Object.assign(LANG.pl, {
   adventure_mode: "Tryb Wyprawy",
   adventure_mode_desc: "Wyrusz poza znane szlaki, staw czoła niezliczonym niebezpieczeństwom i odkryj nagrody ukryte w całym Rivenfell.",
 
+  runic_stone_guardian: "Strażnik Runicznego Kamienia",
+  thief_cheftain: "Herszt Złodzieji",
+  bandit_cheftain: "Przywódca Bandytów",
+
+  cannot_passed_quests: "Nie można przejść dalej – musisz zaakceptować wszystkie misje.",
+  cannot_passed_enemies: "Nie można przejść dalej – nie wszyscy wrogowie pokonani.",
   
-    
+  cannot_passed_enemies_before_next_level: "Musisz pokonać wszystkich wrogów przed przejściem do następnego poziomu!",
+  cannot_passed_enemies_active_quest: "Musisz zakończyć aktywną misję, aby przejść dalej!",
+  
 });

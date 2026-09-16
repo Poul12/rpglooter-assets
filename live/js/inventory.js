@@ -1406,11 +1406,11 @@ function diffPreview(id, newVal) {
   diffEl = document.getElementById(`${id}-diff-preview`);
 
   if (!el) {
-    console.warn(`[diffPreview] brak elementu el dla id=${id}`);
+    //console.warn(`[diffPreview] brak elementu el dla id=${id}`);
     return;
   }
   if (!diffEl) {
-    console.warn(`[diffPreview] brak elementu diffEl dla id=${id}-diff-preview`);
+   // console.warn(`[diffPreview] brak elementu diffEl dla id=${id}-diff-preview`);
     return;
   }
 
