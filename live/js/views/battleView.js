@@ -623,7 +623,9 @@ function initBattleView() {
   loadPlayerSkills();
   
   const container = document.getElementById("explore-options");
-  container.addEventListener("click", handleBattleOptionClick);
+  if(container) {
+    container.addEventListener("click", handleBattleOptionClick);
+  }
   
   /*document.querySelectorAll("[data-src]").forEach(img => {
     img.src = `${ASSET_BASE}${img.getAttribute("data-src")}`;
