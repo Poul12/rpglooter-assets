@@ -52,7 +52,7 @@ function getCharacterTemplate() {
   <button onclick="generateAndEquipSet('legendary')">🟠 Zestaw Legendarny</button>
   <button onclick="generateAndEquipRandomSet('random')">🎲 Zestaw Losowy</button>
 </div> -->
-   
+  
 <div id="stats-popup" class="popup hidden">
   <div class="stats-popup-content">
     <div id="stats-popup-content"></div>

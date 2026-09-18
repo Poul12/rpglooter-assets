@@ -41,7 +41,7 @@
       transition: opacity 0.3s ease;
      }
 
-  .item-button{
+/*  .item-button{
   background: linear-gradient(145deg, #2f2f2f, #1c1c1c);
   color: #ddd;
   border: 2px ridge #aaa;
@@ -50,7 +50,7 @@
   border-radius: 6px;
   box-shadow: 0 0 2px #000;
   margin-bottom: 12px;
-  }
+  }*/
 
 .item-button.locked {
   pointer-events: none;

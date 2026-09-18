@@ -1,5 +1,5 @@
 {
-  "version": "1789719662013",
+  "version": "1789719830678",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3922,8 +3922,8 @@
     },
     {
       "path": "live/css/battle.css",
-      "hash": "c54a2701d7642776c2fb48e8b54be2ef",
-      "size": 64417,
+      "hash": "ea5f5cc6cbb41ec5f96ee979f0ff4172",
+      "size": 64421,
       "type": "code"
     },
     {
@@ -3940,14 +3940,14 @@
     },
     {
       "path": "live/css/inventory.css",
-      "hash": "792cbc6a2a4fe2b34b45399ab9d30edf",
+      "hash": "40be0ba927fedfc5210bea77dd9f821f",
       "size": 44024,
       "type": "code"
     },
     {
       "path": "live/css/map.css",
-      "hash": "932d0a9790edb96ea00bf71a2bf871e2",
-      "size": 44005,
+      "hash": "7265a1181fe33425d985264f9cc96576",
+      "size": 44802,
       "type": "code"
     },
     {
@@ -4180,8 +4180,8 @@
     },
     {
       "path": "live/js/views/characterView.js",
-      "hash": "f931c77847e17f290798f30ae1a54b55",
-      "size": 11807,
+      "hash": "cc4968b3d1d1bddb8979f0f3adac1857",
+      "size": 11806,
       "type": "code"
     },
     {
@@ -4192,8 +4192,8 @@
     },
     {
       "path": "live/js/views/mapView.js",
-      "hash": "0dfe916045aee6306b0713cc474156d8",
-      "size": 25085,
+      "hash": "97eaa5b73fcf6c56f173b893ba30bec4",
+      "size": 25142,
       "type": "code"
     },
     {

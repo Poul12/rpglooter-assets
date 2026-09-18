@@ -478,6 +478,7 @@ async function renderMapView(options = {}) {
   
   if (!firstLoad) {
     showViewLoader();
+    setMenuDisabled(true);
   }
 
   try {
@@ -515,6 +516,7 @@ async function renderMapView(options = {}) {
 
     if (!firstLoad) {
       hideViewLoader();
+      setMenuDisabled(false);
     }
     
     /*console.log(`4. `, document.elementFromPoint(

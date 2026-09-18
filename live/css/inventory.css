@@ -1354,7 +1354,7 @@ box-shadow:
 .compare-popup-actions{
   position:absolute;
   /*inset:0;*/
-  bottom: 4vh;/* 75px  */
+  bottom: 5vh;/* 75px  */
   /*pointer-events:none;*/
 }
 
