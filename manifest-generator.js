@@ -11,7 +11,8 @@ const IGNORE_DIRS = new Set([
   ".git",
   "node_modules",
   ".github",
-  ".vscode"
+  ".vscode",
+  "img/.hidden",
 ]);
 
 const OUTPUT_FILE = "./manifest.json";
@@ -36,10 +37,19 @@ function getAllFiles(dir, base = "") {
     const stat = fs.statSync(fullPath);
 
     // 🚫 ignoruj katalogi systemowe
-    if (stat.isDirectory() && IGNORE_DIRS.has(file)) {
+    /*if (stat.isDirectory() && IGNORE_DIRS.has(file)) {
+      continue;
+    }*/
+    
+    if (file.startsWith(".")) {
+      console.log(`⏭️ Pomijam ukryty element: ${relativePath}`);
       continue;
     }
-
+    
+    if (stat.isDirectory() && IGNORE_DIRS.has(relativePath)) {
+      continue;
+    }
+    
     if (stat.isDirectory()) {
       results = results.concat(getAllFiles(fullPath, relativePath));
     } else {

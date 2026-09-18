@@ -1,13 +1,7 @@
 {
-  "version": "1789635274435",
+  "version": "1789719662013",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
-    {
-      "path": "img/.hidden",
-      "hash": "d41d8cd98f00b204e9800998ecf8427e",
-      "size": 0,
-      "type": "asset"
-    },
     {
       "path": "img/avatar/axe.png",
       "hash": "08080c46492a5aacce315f9e0a984821",
