@@ -284,7 +284,7 @@ const WEAPON_STYLES = {
   
   sword: {
     type: "sword",
-    icon: "⚔️",
+    icon: "",
     name: "style_sword_name",
     desc: "style_sword_desc",
     mech: "style_sword_mech"
@@ -292,7 +292,7 @@ const WEAPON_STYLES = {
 
   axe: {
     type: "axe",
-    icon: "🩸",
+    icon: "",
     name: "style_axe_name",
     desc: "style_axe_desc",
     mech: "style_axe_mech"
@@ -300,7 +300,7 @@ const WEAPON_STYLES = {
 
   longsword: {
     type: "longsword",
-    icon: "✦",
+    icon: "",
     name: "style_longsword_name",
     desc: "style_longsword_desc",
     mech: "style_longsword_mech"
@@ -308,7 +308,7 @@ const WEAPON_STYLES = {
 
   mace: {
     type: "mace",
-    icon: "⛓",
+    icon: "",
     name: "style_mace_name",
     desc: "style_mace_desc",
     mech: "style_mace_mech"
@@ -316,7 +316,7 @@ const WEAPON_STYLES = {
 
   doubleAxe: {
     type: "double-axe",
-    icon: "🩸",
+    icon: "",
     name: "style_doubleaxe_name",
     desc: "style_doubleaxe_desc",
     mech: "style_doubleaxe_mech"
@@ -328,7 +328,7 @@ const WEAPON_STYLES = {
   
  /* hammer: {
     type: "hammer",
-    icon: "🔨",
+    icon: "",
     name: "style_hammer_name",
     desc: "style_hammer_desc",
     mech: "style_hammer_mech"
@@ -336,7 +336,7 @@ const WEAPON_STYLES = {
 
   spear: {
     type: "spear",
-    icon: "⏳",
+    icon: "",
     name: "style_spear_name",
     desc: "style_spear_desc",
     mech: "style_spear_mech"
@@ -344,7 +344,7 @@ const WEAPON_STYLES = {
 
  /* greatsword: {
     type: "greatsword",
-    icon: "❄️",
+    icon: "",
     name: "style_greatsword_name",
     desc: "style_greatsword_desc",
     mech: "style_greatsword_mech"

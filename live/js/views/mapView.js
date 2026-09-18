@@ -491,7 +491,9 @@ async function renderMapView(options = {}) {
 
     // 🔥 tylko pierwszy raz
     if (firstLoad) {
-
+      //console.log(`PRELOAD SOUNDS`);
+      preloadSounds();
+      
       //await assetManager.preloadAssets(HUD_ASSETS);
       //await assetManager.preloadAssets(ITEMS_ASSETS);
     }
@@ -586,10 +588,10 @@ function initMapView() {
   
   if(gameState.world.isStartNewGame) setStarterSet();
     
-  if(!appState.soundsInitialized) {
+  /*if(!appState.soundsInitialized) {
     console.log(`PRELOAD SOUNDS`);
     preloadSounds();
-  }
+  }*/
   
  // preloadSounds();
   loadMapAssets();
