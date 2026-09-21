@@ -1551,7 +1551,8 @@ Object.assign(LANG.en, {
   exclusive_title: "EXCLUSIVE",
   combat_affixes_title: "COMBAT AFFIXES",
   
-  
+  gold: "Gold",
+
   style_sword_name: "RHYTHM",
   style_sword_desc: "Build momentum and unleash increasingly powerful strikes",
   style_sword_mech: "Every 3rd hit: +50% damage",
@@ -1825,7 +1826,8 @@ Object.assign(LANG.pl, {
   affix_last_breath_name: "Hart Ostatniego Tchu",
   affix_last_breath_desc: "Osłabienie przy niskiej energii jest zmniejszone o 50%.",
 
-  
+  gold: "Złota",
+
   short_sword: "Krótki Miecz",
   long_sword: "Długi Miecz",
   great_sword: "Wielki Miecz",

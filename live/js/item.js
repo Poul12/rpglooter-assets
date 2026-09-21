@@ -1671,7 +1671,7 @@ function addItemToInventory(item) {
     if (item.typ === "heal_potion") {
        
         const isMax = addPotionToBar(item);
-         
+        const potions = gameState.resources.potions;
         if(!isMax) {
           return true;
         } else {
@@ -1695,6 +1695,10 @@ function addItemToInventory(item) {
 
         // sprawdź czy jest wolne miejsce
         if (inventory.length >= 20) {
+          if(!potions) {
+            showInfoAlert(`${t("no_space_for_potion_info")}`);
+            return false;
+          }
           if(item.typ === `heal_potion` && potions.length < 7){
             potions.push(item);
             saveGame();

@@ -184,7 +184,7 @@ function addGoldToChest(goldAmount) {
    let goldItem = ensureItemId({
       isGold: true,
       amount: goldAmount,
-      nazwa: `${goldAmount} złota`
+      nazwa: `${goldAmount} ${t("gold")}`
     });
 
     return goldItem;
@@ -196,12 +196,12 @@ function addGoldToLoot(lootBag, goldAmount) {
 
   if (goldItem) {
     goldItem.amount += goldAmount;
-    goldItem.nazwa = `${goldItem.amount} złota`;
+    goldItem.nazwa = `${goldItem.amount} ${t("gold")}`;
   } else {
     goldItem = ensureItemId({
       isGold: true,
       amount: goldAmount,
-      nazwa: `${goldAmount} złota`
+      nazwa: `${goldAmount} ${t("gold")}`
     });
     lootBag.unshift(goldItem);
   }
@@ -210,7 +210,7 @@ function addGoldToLoot(lootBag, goldAmount) {
   const goldDrop = {
     isGold: true,
     amount: goldAmount,
-    nazwa: `${goldAmount} złota`
+    nazwa: `${goldAmount} ${t("gold")}`
   };
 
   return goldDrop;
@@ -307,7 +307,7 @@ function openChest(i) {
     const goldItem = ensureItemId({
       isGold: true,
       amount: goldEarned,
-      nazwa: `${goldEarned} złota`
+      nazwa: `${goldEarned} ${t("gold")}`
     });
       
     // dodajemy złoto na początek skrzyni
@@ -590,7 +590,7 @@ function spawnLootOnSlot(slotIndex, lootItems, delay = 500) {
       //const beamParticles = document.createElement("div");
       el.classList.add("loot-float", `rarity-${item.klasa}`);
      // beamParticles.classList.add(`beam-particles`);
-      el.textContent = item.isGold ? `${formatNumber(item.amount)} złota` : t(item.baseName);
+      el.textContent = item.isGold ? `${formatNumber(item.amount)} ${t("gold")}` : t(item.baseName);
       if(item.typ === `feather`) {
         el.textContent = t(item.typ);
       }
@@ -990,7 +990,7 @@ function takeGoldByIndex(id, source = "bag", stepIndex = gameState.world.current
         const idxInBag = bag.findIndex(it => it.isGold);
         if (idxInBag > -1) bag.splice(idxInBag, 1);
       } else {
-        goldInBag.nazwa = `${goldInBag.amount} złota`;
+        goldInBag.nazwa = `${goldInBag.amount} ${t("gold")}`;
       }
     }
 

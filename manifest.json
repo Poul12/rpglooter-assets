@@ -1,5 +1,5 @@
 {
-  "version": "1789722872690",
+  "version": "1789981433266",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -4054,8 +4054,8 @@
     },
     {
       "path": "live/js/item.js",
-      "hash": "f959581fcf86a54cfd0d0da830c664ef",
-      "size": 49975,
+      "hash": "5724869f56b1ea608d3f4bf918ccd5ef",
+      "size": 50144,
       "type": "code"
     },
     {
@@ -4072,8 +4072,8 @@
     },
     {
       "path": "live/js/localization-items.js",
-      "hash": "d4d8f4d98f58ee3173bdc20e68628c3d",
-      "size": 45381,
+      "hash": "02be555101403a01986bdd09aeddb142",
+      "size": 45411,
       "type": "code"
     },
     {
@@ -4132,14 +4132,14 @@
     },
     {
       "path": "live/js/shrine-chest-database.js",
-      "hash": "0d2f5128789918ecaca488b19ffd6d9d",
-      "size": 5064,
+      "hash": "b388a1ef402ce6d535f0eeb72b0f8f81",
+      "size": 5052,
       "type": "code"
     },
     {
       "path": "live/js/shrine-chest.js",
-      "hash": "d700d99fdfd27972c0620432ae6d3fc8",
-      "size": 31295,
+      "hash": "dd969499519da58c83e39ac97bde6700",
+      "size": 31337,
       "type": "code"
     },
     {

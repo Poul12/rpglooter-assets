@@ -122,7 +122,7 @@ function getGoldBoost() {
   const goldFind = gameState.char?.equipment
     ? Object.values(gameState.char.equipment)
       .flatMap(item => item?.statystyki || [])
-      .filter(stat => stat.nazwa === "% Premii do Złota")
+      .filter(stat => stat.id === "gold_find")
       .reduce((sum, stat) => sum + parseFloat(stat.wartosc || 0), 0)
     : 0;
 
