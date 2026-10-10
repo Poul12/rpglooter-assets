@@ -19,9 +19,9 @@ const locationsByRegion = {
     "elmaris_port",
     "thalorn_village",
     "reapers_road",
-   /* "lirwen_fort",
+    "lirwen_fort",
     "green_pass",
-    "whispering_trees",*/
+    "whispering_trees",
   ]
 };
 
@@ -283,6 +283,7 @@ function initializeProgressBar(steps) {
     segment.classList.add("progress-segment");
 
     const isMiniBoss = story.storyInjections[index]?.inject.miniboss;
+    //const isMiniboss = true;
     //console.error(`isMiniBoss, index`, isMiniBoss, index);
 
       // Dobieramy ikonę w zależności od typu zawartości
@@ -813,7 +814,7 @@ function renderStepContents(contents) {
   const story = getStoryConfig(world.currentLocation);
   //console.log("currentStepIndex in rendeStep inject", world.currentStepIndex);
   let minibossId = story.storyInjections[world.currentStepIndex]?.inject.minibossId;
-  
+  //let minibossId = `alpha_wolf_miniboss`;
   if (world.mode === "expedition" && step.expeditionMiniBoss) {
     minibossId = pickRandomExpeditionMiniBoss();
     //console.error(`minibossId expedition`, minibossId);
@@ -936,8 +937,8 @@ function renderStepContents(contents) {
         let enemyData = cloneEnemyForStep(rawEnemy, world.currentStepIndex, i);
        
         let guaranteedDrop = storyData?.guaranteedDrop || null;
-        //console.warn(`renderstep enemyData`, enemyData.name);
-       // console.warn(`enemyData, guaranteedDrop`, enemyData.name, guaranteedDrop);
+        console.warn(`renderstep enemyData`, enemyData.name, enemyData.sprite);
+        //console.warn(`enemyData, guaranteedDrop`, enemyData.name, guaranteedDrop);
        
         return { 
            type, 
@@ -1058,7 +1059,7 @@ function rollOptions() {
   const opt = world.exploreOptions[world.selectedSlotIndex];
   const story = getStoryConfig(world.currentLocation);
   const isMiniboss = story.storyInjections[world.currentStepIndex + 2]?.inject.miniboss;
-  
+  //const isMiniboss = true;
  /* console.log(`isMiniboss`, isMiniboss);
   console.log("currentStepIndex miniboss", world.currentStepIndex);
   console.log("locationSteps.length miniboss", world.locationSteps.length);
@@ -1127,7 +1128,7 @@ function rollOptions() {
             () => { }
           );
         } else {
-          showEndStoryPopup();
+          showPopup();
         }
       };
     } else {
@@ -1640,6 +1641,8 @@ function goToNextLevel() {
         failQuest(quest.id);
       }
     }
+  
+    Analytics.nextLocation();
   
     world.currentLevel++;
    // console.log("currentLevel", world.currentLevel);

@@ -1,5 +1,5 @@
 {
-  "version": "1789981433266",
+  "version": "1791646293990",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -3994,8 +3994,8 @@
     },
     {
       "path": "live/js/combat-utility.js",
-      "hash": "a93e4a580401372e2d89ad572257e860",
-      "size": 46122,
+      "hash": "cb63eb2e4500168609ce66ae3c29ced9",
+      "size": 46174,
       "type": "code"
     },
     {
@@ -4060,8 +4060,8 @@
     },
     {
       "path": "live/js/localization-dialogues.js",
-      "hash": "2eaea2c91eecd66ba6e4ab72314196d4",
-      "size": 23370,
+      "hash": "cfa8123f58929da72be9e10946a3a868",
+      "size": 23190,
       "type": "code"
     },
     {
@@ -4102,8 +4102,8 @@
     },
     {
       "path": "live/js/location.js",
-      "hash": "0df87d8a7a1343ee37460b5a4c42ff84",
-      "size": 49531,
+      "hash": "ad79d0256348c61e0e24c8a30e696de3",
+      "size": 49666,
       "type": "code"
     },
     {
@@ -4156,8 +4156,8 @@
     },
     {
       "path": "live/js/skills.js",
-      "hash": "da92193814e4d89eb8ac0d229418445b",
-      "size": 58326,
+      "hash": "b438b5e34e7a39b935a423a92e93322e",
+      "size": 58664,
       "type": "code"
     },
     {

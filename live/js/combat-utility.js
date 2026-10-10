@@ -1586,6 +1586,8 @@ function showLevelUpPopup() {
   
   //console.error(`enter levelup`);
   
+  Analytics.levelUp();
+  
   level.textContent = `${t("enemy_lvl_info")} ` + gameState.char.level;
   flavorEl.textContent = t(getRandomLevelUpFlavor());
      
@@ -1638,6 +1640,8 @@ function showEndStoryPopup() {
   setPopupBackground2(popupCard, "set");
   
   //console.error(`enter levelup`);
+  
+  Analytics.endGame();
   
   gameState.world.isStoryEnded = true;
   

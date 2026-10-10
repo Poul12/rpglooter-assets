@@ -694,8 +694,20 @@ function showSkillPopup(id) {
 
   if (!skill || !playerSkill) return;
   
-  renderMiniSkillIcons();
-  
+  if(skill.type !== `passive`) {
+    renderMiniSkillIcons();
+  }
+
+  if(skill.type === `passive`) {
+    miniIcons.forEach(icon => {
+      icon.classList.add("hidden");
+    });
+  } else {
+    miniIcons.forEach(icon => {
+      icon.classList.remove("hidden");
+    });
+  }
+
   if(skill.style === `turtle`) {
     setPopupBackground3(`#skill-info-popup .popup-content`, `set`);
   } else if(skill.style === `timed`) {
@@ -868,6 +880,7 @@ function showSkillPopup(id) {
     openAssignPopup();
   };
   
+    
   //showPopupBackground();
   
   // 🔹 Pokaż info o skillu
@@ -898,7 +911,7 @@ const STYLE_ICONS = {
   poise: "img/icons/poise-mini-icon.png"
 };
 
-function renderMiniSkillIcons() {
+function renderMiniSkillIcons(skill) {
   const miniIcons = document.querySelectorAll(".mini-skill");
 
   const stylesOrder = ["turtle", "timed", "poise"];
@@ -907,6 +920,11 @@ function renderMiniSkillIcons() {
     const style = stylesOrder[index];
     const iconPath = STYLE_ICONS[style];
 
+    /*if(skill.type === `passive`) {
+      icon.classList.add("hidden");
+    }*/
+
+    
     iconEl.dataset.style = style;
 
     const styleIconSrc = assetManager.getResolvedAsset(iconPath);
