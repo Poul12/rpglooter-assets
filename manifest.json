@@ -1,5 +1,5 @@
 {
-  "version": "1791646293990",
+  "version": "1792092519528",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -850,6 +850,12 @@
     },
     {
       "path": "img/exploring-slots/queen-spider.png",
+      "hash": "913e72419037b714c38805236d067fa5",
+      "size": 540666,
+      "type": "asset"
+    },
+    {
+      "path": "img/exploring-slots/queen-spider2.png",
       "hash": "b824f494c962e6a1577fa1c3aae34520",
       "size": 681719,
       "type": "asset"
@@ -3243,6 +3249,18 @@
       "type": "asset"
     },
     {
+      "path": "img/vfx/spider1.png",
+      "hash": "a7b5c838400ac3b53c8c444f937b31d8",
+      "size": 146050,
+      "type": "asset"
+    },
+    {
+      "path": "img/vfx/spider2.png",
+      "hash": "9ec48c5485b0aaa0fac45c0a59007dcb",
+      "size": 147885,
+      "type": "asset"
+    },
+    {
       "path": "img/vfx/stun.png",
       "hash": "1b8ca7eb9a84afcc797dac5085ac7da8",
       "size": 25708,
@@ -4000,8 +4018,8 @@
     },
     {
       "path": "live/js/combat.js",
-      "hash": "b40d09055b45c8a0d525e7777d51408a",
-      "size": 70153,
+      "hash": "d9ad50d0c87b4cf837eb867f2da457a7",
+      "size": 70168,
       "type": "code"
     },
     {
@@ -4108,8 +4126,8 @@
     },
     {
       "path": "live/js/map.js",
-      "hash": "e75fe2b60ef5894563911b26c24166a7",
-      "size": 36750,
+      "hash": "6f1e0cdaa54b21815ffd16a613bd24df",
+      "size": 36784,
       "type": "code"
     },
     {
@@ -4138,8 +4156,8 @@
     },
     {
       "path": "live/js/shrine-chest.js",
-      "hash": "dd969499519da58c83e39ac97bde6700",
-      "size": 31337,
+      "hash": "e902ce310802937c07c6ea7500b2a7bd",
+      "size": 31369,
       "type": "code"
     },
     {

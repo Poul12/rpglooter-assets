@@ -904,6 +904,8 @@ async function screenLoader(mode = "story") {
     
   const battlePromise = renderFirstBattleView();
     
+  Analytics.firstLocation();
+    
   const minLoaderTime = wait(5200);
     
   await wait(700);

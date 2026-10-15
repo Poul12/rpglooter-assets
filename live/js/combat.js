@@ -165,6 +165,8 @@ async function startCombat(i) {
   const expBar = document.getElementById("exp-bar-container");
   const style = getCurrentWeaponStyle();
 
+  Analytics.startCombat();
+  
   masteryBar.classList.remove(`hidden`);
   //console.log(`masteryBar`, masteryBar);
   expBar.classList.add(`hidden`);
@@ -571,7 +573,7 @@ function renderCombat(renderPotion = false) {
     dlg.innerHTML = `
       <div id="combat-enemy-section"></div>
 
-      <div id="test-holder" class="hidden">
+      <div id="test-holder">
         <button class="menu-item" onclick="toggleBypass()" id="bypass-btn" title="Test">T
           <!-- <img data-src="img/icons/menu-market-icon.png" alt="Zamknij" class="menu-icon" />-->
         </button>

@@ -667,6 +667,7 @@ function spawnLootOnSlot(slotIndex, lootItems, delay = 500) {
           takeGoldByIndex(id, "loot", slotIndex);
         } else {
           isInvEmpty = addItemToInventory(item);
+          Analytics.takeItem();
           playSound(`pickup-item`, 0.4);
           renderCombat();
         }
