@@ -165,7 +165,7 @@ async function startCombat(i) {
   const expBar = document.getElementById("exp-bar-container");
   const style = getCurrentWeaponStyle();
 
-  Analytics.startCombat();
+  Analytics.enterCombat();
   
   masteryBar.classList.remove(`hidden`);
   //console.log(`masteryBar`, masteryBar);

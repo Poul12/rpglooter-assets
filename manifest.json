@@ -1,5 +1,5 @@
 {
-  "version": "1792092519528",
+  "version": "1792177825737",
   "baseUrl": "https://Poul12.github.io/rpglooter-assets/",
   "files": [
     {
@@ -4018,7 +4018,7 @@
     },
     {
       "path": "live/js/combat.js",
-      "hash": "d9ad50d0c87b4cf837eb867f2da457a7",
+      "hash": "b43609d432299778b3e5927fe3984411",
       "size": 70168,
       "type": "code"
     },
